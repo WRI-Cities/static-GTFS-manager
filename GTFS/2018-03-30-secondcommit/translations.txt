@@ -1,0 +1,18 @@
+translation,lang,trans_id
+ആലുവ,ml,Aluva
+പുളിഞ്ചോട്,ml,Pulinchudu
+കമ്പനിപ്പടി,ml,CompanyPady
+അമ്പോട്ടുകോവ്,ml,Ambattukavu
+മുട്ടം,ml,Muttom
+കളമശ്ശേരി,ml,Kalamassery
+കൊച്ചിൻ യൂണിവേഴ്സിറ്റി,ml,Cusat
+പത്തടിപ്പോലം,ml,Pathadipalam
+ഇടപ്പള്ളി,ml,Edapally Jn.
+ചങ്ങമ്പുഴ പാർക്ക്,ml,Changampuzha Park
+പാലാരിവട്ടം,ml,Palarivattom
+ജെ എൽ എൻ സ്റ്റേഡിയം,ml,JLN Stadium
+കലൂർ,ml,Kaloor
+ലിസ്സി,ml,Lissie Jn
+എം.ജി റോഡ്,ml,MG Road
+മഹാരാജാസ് കോളേജ്,ml,Maharaja College
+കൊച്ചി മെട്രോ,ml,Kochi Metro

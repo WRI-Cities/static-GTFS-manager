@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>GTFS Manager : Main info</title>
+
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"><!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+</script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<style>
+body, textarea, .leaflet-container {
+	font-family: "Ubuntu", "Open Sans", "Helvetica", "Arial";
+}
+body {
+		padding-top: 60px;
+}
+</style></head>
+<body>
+<script src="js/navbar.js"></script>
+
+<div class="container">
+<h2>Welcome</h2>
+<p>This is a manager for GTFS static transport schedule data. Please make sure you are well versed with the <a href="https://developers.google.com/transit/gtfs/reference/">static GTFS standard</a> before using this tool.</p>
+
+<br><hr>
+
+<div class="row">
+<div class="col">
+<h3>Current GTFS data</h3>
+<p>Display stats on current data.. and validation options or guidance.</p>
+<div class="card mb-3 card-body bg-light" id="GTFSstats">
+	Loading stats..
+</div>
+
+</div>
+<div class="col">
+<h3>Commit and Export GTFS</h3>
+<p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
+<p><input id="commitName" placeholder="choose a name, eg: first-try">  
+<small>Note: no spaces, /\@#*?. etc. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_).</small></p>
+<p><button class="btn btn-bg btn-primary" id="exportGTFS">Generate and Export GTFS</button></p>
+<div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
+
+</div></div>
+<br><hr>
+
+<div class="row">
+<div class="col">
+<h3>Import GTFS</h3>
+<p>Make a clean start from a newly imported GTFS feed.</p>
+<p>GTFS zip: 
+<input type="file" id="gtfsZipFile" name="gtfsZipFile">
+<button id="importGTFSbutton">Upload >></button></p>
+<div class="card mb-3 card-body bg-light" id="importGTFSlog"><small>Note: all files inside the ZIP file must be at top level (no subfolders) and properly named, in lowercase, with .txt extensions as per the accepted <a href="https://developers.google.com/transit/gtfs/reference/">static GTFS standards</a>. Improperly named zips will malfunction.<br>
+Warning: this will wipe out the current data in the db. A backup GTFS export will be made just in case. You can find it from the past commits section after refreshing this page.</small></div>
+
+<h4>Import via XML</h4>
+<p>If your data is in KMRL's XML format, <a href="xml2GTFS.html"><b>click here</b></a> to go to a special page for that.</p>
+
+</div>
+<div class="col">
+
+<h3>Browse past commits</h3>
+<p>Listing past commits with links to download GTFS feed zip.</p>
+<div class="card mb-3 card-body bg-light" id="pastCommits"><small>Loading past commits..</small></div>
+
+</div></div>
+
+<br><hr><br>
+</div>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/homepage.js" type="text/javascript"></script>
+</body>
+</html>

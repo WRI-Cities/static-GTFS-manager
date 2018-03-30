@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Routes Management</title>
+<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"><!-- Put the CSSs first and JSs next -->
+
+<link rel="stylesheet" href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/leaflet.js"></script>
+<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+</script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<style>
+body, textarea, .leaflet-container {
+	font-family: "Ubuntu", "Open Sans", "Helvetica", "Arial";
+}
+body {
+		padding-top: 60px;
+}
+#allcontainer {
+	width: 100%;
+}
+#leftcontainer {
+	float:left; width:55%;
+}
+
+#rightcontainer {
+	float:right; width: 45%;
+	border-left: 1px solid #ccc;
+	padding-left: 50px;
+}
+
+#map0, #map1 {
+	width: 98%;
+}
+#map0, #map1 {
+	height: 400px;
+}
+
+.ui-autocomplete {
+	font-size: 0.8em;
+	max-height: 100px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	
+}
+
+h3,h4 { margin-top : 0.5em; line-height: 1.5em; }
+small { line-height: 0.2em; }
+
+
+.leaflet-popup-content {
+	margin-top: 10px;
+}
+.leaflet-container {
+	cursor: crosshair;
+	/*changing mouse pointer on map to crosshairs, for more precise clicking */
+}
+/*
+#fare-rules-table .tabulator-frozen-left {
+	background-color: #ddd!important;
+	color: black;
+}
+*/
+.tabulator {
+	background-color: #fff;
+}
+#trackChanges {
+	width:100%;
+}
+.ui-accordion-content a {
+	text-decoration: underline;
+}
+.ui-widget-header {
+	background: #fff;
+	border: none;
+	border-bottom: 1px solid #e9e9e9;
+}
+
+.ui-widget.ui-widget-content {
+	border:none;
+}
+
+#sequence-0-table, #sequence-1-table {
+	height: 350px;
+}
+
+ #routes-table {
+	height: 200px;
+}
+
+/* for map */
+.sequence-0-divicon, .sequence-1-divicon {
+	border-radius: 50%;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 2px;
+	border: 1px solid white;
+}
+
+.sequence-0-divicon {
+	background-color: rgba(0, 0, 255, 0.7);
+}
+.sequence-1-divicon {
+	background-color: rgba(128, 0,128,0.7);
+}
+
+.leaflet-popup-content-wrapper {
+	border-radius: 8px;
+}
+.inSequence {
+
+}
+
+.notinSequence .leaflet-popup-content-wrapper {
+	background: #666;
+	color: #fff;
+	/*border-radius: 8px;*/
+}
+.notinSequence .leaflet-popup-tip {
+	background: #666;
+}
+.notinSequence {
+	background: #666;
+	color: #fff;
+}
+.mapButton {
+	font-size: 3em;
+}
+</style>
+	   
+</head>
+<body>
+<script src="js/navbar.js"></script>
+<div class="container">
+<h2>Routes</h2>
+
+<div id="instructions">
+<h3>Instructions</h3>
+<div>
+<p>Note: Changing the sequence for a route will not change the trips already existing under this route. The new sequence will reflect when you create a new route. GTFS standard doesn't store stops sequence for a route, so this program is storing it in a special file called sequences.json.</p>
+</div>
+</div><!-- Accordion over -->
+
+
+<h4>1. Routes list</h4>
+<p>Listing all the routes. You can click on any of the cells for editing. Select a row here to load its onward and return journey sequences below.</p>
+<div id="routes-table"></div>
+
+<div class="row" style="padding-top: 5px;">
+<div class="col-md-6">
+<p>Create a new route: <input placeholder="route_id" id="route2add" size="4"><button class="btn-primary btn-xs" id="addRoute" type="button">Add</button> <small id="routeAddStatus"></small></p>
+<p>Changes: <button class="btn-xs" id="route-undo">Undo</button> | 
+<button class="btn-xs" id="route-redo" type="button">Redo</button></p>
+</div>
+
+<div class="col-md-6">
+<button id="saveRoutes" class="btn-success btn-lg">Save Routes</button> <small id="routeSaveStatus"></small>
+<br><small>Be sure to save changes before proceeding to next tabs.</small>
+</div>
+</div>
+
+<hr>
+
+<h4>2. Select the route from above: 
+	<span id="displayRouteName"></span></h4>
+
+<h5>2.1. Onward Journey (Direction 0)</h5>
+<div class="row direction0">
+<div class="col-md-4">
+<div id="sequence-0-table"></div>
+<p style="padding-top: 5px;"><input placeholder="stop_id" class="stop_id" id="stop2add-0" size="4"><button class="btn-primary btn-xs" id="add-0" type="button">Add</button></p>
+</div>
+<div id="map0" class="col-md-8"></div>
+</div>
+
+
+<h5>2.2. Return Journey (Direction 1)</h5>
+<p>Mirror onward journey: <button id="flipSequenceReplace">replace</button>
+ / <button id="flipSequenceInsert">insert at top</button></p>
+<div class="row direction1">
+<div class="col-md-4">
+<div id="sequence-1-table"></div>
+<p style="padding-top: 5px;"><input placeholder="stop_id" class="stop_id" id="stop2add-1" size="4"><button class="btn-primary btn-xs" id="add-1" type="button">Add</button></p>
+</div>
+<div class="col-md-8">
+<div id="map1"></div>
+</div>
+</div>
+
+<br>
+<button id="saveSequence" class="btn-success btn-lg">Save Sequence</button> <small id="sequenceSaveStatus"></small>
+<br><small>Be sure to save changes before proceeding to next tabs.</small>
+
+<br>
+<hr>
+<br>
+
+<div style="clear:both"></div>
+<div id="logaccordion">
+<h3>Changes Log</h3>
+<div>
+<p><textarea id="trackChanges" rows=10 cols="40"></textarea></p>
+</div>
+</div><!-- Accordion over -->
+
+</div>
+<br><br><br>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/routes.js" type="text/javascript"></script>
+</body>
+</html>
