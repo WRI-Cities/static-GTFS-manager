@@ -1,7 +1,7 @@
 # static-GTFS-manager
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) schedules management for a public transit authority.
 
-**Note: Program is still in development.**
+**Note: Program is still in development. Use at own risk!**
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
@@ -46,36 +46,6 @@ To do! But Anaconda package is a good place to start, and similar steps to be fo
 ## GTFS feed Export
 The end output of this program is a gtfs.zip file having your transit agency's static GTFS data. See the **Commit and Export GTFS** section on the main page for the same.
 
-
-## Improvements, Feedback
-Please see the [Issues](https://github.com/WRI-Cities/static-GTFS-manager/issues) section for seeing existing program improvement efforts, feedback, questions. Please make sure you search through all the issues ([click here](https://github.com/WRI-Cities/static-GTFS-manager/issues?utf8=%E2%9C%93&q=) for full list) before filing a new one : it might already be covered in another.
-
-**Invitation**: This project invites active participation from professionals in the coding and GTFS fields to join in to take it forward. Please feel free to fork, write your fixes/enhancements and create a pull request.
-
-## Program technical info
-Recommended browser to use : Chrome or Chromium.
-
-The core program is a Python3 script. It launches a simple web server via `Tornado` module, and waits for asynchronous GET and POST requests.
-
-These requests are made by the front-end HTML files as they are loaded in the browser and user navigates the program (which is like a typical website). There is javascript running various functions on the browser side, and it makes GET or POST calls to the API.
-
-#### Open source libraries used on Javascript side : 
-- Leaflet.js for maps
-- Tabulator.js for tables
-- Bootstrap for general page design
-- Jquery and Jquery UI for some UI components like autocomplete
-- Papa.parse for CSV parsing
-
-#### Open source libraries used on Python side : 
-- Tornado for web server with asynchronous features
-- TinyDB for portable JSON database
-- several modules for various operations, like json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser
-
-In addition to this, there are several code snippets used throughout the program that were found from online forums like stackoverflow. The links to the original answers are mentioned in comments in the program. Here is a shoutout to all the contributors on these forums : ***Thank You!***
-
-Note: With larger GTFS datasets, the python program can take time to process things and send a callback. So please be patient on the browser end after clicking a button here or there. This is especially true for the Schedules page where some deep trawling through the database is involved. Also, presently the database json file can be of large size in lower 100s of MBs for large datasets that have 1000s of trips. So please keep sufficient disk space available. Suggestions are invited for database optimization, while keeping key requirements in consideration. See the issues section for a discussion on which database to use.
-
-
 ## GTFS feed Import
 From the main page, you can import a different GTFS feed in a .zip file. Structure of a feed zip must be as per GTFS specs and standard practices:  
 ```
@@ -92,3 +62,49 @@ Kindly validate your GTFS zip prior to importing.
 
 In the import process, the program creates a backup ZIP of the current data and then imports your data into its database. You can see the backup listed later on under Past Commits section on the home page.
 
+
+
+## Improvements, Feedback
+Please see the [Issues](https://github.com/WRI-Cities/static-GTFS-manager/issues) section for seeing existing program improvement efforts, feedback, questions. Please make sure you search through all the issues ([click here](https://github.com/WRI-Cities/static-GTFS-manager/issues?utf8=%E2%9C%93&q=) for full list) before filing a new one : it might already be covered in another.
+
+**Invitation**: This project invites active participation from professionals in the coding and GTFS fields to join in to take it forward. Please feel free to fork, write your fixes/enhancements and create a pull request.
+
+## Program technical info
+Recommended browser to use : Chrome or Chromium.
+
+The core program is a Python3 script. It launches a simple web server via `Tornado` module, and waits for asynchronous GET and POST requests.
+
+These requests are made by the front-end HTML files as they are loaded in the browser and user navigates the program (which is like a typical website). There is javascript running various functions on the browser side, and it makes GET or POST calls to the API.
+
+## Gratitude for open source solutions
+This project stands on the shoulders of several solutions that have been shared open source. Sharing mentions below.
+
+#### Open source libraries used on Javascript side : 
+- Leaflet.js for maps
+- Tabulator.js for tables
+- Bootstrap for general page design
+- Jquery and Jquery UI for some UI components like autocomplete
+- Papa.parse for CSV parsing
+
+#### Open source libraries used on Python side : 
+- Tornado for web server with asynchronous features
+- TinyDB for portable JSON database
+- several modules for various operations, like json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser
+
+#### Many snippets
+In addition to this, there are several code snippets used throughout the program that were found from online forums like stackoverflow and on various tech blogs. The links to the sources of the snippets are mentioned in comments in the program. Here is a shoutout to all the contributors on these forums and blogs : ***Thank You!***
+
+####Personal mentions
+Big thanks to Srinivas from Hyderabad, India for connecting folks together and sharing guidance, and to Devdatta from Pune, India for a sharing a very simple [working example](https://github.com/devdattaT/sampleTornadoApp) to learn about Tornado web server serving asynchronous from.
+
+## Things to watch out for
+
+#### Note for larger datasets use
+With larger GTFS datasets, the python program can take time to process things and send a callback. So please be patient on the browser end after clicking a button here or there. This is especially true for the Schedules page where some deep trawling through the database is involved. Also, presently the database json file can be of large size in lower 100s of MBs for large datasets that have 1000s of trips. So please keep sufficient disk space available. Suggestions are invited for database optimization, while keeping key requirements in consideration. See the issues section for a discussion on which database to use.
+
+#### Feature limitations
+- Schedules with frequencies not currently supported. WIP.
+- Deleting stops, routes, trips is currently disabled as this will require deep database operations. WIP.  
+(example: if a stop is to be deleted, it needs to be dropped from every trip having it, with the sequence and timings appropriately updated. And this needs to be done with adequate precautions, user needs to know exactly what all is going to change before proceeding.)
+- New trips cannot be added to a route as yet. WIP.
+- XML upload feature is WIP.
