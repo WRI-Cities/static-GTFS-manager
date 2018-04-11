@@ -1,0 +1,17 @@
+down_id,stop_lon,wheelchair_boarding,stop_name_secondlang,sr,distance,stop_id,stop_name,up_id,stop_lat
+,76.3495,1,ആലുവ,1,0,ALVA,Aluva,STA_COD_3106T_UP,10.1099
+STA_PF_DN_PNCU,76.3466,1,പുളിഞ്ചോട്,2,1.826,PNCU,Pulinchudu,STA_PF_UP_PNCU,10.0951
+STA_PF_DN_CPPY,76.3428,1,കമ്പനിപ്പടി,3,2.795,CPPY,CompanyPady,STA_PF_UP_CPPY,10.0873
+STA_PF_DN_AATK,76.3389,1,അമ്പാട്ടുകാവ്,4,3.779,ATTK,Ambattukavu,STA_PF_UP_AATK,10.0793
+STA_COD_3509T_DN,76.3336,1,മുട്ടം,5,4.716,MUTT,Muttom,STA_COD_3512T_BH,10.0727
+STA_PF_DN_KLMT,76.322,1,കളമശ്ശേരി,6,6.768,KLMT,Kalamassery,STA_PF_UP_KLMT,10.0586
+STA_PF_DN_CCUV,76.3182,1,കൊച്ചിൻ യൂണിവേഴ്സിറ്റി,7,8.146,CCUV,Cusat,STA_PF_UP_CCUV,10.0467
+STA_COD_3805T_BH,76.3144,1,പത്തടിപ്പോലം,8,9.349,PDPM,Pathadipalam,STA_PF_UP_PDPM,10.0361
+STA_PF_DN_EDAP,76.3083,1,ഇടപ്പള്ളി,9,10.787,EDAP,Edapally Jn.,STA_PF_UP_EDAP,10.0251
+STA_PF_DN_CGPP,76.3023,1,ചങ്ങമ്പുഴ പാർക്ക്,10,12.087,CGPP,Changampuzha Park,STA_PF_UP_CGPP,10.0152
+STA_COD_4105T_DN,76.3048,1,പാലാരിവട്ടം,11,13.095,PARV,Palarivattom,STA_PF_UP_PARV,10.0064
+STA_PF_DN_JLSD,76.2989,1,ജെ എൽ എൻ സ്റ്റേഡിയം,12,14.217,JLSD,JLN Stadium,STA_PF_UP_JLSD,10.0002
+STA_PF_DN_KALR,76.2914,1,കലൂർ,13,15.249,KALR,Kaloor,STA_PF_UP_KALR,9.9943
+STA_PF_DN_LSSE,76.2884,1,ലിസ്സി,14,15.722,LSSE,Lissie Jn,STA_PF_UP_LSSE,9.9914
+STA_PF_DN_MGRD,76.2823,1,എം.ജി റോഡ്,15,16.926,MGRD,MG Road,STA_PF_UP_MGRD,9.9834
+STA_COD_4605T_DN,76.2851,1,മഹാരാജാസ് കോളേജ്,16,18.102,MACE,Maharaja College,,9.9732
