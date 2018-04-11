@@ -1,7 +1,7 @@
 # static-GTFS-manager
-A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) schedules management for a public transit authority.
+A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Note: Program is still in development. Use at own risk!**
+**Development Status** : V 1.0.0 is ready, open for Beta Testing.
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
@@ -18,6 +18,18 @@ Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) f
 
 
 ## Run on your system
+#### About the password
+Yeah.. I put that in to share a demo of the app online and keep off spam-bots. And also for basic kid-proofing. You need to type in a password at the top right corner for anything that involves edit / import / export of database. Reading is free.
+
+How to configure your own password: Run [this python3 script](https://gist.github.com/answerquest/60c3adf3c9c6fb7f0c0637ca601829a2) (on your own computer of course.. it's not going to run online). It will generate a file for you, which you have to put in the `js` folder of this repo (replace the one already there.. that's for my password.) After that, it'll be your password that works.
+
+If you don't want to bother with all that jazz, find the `decrypt` function in `GTFSserverfunction.py` and change it to:
+```
+def decrypt(password):
+	return true
+```
+Then type in any junk text to make things happen.
+
 #### On Ubuntu / Linux OS
 1. Open Terminal (linux command prompt) and clone this repo to your side:  
 `git clone https://github.com/WRI-Cities/static-GTFS-manager.git`
@@ -72,9 +84,9 @@ Please see the [Issues](https://github.com/WRI-Cities/static-GTFS-manager/issues
 ## Program technical info
 Recommended browser to use : Chrome or Chromium.
 
-The core program is a Python3 script. It launches a simple web server via `Tornado` module, and waits for asynchronous GET and POST requests.
+The core program is a Python3 script in `web_wrapper.py`. It launches a simple web server via `Tornado` module, and waits for asynchronous GET and POST requests.
 
-These requests are made by the front-end HTML files as they are loaded in the browser and user navigates the program (which is like a typical website). There is javascript running various functions on the browser side, and it makes GET or POST calls to the API.
+These requests are made by the javascript in front-end HTML files as they are loaded in the browser and user navigates the program (which is like a typical website). The javascript makes GET or POST calls to the API, and gets data as callback to show to user.
 
 ## Gratitude for open source solutions
 This project stands on the shoulders of several solutions that have been shared open source. Sharing mentions below.
@@ -83,28 +95,27 @@ This project stands on the shoulders of several solutions that have been shared 
 - Leaflet.js for maps
 - Tabulator.js for tables
 - Bootstrap for general page design
-- Jquery and Jquery UI for some UI components like autocomplete
+- Jquery and Jquery UI for UI components like autocomplete, event handlers and file upload.
 - Papa.parse for CSV parsing
+- Chosen.js for search-as-you-type dropdowns
 
 #### Open source libraries used on Python side : 
-- Tornado for web server with asynchronous features
+- Tornado for web server with asynchronous callback
 - TinyDB for portable JSON database
-- several modules for various operations, like json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser
+- Many python modules for various operations: json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser
 
 #### Many snippets
 In addition to this, there are several code snippets used throughout the program that were found from online forums like stackoverflow and on various tech blogs. The links to the sources of the snippets are mentioned in comments in the program. Here is a shoutout to all the contributors on these forums and blogs : ***Thank You!***
 
 #### Personal mentions
-Big thanks to Srinivas from Hyderabad, India for connecting folks together and sharing guidance, and to Devdatta from Pune, India for a sharing a very simple [working example](https://github.com/devdattaT/sampleTornadoApp) to learn about Tornado web server serving asynchronous from.
+Big thanks to Srinivas from Hyderabad, India for connecting folks together and sharing guidance, and to Devdatta from Pune, India for a sharing a very simple [working example](https://github.com/devdattaT/sampleTornadoApp) to learn about Tornado web server serving asynchronous requests.
 
 ## Things to watch out for
 
 #### Note for larger datasets use
 With larger GTFS datasets, the python program can take time to process things and send a callback. So please be patient on the browser end after clicking a button here or there. This is especially true for the Schedules page where some deep trawling through the database is involved. Also, presently the database json file can be of large size in lower 100s of MBs for large datasets that have 1000s of trips. So please keep sufficient disk space available. Suggestions are invited for database optimization, while keeping key requirements in consideration. See the issues section for a discussion on which database to use.
 
-#### Feature limitations
-- Schedules with frequencies not currently supported. WIP.
-- Deleting stops, routes, trips is currently disabled as this will require deep database operations. WIP.  
-(example: if a stop is to be deleted, it needs to be dropped from every trip having it, with the sequence and timings appropriately updated. And this needs to be done with adequate precautions, user needs to know exactly what all is going to change before proceeding.)
-- New trips cannot be added to a route as yet. WIP.
-- XML upload feature is WIP.
+#### Known limitations
+- Schedules with frequencies currently not supported, this is desired as for some systems their schedules may be frequency-based rather than fixed times, plus using frequency greatly reduces the database/feed size by removing repetitive entries from stop_times table.
+- Shapes are only accepted in .geojson format. The first entry in the file will be picked up and others will be discared.
+- Schedules page: When creating new trips, you have to manually type in some dependency parameters like service_id. These need to be made available via drop-down. WIP for next release.

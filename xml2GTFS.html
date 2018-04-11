@@ -3,35 +3,41 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <title>XML to GTGS Conversion</title>
+<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"><!-- Put the CSSs first and JSs next -->
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
 
 <script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/leaflet.js"></script>
 <script src="lib/tabulator.js" type="text/javascript"></script>
 <script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
 </script>
 <script src="lib/papaparse.min.js" type="text/javascript"></script>
 <style>
-body, textarea, .leaflet-container {
-	font-family: "Ubuntu", "Open Sans", "Helvetica", "Arial";
-}
-body {
-		padding-top: 60px;
-}
 #stations-table {
 	height:300px;
 }
+#map {
+	height:300px;
+	width:100%;
+}
+#depot {
+	width:auto;
+}
+
 </style></head>
 <body>
-<script src="js/navbar.js"></script>
+<div id="navBar"></div>
 
-<div class="container">
+<div class="container-fluid">
 <h2>Convert XML schedules format to GTFS</h2>
 
-<div id="instructions" class="container">
+<div id="instructions">
 <h3>Instructions</h3>
 <div>
 <p>This page handles the specific XML format of KMRL. There are some files to upload and some settings to set before converting to GTFS. Please follow the instruction below carefully.</p>
@@ -39,44 +45,160 @@ body {
 
 <hr>
 
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">1. Load XMLs</a></li>
+<li><a href="#tab2">2. Stations</a></li>
+<li><a href="#tab3">3. Misc Info</a></li>
+<li><a href="#tab4">4. Finally</a></li>
+</ul>
+
+<!-- 1 ############################-->
+<div id="tab1">
+<div class="container">
 <div class="row">
-<div class="col-md-6">
-<h4>1. Load XMLs</h4>
-<p>Weekdays: <input type="file" id="weekdayXML" name="weekdayXML" accept="text/xml"></p>
-<p>Sundays: <input type="file" id="sundayXML" name="sundayXML" accept="text/xml"></p>
-<p><button id="XMLUploadButton">Upload >></button></p>
+<div class="col-md-4">
+<h4><a id="1"></a>1. Load XMLs</h4>
+<p>Weekdays: <input type="file" id="weekdayXML" name="weekdayXML" accept="text/xml" class="btn btn-sm btn-outline-secondary"></p>
+<p>Sundays: <input type="file" id="sundayXML" name="sundayXML" accept="text/xml" class="btn btn-sm btn-outline-secondary"></p>
+<p><button id="XMLUploadButton" class="btn btn-outline-primary">Upload >></button></p>
+<br><br>
+<p><a target="_blank" href="extra_files/sample-XML-structure.txt">Click here&#x2197;</a> to see a sample structure of the KMRL XML format.</p>
 </div>
-<div class="col-md-6">
-<div class="card mb-3 card-body bg-light" id="XMLUploadStatus"><small>Status<br>Choose the files to upload..<br>
-and remember to put in the password on top right.</small></div>
+<div class="col-md-8">
+<div class="card mb-3 card-body bg-light" id="XMLUploadStatus"><small>Diagnostic<br>Choose the files to upload..<br>
+and remember to put in the password on top right.<br><br>
+Note: Be sure about which file is for weekdays and which for sunday.. as the files internally have no day information on them.<br><br>
+After you click Upload, the system will load the XMLs and run a diagnostic check on them. The report of the diagnostic will be shown in this box. <a href="extra_files/GTFS-manager-XML-upload-analsis.png" target="_blank">See screenshot.</a></small></div>
 </div>
 </div>
 <hr>
-<p>####### Under Construction beyond this point. ###########</p>
+</div>
+</div>
 
-<h4>2. Stations</h4>
-<div class="card mb-3 card-body bg-light" id="stationsStatus"><small>Will list unmapped station id's here after XMLs are loaded.</small></div>
+<!-- 2 ############################-->
+<div id="tab2">
+<h4><a id="2"></a>2. Stations</h4>
+<div class="card mb-3 card-body bg-light">
+<div class="row"><div class="col-md-6" id="stationsStatus">
+Upload XMLs in step 1...
+</div><div class="col-md-6">
+<p><small>Instructions: If the diagnostic check showed that there were Unmapped stops, then edit the stations table below to update. When done, click "Save Changes" button below. That will trigger the diagnostic check once again.
+<br>Note: The map will not update with changes you make in the table. Click Save Changes and then it will update.</small></p>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-8">
+
 <div id="stations-table"></div>
+
+</div><div class="col-md-4">
+
+<div id="map"></div>
+</div></div>
 <br>
-<p>Add a new station: <input placeholder="stop_id" id="station2add" size="4"><button class="btn-primary btn-xs" id="addStation" type="button">Add</button> <small id="stationAddStatus"></small></p>
-<br>
-<hr>
-<h4>3. Misc Info</h4>
+<div class="row"><div class="col">
+
+<p>Add a new station: <input placeholder="stop_id" id="station2add" size="4"><button class="btn-primary" id="addStation" type="button">Add</button> <small id="stationAddStatus"></small></p>
+
+</div><div class="col">
+
+<div class="alert alert-warning">
+<p><b data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Depot Station" data-content="All trips originating from and terminating at this station will be <u>dropped</u> from the GTFS feed, as depot trips (typically first and last trips in the day for a vehicle) do not carry passengers.<br>The <b>Count</b> of trips being dropped will be shown in the diagnostic.<br><i>Select 'None' if your XML doesn't have any without-passenger trips to be dropped.</i>"><big>&#9875;</big>Depot Station</b>: <select name="depot" id="depot">
+</select></p>
+</div>
+
+</div><div class="col">
+
+<p><button id="saveStationsButton" class="btn btn-success">Save Changes to Stations</button> <small id="stationsSaveStatus"></small></p>
+<small>If the XMLs are uploaded, diagnostic check will also be run again.</small>
+
+</div></div>
+
+
+<p align="center"><button id="reDiagnose" class="btn btn-warning">&#10148; Run Diagnostic Again</button> <small id="reDiagnoseStatus"></small></p>
 
 <br>
 <hr>
+
+</div>
+
+<!-- 3 ############################-->
+<div id="tab3">
+<h4><a id="3"></a>3. Misc Info</h4>
+<div class="row"><div class="col-md-3">
+
+<h5>Routes Info <span id="routes-check"></span></h5>
+<div id="routesInfoPopulate"><small><div class="alert alert-secondary">This section will auto-populate after the XMLs have been loaded.</div></small></div>
+
+</div><div class="col-md-3">
+
+<h5>Agency Info <span id="agency-check"></span></h5>
+<p><small>
+<label title="Short, unique internal code for agency, like KMRL">agency_id: <input required id="agency_id" size="5" value="KMRL"></label><br>
+<label title="Official name of agency">agency_name: <input required id="agency_name" size="10" value="Kochi Metro"></label><br>
+<label title="Local language translation of name of agency">agency_name translation: <input id="agency_name_translation" size="10" value="കൊച്ചി മെട്രോ"></label><br>
+<label title="Official website of agency">agency_url: <input required id="agency_url" size="15" value="http://www.kochimetro.org/"></label><br>
+<label>agency_timezone: <input required id="agency_timezone" size="10" value="Asia/Kolkata"></label></small></p>
+<hr>
+
+</div><div class="col-md-3">
+
+<h5>Fares <span id="fares-check"></span></h5>
+<small>
+<p>Upload Fares Chart CSV: (<a target="_blank" href="xml_related/fares-chart.csv">sample</a>) <input type="file" id="fareChart" name="fareChart" accept=".csv"  class="btn btn-sm btn-outline-secondary">
+<br><button id="fareChartUploadButton" class="btn btn-sm btn-outline-primary">Upload >></button></p>
+<div id="fareChartUploadStatus"></div>
+<div id="fareAttrPopulate"></div>
+</small>
+
+</div><div class="col-md-3">
+
+<h5>Calendar <span id="calendar-check"></span></h5>
+<p><small><label title="Date from which the uploaded schedule is in operation, in YYYYMMDD format.">Start date: <input required id="start_date" size="8" placeholder="YYYYMMDD"></label><br>
+<label title="Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.">End date: <input required id="end_date" size="8" placeholder="YYYYMMDD" value="20990101"></label></small></p>
+
+
+</div>
+</div>
+<p align="center"><button class="btn btn-md btn-warning" id="checkMiscButton">Check and Submit</button></p>
+<p align="center" id="checkMiscStatus"></p>
+<br><div class="col-md-6 alert alert-secondary"><small>
+Note: The system is internally storing these configurations when you press the button 'Check and Submit'. So, if you change any of the values after pressing, your newly typed values will NOT be processed. Please make sure you press the button at the end before proceeding to step 4.
+<br><br>See a <a href="extra_files/GTFS-manager-XML-import-diagnostic.png" target="_blank">screenshot</a> of how this page would look when all data is properly loaded.
+</small></div>
+
+<br>
+<hr>
+</div>
+
+<!-- 4 ############################-->
+<div id="tab4">
+
 <h4>4. Finally</h4>
-<p><button id="startXML2GTFS" class="btn btn-md" disabled>Start XML to GTFS conversion</button> <small id="xml2gtfsStatus"></small></p>
+<p><button id="xml2GTFSButton" class="btn btn-md" disabled>Start XML to GTFS conversion</button></p>
+<p id="xml2GTFSStatus"></p>
+<br><br>
+<div class="alert alert-info col-md-6"><small>Note: This import process will be similar to the GTFS import process on the home page. The data currently loaded will be exported as a backup, and a fresh GTFS feed will be created using the data you have uploaded and entered.</small></div>
 
+</div>
+
+</div> <!-- End of Tabs container -->
 
 <br>
-<div id="logaccordion" class="container">
+<!--
+<div id="logaccordion">
 <h3>Changes Log</h3>
 <div>
 <p><textarea id="trackChanges" rows=10></textarea>
 </p>
-</div></div><!-- Accordion over -->
+</div></div>
+ Accordion over -->
 
+<br><br><br>
 </div>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/xml2GTFS.js"></script>

@@ -3,40 +3,21 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <title>Fares Management</title>
-<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"><!-- Put the CSSs first and JSs next -->
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript">
-</script>
-<script src="lib/jquery-ui.min.js" type="text/javascript">
-</script>
-<script src="lib/leaflet.js">
-</script>
-<script src="lib/tabulator.js" type="text/javascript">
-</script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
-</script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
-</script>
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="lib/papaparse.min.js" type="text/javascript"></script>
 <style>
-body, textarea, .leaflet-container {
-	font-family: "Ubuntu", "Open Sans", "Helvetica", "Arial";
-}
-body {
-		padding-top: 60px;
-}
-#allcontainer {
-	width: 100%;
-}
-#leftcontainer {
-	float:left; width:55%;
-}
 
 #rightcontainer {
-	float:right; width: 45%;
 	border-left: 1px solid #ccc;
 	padding-left: 50px;
 }
@@ -51,7 +32,7 @@ body {
 	height: 400px;
 }
 #fare-attributes-table {
-	max-height: 400px;
+	height: 300px;
 }
 .ui-autocomplete {
 	font-size: 0.8em;
@@ -96,27 +77,10 @@ small { line-height: 0.2em; }
 	   
 </head>
 <body>
-<script src="js/navbar.js"></script>
-<h2>Fares</h2>
+<div id="navBar"></div>
+
 <div class="container">
-
-<!-- Tabs Menu -->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-<li class="nav-item">
-<a class="nav-link active" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false" id="fare-rules-tab" href="#fare-rules">Fare Rules</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="attributes-tab" data-toggle="tab" href="#attributes" role="tab" aria-controls="attributes" aria-selected="true">Fare Attributes</a>
-</li>
-</ul>
-<div class="tab-content" id="myTabContent">
-
-<!-- FARE RULES -->
-<div class="tab-pane fade show active" role="tabpanel" aria-labelledby="fare-rules-tab" id="fare-rules">
-<h3>Fare Rules</h3>
-<div id="fare-rules-table"></div><br>
-<p align="center">Changes: <button class="btn-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRules" class="btn-success btn-lg">Save Fare Rules</button>
-</p>
+<h3>Fares</h3>
 
 <div id="accordion">
 <h3>Instructions</h3>
@@ -124,45 +88,62 @@ small { line-height: 0.2em; }
 The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged here in a 2-D matrix. <br>You can change the fares by clicking on them. <br>The fare's values can be set in the Fare Attributes tab.
 <br>Reference: <a href="https://developers.google.com/transit/gtfs/reference/#fare_rulestxt" target="_blank">GTFS fare rules specs</a>
 <br>Use the Undo button to undo changes. To revert to the last saved version, simply reload this page.
-
 </div>
 </div><!-- Accordion over -->
-<p></p>
+
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">Fare Rules</a></li>
+<li><a href="#tab2">Fare Attributes</a></li>
+</ul>
 
 
+<!-- FARE RULES -->
+<div id="tab1">
+
+<h4>Fare Rules</h4>
+<div id="fare-rules-table">Loading Fare Rules from backend, please wait..</div><br>
+<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRulesButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
+<p align="center"><span id="saveFareRulesStatus"></span></p>
 
 
-<!-- we probably won't be adding / deleting any rows here
-<p>Add Fare rules for <input size="6" id="stopRule"> <button id="addRule">Add</button>
--->
 
 </div>
 
 <!-- FARE ATTRIBUTES -->
-<div class="tab-pane fade" role="tabpanel" aria-labelledby="attributes-tab" id="attributes">
-<div id="leftcontainer">
-<h3>Fare Attributes</h3>
+<div id="tab2">
+<div class="row">
+<div class="col">
+
+<h4>Fare Attributes</h4>
 <div id="fare-attributes-table"></div>
 
+<!-- removing buggy undo-redo for now
 <p align="center"><br>
-Changes: <button class="btn-warning btn-sm" id="attributes-undo">Undo</button> | <button class="btn-info btn-sm" id="attributes-redo" >Redo</button>
+Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="attributes-redo" >Redo</button>
 </p>
+-->
+<br>
 <p><small>Instructions: Each price bracket to have an entry here. See <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank" >GTFS reference</a> for more info.</small></p>
-</div>
 
-<div class="container" id="rightcontainer">
+</div>
+<div class="col" id="rightcontainer">
+
 <h4>Add/Edit a Fare Attribute</h4>
 
 <p>Pick or create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare id' size="5"></p>
-<p>Set a price: <input id='price' type="number" style="width:50px;"> INR => <button id="addEditFare" class="btn-primary btn-sm">Add or Edit Fare</button></p>
-<p>Or, <button id="deleteFare" class="btn-danger btn-sm">Delete Fare</button></p>
-<p><button id="saveFareAttributes" class="btn-success btn-lg">Save Fare Attributes</button></p>
+<p>Set a price: <input id='price' type="number" style="width:50px;"> INR => <button id="addEditFare" class="btn btn-outline-primary btn-sm">Add or Edit Fare</button></p>
+<p>Or, <button id="deleteFare" class="btn btn-outline-danger btn-sm">Delete Fare</button></p>
+<small id="fareAttrStatus"></small>
+<hr>
+<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes</button> <span id="saveFareAttributesStatus"></span>
 
 </div>
-</div>
+</div> <!-- end of columns row -->
 
-
-</div>
+</div> <!-- end of second tab -->
+</div> <!-- end tabs -->
 
 <div style="clear:both"></div>
 <div id="logaccordion">
