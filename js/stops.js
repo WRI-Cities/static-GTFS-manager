@@ -159,6 +159,135 @@ var stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 })
 .on('click',markerOnClick);
 
+// adding buttons to zoom to show all stops
+L.easyButton('<span class="mapButton">&curren;</span>', function(btn, map){
+	map.fitBounds(stopsLayer.getBounds(), {padding:[20,20]});
+}).addTo(map);
+
+
+
+//###########################
+// initiate bootstrap / jquery components like tabs, accordions
+$( function() {
+	// tabs
+	$( "#tabs" ).tabs({
+		active:0
+	});
+	// Setting accordion
+	$( "#instructions" ).accordion({
+		collapsible: true, active: false
+	});
+	$( "#logaccordion" ).accordion({
+		collapsible: true, active: false
+	});
+	//getParking();
+});
+
+
+//##################
+// Buttons:
+//undo button
+$("#history-undo").on("click", function(){
+	$("#stops-table").tabulator("undo");
+});
+
+//redo button
+$("#history-redo").on("click", function(){
+	$("#stops-table").tabulator("redo");
+});
+
+//Save table
+$("#savetable").on("click", function(){
+	saveStops();
+});
+
+// Clone zone_id
+$("#targetStopid").bind("change keyup", function(){
+	this.value=this.value.toUpperCase();
+	$("#zone_id").val(this.value);
+});
+
+$("#stop2delete").bind("change keyup", function(){
+	this.value=this.value.toUpperCase();
+});
+
+// onkeyup="this.value=this.value.toUpperCase()"
+
+//Delete stop
+$("#removeStop").on("click", function(){
+	var stop_id = $("#stop2delete").val();
+	if ( $("#stops-table").tabulator("deleteRow", stop_id) ) {
+		logmessage('Deleted stop: ' + stop_id);
+	} else {
+		logmessage('Delete: Did not find: ' + stop_id);
+	}
+	$("#stop2delete").val('');
+	// reload stop ids list for autocomplete
+	reloadData();
+});
+
+// Reset sorting
+$("#resetSort").on("click", function(){
+	console.log('attempting clearSort');
+	$("#stops-table").tabulator("clearSort");
+});
+
+// Testing if scrollToRow is working
+$("#test").on("click", function(){
+	$("#stops-table").tabulator("scrollToRow", 'MACE');
+	$("#stops-table").tabulator("selectRow", 'MACE');
+});
+
+
+
+	/* Functions */
+/* // deprecated here, keep for other csv reading versions
+function loadFromCsv(chosen1,mode='setData') {
+	// Note: Consider this temporary. Probably we'll have python doing this job.
+	// chosen1 will be the file path, mode will be setData or other option for possible appending
+	Papa.parse(chosen1, {
+		download: true,
+		header: true,
+		dynamicTyping: true,
+		skipEmptyLines: true,
+		complete: function(results) {
+			console.log('loaded',chosen1);
+			logmessage('loaded ' + chosen1);
+
+			initiateStops(results.data, mode);
+
+		}, // END of Papa.parse complete() function
+		
+		error: function() {
+			console.log("Error. Could not load", chosen1);
+			logmessage("Error. Could not load "+ chosen1);
+			
+		}
+	}); // END of Papa.parse
+	
+}
+*/
+
+/* Deprecated, function for saving local file.
+$("#saveCSV").on("click", function(){
+	// Adapted from https://stackoverflow.com/a/35251739/4355695
+	var csvContent = Papa.unparse( $('#dump').val() );
+	var blob = new Blob([csvContent], {type: "text/plain"});
+	var dlink = document.createElement('a');
+	dlink.download = 'stops.txt'
+	dlink.href = window.URL.createObjectURL(blob);
+	dlink.onclick = function(e) {
+	// revokeObjectURL needs a delay to work properly
+	var that = this;
+	setTimeout(function() {
+		window.URL.revokeObjectURL(that.href);
+	}, 1500);
+	};
+	dlink.click();
+	dlink.remove();
+});
+
+*/
 
 // ##############################
 // Update or Add to table
@@ -210,132 +339,6 @@ function updateTable() {
 		$("#zone_id").val('');
   }, 1000);		
 }
-
-
-//undo button
-$("#history-undo").on("click", function(){
-	$("#stops-table").tabulator("undo");
-});
-
-//redo button
-$("#history-redo").on("click", function(){
-	$("#stops-table").tabulator("redo");
-});
-
-//Save table
-$("#savetable").on("click", function(){
-	saveStops();
-});
-
-// Clone zone_id
-$("#targetStopid").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
-	$("#zone_id").val(this.value);
-});
-
-$("#stop2delete").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
-});
-
-// onkeyup="this.value=this.value.toUpperCase()"
-
-//Delete stop
-$("#removeStop").on("click", function(){
-	var stop_id = $("#stop2delete").val();
-	if ( $("#stops-table").tabulator("deleteRow", stop_id) ) {
-		logmessage('Deleted stop: ' + stop_id);
-	} else {
-		logmessage('Delete: Did not find: ' + stop_id);
-	}
-	$("#stop2delete").val('');
-	// reload stop ids list for autocomplete
-	reloadData();
-		/*
-	$(function () { 
-    $('#myTab li:first-child a').tab('show');
-  })
-  */
-});
-
-// Reset sorting
-$("#resetSort").on("click", function(){
-	console.log('attempting clearSort');
-	$("#stops-table").tabulator("clearSort");
-});
-
-// Testing if scrollToRow is working
-$("#test").on("click", function(){
-	$("#stops-table").tabulator("scrollToRow", 'MACE');
-	$("#stops-table").tabulator("selectRow", 'MACE');
-});
-
-
-
-// Setting accordion
-$( "#instructions" ).accordion({
-	collapsible: true, active: false
-});
-$( "#logaccordion" ).accordion({
-	collapsible: true, active: false
-});
-
-// initiate bootstrap / jquery components like tabs, accordions
-$( function() {
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
-});
-
-	/* Functions */
-/* // deprecated here, keep for other csv reading versions
-function loadFromCsv(chosen1,mode='setData') {
-	// Note: Consider this temporary. Probably we'll have python doing this job.
-	// chosen1 will be the file path, mode will be setData or other option for possible appending
-	Papa.parse(chosen1, {
-		download: true,
-		header: true,
-		dynamicTyping: true,
-		skipEmptyLines: true,
-		complete: function(results) {
-			console.log('loaded',chosen1);
-			logmessage('loaded ' + chosen1);
-
-			initiateStops(results.data, mode);
-
-		}, // END of Papa.parse complete() function
-		
-		error: function() {
-			console.log("Error. Could not load", chosen1);
-			logmessage("Error. Could not load "+ chosen1);
-			
-		}
-	}); // END of Papa.parse
-	
-}
-*/
-
-/* Deprecated, function for saving local file.
-$("#saveCSV").on("click", function(){
-	// Adapted from https://stackoverflow.com/a/35251739/4355695
-	var csvContent = Papa.unparse( $('#dump').val() );
-	var blob = new Blob([csvContent], {type: "text/plain"});
-	var dlink = document.createElement('a');
-	dlink.download = 'stops.txt'
-	dlink.href = window.URL.createObjectURL(blob);
-	dlink.onclick = function(e) {
-	// revokeObjectURL needs a delay to work properly
-	var that = this;
-	setTimeout(function() {
-		window.URL.revokeObjectURL(that.href);
-	}, 1500);
-	};
-	dlink.click();
-	dlink.remove();
-});
-
-*/
-
 
 function getPythonStops() {
 	let xhr = new XMLHttpRequest();
@@ -486,19 +489,6 @@ function isInArray(value, array) {
   return array.indexOf(value) > -1;
 }
 
-function checklatlng(lat,lon) {
-	if ( typeof lat == 'number' && 
-		typeof lon == 'number' &&
-		lat != NaN &&
-		lon != NaN ) {
-		//console.log(lat,lon,'is valid');
-		return true;
-	}
-	else {
-		//console.log(lat,lon,'is not valid');
-		return false;
-	}
-}
 function logmessage(message) {
 	document.getElementById('trackChanges').value += timestamp() + ': ' + message + '\n';
 }
@@ -516,11 +506,11 @@ function saveStops(){
 
 	var pw = $("#password").val();
 
-	console.log('sending routes table data to server via POST.');
+	console.log('sending stops table data to server via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', `${APIpath}allStops?pw=${pw}`);
-	//xhr.withCredentials = true;
+	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
@@ -534,3 +524,4 @@ function saveStops(){
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
 
 }
+

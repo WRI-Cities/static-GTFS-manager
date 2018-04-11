@@ -13,6 +13,21 @@ $("#importGTFSbutton").on("click", function(){
 	gtfsImportZip();
 });
 
+$("#gtfsBlankSlateButton").on("click", function(){
+	gtfsBlankSlate();
+});
+
+// #########################################
+// Initiate bootstrap / jquery components like tabs, accordions
+$(document).ready(function(){
+	// tabs
+	$( "#tabs" ).tabs({
+		active:0
+	}); 
+	// popover
+	$('[data-toggle="popover"]').popover();
+
+});
 // ##############################
 // Functions:
 
@@ -41,10 +56,11 @@ function getPythonPastCommits() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server ${APIpath}pastCommits .`);
 			var data = JSON.parse(xhr.responseText);
-			var content = '';
+			var content = '<ol>';
 			for (i in data.commits) {
-				content += '<p>' + data.commits[i] + ' : <a href="GTFS/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></p>';
+				content += '<li>' + data.commits[i] + ' : <a href="GTFS/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
 			}
+			content += '</ol>';
 			$('#pastCommits').html(content);
 		}
 		else {
@@ -88,7 +104,15 @@ function exportGTFS() {
 
 function gtfsImportZip() {
 	// make POST request to API/gtfsImportZip
+
+	// idiot-proofing: check if the files have been uploaded or not.
+	if( document.getElementById('gtfsZipFile').value == '') {
+		$('#importGTFSStatus').html('<div class="alert alert-warning">Please select a file first! ;)</div>');
+		return;
+	}
+
 	var pw = $("#password").val();
+	$("#importGTFSStatus").html('Importing GTFS file, please wait..');
 
 	var formData = new FormData();
 	//formData.append('gtfsZipFile', $('#gtfsZipFile')[0].files[0]);
@@ -103,6 +127,44 @@ function gtfsImportZip() {
 		contentType: false,  // tell jQuery not to set contentType
 		success : function(data) {
 			console.log(data);
+			$("#importGTFSStatus").html('<div class="alert alert-success">Successfully imported GTFS feed. See the other pages to explore the data.<br>A backup has been taken of the earlier data just in case.</div>');
+				// housekeeping: run stats and past commits scan again and clear out blank slate status
+				getPythonGTFSstats(); getPythonPastCommits();
+				$("#gtfsBlankSlateStatus").html('');
+
+		},
+		error: function(jqXHR, exception) {
+			console.log('API/gtfsImportZip POST request failed.');
+			$("#importGTFSStatus").html('<div class="alert alert-warning">GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText + '</div>');
+		}
+
+	});
+}
+
+function gtfsBlankSlate() {
+	if (! confirm('Are you sure you want to do this?') )
+		return;
+	var pw = $("#password").val();
+
+	$("#gtfsBlankSlateStatus").text('Processing, please wait..');
+
+	$.ajax({
+		url : `${APIpath}gtfsBlankSlate?pw=${pw}`,
+		type : 'GET',
+		cache: false,
+		processData: false,  // tell jQuery not to process the data
+		contentType: false,  // tell jQuery not to set contentType
+		success : function(data) {
+			console.log(data);
+			$("#gtfsBlankSlateStatus").html(data);
+			// housekeeping: run stats again and clear out GTFS import status text
+			getPythonGTFSstats();
+			$("#importGTFSStatus").html('');
+
+		},
+		error: function(jqXHR, exception) {
+			console.log('API/gtfsBlankSlate GET request failed.');
+			$("#gtfsBlankSlateStatus").text(jqXHR.responseText);
 		}
 	});
 }

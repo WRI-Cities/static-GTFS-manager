@@ -1,4 +1,5 @@
-document.write('<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
+/*
+navBarContent = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
  <!-- Brand --> \
 <a class="navbar-brand" href="#">GTFS Manager</a> \
 <!-- Links --> \
@@ -11,7 +12,7 @@ document.write('<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-to
 <li class="nav-item"><a class="nav-link" href="misc.html">Misc</a></li> \
 <li class="nav-item"><a class="nav-link" href="xml2GTFS.html">Import-XML</a></li> \
 </ul> \
- \
     <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" aria-label="Search" style="width:200px;"> \
-     \
-</nav>');
+</nav>';
+// moved to commonfuncs.js, put into a loop to highlight current page.
+*/

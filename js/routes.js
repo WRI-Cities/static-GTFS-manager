@@ -1,9 +1,10 @@
 // #########################################
 // Initial things to execute on page load
+const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:true, width:100};
 
-const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };
+const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
 
-var allStops = [], sequence0=[], sequence1=[], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '' ;
+var allStops = [], sequence0=[], sequence1=[], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[];
 
 // #########################################
 // Construct tables
@@ -25,7 +26,8 @@ $("#routes-table").tabulator({
 		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
 		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, headerSort:false },
 		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
-		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" }
+		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:"input", tooltip:"Needed to fill when there is more than one agency." }
 	],
 	cellEdited:function(cell){
 		// discarding as now we'll directly trigger routes selection from this table
@@ -39,6 +41,8 @@ $("#routes-table").tabulator({
 		getPythonSequence(route_id);
 		displayRouteName(route_id);
 		selected_route_id = route_id;
+		getPythonShapesList(route_id);
+		$('#openShapeModalStatus').html('');
 	},
 	rowDeselected:function(row){ //when a row is deselected
 		//to do: clear out sequence? naah, let it be till another route gets selected!
@@ -65,21 +69,18 @@ $("#sequence-0-table").tabulator({
 		{title:"stop_id", field:"stop_id", headerFilter:"input", headerFilterPlaceholder:"filter by id", headerSort:false },
 		{title:"stop_name", field:"stop_name", headerFilter:"input", headerFilterPlaceholder:"filter by name", headerSort:false },
 		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
-    		map[0].closePopup();
-    		cell.getRow().delete();
-    		mapsUpdate();
+			map[0].closePopup();
+			cell.getRow().delete();
+			mapsUpdate();
 		}}
 		
 	],
 	rowSelected:function(row){
 		var stop_id = row.getIndex();
-		//console.log('selected', stop_id,'in sequence 0');
 		mapPop(stop_id, 0);
-
-		// to do: will have to declare this externally, after the two tables have been defined.
 	},
 	rowMoved:function(row){
-		console.log("moved!");
+		console.log("A stop has been moved in direction 0 sequence.");
 		mapsUpdate();
 			
 	},
@@ -117,7 +118,7 @@ $("#sequence-1-table").tabulator({
 		// to do: will have to declare this externally, after the two tables have been defined.
 	},
 	rowMoved:function(row){
-		console.log("moved!");
+		console.log("A stop has been moved in direction 0 sequence.");
 		mapsUpdate();
 		// redo the row numbering
 		// $("#sequence-0-table").tabulator("redraw", true);
@@ -129,30 +130,6 @@ $("#sequence-1-table").tabulator({
 	}
 });
 
-
-
-/*
-var sequenceOptionsCopy = jQuery.extend(true, {}, sequenceOptions); // deep copy of a json object. From https://stackoverflow.com/a/5164215/4355695. Simply doing var1=var2 ends up in both pointing to the same object, and tabulator tables have a problem with that.. they need separate objects as their options.
-
-$("#sequence-0-table").tabulator(sequenceOptions);
-$("#sequence-1-table").tabulator(sequenceOptionsCopy);
-*/
-
-// #########################################
-// initiate bootstrap / jquery components like tabs, accordions
-$( function() {
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
-	// initiate accordion
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-});
 
 // #################################
 /* Initiate map */
@@ -189,40 +166,50 @@ var myRenderer = L.canvas({ padding: 0.5 });
 var sequenceLayer = [];
 for ( i in [0,1] ) {
 	sequenceLayer[i] = new L.geoJson(null);
-
-	//.bindTooltip(idName, { className: "inSequence" }).bindPopup(idName, { className: "inSequence" });
 }
 
 // adding buttons to zoom to show all stops
-L.easyButton('<span class="mapButton">&curren;</span>', function(btn, map){
+L.easyButton('<span class="mapButton" title="zoom to see all stops">&curren;</span>', function(btn, map){
 	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20]});
 }).addTo( map[0] );
 
-L.easyButton('<span class="mapButton">&curren;</span>', function(btn, map){
+L.easyButton('<span class="mapButton" title="zoom to see all stops">&curren;</span>', function(btn, map){
 	map.fitBounds(sequenceLayer[1].getBounds(), {padding:[20,20]});
 }).addTo( map[1] );
 
-
-//var sequence0Layer = new L.geoJson(null).bindTooltip(idName, { className: "inSequence" }).bindPopup(idName, { className: "inSequence" });
-//var sequence1Layer = new L.geoJson(null).bindTooltip(idName, { className: "inSequence" }).bindPopup(idName, { className: "inSequence" });
-//var remaining0Layer = new L.geoJson(null).bindTooltip(idName, { className: "notinSequence" }).bindPopup(markerAdd, { className: "notinSequence" });
-
-function idName(layer) {
-	return `${layer.properties.stop_id}: ${layer.properties.stop_name}`; //didn't know we can write strings like shell scripting!
-}
-function markerAdd(layer) {
-	return `${layer.properties.stop_id}: ${layer.properties.stop_name}<br><button id="addSequence0">Add to sequence</button>`
-}
-function markerRemove(layer) {
-	return `${layer.properties.stop_id}: ${layer.properties.stop_name}<br><button id="remove0" onclick="remove0(${layer.properties.stop_id})">Remove from sequence</button>`;
+// initiating layers for carrying shapes
+var shapeLayer = [];
+for ( i in [0,1] ) {
+	shapeLayer[i] = new L.geoJson(null);
+	shapeLayer[i].addTo(map[i]);
 }
 
-// #############################
-//Run initiating commands
+// #########################################
+// initiate bootstrap / jquery components like tabs, accordions
+$(document).ready(function() {
+	// tabs
+	$( "#tabs" ).tabs({
+		active:0
+	});
+	// popover
+	$('[data-toggle="popover"]').popover(); 
 
-getPythonStops(); //load allStops array
+	// initiate accordion
+	$( "#logaccordion" ).accordion({
+		collapsible: true, active: false
+	});
+	$( "#instructions" ).accordion({
+		collapsible: true, active: false
+	});
 
-getPythonRoutes(); // load routes.. for routes management.
+	//############
+	//Run initiating commands
+	getPythonStops(); //load allStops array
+	getPythonRoutes(); // load routes.. for routes management.
+	getPythonAllShapesList();
+
+});
+
 
 // #########################################
 // Listeners for button presses etc
@@ -241,6 +228,7 @@ $("#addRoute").on("click", function(){
 	var route_id = $('#route2add').val();
 	if(route_id.length < 2) {
 		$('#routeAddStatus').text('Invalid entry, try again');
+		shakeIt('route2add');
 		return;
 	}
 
@@ -282,6 +270,29 @@ $("#flipSequenceInsert").on("click", function(){
 	flipSequence(false);
 });
 
+$("#uploadShapeButton").on("click", function(){
+	uploadShape();
+});
+
+$('#shapes0List').on('change', function (e) {
+	var optionSelected = $("option:selected", this);
+	var valueSelected = this.value;
+	if( valueSelected == '') { 
+		shapeLayer[0].clearLayers();
+		return;
+	}
+	loadShape(valueSelected,0);
+});
+
+$('#shapes1List').on('change', function (e) {
+	var optionSelected = $("option:selected", this);
+	var valueSelected = this.value;
+	if( valueSelected == '') { 
+		shapeLayer[1].clearLayers();
+		return;
+	}
+	loadShape(valueSelected,1);
+});
 
 // #########################################
 // auto-capitalize inputs
@@ -297,6 +308,33 @@ $("#route2add").bind("change keyup", function(){
 	this.value=this.value.toUpperCase();
 });
 
+
+// ##################
+// MODAL
+var modal = document.getElementById('myModal');
+// Get the button that opens the modal
+var btn = document.getElementById("openShapeModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+	if(! selected_route_id)
+		$('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
+	else
+    	modal.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
 // #########################################
 // Functions
 
@@ -306,14 +344,12 @@ function getPythonRoutes() {
 	xhr.open('GET', `API/allRoutes`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded data from Server API/allRoutes .`);
+			console.log(`GET call to Server API/allRoutes succesful.`);
 			var data = JSON.parse(xhr.responseText);
 			initiateRoutes(data);
 		}
 		else {
-			console.log('Server request to API/allRoutes for all stops failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText + '\nLoading backup.');
-			var backup = [{"route_id":"R001","route_short_name":"R1","route_long_name":"Aluva to Maharaja College","route_type":1,"route_color":"00B7F3","route_text_color":"000000"}];
-			initiateRoutes(backup);
+			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
@@ -332,16 +368,14 @@ function getPythonStops() {
 		
 		}
 		else {
-			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText + '\nLoading backup.');
-			var backup = {"ALVA":{"stop_name":"Aluva","stop_lat":10.1099,"stop_lon":76.3495,"zone_id":"ALVA","wheelchair_boarding":1},"PNCU":{"stop_name":"Pulinchudu","stop_lat":10.0951,"stop_lon":76.3466,"zone_id":"PNCU","wheelchair_boarding":1},"CPPY":{"stop_name":"CompanyPady","stop_lat":10.0873,"stop_lon":76.3428,"zone_id":"CPPY","wheelchair_boarding":1},"ATTK":{"stop_name":"Ambattukavu","stop_lat":10.0793,"stop_lon":76.3389,"zone_id":"ATTK","wheelchair_boarding":1},"MUTT":{"stop_name":"Muttom","stop_lat":10.0727,"stop_lon":76.3336,"zone_id":"MUTT","wheelchair_boarding":1},"KLMT":{"stop_name":"Kalamassery","stop_lat":10.0586,"stop_lon":76.322,"zone_id":"KLMT","wheelchair_boarding":1},"CCUV":{"stop_name":"Cusat","stop_lat":10.0467,"stop_lon":76.3182,"zone_id":"CCUV","wheelchair_boarding":1},"PDPM":{"stop_name":"Pathadipalam","stop_lat":10.0361,"stop_lon":76.3144,"zone_id":"PDPM","wheelchair_boarding":1},"EDAP":{"stop_name":"Edapally Jn.","stop_lat":10.0251,"stop_lon":76.3083,"zone_id":"EDAP","wheelchair_boarding":1},"CGPP":{"stop_name":"Changampuzha Park","stop_lat":10.0152,"stop_lon":76.3023,"zone_id":"CGPP","wheelchair_boarding":1},"PARV":{"stop_name":"Palarivattom","stop_lat":10.0064,"stop_lon":76.3048,"zone_id":"PARV","wheelchair_boarding":1},"JLSD":{"stop_name":"JLN Stadium","stop_lat":10.0002,"stop_lon":76.2989,"zone_id":"JLSD","wheelchair_boarding":1},"KALR":{"stop_name":"Kaloor","stop_lat":9.9943,"stop_lon":76.2914,"zone_id":"KALR","wheelchair_boarding":1},"LSSE":{"stop_name":"Lissie Jn","stop_lat":9.9914,"stop_lon":76.2884,"zone_id":"LSSE","wheelchair_boarding":1},"MGRD":{"stop_name":"MG Road","stop_lat":9.9834,"stop_lon":76.2823,"zone_id":"MGRD","wheelchair_boarding":1},"MACE":{"stop_name":"Maharaja College","stop_lat":9.9732,"stop_lon":76.2851,"zone_id":"MACE","wheelchair_boarding":1}};
-			allStops = backup;
-			stopidAutocomplete();
+			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
 }
 
 function stopidAutocomplete() {
+	/*
 	stop_id_list = Object.keys(allStops); //get all keys, in this case, stop_id's. from https://stackoverflow.com/a/3068720/4355695
 
 	if ($('.stop_id').data('uiAutocomplete')) {
@@ -366,6 +400,17 @@ function stopidAutocomplete() {
 	$( ".stop_id" ).on( "focus", function( event, ui ) {
 		$(this).autocomplete("search", $(this).val());
 	});	
+	*/
+	//############################
+	// Trying chosen.js autocomplete.
+	var content = '<option></option>';
+	for(key in allStops) {
+		content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
+	}
+	$('#stopChooser0').html(content);
+	$('#stopChooser1').html(content);
+	$('#stopChooser0').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
+	$('#stopChooser1').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
 }
 
 function getPythonSequence(route_id) {
@@ -379,12 +424,7 @@ function getPythonSequence(route_id) {
 			initiateSequence(data);
 		}
 		else {
-			console.log('Server request to API/sequence for route_id ' + route_id + ' failed. Returned status of ' + xhr.status + ', message: ' + xhr.responseText + '\nLoading backup.');
-			var backup = [
-				['ALVA','PNCU','CPPY'],
-				['MACE','MGRD','LSSE']
-			];
-			initiateSequence(backup);
+			console.log('Server request to API/sequence for route_id ' + route_id + ' failed. Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
@@ -424,55 +464,6 @@ function initiateSequence(sequenceData) {
 	$("#sequence-1-table").tabulator('setData',sequence1);
 	mapsUpdate('firsttime'); //this would be an all-round full refresh of the maps based on the data in the global varibles.
 
-}
-
-/* // getting rid of this function by directly using the routes table to load sequence.
-function setRouteIds() {
-	// trigger this when routes table changes, and update the autocomplete in sequences (and shapes) tab directly from here.
-
-	let data = $("#routes-table").tabulator("getData");
-	route_id_list = data.map(a => a.route_id); 
-	
-	if ($('#routeSelector').data('uiAutocomplete')) {
-		$( "#routeSelector" ).autocomplete( "destroy" );
-	}
-	$( "#routeSelector" ).autocomplete({
-		minLength: 0,
-		source: route_id_list,
-		select: function( event, ui ) {
-			//console.log(ui.item.value);
-			let route_id = ui.item.value;
-			getPythonSequence(route_id);
-			// extra: show route name
-			displayRouteName(route_id);
-		}
-	});
-
-	// from https://stackoverflow.com/a/4604300/4355695 in combination with minLength: 0, this will list all the options when user clicks the box.
-	$( "#routeSelector" ).on( "focus", function( event, ui ) {
-		$(this).autocomplete("search", $(this).val());
-	});	
-
-
-	$( "#routeSelector" ).on( "autocompletechange", function( event, ui ) {
-		preventOtherInputs(ui, '#routeSelector');
-	});
-
-}
-*/
-
-function checklatlng(lat,lon) {
-	if ( typeof lat == 'number' && 
-		typeof lon == 'number' &&
-		lat != NaN &&
-		lon != NaN ) {
-		//console.log(lat,lon,'is valid');
-		return true;
-	}
-	else {
-		//console.log(lat,lon,'is not valid');
-		return false;
-	}
 }
 
 function mapsUpdate(timeflag='normal') {
@@ -552,7 +543,6 @@ function markerOnClick(e) {
 
 function displayRouteName(route_id) {
 	var row = $("#routes-table").tabulator("getRow", route_id).getData();
-	console.log(`${route_id}: ${row['route_short_name']}: ${row['route_long_name']}`);
 	$("#displayRouteName").html(`${row['route_short_name']}: ${row['route_long_name']}`);
 }
 
@@ -603,21 +593,25 @@ function add2sequence(stop_id, direction_id=0) {
 // Save, send data to python server
 
 function saveRoutes() {
-	$('#routeSaveStatus').text('');
+	$('#routeSaveStatus').html('');
 
 	var data=$('#routes-table').tabulator('getData');
 
 	var pw = $("#password").val();
+	if ( ! pw.length ) { 
+		$('#routeSaveStatus').html('Please enter the password.');
+		shakeIt('password'); return;
+	}
 
-	console.log('sending routes table data to server via POST.');
+	console.log('sending routes table data to server API/saveRoutes via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `/API/saveRoutes?pw=${pw}`);
+	xhr.open('POST', `${APIpath}saveRoutes?pw=${pw}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server /API/saveRoutes, resonse received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server API/saveRoutes, resonse received: ' + xhr.responseText);
 			$('#routeSaveStatus').text('Saved changes to routes.txt.');
 		} else {
 			console.log('Server POST request to API/saveRoutes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
@@ -629,7 +623,7 @@ function saveRoutes() {
 }
 
 function saveSequence() {
-	$('#sequenceSaveStatus').text('');
+	$('#sequenceSaveStatus').html('Saving sequence to DB, please wait...');
 
 	//sequence0;
 	//sequence1;
@@ -638,24 +632,38 @@ function saveSequence() {
 		$('#sequenceSaveStatus').text('Please select a route at the top table.');
 		return;
 	}
-	//console.log(selected);
 	var sequence0_list = sequence0.map(a => a.stop_id); 
 	var sequence1_list = sequence1.map(a => a.stop_id); 
 	
 	var data=[sequence0_list, sequence1_list];
+
+	var chosenShape0 = $('#shapes0List').val();
+	var chosenShape1 = $('#shapes1List').val();
+	if( ! ( chosenShape0.length && chosenShape1.length )) {
+		if(! confirm('Are you sure you don\'t want to save any shape for the onward and/or return journey direction of this route?\nPress OK to proceed, Cancel to go back and set the shapes first.') )
+			return;
+	}
 	
 	var pw = $("#password").val();
+	if ( ! pw.length ) { 
+		$('#sequenceSaveStatus').html('Please enter the password.');
+		shakeIt('password'); return;
+	}
 
-	console.log('sending sequence data to server via POST: '+ JSON.stringify(data) );
+	console.log('sending sequence data to server API/sequence via POST: '+ JSON.stringify(data) );
+	console.log('Also sending chosen shapes: ',chosenShape0,chosenShape1);
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}sequence?pw=${pw}&route=${selected_route_id}`);
+	xhr.open('POST', `${APIpath}sequence?pw=${pw}&route=${selected_route_id}&shape0=${chosenShape0}&shape1=${chosenShape1}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/sequence, resonse received: ' + xhr.responseText);
-			$('#sequenceSaveStatus').text('Success. Message: ' + xhr.responseText);
+			$('#sequenceSaveStatus').html('Success. Message: ' + xhr.responseText);
+			console.log('Re-firing getPythonAllShapesList function after saving sequence to DB.');
+			getPythonAllShapesList();
+
 		} else {
 			console.log('Server POST request to API/sequence failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#sequenceSaveStatus').text('Failed to save. Message: ' + xhr.responseText);
@@ -685,3 +693,223 @@ function clearSequences() {
 	$("#sequence-0-table").tabulator('setData',[]);
 	$("#sequence-1-table").tabulator('setData',[]);
 }
+
+function getPythonAllShapesList() {
+	
+	// shorter GET request. from https://api.jquery.com/jQuery.get/
+	var jqxhr = $.get( `${APIpath}allShapesList`, function( data ) {
+		globalShapesList =  JSON.parse(data) ;
+		console.log('GET request to API/allShapesList succesful.');
+		console.log('globalShapesList: ' + JSON.stringify(globalShapesList) );
+		if(selected_route_id) {
+			console.log('Re-firing selection of route ' + selected_route_id + ' from getPythonAllShapesList function to update shape dropdowns.')
+			$("#routes-table").tabulator("selectRow",selected_route_id);
+		}
+		
+	})
+	.fail( function() {
+		console.log('GET request to API/allShapesList failed.')
+	});
+	
+}
+
+function getPythonShapesList(route_id) {
+	$('#shapes0List').html('');
+	$('#shapes1List').html('');
+	// shorter GET request. from https://api.jquery.com/jQuery.get/
+	var jqxhr = $.get( `${APIpath}shapesList?route=${route_id}`, function( data ) {
+		var shapes =  JSON.parse(data) ;
+		console.log('GET request to API/shapesList succesful.');
+		console.log(shapes);
+		populateShapesLists(shapes);
+	})
+	.fail( function() {
+		console.log('GET request to API/shapesList failed.')
+	});
+}
+
+function populateShapesLists(shapes) {
+	//use globalShapesList
+	// use selected_route_id
+	
+	var allShapesList = globalShapesList['all']; //global variable
+	var thisRouteSaved = globalShapesList['saved'][selected_route_id];
+
+	// direction 0:
+	var content = '<option value="">No Shape</option>';
+	var alreadySelected = false;
+	var shapesSoFar = [];
+
+	if( thisRouteSaved ) {
+		if( thisRouteSaved[0]) {
+			content += `<option value="${thisRouteSaved[0]}"  selected="selected">${thisRouteSaved[0]} &#10004;</option>`;
+			alreadySelected = true;
+			shapesSoFar.push(thisRouteSaved[0]);
+		}
+	}
+	for (i in shapes[0]) {
+		selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+		
+		if( shapesSoFar.indexOf(shapes[0][i]) < 0 ) {
+			content += `<option value="${shapes[0][i]}"${selectFlag}>${shapes[0][i]} #</option>`;
+			shapesSoFar.push(shapes[0][i]);
+		}
+	}
+	for(i in allShapesList) {
+		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) 
+			content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+	}
+
+	$('#shapes0List').html(content);
+	$('#shapes0List').trigger('change');
+	//fire chosen autocomplete after populating.
+	$('#shapes0List').chosen(shapeAutocompleteOptions);
+
+	// direction 1:
+	var content = '<option value="">No Shape</option>';
+	var alreadySelected = false;
+	var shapesSoFar = [];
+
+	if( thisRouteSaved ) {
+		if( thisRouteSaved[1]) {
+			content += `<option value="${thisRouteSaved[1]}"  selected="selected">${thisRouteSaved[1]} &#10004;</option>`;
+			alreadySelected = true;
+			shapesSoFar.push(thisRouteSaved[1]);
+		}
+	}
+	for (i in shapes[1]) {
+		selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+		
+		if( shapesSoFar.indexOf(shapes[1][i]) < 0 ) {
+			content += `<option value="${shapes[1][i]}"${selectFlag}>${shapes[1][i]} #</option>`;
+			shapesSoFar.push(shapes[1][i]);
+		}
+	}
+	for(i in allShapesList) {
+		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) 
+			content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+	}
+
+	$('#shapes1List').html(content);
+	$('#shapes1List').trigger('change');
+
+	//fire chosen autocomplete after populating.
+	$('#shapes1List').chosen(shapeAutocompleteOptions);
+
+}
+
+//###############
+
+function uploadShape() {
+	$('#uploadShapeStatus').html('');
+	// make POST request to API/XMLUpload
+
+	// idiot-proofing: check if the files have been uploaded or not.
+	// alert( ""==f.value ? "nothing selected" : "file selected");
+	// from https://stackoverflow.com/a/1417489/4355695
+	if( $('#uploadShape0').val() == '' ) {
+		$('#uploadShapeStatus').html('Please select a file to upload! ;)');
+		shakeIt('uploadShape0');
+		return;
+	}
+
+	var pw = $("#password").val();
+	if ( ! pw.length ) { 
+		shakeIt('password'); 
+		$('#uploadShapeStatus').html('please enter the password.');
+		return;
+	}
+	var route_id = selected_route_id;
+	var shape_id_prefix = $("#uploadShapeId").val().replace(/[^A-Za-z0-9-_]/g, "");
+	$("#uploadShapeId").val(shape_id_prefix);
+
+	if(! shape_id_prefix.length) {
+		$('#uploadShapeStatus').html('Please enter a proper shape id.');
+		shakeIt('uploadShapeId');
+		return;
+	}
+
+	if( globalShapesList['all'].indexOf(shape_id_prefix+'_0') > -1 || globalShapesList['all'].indexOf(shape_id_prefix+'_1') > -1 ) {
+		//$('#uploadShapeStatus').html('Please choose some other id, this one\'s taken.');
+		if( !confirm('The shape_id\'s:\n' + shape_id_prefix+'_0 and/or ' + shape_id_prefix+'_1\n..already exist in the shapes DB.\nAre you SURE you want to replace an existing shape?') ) {
+				$("#uploadShapeId").val('');
+				return;
+		}
+	}
+
+	$('#uploadShapeStatus').html( 'Uploading file(s), please wait.. ');
+
+	var reverseFlag = $('#reverseCheck').is(':checked');
+	
+	var formData = new FormData();
+	formData.append('uploadShape0', $('#uploadShape0')[0].files[0] );
+	
+	if(reverseFlag) {
+		if ($('#uploadShape1').val() != '') {
+			formData.append('uploadShape1', $('#uploadShape1')[0].files[0] );
+		}
+		else {
+			$('#uploadShapeStatus').html('Please select the file for reverse direction, or check off that box.');
+			shakeIt('uploadShape1');
+			shakeIt('reverseCheck');
+			return;
+		}
+	}
+		
+	
+	$.ajax({
+		url : `${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id_prefix}&reverseFlag=${reverseFlag}`,
+		type : 'POST',
+		data : formData,
+		cache: false,
+		processData: false,  // tell jQuery not to process the data
+		contentType: false,  // tell jQuery not to set contentType
+		success : function(returndata) {
+			console.log('API/shape POST request with file upload successfully done.');
+			$('#uploadShapeStatus').html("Upload successful." + returndata);
+			//exit modal.
+			modal.style.display = "none";
+			getPythonAllShapesList();
+			
+		},
+		error: function(jqXHR, exception) {
+			console.log('API/shape POST request failed.')
+			$('#uploadShapeStatus').text( jqXHR.responseText );
+		}
+	});
+	
+}
+
+function loadShape(shape_id, whichMap) {
+		// shorter GET request. from https://api.jquery.com/jQuery.get/
+	var jqxhr = $.get( `${APIpath}shape?shape=${shape_id}`, function( data ) {
+		var shapeArray =  JSON.parse(data) ;
+		console.log('GET request to API/shape succesful.');
+		drawShape(shapeArray, whichMap);
+	})
+	.fail( function() {
+		console.log('GET request to API/shape failed.')
+	});
+}
+
+function drawShape(shapeArray, whichMap) {
+	shapeLayer[whichMap].clearLayers(); // clearing the layer
+	
+	//var lineColor = ( whichMap==0? '#990000': '#006600');
+	var lineColor = ( whichMap==0? 'purple': 'blue'); //switching the markers' colors
+	var latlngs = [];
+	shapeArray.forEach(function(row){
+			latlngs.push([ row['shape_pt_lat'], row['shape_pt_lon'] ]);
+		});
+	var shapeLine = L.polyline(latlngs, {color: lineColor, weight:2, interactive:true}).addTo(shapeLayer[whichMap]);
+	map[whichMap].fitBounds(shapeLine.getBounds());
+	
+	var spacer = Array(5).join(" "); // repeater. from https://stackoverflow.com/a/1877479/4355695
+	shapeLine.setText(spacer+'►'+spacer, {repeat: true,
+		offset: 5,
+		attributes: {'font-weight': 'bold',
+			'font-size': '14', 'fill':lineColor}
+		}
+	); // arrows! https://github.com/makinacorpus/Leaflet.TextPath/tree/gh-pages
+}
+

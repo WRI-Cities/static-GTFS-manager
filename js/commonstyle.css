@@ -1,0 +1,166 @@
+/* commonstyle.css */
+
+body, textarea, .leaflet-container {
+	font-family: "Ubuntu", "Open Sans", "Helvetica", "Arial";
+}
+body {
+		padding-top: 80px;
+}
+
+h3 { margin-top : 0.5em; line-height: 1.5em; }
+/*small { line-height: 0.2em; }*/
+
+/*Top Menu */
+/* vertically aligning menu items in center. from https://stackoverflow.com/a/8577887/4355695 */
+li.nav-item {
+	height: 4rem;
+	display: table; 
+}
+li.nav-item > a {
+	height: 100%;
+	vertical-align: middle;
+	display: table-cell;
+	color: #ddd!important;
+	font-weight: 200;
+	transition: .3s;
+}
+li.nav-item > a:hover {
+	background-color: #555;
+	background-color: yellow;
+	color: black!important;
+}
+.navbar {
+	padding: 0 1rem;
+}
+a.currentpage {
+	background-color: #000;
+	font-weight: 200;
+	font-size: 1.5em;
+}
+
+/* Inside Accordion */
+.ui-accordion-content a {
+	color: #007bff;
+}
+.ui-accordion-content a:hover {
+	text-decoration: underline;
+	color: #0056b3;
+}
+
+/*TABS*/
+.ui-widget-header {
+	background: #fff;
+	border: none;
+	border-bottom: 2px solid #e9e9e9;
+}
+.ui-widget.ui-widget-content {
+	border:none;
+}
+.ui-tabs-panel a {
+	color: #007bff;
+}
+.ui-tabs-panel a:hover {
+	text-decoration: underline;
+	color: #0056b3;
+}
+
+/* Changes log */
+#trackChanges {
+width:100%;
+}
+
+/*Input validation */
+input:required:invalid, input:focus:invalid {
+  /* insert your own styles for invalid form input */
+  -moz-box-shadow: none;
+  background-color: lavender;
+}
+
+/* JQuery UI Autocomplete */
+.ui-autocomplete {
+	font-size: 0.8em;
+	max-height: 100px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+		
+}
+
+/* Leaflet Map */
+.leaflet-popup-content {
+	margin-top: 10px;
+}
+.leaflet-container {
+	cursor: crosshair;
+	/*changing mouse pointer on map to crosshairs, for more precise clicking */
+}
+.leaflet-popup-content-wrapper {
+background: #000000a1;
+color: #fff;
+border-radius: 8px;
+}
+.leaflet-popup-tip {
+background: #000000a1;
+}
+.mapButton {
+	font-size: 3em;
+}
+
+
+/* Tabulator */ 
+.tabulator {
+	background-color: #f0f0f0;
+}
+
+/* Button links */
+a.btn {
+	color: black;
+}
+a.btn:hover {
+	text-decoration: none;
+	color: white;
+}
+
+
+
+/* ####################################*/
+/* The Modal (background) */
+/* from https://www.w3schools.com/howto/howto_css_modals.asp */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fafafa;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 65%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* ####################################*/
