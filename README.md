@@ -1,7 +1,7 @@
 # static-GTFS-manager
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 1.0.0 is ready, open for Beta Testing.
+**Development Status** : V 1.1.0 is ready, open for Beta Testing.
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
@@ -102,7 +102,7 @@ This project stands on the shoulders of several solutions that have been shared 
 #### Open source libraries used on Python side : 
 - Tornado for web server with asynchronous callback
 - TinyDB for portable JSON database
-- Many python modules for various operations: json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser
+- Many python modules for various operations: json, os, time, datetime, xmltodict, csv, pandas, collections, zipfile, webbrowser, pycrptodome, shutil, pathlib, math, json.decoder
 
 #### Many snippets
 In addition to this, there are several code snippets used throughout the program that were found from online forums like stackoverflow and on various tech blogs. The links to the sources of the snippets are mentioned in comments in the program. Here is a shoutout to all the contributors on these forums and blogs : ***Thank You!***

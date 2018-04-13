@@ -613,7 +613,6 @@ function deleteByKey() {
 		return;
 	}
 
-	$('#deepActionsStatus').html('Processing.. please wait..');
 	// shorter GET request. from https://api.jquery.com/jQuery.get/
 	if( ! confirm('Are you sure you want to do this? Press Cancel to go back, take backup export etc.') ) {
 		$('#deepActionsStatus').html('Okay, not this time. Make a fresh selection again if you change your mind.');
@@ -630,6 +629,8 @@ function deleteByKey() {
 		shakeIt('password'); return;
 	}
 
+	$('#deepActionsStatus').html('Processing.. please wait..');
+	
 	key = globalKey;
 	value = globalValue;
 	tables = globalTables;
@@ -649,7 +650,9 @@ function deleteByKey() {
 		getPythonAllIDs();
 	})
 	.fail( function() {
-		console.log('GET request to API/deleteByKey failed.')
+		console.log('GET request to API/deleteByKey failed.');
+		$('#deepActionsStatus').html('Error at backend, please debug.');
+
 	});
 }
 

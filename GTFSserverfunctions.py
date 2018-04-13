@@ -665,14 +665,29 @@ def deletefromDB(dbfile,key,value,tables):
 		count = tableDb.search(Item['service_id'] == value)
 		print('Trying to zap shape_id values. Now the count is ' + str(count))
 
+	# sequence DB
 	if key == 'route_id':
 		# drop it from sequence DB too.
-		sdb = tinyDBopen(sequenceDBfile)
+		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
-		print('Removing entires for stop_id '+value +' in sequenceDB too if any.')
-		sdb.remove(sItem[key] == value)
-		sdb.close();
+		print('Removing entires for route_id '+value +' in sequenceDB too if any.')
+		sDb.remove(sItem[key] == value)
+		sDb.close();
 
+	if key == 'stop_id':
+		# drop the stop from sequence DB too.
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		rows = sDb.all()
+		for row in rows:
+			row['0'][:] = ( x for x in row['0'] if x != value )
+			row['1'][:] = ( x for x in row['1'] if x != value )
+			print('Zapped stop_id ' + value + ' from sequence db for route '+ row['route_id'])
+		sDb.write_back(rows)
+		
+		sDb.close();
+
+	# Zones
 	if key == 'zone_id':
 		# drop either origin_id or destination_id rows
 		tableDb = db.table('fare_rules')
@@ -688,10 +703,8 @@ def deletefromDB(dbfile,key,value,tables):
 		tableDb.write_back(rows)
 		print('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
 
-	'''
-	if key == 'stop_id':
-		# drop the stop from sequence DB too.
-	'''
+	
+	
 
 	db.close()
 	return True
@@ -736,5 +749,19 @@ def replaceIDfunc(valueFrom,valueTo,tableKeys):
 		returnList.append('Replaced ' + key + ' = ' + valueFrom + ' with <b>' + valueTo + '</b> in ' + tablename + ' table, <b>' + count + '</b> rows edited.')
 
 	db.close()
+
+	# additional: if it's a stop, replace it in sequence DB too.
+	if 'stop_id' in [x['key'] for x in tableKeys]:
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		rows = sDb.all()
+		for row in rows:
+			row['0'][:] = ( x if (x != valueFrom) else valueTo for x in row['0']  )
+			row['1'][:] = ( x if (x != valueFrom) else valueTo for x in row['1'] )
+			print('Replaced stop_id = ' + valueFrom + ' with ' + valueTo + ' in sequence DB for route '+ row['route_id'])
+			returnList.append('Replaced stop_id = ' + valueFrom + ' with <b>' + valueTo + '</b> in sequence DB for route '+ row['route_id'])
+		sDb.write_back(rows)
+		sDb.close();
+
 	returnMessage = '<br>'.join(returnList)
 	return returnMessage
