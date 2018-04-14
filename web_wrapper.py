@@ -895,9 +895,11 @@ class shape(tornado.web.RequestHandler):
 
 		shapeArray = readTableDB(dbfile, 'shapes', key='shape_id', value=shape_id)
 
-		returnJson = shapeArray
+		# need to sort this array before returning it. See https://github.com/WRI-Cities/static-GTFS-manager/issues/22
+		sortedShapeArray = sorted(shapeArray, key=lambda k: k['shape_pt_sequence'])
+		# from https://stackoverflow.com/a/73050/4355695
 
-		self.write(json.dumps(returnJson))
+		self.write(json.dumps(sortedShapeArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		print("shape GET call took {} seconds.".format(round(end-start,2)))
