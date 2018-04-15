@@ -41,6 +41,19 @@ height: 500px;
 height: 400px;
 }
 
+/* leaflet stop markers */
+.stop-divicon {
+	border-radius: 50%;
+	color: white;
+	padding-top: 1px;
+	position: absolute;
+	text-align: center;
+	overflow: hidden;
+	box-shadow:0px 0px 5px black; /*looks 3D! no need of a border*/
+	background-color: rgba(0, 0, 150, 0.7);
+	font-size: 10px;
+	font-weight: 600;
+}
 
 </style>
 
@@ -63,17 +76,14 @@ height: 400px;
 
 <!-- MAIN LIST -->
 <div id="home">
-<h3>Listing of all Stops</h3>
+
 <div id="stops-table"></div>
 <p align="center"><br>
-<!--
-<button id="resetSort">Reset sorting</button> | 
--->
+
 Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo</button> | 
 <button class="btn-info btn-sm" id="history-redo" type="button">Redo</button></p>
 
 </div>
-
 
 
 <!-- ADD/EDIT -->
@@ -134,9 +144,6 @@ Note: This feature is currently disabled, untill we develop a way to safely drop
 
 </div></div><!-- Accordion over -->
 
-<br><br>
-
-<h3>Extra: Parking API</h3>
 
 
 <br><br>

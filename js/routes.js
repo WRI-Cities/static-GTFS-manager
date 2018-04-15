@@ -4,7 +4,7 @@ const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:t
 
 const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
 
-var allStops = [], sequence0=[], sequence1=[], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[];
+var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[];
 
 // #########################################
 // Construct tables
@@ -87,10 +87,11 @@ $("#sequence-0-table").tabulator({
 	rowDeselected:function(row){ //when a row is deselected
 		//depopulateFields();
 		map[0].closePopup();
-	},
+	}/*,
+
 	rowDeleted:function(row) {
-		sequence0 = $("#sequence-0-table").tabulator('getData');
-	}
+		//sequence0 = $("#sequence-0-table").tabulator('getData');
+	}*/
 });
 
 $("#sequence-1-table").tabulator({
@@ -124,10 +125,10 @@ $("#sequence-1-table").tabulator({
 		// $("#sequence-0-table").tabulator("redraw", true);
 		// $("#sequence-1-table").tabulator("redraw", true);
 		// not redoing numbering as it seems better to have it to help people know if they've messed up.
-	},
+	}/*,
 	rowDeleted:function(row) {
-		sequence1 = $("#sequence-1-table").tabulator('getData');
-	}
+		//sequence1 = $("#sequence-1-table").tabulator('getData');
+	}*/
 });
 
 
@@ -215,13 +216,13 @@ $(document).ready(function() {
 // Listeners for button presses etc
 
 $("#add-0").on("click", function(){
-	add2sequence($('#stop2add-0').val(),0);
-	$('#stop2add-0').val('');
+	add2sequence($('#stopChooser0').val(),0);
+	//$('#stop2add-0').val('');
 });
 
 $("#add-1").on("click", function(){
-	add2sequence($('#stop2add-1').val(),1);
-	$('#stop2add-1').val('');
+	add2sequence($('#stopChooser1').val(),1);
+	//$('#stop2add-1').val('');
 });
 
 $("#addRoute").on("click", function(){
@@ -440,21 +441,29 @@ function initiateRoutes(routesData) {
 
 function initiateSequence(sequenceData) {
 	
-	// allStops = [], sequence0=[], sequence1=[], remaining0=[], remaining1=[] ;
+	// allStops = [], remaining0=[], remaining1=[] ;
 	// to do: look up allStops array, retrieve the stop_name for each id. Also, include population of the map also in this, similar to how its done in stops page.
 
-	// clear the global sequence arrays to prevent loading mulitple routes. from https://stackoverflow.com/a/1232046/4355695 for optimal memory saving.
-	sequence0.length=0;
-	sequence1.length=0;
+	var sequence0 = [];
+	var sequence1 = [];
 
 	for (stop in sequenceData[0]) {
 		let stop_id = sequenceData[0][stop];
+		// check if stop_id is present in the sequence or not, and console log but errorlessly skip to next stop in loop if not present.
+		if( !allStops[ stop_id ] ) {
+			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
+			continue;
+		}
 		let row = allStops[ stop_id ];
 		row['stop_id'] = stop_id;
 		sequence0.push(row);
 	}
 	for (stop in sequenceData[1]) {
 		let stop_id = sequenceData[1][stop];
+		if( !allStops[ stop_id ] ) {
+			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
+			continue;
+		}
 		let row = allStops[ stop_id ];
 		row['stop_id'] = stop_id;
 		sequence1.push(row);
@@ -568,10 +577,11 @@ function add2sequence(stop_id, direction_id=0) {
 		console.log('Invalid stop_id. Not adding!');
 		return false;
 	}
+	console.log('add2sequence function: Adding stop_id ' + stop_id + ' to direction ' + direction_id);
 
 	var row = jQuery.extend(true, {}, allStops[stop_id]); //make a copy
 	row['stop_id'] = stop_id;
-	
+
 	if(direction_id == 0) {
 
 		//to do: check if stop already in sequence?
@@ -579,13 +589,13 @@ function add2sequence(stop_id, direction_id=0) {
 		$("#sequence-0-table").tabulator('addRow',row);
 		mapsUpdate();
 		$("#sequence-0-table").tabulator('selectRow',stop_id);
-		sequence0 = $("#sequence-0-table").tabulator('getData');
+		//sequence0 = $("#sequence-0-table").tabulator('getData');
 	}
 	else {
 		$("#sequence-1-table").tabulator('addRow',row);
 		mapsUpdate();
 		$("#sequence-1-table").tabulator('selectRow',stop_id);
-		sequence1 = $("#sequence-1-table").tabulator('getData');
+		//sequence1 = $("#sequence-1-table").tabulator('getData');
 	}
 }
 
@@ -625,8 +635,10 @@ function saveRoutes() {
 function saveSequence() {
 	$('#sequenceSaveStatus').html('Saving sequence to DB, please wait...');
 
-	//sequence0;
-	//sequence1;
+	// forget global sequences, retrieve latest sequence data straight from tables.
+	var sequence0 = $("#sequence-0-table").tabulator('getData');
+	var sequence1 = $("#sequence-1-table").tabulator('getData');
+	
 	//var selected = $("#routes-table").tabulator("getSelectedData");
 	if(! selected_route_id.length) {
 		$('#sequenceSaveStatus').text('Please select a route at the top table.');
@@ -663,6 +675,7 @@ function saveSequence() {
 			$('#sequenceSaveStatus').html('Success. Message: ' + xhr.responseText);
 			console.log('Re-firing getPythonAllShapesList function after saving sequence to DB.');
 			getPythonAllShapesList();
+			mapsUpdate();
 
 		} else {
 			console.log('Server POST request to API/sequence failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );

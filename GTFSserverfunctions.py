@@ -2,17 +2,11 @@
 # this file is to be inline included in the main script. Seriously, I do not want to keep declaring import statements everywhere.
 
 def csvwriter( array2write, filename, keys=None ):
-	if not keys:
-		keys = list(array2write[0].keys())
-	# Writing dict list to CSV from https://stackoverflow.com/a/3087011/4355695
-	with open(filename, 'w', newline='\n', encoding='utf8') as output_file:
-		dict_writer = csv.DictWriter(output_file, keys, extrasaction='ignore') 
-		# extrasaction='ignore' : ignore extra fields in the dict, from https://stackoverflow.com/a/26944505/4355695
-		dict_writer.writeheader()
-		dict_writer.writerows(array2write)
+	# 15.4.18: Changing to use pandas instead of csv.DictWriter. Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/3
+	df = pd.DataFrame(array2write)
+	df.to_csv(filename, index=False, columns=keys)
 	print( 'Created', filename )
-	# logmessage( 'Created', filename )
-
+	
 
 def exportGTFS (dbfile, folder):
 	start = time.time()
@@ -105,8 +99,6 @@ def importGTFS(dbfile, zipname):
 	# damn this is getting exhausting. And what if the user uploads a feed having custom columns that also need to be string?? There should be a way to define all columns as string except a chosen few. Posted a question on stackoverflow for it: https://stackoverflow.com/questions/49684951/pandas-read-csv-dtype-read-all-columns-but-few-as-string		
 	
 	for feedfile in filenames:
-		#with open(uploadFolder + feedfile, encoding='utf8') as f:
-			#feedArray = list(csv.DictReader(f))
 		# using Pandas to read the csv.
 		feedArray = pd.read_csv(uploadFolder + feedfile , na_filter=False, dtype = dtype_dic).to_dict('records')
 		# na_filter=False to read blank cells as empty strings instead of NaN. from https://stackoverflow.com/a/45194703/4355695

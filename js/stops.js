@@ -35,11 +35,6 @@ $("#stops-table").tabulator({
 	},
 	historyUndo:function(action, component, data){
 		var message = '';
-		/*
-		console.log(action);
-		console.log(component);
-		console.log(data);
-		*/
 		if(action == 'cellEdit') {
 			message = 'Undid cellEdit for ' + component.cell.row.data.stop_id + ', ' + JSON.stringify(data);
 			reloadData();
@@ -80,9 +75,10 @@ $("#stops-table").tabulator({
 		var stop_id = cell.getRow().getData().stop_id; //get corresponding stop_id for that cell. Can also use cell.getRow().getIndex()
 		mapPop(stop_id);
 		logmessage('Changed "' + cell.getOldValue() + '" to "' + cell.getValue() + '" for stop_id: ' + stop_id);
-    }
+	}
 });
 
+console.log('dataFiltered had better not get called before this log!');
 // #################################
 // . load stops
 
@@ -160,8 +156,16 @@ var stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 .on('click',markerOnClick);
 
 // adding buttons to zoom to show all stops
-L.easyButton('<span class="mapButton">&curren;</span>', function(btn, map){
-	map.fitBounds(stopsLayer.getBounds(), {padding:[20,20]});
+// L.easyButton('<span class="mapButton" title="fit all points">&curren;</span>', function(btn, map){
+L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+	//map.fitBounds(stopsLayer.getBounds(), {padding:[20,20]});
+	reloadMap('firstTime',false);
+}).addTo(map);
+
+//L.easyButton('<font size="5">&#9782;</font>', function(btn, map){
+L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to filter by table view">', function(btn, map){
+	console.log('filter!');
+	reloadMap('firstTime',true);
 }).addTo(map);
 
 
@@ -211,6 +215,7 @@ $("#stop2delete").bind("change keyup", function(){
 	this.value=this.value.toUpperCase();
 });
 
+
 // onkeyup="this.value=this.value.toUpperCase()"
 
 //Delete stop
@@ -226,70 +231,17 @@ $("#removeStop").on("click", function(){
 	reloadData();
 });
 
+/* deprecated
 // Reset sorting
 $("#resetSort").on("click", function(){
 	console.log('attempting clearSort');
 	$("#stops-table").tabulator("clearSort");
 });
-
-// Testing if scrollToRow is working
-$("#test").on("click", function(){
-	$("#stops-table").tabulator("scrollToRow", 'MACE');
-	$("#stops-table").tabulator("selectRow", 'MACE');
-});
-
-
-
-	/* Functions */
-/* // deprecated here, keep for other csv reading versions
-function loadFromCsv(chosen1,mode='setData') {
-	// Note: Consider this temporary. Probably we'll have python doing this job.
-	// chosen1 will be the file path, mode will be setData or other option for possible appending
-	Papa.parse(chosen1, {
-		download: true,
-		header: true,
-		dynamicTyping: true,
-		skipEmptyLines: true,
-		complete: function(results) {
-			console.log('loaded',chosen1);
-			logmessage('loaded ' + chosen1);
-
-			initiateStops(results.data, mode);
-
-		}, // END of Papa.parse complete() function
-		
-		error: function() {
-			console.log("Error. Could not load", chosen1);
-			logmessage("Error. Could not load "+ chosen1);
-			
-		}
-	}); // END of Papa.parse
-	
-}
-*/
-
-/* Deprecated, function for saving local file.
-$("#saveCSV").on("click", function(){
-	// Adapted from https://stackoverflow.com/a/35251739/4355695
-	var csvContent = Papa.unparse( $('#dump').val() );
-	var blob = new Blob([csvContent], {type: "text/plain"});
-	var dlink = document.createElement('a');
-	dlink.download = 'stops.txt'
-	dlink.href = window.URL.createObjectURL(blob);
-	dlink.onclick = function(e) {
-	// revokeObjectURL needs a delay to work properly
-	var that = this;
-	setTimeout(function() {
-		window.URL.revokeObjectURL(that.href);
-	}, 1500);
-	};
-	dlink.click();
-	dlink.remove();
-});
-
 */
 
 // ##############################
+/* Functions */
+
 // Update or Add to table
 function updateTable() {
 	latlng = document.getElementById('newlatlng').value.split(',');
@@ -348,21 +300,16 @@ function getPythonStops() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded all stops data from Server API/allStops .`);
 			var data = JSON.parse(xhr.responseText);
-			initiateStops(data);
+			$("#stops-table").tabulator('setData',data); 
+			reloadData('firstTime');
 		}
 		else {
-			console.log('Server request to API/allStops for all stops failed.  Returned status of ' + xhr.status + '\nLoading backup.');
-			var backup = [{"stop_id":"ALVA","stop_name":"Aluva","stop_lat":10.1099,"stop_lon":76.3495,"zone_id":"ALVA","wheelchair_boarding":1},{"stop_id":"PNCU","stop_name":"Pulinchudu","stop_lat":10.0951,"stop_lon":76.3466,"zone_id":"PNCU","wheelchair_boarding":1},{"stop_id":"CPPY","stop_name":"CompanyPady","stop_lat":10.0873,"stop_lon":76.3428,"zone_id":"CPPY","wheelchair_boarding":1},{"stop_id":"ATTK","stop_name":"Ambattukavu","stop_lat":10.0793,"stop_lon":76.3389,"zone_id":"ATTK","wheelchair_boarding":1},{"stop_id":"MUTT","stop_name":"Muttom","stop_lat":10.0727,"stop_lon":76.3336,"zone_id":"MUTT","wheelchair_boarding":1},{"stop_id":"KLMT","stop_name":"Kalamassery","stop_lat":10.0586,"stop_lon":76.322,"zone_id":"KLMT","wheelchair_boarding":1},{"stop_id":"CCUV","stop_name":"Cusat","stop_lat":10.0467,"stop_lon":76.3182,"zone_id":"CCUV","wheelchair_boarding":1},{"stop_id":"PDPM","stop_name":"Pathadipalam","stop_lat":10.0361,"stop_lon":76.3144,"zone_id":"PDPM","wheelchair_boarding":1},{"stop_id":"EDAP","stop_name":"Edapally Jn.","stop_lat":10.0251,"stop_lon":76.3083,"zone_id":"EDAP","wheelchair_boarding":1},{"stop_id":"CGPP","stop_name":"Changampuzha Park","stop_lat":10.0152,"stop_lon":76.3023,"zone_id":"CGPP","wheelchair_boarding":1},{"stop_id":"PARV","stop_name":"Palarivattom","stop_lat":10.0064,"stop_lon":76.3048,"zone_id":"PARV","wheelchair_boarding":1},{"stop_id":"JLSD","stop_name":"JLN Stadium","stop_lat":10.0002,"stop_lon":76.2989,"zone_id":"JLSD","wheelchair_boarding":1},{"stop_id":"KALR","stop_name":"Kaloor","stop_lat":9.9943,"stop_lon":76.2914,"zone_id":"KALR","wheelchair_boarding":1},{"stop_id":"LSSE","stop_name":"Lissie Jn","stop_lat":9.9914,"stop_lon":76.2884,"zone_id":"LSSE","wheelchair_boarding":1},{"stop_id":"MGRD","stop_name":"MG Road","stop_lat":9.9834,"stop_lon":76.2823,"zone_id":"MGRD","wheelchair_boarding":1},{"stop_id":"MACE","stop_name":"Maharaja College","stop_lat":9.9732,"stop_lon":76.2851,"zone_id":"MACE","wheelchair_boarding":1}];
-			initiateStops(backup);
+			console.log('Server request to API/allStops for all stops failed.  Returned status of ' + xhr.status);
 		}
 	};
 	xhr.send();
 }
 
-function initiateStops(data, mode='setData') {
-	$("#stops-table").tabulator(mode, data); 
-	reloadData('firstTime');
-}
 
 function reloadData(timeflag='normal') {
 	var data = $("#stops-table").tabulator("getData");
@@ -379,23 +326,34 @@ function reloadData(timeflag='normal') {
 	// For Add/Edit section, Auto-populate other fields on selecting a stop id
 	// have to declare it inside the reloadData() function because of Destroy command above. After destroying it needs to be re-initiated.
 	$( "#targetStopid" ).autocomplete({
-	  select: function( event, ui ) {
-	  	//console.log(ui.item.value);
-	  	stop_id = ui.item.value;
-	  	populateFields(stop_id);
-	  	mapPop(stop_id);
-	  }
+		select: function( event, ui ) {
+			//console.log(ui.item.value);
+			stop_id = ui.item.value;
+			populateFields(stop_id);
+			mapPop(stop_id);
+		}
 	});
 
 	// Map update
+	reloadMap(timeflag);
+
+}
+
+function reloadMap(timeflag='normal',filterFlag=false) {
 	stopsLayer.clearLayers();
+
+	var data = [];
+	if(filterFlag)
+		data = $("#stops-table").tabulator("getData",true); // gets filtered data from table
+	else
+		data = $("#stops-table").tabulator("getData"); // gets full data from table
+
 	loadonmap(data,stopsLayer);
 	if(timeflag == 'firstTime') {
-		map.fitBounds(stopsLayer.getBounds()); 
+		map.fitBounds(stopsLayer.getBounds(), {padding:[20,20], maxZoom:16}); 
 		//Zoom map to see all stops only the first time. Later when making changes, don't bother.
 	}
 	stopsLayer.addTo(map);
-		
 }
 
 function loadonmap(stopsjson,stopsLayer) {
@@ -406,7 +364,14 @@ function loadonmap(stopsjson,stopsLayer) {
 			//console.log('You shall not pass!', stopsjson[stoprow]);
 			continue;
 		}
-		let stopmarker = L.circleMarker([lat,lon], circleMarkerOptions);
+		//let stopmarker = L.circleMarker([lat,lon], circleMarkerOptions);
+		let stopmarker = L.marker([lat,lon], { 
+				icon: L.divIcon({
+					className: `stop-divicon`,
+					iconSize: [17, 17],
+					html: stopsjson[stoprow]['stop_id'][0]
+				}) 
+			})
 		stopmarker.properties = stopsjson[stoprow];
 		//console.log( JSON.stringify(stopmarker) );
 		stopmarker.addTo(stopsLayer);

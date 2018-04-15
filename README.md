@@ -1,7 +1,7 @@
 # static-GTFS-manager
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 1.2.0 is ready, open for Beta Testing.
+**Development Status** : V 1.3.0 is ready, open for Beta Testing.
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 

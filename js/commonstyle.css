@@ -32,6 +32,11 @@ li.nav-item > a:hover {
 .navbar {
 	padding: 0 1rem;
 }
+
+/* bringing version badge closer to brand */
+.navbar-brand {
+	margin-right: 0em;
+}
 a.currentpage {
 	background-color: #000;
 	font-weight: 200;
@@ -222,3 +227,4 @@ was interfering with well divs on main page.
 	background-color:#6cd347;
     color:#fff;
 }
+

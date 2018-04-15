@@ -4,7 +4,7 @@ import json
 import os
 import time, datetime
 
-import xmltodict, csv
+import xmltodict
 import pandas as pd
 from collections import OrderedDict
 import zipfile, zlib

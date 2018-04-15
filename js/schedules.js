@@ -126,7 +126,13 @@ $("#addTripButton").on("click", function(){
 // Functions:
 
 function getPythonTrips(route_id) {
+	$("#trips-table").tabulator('setData',[]);
+	$('#routeSelectStatus').html('');
+	
+	if(!route_id || route_id == 'No Selection') return; // exit if no route actually selected
+
 	chosenRoute = route_id; // set global variable
+	$('#routeSelectStatus').html('<span class="alert alert-warning">Loading trips for route ' + route_id + '...</span>');
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
 	xhr.open('GET', `${APIpath}trips?route=${route_id}`);
@@ -135,6 +141,7 @@ function getPythonTrips(route_id) {
 			console.log(`Loaded trips data for the chosen route from Server API/trips .`);
 			var data = JSON.parse(xhr.responseText);
 			$("#trips-table").tabulator('setData',data.trips);
+			$('#routeSelectStatus').html('<span class="alert alert-success">Loaded trips for route ' + route_id + '</span>');
 			sequenceHolder = data.sequence;
 			if(!sequenceHolder) {
 				$("#newTripHTML").html('<div class="alert alert-warning">Note: Cannot add new trips to this route right now as this route\'s sequence is not finalized yet. Please do so by visiting the <a class="btn btn-outline-info" href="routes.html">Routes section</a>.</div>');

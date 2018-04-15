@@ -1,5 +1,6 @@
 // ############################
 // CONSTANTS
+const version = 'v1.3.0';
 const APIpath = 'API/';
 // const APIpath = 'https://lit-mesa-97724.herokuapp.com/API/';
 const CURRENCY = 'INR';
@@ -10,7 +11,7 @@ const menu = { 'index.html':'Main', 'stops.html':'Stops', 'routes.html':'Routes'
 
 navBarContentStart = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
  <!-- Brand --> \
-<a class="navbar-brand" href="#">GTFS Manager</a> \
+<div class="navbar-brand"><a class="navbar-brand" href="index.html">GTFS Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + version + '</span></a></div> \
 <!-- Links --> \
 <ul class="navbar-nav">';
 
