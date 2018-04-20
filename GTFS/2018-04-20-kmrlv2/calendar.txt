@@ -1,0 +1,3 @@
+end_date,friday,monday,saturday,service_id,start_date,sunday,thursday,tuesday,wednesday
+20990101,1,1,1,WK,20180101,0,1,1,1
+20990101,0,0,0,SU,20180101,1,0,0,0

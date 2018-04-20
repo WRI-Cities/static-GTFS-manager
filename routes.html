@@ -143,6 +143,16 @@ Note: Changing the sequence for a route will not change all the trips already ex
 </div>
 </div><!-- Accordion over -->
 
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">1. Routes List</a></li>
+<li><a href="#tab2">2. Sequence</a></li>
+</ul>
+
+<!-- ROUTES -->
+<div id="tab1">
+
 <br>
 <h4>1. Routes list</h4>
 <p>Listing all the routes. You can click on any of the cells for editing. Select a row here to load its onward and return journey sequences below.</p>
@@ -150,9 +160,15 @@ Note: Changing the sequence for a route will not change all the trips already ex
 
 <div class="row" style="padding-top: 5px;">
 <div class="col-md-6">
-<p>Create a new route: <input placeholder="route_id" id="route2add" size="4"><button class="btn-primary btn-xs" id="addRoute" type="button">Add</button> <small id="routeAddStatus"></small></p>
+<p>Add a new route: <select id="agencySelect"></select>
+<!--<input placeholder="route_id" id="route2add" size="4">
+-->
+<button class="btn-primary btn-xs" id="addRoute" type="button">Add</button> <br>
+<small id="routeAddStatus">The system will auto-generate a new route_id.</small></p>
+<!--
 <p>Changes: <button class="btn-xs" id="route-undo">Undo</button> | 
 <button class="btn-xs" id="route-redo" type="button">Redo</button> &nbsp; <small></small></p>
+-->
 </div>
 
 <div class="col-md-6">
@@ -161,10 +177,19 @@ Note: Changing the sequence for a route will not change all the trips already ex
 </div>
 </div>
 
-<hr>
-</div><div class="container-fluid">
+</div>
+<!-- </div><div class="container-fluid"> -->
+
+<!-- SEQUENCE -->
+<div id="tab2">
+
 <h4>2. Sequence</h4>
-<p>Select the route from above: <b><span id="displayRouteName"></span></b></p>
+<h5>Select a route: 
+<select id="routeSelect"></select> &nbsp;&nbsp;&nbsp;&nbsp;
+<small><small id="sequenceLoadStatus"></small></small>
+</h5>
+
+<br><hr>
 
 <h5>2.1. Onward Journey (Direction 0)</h5>
 <div class="row direction0">
@@ -185,7 +210,7 @@ Note: Changing the sequence for a route will not change all the trips already ex
 <div class="overlaycontainer">
 <div id="map0"></div>
 
-<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
+<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 <h6>Shape</h6>
 <select id="shapes0List" class="chooser"></select>
 </div>
@@ -201,7 +226,8 @@ Note: Changing the sequence for a route will not change all the trips already ex
  / <button id="flipSequenceInsert" class="btn btn-outline-info" title="will NOT erase present return journey sequence; a mirror image of onward journey will be inserted at the top of the table below.">insert at top</button>
 </p>
 </div><div class="col-md-7">
-Want to set a new shape for this route? <button class="btn btn-outline-primary" id="openShapeModal">Upload Shapefile</button><br> <span id="openShapeModalStatus"></span>
+<p>Want to set a new shape for this route? <button class="btn btn-outline-primary" id="openShapeModal">Upload Shapefile</button></p> 
+<p><small><div id="openShapeModalStatus"></div></small></p>
 
 </div></div>
 
@@ -221,7 +247,7 @@ Want to set a new shape for this route? <button class="btn btn-outline-primary" 
 <div class="overlaycontainer">
 
 <div id="map1"></div>
-<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
+<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 <h6>Shape</h6>
 <select id="shapes1List" class="chooser"></select>
 </div>
@@ -235,11 +261,18 @@ Want to set a new shape for this route? <button class="btn btn-outline-primary" 
 <p><button id="saveSequence" class="btn btn-success btn-lg">Save Sequence</button> &nbsp; <span id="sequenceSaveStatus"></span></p>
 <br>
 <small>
-<p class="col-md-6 alert alert-secondary">
+<div class="col-md-8 alert alert-secondary" style="padding-right: 20px;">
+<ul><li>
 Be sure to finalize the sequence of your route and save changes to DB before proceeding to the Schedules section.
-<br>After saving, please reload the page to see all changes take effect.
-</p>
+</li><li>
+After saving, please reload the page to see all changes take effect.
+</li><li>Note: Shapes chosen here will be saved for future trips to be created; they will not be assigned to all pre-existing trips under this route. To do that, please visit the Maintenance section.
+</li></ul>
+</div>
 </small>
+
+</div> <!-- end of last tab -->
+</div> <!-- end tabs -->
 
 <br>
 <hr>

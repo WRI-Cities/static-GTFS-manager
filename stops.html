@@ -78,7 +78,7 @@ height: 400px;
 <div id="home">
 
 <div id="stops-table"></div>
-<p align="center"><br>
+<p align="center" id="undoredo" style="display:none"><br>
 
 Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo</button> | 
 <button class="btn-info btn-sm" id="history-redo" type="button">Redo</button></p>
@@ -123,8 +123,8 @@ Note: This feature is currently disabled, untill we develop a way to safely drop
 <div id="rightcontainer">
 <div id="map"></div>
 <br>
-<p>Once all edits are done, <button class="btn btn-outline-success btn-lg" id="savetable" name="savetable">Save changes to Stops</button>
-<br><small id="stopSaveStatus"></small></p>
+<p>Once all edits are done, <button class="btn btn-outline-success btn-lg" id="savetable" name="savetable">Save changes to Stops</button></p>
+<p><small id="stopSaveStatus"></small></p>
 </div>
 
 

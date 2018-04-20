@@ -179,10 +179,16 @@ def sequenceSaveDB(sequenceDBfile, route_id, data, shapes=None):
 		['ALVA','PNCU','CPPY','ATTK','MUTT','KLMT','CCUV','PDPM','EDAP','CGPP','PARV','JLSD','KALR','LSSE','MGRD'],
 		['MACE','MGRD','LSSE','KALR','JLSD','PARV','CGPP','EDAP','PDPM','CCUV','KLMT','MUTT','ATTK','CPPY','PNCU','ALVA']
 	];
+	# shapes cam be like ['S0',''] or ['',''] or ['','S1']
 	'''
 	dataToUpsert = {'route_id': route_id, '0': data[0], '1': data[1] }
 	if shapes:
-		dataToUpsert.update({ 'shape0':shapes[0], 'shape1':shapes[1] })
+		if len(shapes[0]):
+			dataToUpsert.update({ 'shape0':shapes[0] })
+		if len(shapes[1]):
+			dataToUpsert.update({ 'shape1':shapes[1] })
+	# add shapes names to sequence DB only if they are valid shape names, not if they are blank strings.
+	# solves part of https://github.com/WRI-Cities/static-GTFS-manager/issues/38
 
 	db = tinyDBopen(sequenceDBfile)
 	Item = Query()
@@ -213,26 +219,38 @@ def sequenceReadDB(sequenceDBfile, route_id):
 	sequenceArray = [ sequenceItem[0]['0'], sequenceItem[0]['1'] ]
 	print('Got the sequence from sequence db file.')
 	return sequenceArray
-	'''
+
+def sequenceFull(sequenceDBfile, route_id):
+	db = tinyDBopen(sequenceDBfile)
+	Item = Query()
 	sequenceItem = db.search(Item['route_id'] == route_id)
-	sequenceArray = [ sequenceItem[0]['0'], sequenceItem[0]['1'] ]
-	print(sequenceArray)
 	db.close()
-	return False
-	'''
+
+	if sequenceItem == []:
+		return False
+
+	sequenceArray = sequenceItem[0]
+	print('Got the sequence from sequence db file.')
+	return sequenceArray
 
 def extractSequencefromGTFS(dbfile, route_id):
+	# idea: scan for the first trip matching a route_id, in each direction, and get its sequence from stop_times. 
+	# In case it hasn't been provisioned yet in stop_times, will return empty arrays.
+
 	db = tinyDBopen(dbfile)
 	Item = Query()
 	tripsDB = db.table('trips')
 
-	# note: for AND or OR conditions within a tinDB query, have to use &,| and enclose everthing in brackets. From https://tinydb.readthedocs.io/en/latest/usage.html#query-modifiers
+	oneTrip0 = None
 
+	# note: for AND or OR conditions within a tinDB query, have to use &,| and enclose everthing in brackets. From https://tinydb.readthedocs.io/en/latest/usage.html#query-modifiers
 	check = tripsDB.contains( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )
 	if check:
 		oneTrip0 = tripsDB.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )[0]['trip_id']
 		print('oneTrip0 found: '+oneTrip0)
-	else: 
+	
+	# In case it's a brand new route and no prior trips exist, then exit with an empty sequence array.
+	if not oneTrip0:
 		# no trips found, return a blank sequence and get out!
 		print('Nothing found for oneTrip0')
 		db.close()
@@ -247,34 +265,8 @@ def extractSequencefromGTFS(dbfile, route_id):
 		# no reverse direction.. no probs, set as None
 		oneTrip1 = None
 
-	'''
-	oneTrip0 = list( filter( lambda x : x['route_id'] == route_id and x['direction_id'] == '0', tripsArray ))[0]['trip_id']		
-	oneTrip1 = list( filter( lambda x : x['route_id'] == route_id and x['direction_id'] == '1', tripsArray ))[0]['trip_id']
-	# note: for circular routes that don't have a second direction id this will result in error. Need to handle that.
-	'''
-	'''
-	stoptimesArray = readTableDB(dbfile, 'stop_times')	
-	# list comprehension: directly extracting stop_id's from stop_times full array with trip filter applied
-	sequence.append( [n['stop_id'] for n in stoptimesArray if n['trip_id'] == oneTrip0 ] )
-	sequence.append( [n['stop_id'] for n in stoptimesArray if n['trip_id'] == oneTrip1 ] )
-	'''
 	stop_timesDB = db.table('stop_times')
 
-	# commenting this out because it seems its unnecessary..
-	'''
-	check = stop_timesDB.contains(Item['trip_id'] == oneTrip0)
-	if check:
-		array0 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip0) ]
-	else:
-		array0 = []
-	
-	check = stop_timesDB.contains(Item['trip_id'] == oneTrip1)
-	# possible gamble : for circular routes, oneTrip1 will be None as per above. So this should result in check being False.
-	if check:
-		array1 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip1) ]
-	else:
-		array1 = []
-	'''
 	array0 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip0) ]
 	array1 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip1) ]
 	# if the condition doesn't work out, then these arrays will be empty arrays, won't error out.
@@ -604,7 +596,12 @@ def allShapesListFunc():
 	shapesDb = db.table('shapes')
 	allShapes = shapesDb.all()
 	db.close()
-	shapeIDsJson['all'] = list( pd.DataFrame(allShapes)['shape_id'].replace('', pd.np.nan).dropna().unique() )
+	# if there are no shapes in db, then skip the pandas command and assign empty array.
+	# should solve https://github.com/WRI-Cities/static-GTFS-manager/issues/35
+	if len(allShapes):
+		shapeIDsJson['all'] = list( pd.DataFrame(allShapes)['shape_id'].replace('', pd.np.nan).dropna().unique() )
+	else:
+		shapeIDsJson['all'] = []
 
 	db = tinyDBopen(sequenceDBfile)
 	allSequences = db.all()
@@ -617,6 +614,7 @@ def serviceIdsFunc():
 	calendarArray = readTableDB(dbfile, 'calendar')
 	service_id_list = [ n['service_id'] for n in calendarArray ]
 	return service_id_list
+
 
 def deletefromDB(dbfile,key,value,tables):
 	
@@ -632,37 +630,42 @@ def deletefromDB(dbfile,key,value,tables):
 	db = tinyDBopen(dbfile)
 	Item = Query()
 
+	# Deleting:
+
 	for tablename in tables:
 		tableDb = db.table(tablename)
 		print('removing entries from ' + tablename + ' having '+key+'='+str(value))
 		tableDb.remove(Item[key] == value)
 
+	# Zapping:
 	if key == 'shape_id':
 		# blank its entries in trips table
 		# https://tinydb.readthedocs.io/en/latest/usage.html#replacing-data
 		tableDb = db.table('trips')
 		rows = tableDb.search(Item['shape_id'] == value)
-		for row in rows:
-			row['shape_id'] = ''
-		tableDb.write_back(rows)
-		print('Zapped shape_id:' + value + ' values in trips table, while keeping those rows.')
+		if len(rows):
+			for row in rows:
+				row['shape_id'] = ''
+			tableDb.write_back(rows)
+			print('Zapped shape_id: ' + value + ' values in trips table, while keeping those rows.')
 	
 	if key == 'service_id':
 		# blank its entries in trips table
 		tableDb = db.table('trips')
 		rows = tableDb.search(Item['service_id'] == value)
-		for row in rows:
-			row['service_id'] = ''
-		tableDb.write_back(rows)
-		count = tableDb.search(Item['service_id'] == value)
-		print('Trying to zap shape_id values. Now the count is ' + str(count))
+		# skip if no records. Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/41
+		if len(rows):
+			for row in rows:
+				row['service_id'] = ''
+			tableDb.write_back(rows)
+			print('Zapped service_id: ' + value + ' from ' + len(rows) + ' in trips table, while keeping those rows.')
 
 	# sequence DB
 	if key == 'route_id':
 		# drop it from sequence DB too.
 		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
-		print('Removing entires for route_id '+value +' in sequenceDB too if any.')
+		print('Removing entires for route_id: '+value +' in sequenceDB too if any.')
 		sDb.remove(sItem[key] == value)
 		sDb.close();
 
@@ -670,12 +673,53 @@ def deletefromDB(dbfile,key,value,tables):
 		# drop the stop from sequence DB too.
 		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
+		changesFlag = False
 		rows = sDb.all()
-		for row in rows:
-			row['0'][:] = ( x for x in row['0'] if x != value )
-			row['1'][:] = ( x for x in row['1'] if x != value )
-			print('Zapped stop_id ' + value + ' from sequence db for route '+ row['route_id'])
-		sDb.write_back(rows)
+
+		# do this this only if sequenceDBfile is not empty
+		if len(rows):
+			for row in rows:
+				# do zapping only if the stop is present in that sequence
+				if value in row['0']:
+					row['0'][:] = ( x for x in row['0'] if x != value )
+					changesFlag = True
+					print('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
+				if value in row['1']:
+					row['1'][:] = ( x for x in row['1'] if x != value )
+					changesFlag = True
+					print('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
+			
+			# rows loop over, now run write_back command only if there have been changes.
+			if changesFlag:
+				sDb.write_back(rows)
+		
+		sDb.close();
+
+	if key == 'shape_id':
+		# drop the shape from sequence DB too.
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		changesFlag = False
+		rows = sDb.all()
+
+		# do this this only if sequenceDBfile is not empty
+		if len(rows):
+			for row in rows:
+				# do zapping only if the stop is present in that sequence
+				if row.get('shape0',False):
+					if row['shape0'] == value:
+						row.pop('shape0', None)
+						changesFlag = True
+						print('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
+				if row.get('shape1',False):
+					if row['shape1'] == value:
+						row.pop('shape1', None)
+						changesFlag = True
+						print('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
+			
+			# rows loop over, now run write_back command only if there have been changes.
+			if changesFlag:
+				sDb.write_back(rows)
 		
 		sDb.close();
 
@@ -690,12 +734,12 @@ def deletefromDB(dbfile,key,value,tables):
 		# blank its entries in stops table
 		tableDb = db.table('stops')
 		rows = tableDb.search(Item['zone_id'] == value)
-		for row in rows:
-			row['zone_id'] = ''
-		tableDb.write_back(rows)
-		print('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
-
-	
+		# do this only if there are matching entries in stops table.
+		if len(rows):
+			for row in rows:
+				row['zone_id'] = ''
+			tableDb.write_back(rows)
+			print('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
 	
 
 	db.close()
@@ -734,11 +778,17 @@ def replaceIDfunc(valueFrom,valueTo,tableKeys):
 		key = row['key']
 		tableDb = db.table(tablename)
 		rows = tableDb.search(Item[key] == valueFrom)
-		count = str(len(rows))
+		count = len(rows)
+
+		# skip to next table-key pair if this table didn't have any matching records.
+		# Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/40
+		if not count:
+			continue
+
 		for row in rows:
 			row[key] = valueTo
 		tableDb.write_back(rows)
-		returnList.append('Replaced ' + key + ' = ' + valueFrom + ' with <b>' + valueTo + '</b> in ' + tablename + ' table, <b>' + count + '</b> rows edited.')
+		returnList.append('Replaced ' + key + ' = ' + valueFrom + ' with <b>' + valueTo + '</b> in ' + tablename + ' table, <b>' + str(count) + '</b> rows edited.')
 
 	db.close()
 

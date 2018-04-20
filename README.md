@@ -1,7 +1,7 @@
 # static-GTFS-manager
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 1.3.0 is ready, open for Beta Testing.
+**Development Status** : V 1.4.0 is ready, open for Beta Testing.
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
@@ -21,7 +21,9 @@ Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) f
 #### About the password
 Yeah.. I put that in to share a demo of the app online and keep off spam-bots. And also for basic kid-proofing. You need to type in a password at the top right corner for anything that involves edit / import / export of database. Reading is free.
 
-How to configure your own password: Run [this python3 script](https://gist.github.com/answerquest/60c3adf3c9c6fb7f0c0637ca601829a2) (on your own computer of course.. it's not going to run online). It will generate a file for you, which you have to put in the `js` folder of this repo (replace the one already there.. that's for my password.) After that, it'll be your password that works.
+How to configure your own password: Run [utilities/encrypt.py](https://github.com/WRI-Cities/static-GTFS-manager/blob/master/utilities/encrypt.py) like so:  
+`python3 encrypt.py "your-password"`  
+It will generate a file for you named `rsa_key.bin`, which you have to put in the `js` folder of this repo (replace the one already there.. that's for my password.) After that, it'll be your password that works.
 
 If you don't want to bother with all that jazz, find the `decrypt` function in `GTFSserverfunction.py` and change it to:
 ```

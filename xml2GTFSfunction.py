@@ -42,9 +42,12 @@ def xml2GTFSConvert(configdata):
 	##########################################################
 	# Loading stops lookup table from stations.csv
 	# from https://stackoverflow.com/a/38370569/4355695
+	'''
 	with open(xmlFolder + configdata.get('stations','stations.csv'), encoding='utf8') as f: 
 			stations = list(csv.DictReader(f))
-
+	'''
+	stations = pd.read_csv(xmlFolder + configdata.get('stations','stations.csv'), na_filter=False).to_dict('records')
+		
 	stations_total_distance = float( stations[ (len(stations) -1) ]['distance'] )
 	print( "Loaded stations.csv, total stops :", len(stations) )
 	
@@ -80,6 +83,7 @@ def xml2GTFSConvert(configdata):
 		routes_row['route_type'] = configdata.get('route_type',1)
 		routes_row['route_color'] = configdata.get('route_color','00B7F3')
 		routes_row['route_text_color'] = configdata.get('route_text_color','000000')
+		routes_row['agency_id'] = configdata.get('agency_id','KMRL')
 		routes_array.append(routes_row)
 
 		##########################################################
@@ -151,7 +155,7 @@ def xml2GTFSConvert(configdata):
 				last_stop_technicalname = trip['STOP'][-1]['TOP']
 				findstationrow = next((item for item in stations if (item["down_id"] == last_stop_technicalname or item["up_id"] == last_stop_technicalname) ), None)
 				trips_row['trip_headsign'] = findstationrow['stop_name']
-
+				trips_row['trip_short_name'] = trip['ENTRY_TIME'][0:5] + ' ' + trips_row['trip_headsign']
 				trips_row['direction_id'] = direction_id
 				trips_row['block_id'] = int( trip['SERVICE_ID'] ) # vehicle number is stored in "SERVICE_ID"
 				

@@ -22,13 +22,11 @@
 	padding-left: 50px;
 }
 
-#map, #fare-attributes-table {
-	width: 98%;
-}
-#map {
+#fare-rules-table {
 	height: 400px;
 }
-#fare-rules-table {
+
+#fare-rules-simple-table {
 	height: 400px;
 }
 #fare-attributes-table {
@@ -92,23 +90,56 @@ The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged h
 <br>Note: The fares model used here is targeted at the station pairs model in <a href="https://code.google.com/archive/p/googletransitdatafeed/wikis/FareExamples.wiki">Example 6 on this explainer wiki</a>. More models may be incorporated in future.
 </div>
 </div><!-- Accordion over -->
+<br>
 
 <!-- Tabs Menu -->
 <div id="tabs">
 <ul>
-<li><a href="#tab1">Fare Rules</a></li>
+<li><a href="#tab1">Fare Rules - Pivoted</a></li>
+<li><a href="#tab3">Fare Rules - Simple</a></li>
 <li><a href="#tab2">Fare Attributes</a></li>
 </ul>
 
 
-<!-- FARE RULES -->
+<!-- FARE RULES PIVOTED-->
 <div id="tab1">
 
-<h4>Fare Rules</h4>
+<h4>Fare Rules - Pivoted</h4>
 <div id="fare-rules-table">Loading Fare Rules from backend, please wait..</div><br>
-<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRulesButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
+<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRulesPivotedButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
 <p align="center"><span id="saveFareRulesStatus"></span></p>
 
+
+
+</div>
+
+<!-- FARE RULES SIMPLE-->
+<div id="tab3">
+
+<h4>Fare Rules - Simple</h4>
+<div class="row"><div class="col-md-7">
+<div id="fare-rules-simple-table"></div><br>
+
+</div><div class="col-md-5">
+
+<p>Add new Fare Rule:<br>
+Origin zone: <select id="originSelect"></select>
+&nbsp;&nbsp;&nbsp;
+Destination zone: <select id="destinationSelect"></select>
+<br>
+Route: <select id="routeSelect"></select>
+&nbsp;&nbsp;&nbsp;
+Fare Id: <select id="fareSelect"></select>
+<br></p>
+<p><button id="addFareRuleButton" class="btn btn-outline-primary btn-sm">Add Fare Rule</button> &nbsp;&nbsp;&nbsp;
+<small id="addFareRuleStatus"></small>
+</p>
+<hr>
+
+<p align="center"><button id="saveFareRulesSimpleButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
+<p align="center"><span id="saveFareRulesSimpleStatus"></span></p>
+
+</div></div>
 
 
 </div>
@@ -144,7 +175,7 @@ Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Und
 </div>
 </div> <!-- end of columns row -->
 
-</div> <!-- end of second tab -->
+</div> <!-- end of last tab -->
 </div> <!-- end tabs -->
 
 <div style="clear:both"></div>
@@ -156,6 +187,7 @@ Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Und
 </div><!-- Accordion over -->
 
 </div>
+
 <br><br><br>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/fares.js" type="text/javascript"></script>

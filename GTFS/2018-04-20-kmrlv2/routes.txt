@@ -1,0 +1,2 @@
+agency_id,route_color,route_id,route_long_name,route_short_name,route_text_color,route_type
+KMRL,00B7F3,R1,Aluva to Maharaja College,R1,000000,1

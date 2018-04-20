@@ -1,5 +1,5 @@
 distance,down_id,sr,stop_id,stop_lat,stop_lon,stop_name,stop_name_secondlang,up_id,wheelchair_boarding
-0,,1,ALVA,10.1099,76.3495,Aluva,ആലുവ,STA_COD_3106T_UP,1
+0.0,,1,ALVA,10.1099,76.3495,Aluva,ആലുവ,STA_COD_3106T_UP,1
 1.826,STA_PF_DN_PNCU,2,PNCU,10.0951,76.3466,Pulinchudu,പുളിഞ്ചോട്,STA_PF_UP_PNCU,1
 2.795,STA_PF_DN_CPPY,3,CPPY,10.0873,76.3428,CompanyPady,കമ്പനിപ്പടി,STA_PF_UP_CPPY,1
 3.779,STA_PF_DN_AATK,4,ATTK,10.0793,76.3389,Ambattukavu,അമ്പാട്ടുകാവ്,STA_PF_UP_AATK,1

@@ -20,7 +20,7 @@
 <script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
 <style>
 #trips-table{
-	height: 250px;
+	height: 350px;
 }
 
 #stop-times-table {
@@ -31,6 +31,19 @@
 	font-size: 1em;
 }
 
+#newTripHTML {
+	border-radius: 5px;
+	padding: 15px;
+	border: 1px black solid;
+	/*box-shadow:0px 0px 20px black; */
+}
+
+#shapeApplyHTML {
+	border-radius: 5px;
+	padding: 15px;
+	border: 1px black solid;
+	/*box-shadow:0px 0px 20px black; */
+}
 </style></head>
 <body>
 <div id="navBar"></div>
@@ -56,7 +69,7 @@
 </ul>
 
 
-<!-- Trips -->
+<!-- TRIPS -->
 <div id="tab1">
 
 <h5>Pick a route: <select id="routeSelect"></select> &nbsp;&nbsp;&nbsp;<small><span id="routeSelectStatus"></span></small></h5>
@@ -70,30 +83,65 @@
 <div class="col col-md-8">
 
 <div id="newTripHTML">
-<p>Create a new trip: <input placeholder="trip_id" id="trip2add" size="8"><button class="btn-primary btn-xs" id="addTripButton" type="button">Add</button> 
-<br><small id="addTripStatus"><i>Has to be unique! A new row will be added at the top of the table. Please fill in all the values appropriately.</i></small></p>
+
+<p><b>Create a new trip:</b></p>
+<!--<input placeholder="trip_short_name" id="trip2add" size="8">-->
+
+<p>Calendar service: <select id="trip_calendar"></select></p>
+<p>
+Time:<input id="trip_time" type="time" name="time">
+&nbsp;&nbsp;
+Direction: <select id="trip_direction">
+	<option value="0" selected="selected">Onward</option>
+	<option value="1">Return</option>
+	<option value="both">Both</option>
+</select>
+&nbsp;&nbsp;
+<button class="btn btn-apple btn-sm	" id="addTripButton" type="button">Add a Trip</button></p>
+
+<p><small id="addTripStatus"><i>A new row will be added at the top of the table. Please fill in all the values appropriately and then save to DB.</i></small></p>
+
 </div>
+<div id="noSequenceAlert" style="display:none" class="alert alert-warning">
+Note: Cannot add new trips to this route right now as this route's sequence is not finalized yet. Please do so by visiting the <a class="btn btn-outline-info" href="routes.html">Routes section</a>.
+</div>
+
 <br>
 <p>If you edit any trip's information, make sure to <button id="saveTrips" class="btn btn-normal" disabled>Save Trips Changes</button> before changing to another route above.</p>
 <p><span id="tripsSaveStatus"></span></p>
 
-</div><div class="col col-md-4 alert alert-info"><small>
-To delete a trip you have just added, just reload this page without saving changes.
-<br>
-To delete an existing trip saved in the db, please go to the <a href="misc.html">Miscellaneous page</a>, Maintenance tab.
-
-</small></div></div>
+</div><div class="col col-md-4">
+<div id="shapeApplyHTML" style="display:none" class="alert alert-warning">
+<p>This route has default shape(s) set:
+<br><span id="defaultShapesInfo"></span>
+<br>Would you like to apply them to all the trips?
+<br><button class="btn btn-outline-info" id="defaultShapesApplyButton">Apply shapes to all trips</button></p>
+<p id="defaultShapesApplyStatus"></p>
 
 </div>
 
-<!-- Trips -->
+</div>
+</div>
+
+<small>
+To delete a trip you have just added, just reload this page without saving changes.
+<br>
+To delete an existing trip that has already been saved in the db, please go to the <a href="misc.html">Miscellaneous page</a>, Maintenance tab.
+
+</small>
+
+</div> <!-- TRIPS tab end -->
+
+<!-- STOP_TIMES -->
 <div id="tab2">
 
 <h5>Timings</h5>
 <div class="row">
-<div class="col">
-<p>For the trip <span id="chosenTrip">[select in Trips tab]</span> chosen, <button id="loadTimingsButton" class="btn btn-sm btn-outline-primary	"><font size=5 ><b>&#8986;</b></font> click here to load timings</button>.<br><small id="loadTimingsStatus"></small></p>
-</div><div class="col alert alert-secondary"><small>
+<div class="col-md-8">
+<p>For the trip <span id="chosenTrip">[select in Trips tab]</span> chosen, 
+<button id="loadTimingsButton" class="btn btn-sm btn-outline-apple"><font size=4><b>&#8986;</b></font> click to load timings</button> <br><br>
+<small><span id="loadTimingsStatus"></span></small></p>
+</div><div class="col-md-4 alert alert-secondary"><small>
 Select a Trip from the trips table in the previous tab, then click the load button here to edit its timings in the table below. You can select a row by clicking on the left side handle.</small>
 </div>
 </div>
@@ -103,7 +151,7 @@ Select a Trip from the trips table in the previous tab, then click the load butt
 <p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings Changes</button> before changing to another trip above.</p>
 <p><small id="timingsSaveStatus"></small></p>
 <br>
-<p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to Routes page and change the sequence from there. Over here you can only edit existing trips.</p>
+<p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to Routes page and change the sequence from there.</p>
 
 </div>
 </div>
