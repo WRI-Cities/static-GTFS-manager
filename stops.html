@@ -60,17 +60,45 @@ height: 400px;
 </head>
 <body>
 <div id="navBar"></div>
-<p id="status"></p>
+<div class="container-fluid"><h2>Stops</h2>
+
+<div id="instructions" class="container">
+<h3>Instructions</h3>
+<div>
+<b>List tab:</b>
+<ul>
+<li>Click on a stop id or name for a quick edit.</li>
+<li>To select a stop in the table, click on the left side handlebar. The stop will get highlighted on the map as well.</li>
+<li>You can also click on a stop on the map to higlight its row in the table.</li>
+<li>Looking for a particular stop? You can filter the stops table by typing into the filter inputs on the column headers and pressing [Enter] key.</li>
+<li>Apply the table's filters on the map view also, by clicking the filter button on map (funnel icon).</li>
+<li>Revert the map to showing all stops by clicking the Home icon.</li>
+</ul>
+
+<b>Add/Edit tab:</b>
+<ul>
+<li>Go to the Add/Edit tab to edit the stops data.</li>
+<li>Click a stop on the map, and then the fields should auto-populate with the existing values.</li>
+<li>To change the stop's location, you can click at the new location on the map. You should see a red dot, and the lat-long values will change by themselves.</li>
+<li>Press "Click to Add/Update" to update the stops table with updated data.</li>
+<li>Similarly you can add a new stop by typing in a unique stop_id that has not already been used and following the same process.</li>
+
+<li><b>zone_id</b> field is used in <a href="fares.html">Fares Section</a>. In the station pairs model, this is typically same as stop_id.</li>
+</ul>
+
+<p>More info: <a href="https://developers.google.com/transit/gtfs/reference/#stopstxt" target="_blank">GTFS stops specs</a></p>
+</div></div><!-- Accordion over -->
+<br>
+</div>
+
 <div id="allcontainer">
 <div class="container" id="leftcontainer">
-<h2>Stops</h2>
 
 <!-- Tabs Menu -->
 <div id="tabs">
 <ul>
 <li><a href="#home">List</a></li>
 <li><a href="#addeditstop">Add / Edit</a></li>
-<li><a href="#delete">Delete</a></li>
 </ul>
 
 
@@ -103,39 +131,18 @@ Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo
 <p><button class="btn-primary btn-lg" onclick="updateTable()" type="button">Click to add/update</button></p>
 </div>
 
-
-<!-- DELETE -->
-<div id="delete">
-Note: This feature is currently disabled, untill we develop a way to safely drop the deleted stop from all the routes, sequences, trips it is on.
-<!--
-<h3>Delete a stop..</h3>
-<p>Pick a stop to remove by Id: <input autocapitalize="characters" class="autocomplete" id='stop2delete' placeholder='stop id'></p>
-<small>You can also click on a stop on the map to select.</small>
-
-<p align="center"><button class="btn-danger btn-lg" id="removeStop">Click to Delete Stop</button></p>
--->
-</div>
-
-
 </div>
 </div>
 
 <div id="rightcontainer">
 <div id="map"></div>
 <br>
-<p>Once all edits are done, <button class="btn btn-outline-success btn-lg" id="savetable" name="savetable">Save changes to Stops</button></p>
+<p>Once all edits are done, <button class="btn btn-success" id="savetable" name="savetable">Save Stops to DB</button></p>
 <p><small id="stopSaveStatus"></small></p>
 </div>
 
 
 <div style="clear:both"></div>
-
-<div id="instructions" class="container">
-<h3>Instructions</h3>
-<div>
-<p>Click on a stop id or name for a quick edit. click anywhere else on the row to highlight the stop in the map.</p>
-</div></div><!-- Accordion over -->
-<br>
 <div id="logaccordion" class="container">
 <h3>Changes Log</h3>
 <div>
@@ -143,8 +150,6 @@ Note: This feature is currently disabled, untill we develop a way to safely drop
 </p>
 
 </div></div><!-- Accordion over -->
-
-
 
 <br><br>
 </div>

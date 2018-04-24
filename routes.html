@@ -18,6 +18,7 @@
 <script src="lib/jquery-ui.min.js" type="text/javascript"></script>
 <script src="lib/leaflet.js"></script>
 <script src="lib/leaflet.textpath.js"></script>
+<script src="lib/leaflet-ant-path.js"></script>
 <script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 <script src="lib/tabulator.min.js" type="text/javascript"></script>
 <script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -122,27 +123,28 @@ input[type=checkbox]#reverseCheck {
 <div id="instructions">
 <h3>Instructions</h3>
 <div>
-<p><b>A. Managing routes:</b><br>
+<p><b>A. Routes Tab:</b><br>
 1. Click on the cells of the first table to edit them.<br>
 2. You can add new routes through the blue Add button just below the table. <br>
 3. Save changes when done with the big green "Save.." button.</p>
-<p><b>B. Managing sequence and shape of a route:</b><br>
-1. Select a route in the first table by clicking on the route_id column or the leftmost handle.<br>
-2. This will make the program populate the next sections below. Scroll down to see your route's onward and return journey laid out in two separate sections as table and map.<br>
+
+<p><b>B. Sequence Tab:</b><br>
+1. Pick a route from the dropdown.<br>
+2. This will make the program populate the tables and maps. Scroll down to see your route's onward and return journey laid out in map and tabular form<br>
 3. You can alter a route's sequence by dragging stops in the sequence table up or down by clicking on and holding the handlebars on their left edge. Add more stops to your route with the small selector below each table. <br>
 4. Every time you move stops, the map on the right will update to reflect the new order. Zoom in to the map by using the zoom controls on the map's top left corner.<br>
 5. Clicking on a stop on either map or table will highlight it in both map and table.<br>
-6. There is a Shape menu floating on the map on top right corner. Click on the dropdown to change the shape. You will see the shape on the map as a line connecting the stops. See the arrow to know the direction.<br>
-7. If you have drawn out the route in a shapefile (having a chain of co-ordinates, called PolyLine), then you can upload it with the "Upload Shapefile" button that appears between the two maps.<br>
-8. If you are designing a new route and have finished laying out the onwards journey, then clicking one of the buttons under "Mirror onward journey" will make an opposite sequence of it in the Return journey table.<br>
+6. There is a Shape menu floating on the map on top right corner. Click on the dropdown to change the shape. If loaded, you will see the shape on the map as a line connecting the stops. See the arrow to know the direction (may need to zoom in a bit to see it clearly).<br>
+7. If you have drawn out the route in a shapefile (having a chain of co-ordinates, called PolyLine), then you can upload it with the "Upload Shapefile" button that appears just below the first (onward) map and above the second (return) map.<br>
+8. If you are designing a new route and have finished laying out the onwards journey by adding stops in sequence, then clicking one of the buttons under "Mirror onward journey" will make an opposite sequence of it in the Return journey table.<br>
 7. Save the Sequence with the big green button at the bottom when done.<br>
 </p>
 
 <p>
-Note: Changing the sequence for a route will not change all the trips already existing under this route. The new sequence will reflect only when you create new trips. GTFS standard doesn't store a default stops sequence for a route, so this program is storing it in a separate database file called sequences.json.</p>
+Note: Changing the default sequence for a route will not change all the trips already existing under this route. The new sequence will reflect only when you create new trips. GTFS standard doesn't store a default stops sequence for a route, so this program is storing it in a separate database file called sequences.json.</p>
 </div>
 </div><!-- Accordion over -->
-
+<hr>
 <!-- Tabs Menu -->
 <div id="tabs">
 <ul>
@@ -161,18 +163,16 @@ Note: Changing the sequence for a route will not change all the trips already ex
 <div class="row" style="padding-top: 5px;">
 <div class="col-md-6">
 <p>Add a new route: <select id="agencySelect"></select>
-<!--<input placeholder="route_id" id="route2add" size="4">
--->
 <button class="btn-primary btn-xs" id="addRoute" type="button">Add</button> <br>
 <small id="routeAddStatus">The system will auto-generate a new route_id.</small></p>
-<!--
+<!-- commenting out undo-redo for now
 <p>Changes: <button class="btn-xs" id="route-undo">Undo</button> | 
 <button class="btn-xs" id="route-redo" type="button">Redo</button> &nbsp; <small></small></p>
 -->
 </div>
 
 <div class="col-md-6">
-<button id="saveRoutes" class="btn btn-success btn-lg">Save Routes</button> <small id="routeSaveStatus"></small>
+<button id="saveRoutes" class="btn btn-success btn-lg">Save Routes to DB</button> <small id="routeSaveStatus"></small>
 <br><small>Be sure to save changes before proceeding to next tabs.</small>
 </div>
 </div>
@@ -197,9 +197,6 @@ Note: Changing the sequence for a route will not change all the trips already ex
 
 <div id="sequence-0-table"></div>
 <p style="padding-top: 5px;">
-<!--
-<input placeholder="stop_id" class="stop_id" id="stop2add-0" size="4">
--->
 <select id="stopChooser0" class="stopChooser"></select>
  <button class="btn-primary btn-xs" id="add-0" type="button">Add</button></p>
 
@@ -222,8 +219,8 @@ Note: Changing the sequence for a route will not change all the trips already ex
 <br>
 <div class="row" style="padding-top: 10px; border: 1px solid;" >
 <div class="col-md-5">
-<p>Mirror onward journey: <button id="flipSequenceReplace" class="btn btn-outline-danger" title="will erase present return journey sequence and put a mirror image of onward journey as return journey.">replace</button>
- / <button id="flipSequenceInsert" class="btn btn-outline-info" title="will NOT erase present return journey sequence; a mirror image of onward journey will be inserted at the top of the table below.">insert at top</button>
+<p>Mirror onward journey: <button id="flipSequenceReplace" class="btn btn-outline-danger" title="Will turn the return journey (the table below) into a mirror image of the onward journey (the table above)" data-toggle="tooltip" data-placement="top">replace</button>
+ / <button id="flipSequenceInsert" class="btn btn-outline-info" title="will NOT erase present return journey sequence; a mirror image of onward journey will be inserted at the top of the table below." data-toggle="tooltip" data-placement="top">insert</button>
 </p>
 </div><div class="col-md-7">
 <p>Want to set a new shape for this route? <button class="btn btn-outline-primary" id="openShapeModal">Upload Shapefile</button></p> 
@@ -258,7 +255,7 @@ Note: Changing the sequence for a route will not change all the trips already ex
 </div>
 
 <br>
-<p><button id="saveSequence" class="btn btn-success btn-lg">Save Sequence</button> &nbsp; <span id="sequenceSaveStatus"></span></p>
+<p><button id="saveSequence" class="btn btn-success btn-lg">Save Sequence to DB</button> &nbsp; <span id="sequenceSaveStatus"></span></p>
 <br>
 <small>
 <div class="col-md-8 alert alert-secondary" style="padding-right: 20px;">

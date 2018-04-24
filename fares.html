@@ -80,14 +80,33 @@ small { line-height: 0.2em; }
 <div class="container">
 <h3>Fares</h3>
 
-<div id="accordion">
+<div id="instructions">
 <h3>Instructions</h3>
 <div>
-The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged here in a 2-D matrix. <br>You can change the fares by clicking on them. <br>The fare's values can be set in the Fare Attributes tab.
-<br>Reference: <a href="https://developers.google.com/transit/gtfs/reference/#fare_rulestxt" target="_blank">GTFS fare rules specs</a>
-<br>Use the Undo button to undo changes. To revert to the last saved version, simply reload this page.
+<b>Fare Rules - Pivoted View</b>
+<br><ul>
+<li>The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged here in a 2-D matrix.</li>
+<li>You can change the fares by clicking on them.</li>
+<li>The fare's values can be changed in the Fare Attributes tab.</li>
+<li>More info: <a href="https://developers.google.com/transit/gtfs/reference/#fare_rulestxt" target="_blank">GTFS fare rules specs</a></li>
+</ul>
+<br>
+<b>Fare Rules - Simple View</b>
+<ul>
+<li>This is a linear (and original table) view of the same data seen in Pivoted View tab.</li>
+<li>Here you can add more fare rules or delete existing ones.</li>
+<li>More info: <a href="https://developers.google.com/transit/gtfs/reference/#fare_rulestxt" target="_blank">GTFS fare rules specs</a></li>
+</ul>
 
-<br>Note: The fares model used here is targeted at the station pairs model in <a href="https://code.google.com/archive/p/googletransitdatafeed/wikis/FareExamples.wiki">Example 6 on this explainer wiki</a>. More models may be incorporated in future.
+<br>
+<b>Fare Attributes</b>
+<ul>
+<li>The fare_id's used in Fare Rules tabs are defined here.</li>
+<li>Each fare_id represents a ticket cost and other details.</li>
+<li>More info: <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank">GTFS fare attributes specs</a></li>
+</ul>
+
+<br>Note: The fares structure used here is targeted at the station pairs model in <a href="https://code.google.com/archive/p/googletransitdatafeed/wikis/FareExamples.wiki">Example 6 on this explainer wiki</a>. More models may be incorporated in future.
 </div>
 </div><!-- Accordion over -->
 <br>
@@ -95,8 +114,8 @@ The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged h
 <!-- Tabs Menu -->
 <div id="tabs">
 <ul>
-<li><a href="#tab1">Fare Rules - Pivoted</a></li>
-<li><a href="#tab3">Fare Rules - Simple</a></li>
+<li><a href="#tab1">Fare Rules - Pivoted View</a></li>
+<li><a href="#tab3">Fare Rules - Simple View</a></li>
 <li><a href="#tab2">Fare Attributes</a></li>
 </ul>
 
@@ -106,7 +125,7 @@ The zone_id's defined in <a href="stop.html">Stops Management</a> are arranged h
 
 <h4>Fare Rules - Pivoted</h4>
 <div id="fare-rules-table">Loading Fare Rules from backend, please wait..</div><br>
-<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRulesPivotedButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
+<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo" >Redo</button> | <button id="saveFareRulesPivotedButton" class="btn btn-outline-success btn-lg">Save Fare Rules to DB</button></p>
 <p align="center"><span id="saveFareRulesStatus"></span></p>
 
 
@@ -167,10 +186,12 @@ Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Und
 
 <p>Pick or create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare id' size="5"></p>
 <p>Set a price: <input id='price' type="number" style="width:50px;"> INR => <button id="addEditFare" class="btn btn-outline-primary btn-sm">Add or Edit Fare</button></p>
+<!--
 <p>Or, <button id="deleteFare" class="btn btn-outline-danger btn-sm">Delete Fare</button></p>
+-->
 <small id="fareAttrStatus"></small>
 <hr>
-<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes</button> <span id="saveFareAttributesStatus"></span>
+<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes to DB</button> <span id="saveFareAttributesStatus"></span>
 
 </div>
 </div> <!-- end of columns row -->
@@ -179,6 +200,7 @@ Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Und
 </div> <!-- end tabs -->
 
 <div style="clear:both"></div>
+<!--
 <div id="logaccordion">
 <h3>Changes Log</h3>
 <div>

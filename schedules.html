@@ -53,9 +53,28 @@
 <div id="accordion">
 <h4>Instructions</h4>
 <div>
-<p>Select a Route. Then, select a Trip under the Route. After that you can go to the second tab to load the timings for that trip.</p>
+<b>Trips tab</b>
+<ul>
+<li>Pick a Route from the dropdown. In some time, all the trips under this route will load.</li>
+<li>In case it's a new route, the table will be empty.</li>
+<li>If the chosen route's default sequence has been saved to the DB in the Routes page Sequence tab, then a "Create new trip" box will be visible below the table.</li>
+<li>You can create a new trip by filling in or selecting the fields provided : Calendar service, start time, direction.</li>
+<li>On clicking "Add a Trip", new entry will be created in the Trips table.</li>
+<li>Many columns will be populated based on your selection, but you can change the values (other than route and trip ids) by clicking on the respective cells.</li>
+<li>If you have set default shapes for this route in Routes page, then below the table on the right you will have options to assign these shapes to all the trips under the chosen route, repsectively by direction.</li>
+<li><b>block_id</b> field is for the vehicle indentifier.</li>
+<li>To access a trip's timings, select a trip (click on left side handle) and move to Timings tab.</li>
+<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
+</ul>
+<b>Timings tab</b>
+<ul>
+<li>The trip you have chosen will be displayed in green. Click the "load timings" button.</li>
+<li>In some seconds the timings should load in the table</li>
+<li>You can edit some columns like arrival_time and departure_time, and other columns on left side are fixed.</li>
+<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
+</ul>	
 <p>Read the <a href="https://developers.google.com/transit/gtfs/reference/#tripstxt">trips reference</a> docs for learning more about trips, and read the <a href="https://developers.google.com/transit/gtfs/reference/#stop_timestxt">stop_times reference</a> for learning more about the way the timings data is stored in GTFS.</p>
-<p>Note: Arrival time and departure time must be specified for the first and the last stop in a trip; rest may be left blank. (if so, set timepoint to 0 ).
+<p>Note: Arrival time and departure time must be specified for the first and the last stop in a trip; rest may be left blank. (if so, set timepoint to 0-Estimated ).
 
 </div>
 </div><!-- Accordion over -->
@@ -107,7 +126,7 @@ Note: Cannot add new trips to this route right now as this route's sequence is n
 </div>
 
 <br>
-<p>If you edit any trip's information, make sure to <button id="saveTrips" class="btn btn-normal" disabled>Save Trips Changes</button> before changing to another route above.</p>
+<p>If you edit any trip's information, make sure to <button id="saveTrips" class="btn btn-normal" disabled>Save Trips to DB</button> before changing to another route above.</p>
 <p><span id="tripsSaveStatus"></span></p>
 
 </div><div class="col col-md-4">
@@ -148,7 +167,7 @@ Select a Trip from the trips table in the previous tab, then click the load butt
 
 <div id="stop-times-table"></div>
 <br>
-<p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings Changes</button> before changing to another trip above.</p>
+<p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings to DB</button> before changing to another trip above.</p>
 <p><small id="timingsSaveStatus"></small></p>
 <br>
 <p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to Routes page and change the sequence from there.</p>

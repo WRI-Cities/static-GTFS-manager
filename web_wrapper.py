@@ -1,5 +1,9 @@
-import tornado.ioloop
+print('static GTFS Manager')
+print('Fork it on Github: https://github.com/WRI-Cities/static-GTFS-manager/')
+print('Starting up the program, loading dependencies, please wait...\n\n')
+
 import tornado.web
+import tornado.ioloop
 import json
 import os
 import time, datetime
@@ -24,13 +28,25 @@ dbfile = 'GTFS/db.json'
 sequenceDBfile = 'GTFS/sequence.json'
 uploadFolder = 'uploads/'
 xmlFolder = 'xml_related/'
-passwordFile = 'js/rsa_key.bin'
+logFolder = 'logs/'
+passwordFile = 'pw/rsa_key.bin'
 thisURL = ''
+
+# create folders if they don't exist
+if not os.path.exists(uploadFolder):
+	os.makedirs(uploadFolder)
+
+if not os.path.exists(xmlFolder):
+	os.makedirs(xmlFolder)
+
+if not os.path.exists(logFolder):
+	os.makedirs(logFolder)
 
 # importing GTFSserverfunctions.py, embedding it inline to avoid re-declarations etc
 exec(open("./GTFSserverfunctions.py", encoding='utf8').read())
 exec(open("./xml2GTFSfunction.py", encoding='utf8').read())
 
+logmessage('Loaded dependences, starting static GTFS Manager program.')
 
 '''
 class APIHandler(tornado.web.RequestHandler):
@@ -62,7 +78,7 @@ class allStops(tornado.web.RequestHandler):
 		self.write(json.dumps(allStopsArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/allStops GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("allStops GET call took {} seconds.".format(round(end-start,2)))
 		
 	def post(self):
 		start = time.time()
@@ -79,7 +95,7 @@ class allStops(tornado.web.RequestHandler):
 			self.write('Saved stops data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/allStops POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("allStops POST call took {} seconds.".format(round(end-start,2)))
 
 	def set_default_headers(self):
 		self.set_header("Access-Control-Allow-Origin", "*")
@@ -110,7 +126,7 @@ class allStopsKeyed(tornado.web.RequestHandler):
 		self.write(json.dumps(array2))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/allStopsKeyed GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("allStopsKeyed GET call took {} seconds.".format(round(end-start,2)))
 
 		
 class allRoutes(tornado.web.RequestHandler):
@@ -124,7 +140,7 @@ class allRoutes(tornado.web.RequestHandler):
 		self.write(json.dumps(allRoutesArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/allRoutes GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("allRoutes GET call took {} seconds.".format(round(end-start,2)))
 
 
 class fareAttributes(tornado.web.RequestHandler):
@@ -139,7 +155,7 @@ class fareAttributes(tornado.web.RequestHandler):
 		self.write(json.dumps(fareAttributesArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/fareAttributes GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("fareAttributes GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		# API/fareAttributes
@@ -160,7 +176,7 @@ class fareAttributes(tornado.web.RequestHandler):
 			self.write("Error: could not save to DB.")
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("API/fareAttributes POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("API/fareAttributes POST call took {} seconds.".format(round(end-start,2)))
 
 class fareRules(tornado.web.RequestHandler):
 	def get(self):
@@ -170,7 +186,7 @@ class fareRules(tornado.web.RequestHandler):
 		self.write(json.dumps(fareRulesSimpleArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/fareRules GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("fareRules GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		# API/fareRules
@@ -191,7 +207,7 @@ class fareRules(tornado.web.RequestHandler):
 			self.write("Error: could not save to DB.")
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("API/fareRules POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("API/fareRules POST call took {} seconds.".format(round(end-start,2)))
 
 class fareRulesPivoted(tornado.web.RequestHandler):
 	def get(self):
@@ -201,7 +217,8 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 		# do pivoting operation only if there is data. Else send a blank array. 
 		# Solves part of https://github.com/WRI-Cities/static-GTFS-manager/issues/35
 		if len(fareRulesArray):
-			df = pd.DataFrame(fareRulesArray)
+			df = pd.DataFrame(fareRulesArray).drop_duplicates()
+			# skipping duplicate entries if any, as pivoting errors out if there are duplicates.
 			fareRulesPivotedArray = df.pivot(index='origin_id', columns='destination_id', values='fare_id').reset_index().rename(columns={'origin_id':'zone_id'}).to_dict(orient='records', into=OrderedDict)
 		else:
 			fareRulesPivotedArray = []
@@ -217,7 +234,7 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 		self.write( json.dumps(fareRulesPivotedArray) )
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("fareRulesPivoted GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("fareRulesPivoted GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		# API/fareRulesPivoted?pw=${pw}
@@ -251,7 +268,7 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 			self.write("Error: could not save to DB.")
 		
 		end = time.time()
-		print("API/fareAttributes POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("API/fareAttributes POST call took {} seconds.".format(round(end-start,2)))
 
 
 class agency(tornado.web.RequestHandler):
@@ -261,7 +278,7 @@ class agency(tornado.web.RequestHandler):
 		self.write(json.dumps(agencyArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/agency GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("agency GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		start = time.time()
@@ -277,7 +294,7 @@ class agency(tornado.web.RequestHandler):
 			self.write('Saved Agency data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/saveAgency POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("saveAgency POST call took {} seconds.".format(round(end-start,2)))
 
 
 class saveRoutes(tornado.web.RequestHandler):
@@ -290,14 +307,14 @@ class saveRoutes(tornado.web.RequestHandler):
 			return 
 		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
 		data = json.loads( self.request.body.decode('UTF-8') )
-		# print(data)
+		# logmessage(data)
 		# csvwriter(data,'routes.txt')
 		# writing back to db now
 		if replaceTableDB(dbfile, 'routes', data): #replaceTableDB(dbfile, tablename, data)
 			self.write('Saved routes data to DB')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/saveRoutes POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("saveRoutes POST call took {} seconds.".format(round(end-start,2)))
 
 
 class sequence(tornado.web.RequestHandler):
@@ -319,7 +336,7 @@ class sequence(tornado.web.RequestHandler):
 		message = '<span class="alert alert-success">Loaded default sequence for this route from DB.</span>'
 
 		if not sequence:
-			print('sequence not found in sequence DB file, so extracting from gtfs tables instead.')
+			logmessage('sequence not found in sequence DB file, so extracting from gtfs tables instead.')
 			# Picking the first trip instance for each direction of the route.
 			sequence = extractSequencefromGTFS(dbfile, route_id)
 
@@ -337,7 +354,7 @@ class sequence(tornado.web.RequestHandler):
 		self.write(json.dumps(returnJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/sequence GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("sequence GET call took {} seconds.".format(round(end-start,2)))
 
 
 	#using same API endpoint, post request for saving.
@@ -379,7 +396,7 @@ class sequence(tornado.web.RequestHandler):
 			self.write("Error, could not save to sequence db for some reason.")
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("API/sequence POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("API/sequence POST call took {} seconds.".format(round(end-start,2)))
 
 
 class trips(tornado.web.RequestHandler):
@@ -403,7 +420,7 @@ class trips(tornado.web.RequestHandler):
 		self.write(json.dumps(returnJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/trips GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("trips GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		start  = time.time() # time check, from https://stackoverflow.com/a/24878413/4355695
@@ -431,7 +448,7 @@ class trips(tornado.web.RequestHandler):
 			self.write("Some error happened.")
 		
 		end = time.time()
-		print("/API/trips POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("trips POST call took {} seconds.".format(round(end-start,2)))
 
 
 class stopTimes(tornado.web.RequestHandler):
@@ -465,12 +482,12 @@ class stopTimes(tornado.web.RequestHandler):
 
 		# let's send back not just the array but even the message to display.
 		returnJson = {'data':stoptimesArray, 'message':returnMessage, 'newFlag':newFlag }
-		print(returnJson['message'])
+		logmessage(returnJson['message'])
 
 		self.write(json.dumps(returnJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/stopTimes GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("stopTimes GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		start  = time.time() # time check, from https://stackoverflow.com/a/24878413/4355695
@@ -498,7 +515,7 @@ class stopTimes(tornado.web.RequestHandler):
 			self.write("Some error happened.")
 		
 		end = time.time()
-		print("/API/stopTimes POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("stopTimes POST call took {} seconds.".format(round(end-start,2)))
 
 
 class routeIdList(tornado.web.RequestHandler):
@@ -512,7 +529,7 @@ class routeIdList(tornado.web.RequestHandler):
 		self.write(json.dumps(route_id_list))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/routeIdList GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("routeIdList GET call took {} seconds.".format(round(end-start,2)))
 
 class tripIdList(tornado.web.RequestHandler):
 	def get(self):
@@ -524,7 +541,7 @@ class tripIdList(tornado.web.RequestHandler):
 		self.write(json.dumps(trip_id_list))
 		db.close()
 		end = time.time()
-		print("/API/tripIdList GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("tripIdList GET call took {} seconds.".format(round(end-start,2)))
 
 
 class calendar(tornado.web.RequestHandler):
@@ -537,7 +554,7 @@ class calendar(tornado.web.RequestHandler):
 		self.write(json.dumps(calendarArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/calendar GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("calendar GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		# API/calendar?pw=${pw}
@@ -556,7 +573,7 @@ class calendar(tornado.web.RequestHandler):
 		self.write('Saved Calendar data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/calendar POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("calendar POST call took {} seconds.".format(round(end-start,2)))
 
 
 class serviceIds(tornado.web.RequestHandler):
@@ -566,7 +583,7 @@ class serviceIds(tornado.web.RequestHandler):
 		service_id_list = serviceIdsFunc()
 		self.write(json.dumps(service_id_list))
 		end = time.time()
-		print("/API/serviceIds GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("serviceIds GET call took {} seconds.".format(round(end-start,2)))
 
 class stats(tornado.web.RequestHandler):
 	def get(self):
@@ -609,7 +626,7 @@ class commitExport(tornado.web.RequestHandler):
 		
 		self.write(finalmessage)
 		end = time.time()
-		print("commitExport GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("commitExport GET call took {} seconds.".format(round(end-start,2)))
 
 
 class pastCommits(tornado.web.RequestHandler):
@@ -631,7 +648,7 @@ class pastCommits(tornado.web.RequestHandler):
 		writeback = { "commits": dirnames }
 		self.write(json.dumps(writeback))
 		end = time.time()
-		print("pastCommits GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("pastCommits GET call took {} seconds.".format(round(end-start,2)))
 
 
 class XMLUpload(tornado.web.RequestHandler):
@@ -665,7 +682,7 @@ class XMLUpload(tornado.web.RequestHandler):
 		
 		self.write(json.dumps(returnJson))
 		end = time.time()
-		print("XMLUpload POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("XMLUpload POST call took {} seconds.".format(round(end-start,2)))
 
 class XMLDiagnose(tornado.web.RequestHandler):
 	def get(self):
@@ -696,7 +713,7 @@ class XMLDiagnose(tornado.web.RequestHandler):
 		
 		self.write(json.dumps(returnJson))
 		end = time.time()
-		print("XMLDiagnose GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("XMLDiagnose GET call took {} seconds.".format(round(end-start,2)))
 
 
 class stations(tornado.web.RequestHandler):
@@ -709,7 +726,7 @@ class stations(tornado.web.RequestHandler):
 		stationsArray = pd.read_csv(xmlFolder + "stations.csv", na_filter=False).to_dict('records')
 		self.write(json.dumps(stationsArray))
 		end = time.time()
-		print("stations GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("stations GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		start = time.time()
@@ -734,7 +751,7 @@ class stations(tornado.web.RequestHandler):
 			self.write('Saved changes to stations.csv.')
 		
 		end = time.time()
-		print("stations POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("stations POST call took {} seconds.".format(round(end-start,2)))
 
 
 class fareChartUpload(tornado.web.RequestHandler):
@@ -758,7 +775,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 		line = from_file.readline()
 		lineArray = line.split(',')
 		if lineArray[0] != 'Stations':
-			print('Fixing header on ' + fareChart + ' so the unpivot doesn\'t error out.')
+			logmessage('Fixing header on ' + fareChart + ' so the unpivot doesn\'t error out.')
 			lineArray[0] = 'Stations'
 			line = ','.join(lineArray)
 			to_file = open(targetfile,mode="w",encoding='utf8')
@@ -784,7 +801,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 		faresList = [x for x in fare_id_set if x==x]
 		faresList.sort()
 
-		print(faresList)
+		logmessage(faresList)
 
 		report = 'Loaded Fares Chart successfully.'
 
@@ -792,7 +809,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 		
 		self.write(json.dumps(returnJson))
 		end = time.time()
-		print("fareChartUpload POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("fareChartUpload POST call took {} seconds.".format(round(end-start,2)))
 
 
 class xml2GTFS(tornado.web.RequestHandler):
@@ -805,7 +822,7 @@ class xml2GTFS(tornado.web.RequestHandler):
 			self.write("Error: invalid password.")
 			return 
 		configdata = json.loads( self.request.body.decode('UTF-8') )
-		print(configdata)
+		logmessage(configdata)
 		# and so it begins! Ack lets pass it to a function.
 		try:
 			xml2GTFSConvert(configdata)
@@ -816,7 +833,7 @@ class xml2GTFS(tornado.web.RequestHandler):
 		
 		self.write(result)
 		end = time.time()
-		print("xml2GTFS POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("xml2GTFS POST call took {} seconds.".format(round(end-start,2)))
 
 
 class gtfsBlankSlate(tornado.web.RequestHandler):
@@ -832,19 +849,19 @@ class gtfsBlankSlate(tornado.web.RequestHandler):
 		# take backup first
 		backupfolder = '{:GTFS/%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
 		exportGTFS (dbfile, backupfolder)
-		print('backup made to folder '+backupfolder)
+		logmessage('backup made to folder '+backupfolder)
 
 		
 		db = tinyDBopen(dbfile)
 		db.purge_tables() # wipe out the database, clean slate.
-		print(dbfile + ' purged.')
+		logmessage(dbfile + ' purged.')
 		db.close()
 		
 		# also purge sequenceDB
 		db = tinyDBopen(sequenceDBfile)
 		
 		db.purge_tables() # wipe out the database, clean slate.
-		print(sequenceDBfile + ' purged.')
+		logmessage(sequenceDBfile + ' purged.')
 		db.close()
 		
 
@@ -854,7 +871,7 @@ class gtfsBlankSlate(tornado.web.RequestHandler):
 		
 		self.write(finalmessage)
 		end = time.time()
-		print("/API/gtfsBlankSlate GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("gtfsBlankSlate GET call took {} seconds.".format(round(end-start,2)))
 
 class translations(tornado.web.RequestHandler):
 	def get(self):
@@ -863,7 +880,7 @@ class translations(tornado.web.RequestHandler):
 		self.write(json.dumps(translationsArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("translations GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("translations GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		# API/translations?pw=${pw}
@@ -881,7 +898,7 @@ class translations(tornado.web.RequestHandler):
 		self.write('Saved Translations data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("/API/translations POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("translations POST call took {} seconds.".format(round(end-start,2)))
 
 class shapesList(tornado.web.RequestHandler):
 	def get(self):
@@ -926,7 +943,7 @@ class shapesList(tornado.web.RequestHandler):
 		db.close()
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("shapes GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("shapes GET call took {} seconds.".format(round(end-start,2)))
 
 class shape(tornado.web.RequestHandler):
 	def post(self):
@@ -940,9 +957,9 @@ class shape(tornado.web.RequestHandler):
 		route_id = self.get_argument('route', default='')
 		shapePrefix = self.get_argument('id', default='')
 		reverseFlag = self.get_argument('reverseFlag', default=False) == 'true'
-		print(route_id)
-		print(shapePrefix)
-		print(reverseFlag)
+		logmessage(route_id)
+		logmessage(shapePrefix)
+		logmessage(reverseFlag)
 
 		if not ( len(route_id) and len(shapePrefix) ):
 			self.set_status(400)
@@ -952,10 +969,10 @@ class shape(tornado.web.RequestHandler):
 		shapeArray = False
 
 		geoJson0 = uploadaFile( self.request.files['uploadShape0'][0] )
-		print(geoJson0)
+		logmessage(geoJson0)
 		if reverseFlag:
 			geoJson1 = uploadaFile( self.request.files['uploadShape1'][0] )
-			print(geoJson1)
+			logmessage(geoJson1)
 			shapeArray = geoJson2shape(shapePrefix, shapefile=(uploadFolder+geoJson0), shapefileRev=(uploadFolder+geoJson1) )
 		else:
 			shapeArray = geoJson2shape(shapePrefix, shapefile=uploadFolder+geoJson0, shapefileRev=None)
@@ -979,7 +996,7 @@ class shape(tornado.web.RequestHandler):
 
 		self.write('Saved ' + shape0 + ', ' + shape1 + ' to shapes table in DB.')
 		end = time.time()
-		print("shape POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("shape POST call took {} seconds.".format(round(end-start,2)))
 
 	def get(self):
 		# API/shape?shape=${shape_id}
@@ -1005,7 +1022,7 @@ class shape(tornado.web.RequestHandler):
 		self.write(json.dumps(sortedShapeArray))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("shape GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("shape GET call took {} seconds.".format(round(end-start,2)))
 	
 class allShapesList(tornado.web.RequestHandler):
 	def get(self):
@@ -1014,7 +1031,7 @@ class allShapesList(tornado.web.RequestHandler):
 		self.write(json.dumps(shapeIDsJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		print("allShapesList GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("allShapesList GET call took {} seconds.".format(round(end-start,2)))
 
 class listAll(tornado.web.RequestHandler):
 	def get(self):
@@ -1064,6 +1081,12 @@ class listAll(tornado.web.RequestHandler):
 		fare_attributes_array = tableDB.all()
 		fare_id_list = [ x['fare_id'] for x in fare_attributes_array ]
 
+		# agency_ids
+		# solves https://github.com/WRI-Cities/static-GTFS-manager/issues/42
+		tableDB = db.table('agency')
+		agency_array = tableDB.all()
+		agency_id_list = [ x['agency_id'] for x in agency_array ]
+
 		db.close()
 		
 		# next are repetitions of other functions		
@@ -1074,10 +1097,10 @@ class listAll(tornado.web.RequestHandler):
 		service_id_list = serviceIdsFunc()
 
 		# wrapping it all together
-		returnJson = { 'stop_id_list':stop_id_list, 'route_id_list':route_id_list, 'trip_id_list':trip_id_list, 'zone_id_list':zone_id_list, 'shapeIDsJson':shapeIDsJson, 'service_id_list': service_id_list, 'fare_id_list':fare_id_list }
+		returnJson = { 'stop_id_list':stop_id_list, 'route_id_list':route_id_list, 'trip_id_list':trip_id_list, 'zone_id_list':zone_id_list, 'shapeIDsJson':shapeIDsJson, 'service_id_list': service_id_list, 'fare_id_list':fare_id_list, 'agency_id_list':agency_id_list }
 		self.write(json.dumps(returnJson))
 		end = time.time()
-		print("listAll GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("listAll GET call took {} seconds.".format(round(end-start,2)))
 
 
 class zoneIdList(tornado.web.RequestHandler):
@@ -1103,7 +1126,7 @@ class zoneIdList(tornado.web.RequestHandler):
 		zoneList.sort()
 		self.write(json.dumps(zoneList))
 		end = time.time()
-		print("zoneIdList GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("zoneIdList GET call took {} seconds.".format(round(end-start,2)))
 
 
 class diagnoseID(tornado.web.RequestHandler):
@@ -1114,8 +1137,8 @@ class diagnoseID(tornado.web.RequestHandler):
 		value = self.get_argument('value', default='')
 		tables = self.get_argument('tables', default='').split(',')
 		secondarytables = self.get_argument('secondarytables', default='').split(',')
-		print(tables)
-		print(secondarytables)
+		logmessage(tables)
+		logmessage(secondarytables)
 		if not ( len(key) and len(value) ):
 			self.set_status(400)
 			self.write("Error: invalid parameters.")
@@ -1130,7 +1153,7 @@ class diagnoseID(tornado.web.RequestHandler):
 
 		self.write(json.dumps(returnJson) )
 		end = time.time()
-		print("diagnoseID GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("diagnoseID GET call took {} seconds.".format(round(end-start,2)))
 
 
 class deleteByKey(tornado.web.RequestHandler):
@@ -1155,7 +1178,7 @@ class deleteByKey(tornado.web.RequestHandler):
 
 		self.write('Deleted all entries for ' + key + ' = ' + value +' from tables: ' + ', '.join(tables) + ' and zapped their mentions in other tables.' )
 		end = time.time()
-		print("deleteByKey GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("deleteByKey GET call took {} seconds.".format(round(end-start,2)))
 
 
 class replaceID(tornado.web.RequestHandler):
@@ -1173,9 +1196,9 @@ class replaceID(tornado.web.RequestHandler):
 		tableKeys = json.loads( self.request.body.decode('UTF-8') )
 		# tablekeys: [ {'table':'stops','key':'stop_id'},{...}]
 		
-		print(tableKeys)
-		print(valueFrom)
-		print(valueTo)
+		logmessage(tableKeys)
+		logmessage(valueFrom)
+		logmessage(valueTo)
 
 		if not ( len(valueFrom) and len(valueTo) and len(tableKeys) ):
 			self.set_status(400)
@@ -1187,7 +1210,7 @@ class replaceID(tornado.web.RequestHandler):
 		self.write(returnMessage)
 		
 		end = time.time()
-		print("replaceID POST call took {} seconds.".format(round(end-start,2)))
+		logmessage("replaceID POST call took {} seconds.".format(round(end-start,2)))
 
 def make_app():
 	return tornado.web.Application([
@@ -1235,7 +1258,7 @@ if __name__ == "__main__":
 	app.listen(port)
 	thisURL = "http://localhost:" + str(port)
 	webbrowser.open(thisURL)
-	print("Open " + thisURL + " in your Browser if you don't see it opening automatically within 5 seconds.")
+	logmessage("Open " + thisURL + " in your Browser if you don't see it opening automatically within 5 seconds.")
 	tornado.ioloop.IOLoop.current().start()
 
 '''

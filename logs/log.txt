@@ -1,0 +1,93 @@
+2018-Apr-23 09:09:55 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-23 09:09:55 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-23 09:10:00 : GTFSstats function took 1.1 seconds.
+2018-Apr-23 09:10:00 : pastCommits GET call took 0.0 seconds.
+2018-Apr-23 09:10:16 : GTFSstats function took 1.1 seconds.
+2018-Apr-23 09:10:16 : pastCommits GET call took 0.0 seconds.
+2018-Apr-23 09:10:24 : stations GET call took 0.01 seconds.
+2018-Apr-23 09:10:31 : agency GET call took 0.15 seconds.
+2018-Apr-23 09:10:31 : translations GET call took 0.14 seconds.
+2018-Apr-23 09:10:32 : listAll GET call took 0.87 seconds.
+2018-Apr-23 09:10:32 : calendar GET call took 0.14 seconds.
+2018-Apr-23 09:10:40 : fareAttributes GET call took 0.13 seconds.
+2018-Apr-23 09:10:40 : routeIdList GET call took 0.14 seconds.
+2018-Apr-23 09:10:40 : zoneIdList GET call took 0.13 seconds.
+2018-Apr-23 09:10:40 : fareRules GET call took 0.13 seconds.
+2018-Apr-23 09:10:41 : fareRulesPivoted GET call took 0.14 seconds.
+2018-Apr-23 09:10:41 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-23 09:10:47 : allRoutes GET call took 0.14 seconds.
+2018-Apr-23 09:10:47 : calendar GET call took 0.14 seconds.
+2018-Apr-23 09:10:47 : tripIdList GET call took 0.14 seconds.
+2018-Apr-23 09:10:48 : allStopsKeyed GET call took 0.13 seconds.
+2018-Apr-23 09:10:48 : allShapesList GET call took 0.14 seconds.
+2018-Apr-23 09:11:07 : allStopsKeyed GET call took 0.13 seconds.
+2018-Apr-23 09:11:07 : allShapesList GET call took 0.14 seconds.
+2018-Apr-23 09:11:07 : allRoutes GET call took 0.13 seconds.
+2018-Apr-23 09:11:07 : agency GET call took 0.14 seconds.
+2018-Apr-23 09:11:12 : allStops GET call took 0.15 seconds.
+2018-Apr-23 09:11:18 : GTFSstats function took 1.08 seconds.
+2018-Apr-23 09:11:18 : pastCommits GET call took 0.01 seconds.
+2018-Apr-23 09:11:37 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-23 09:11:37 : agency GET call took 0.13 seconds.
+2018-Apr-23 09:11:37 : allShapesList GET call took 0.15 seconds.
+2018-Apr-23 09:11:37 : allRoutes GET call took 0.13 seconds.
+2018-Apr-23 09:11:39 : Got the sequence from sequence db file.
+2018-Apr-23 09:11:39 : sequence GET call took 0.0 seconds.
+2018-Apr-23 09:11:40 : shapes GET call took 0.24 seconds.
+2018-Apr-23 09:11:40 : shapes has 121 rows for shape_id = R1_0
+2018-Apr-23 09:11:40 : shape GET call took 0.14 seconds.
+2018-Apr-23 09:11:41 : shapes has 121 rows for shape_id = R1_1
+2018-Apr-23 09:11:41 : shape GET call took 0.15 seconds.
+2018-Apr-23 09:12:04 : Got the sequence from sequence db file.
+2018-Apr-23 09:12:04 : sequence GET call took 0.0 seconds.
+2018-Apr-23 09:12:04 : shapes GET call took 0.25 seconds.
+2018-Apr-23 09:12:05 : shapes has 121 rows for shape_id = R1_0
+2018-Apr-23 09:12:05 : shape GET call took 0.16 seconds.
+2018-Apr-23 09:12:05 : shapes has 121 rows for shape_id = R1_1
+2018-Apr-23 09:12:05 : shape GET call took 0.16 seconds.
+2018-Apr-23 09:12:48 : allRoutes GET call took 0.21 seconds.
+2018-Apr-23 09:12:48 : allShapesList GET call took 0.2 seconds.
+2018-Apr-23 09:12:48 : calendar GET call took 0.18 seconds.
+2018-Apr-23 09:12:49 : tripIdList GET call took 0.18 seconds.
+2018-Apr-23 09:12:49 : allStopsKeyed GET call took 0.18 seconds.
+2018-Apr-23 09:12:53 : trips has 376 rows for route_id = R1
+2018-Apr-23 09:12:53 : Got the sequence from sequence db file.
+2018-Apr-23 09:12:53 : trips GET call took 0.17 seconds.
+2018-Apr-23 09:13:01 : trips has 1 rows for trip_id = R1SUR195617
+2018-Apr-23 09:13:02 : stop_times has 16 rows for trip_id = R1SUR195617
+2018-Apr-23 09:13:02 : This trip has timings data in the db, so loaded that.
+2018-Apr-23 09:13:02 : stopTimes GET call took 0.35 seconds.
+2018-Apr-23 09:13:15 : GTFSstats function took 1.09 seconds.
+2018-Apr-23 09:13:15 : pastCommits GET call took 0.01 seconds.
+2018-Apr-23 09:13:29 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-23 09:13:29 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-23 09:13:32 : GTFSstats function took 1.23 seconds.
+2018-Apr-23 09:13:32 : pastCommits GET call took 0.0 seconds.
+2018-Apr-23 15:27:43 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-23 15:27:43 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-23 15:27:46 : GTFSstats function took 1.66 seconds.
+2018-Apr-23 15:27:46 : pastCommits GET call took 0.0 seconds.
+2018-Apr-24 11:57:46 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-24 11:57:46 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-24 11:57:53 : GTFSstats function took 1.24 seconds.
+2018-Apr-24 11:57:54 : pastCommits GET call took 0.37 seconds.
+2018-Apr-24 11:58:29 : allStops GET call took 0.15 seconds.
+2018-Apr-24 11:58:32 : GTFSstats function took 1.13 seconds.
+2018-Apr-24 11:58:32 : pastCommits GET call took 0.0 seconds.
+2018-Apr-24 11:58:36 : allShapesList GET call took 0.24 seconds.
+2018-Apr-24 11:58:36 : agency GET call took 0.15 seconds.
+2018-Apr-24 11:58:36 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-24 11:58:37 : allRoutes GET call took 0.13 seconds.
+2018-Apr-24 11:58:38 : allRoutes GET call took 0.14 seconds.
+2018-Apr-24 11:58:38 : allShapesList GET call took 0.15 seconds.
+2018-Apr-24 11:58:38 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-24 11:58:39 : tripIdList GET call took 0.14 seconds.
+2018-Apr-24 11:58:39 : calendar GET call took 0.13 seconds.
+2018-Apr-24 11:58:40 : trips has 376 rows for route_id = R1
+2018-Apr-24 11:58:40 : Got the sequence from sequence db file.
+2018-Apr-24 11:58:40 : trips GET call took 0.15 seconds.
+2018-Apr-24 11:58:46 : stations GET call took 0.07 seconds.
+2018-Apr-24 11:58:48 : agency GET call took 0.14 seconds.
+2018-Apr-24 11:58:48 : calendar GET call took 0.14 seconds.
+2018-Apr-24 11:58:49 : listAll GET call took 0.87 seconds.
+2018-Apr-24 11:58:49 : translations GET call took 0.14 seconds.

@@ -20,12 +20,14 @@ $("#gtfsBlankSlateButton").on("click", function(){
 // #########################################
 // Initiate bootstrap / jquery components like tabs, accordions
 $(document).ready(function(){
+	/*
 	// tabs
 	$( "#tabs" ).tabs({
 		active:0
 	}); 
 	// popover
 	$('[data-toggle="popover"]').popover();
+	*/
 
 });
 // ##############################

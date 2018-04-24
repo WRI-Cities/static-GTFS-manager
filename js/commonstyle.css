@@ -61,12 +61,19 @@ a.currentpage {
 .ui-widget.ui-widget-content {
 	border:none;
 }
+/*
 .ui-tabs-panel a {
 	color: #007bff;
 }
+
 .ui-tabs-panel a:hover {
 	text-decoration: underline;
 	color: #0056b3;
+}
+*/
+
+.ui-widget-content a {
+	color: #007bff;
 }
 
 /* Changes log */
@@ -110,7 +117,9 @@ background: #000000a1;
 .mapButton {
 	font-size: 3em;
 }
-
+.leaflet-top a {
+	color: black;
+}
 
 /* Tabulator */ 
 .tabulator {

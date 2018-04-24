@@ -36,11 +36,13 @@ $("#calendar-table").tabulator({
 		{title:"saturday", field:"saturday", editor:"select", editorParams:operationalChoices, headerSort:false },
 		{title:"sunday", field:"sunday", editor:"select", editorParams:operationalChoices, headerSort:false },
 		{title:"start_date", field:"start_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" },
-		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" },
+		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" }
+		/* removing as to delete an entry we need to zap its entries from trips table too. Shift deleting to Maintenance section.
 		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
 			}}
+		*/
 	]
 });
 
@@ -58,14 +60,8 @@ $("#agency-table").tabulator({
 		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false },
 		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false },
 		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false },
-		{title:"agency_timezone", field:"agency_timezone", editor:"input", headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' },
-		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
-			if(confirm('Are you sure you want to delete this entry?')) {
-				let agency_id = cell.getRow().getIndex();
-				cell.getRow().delete();
-				$('#agencyAddStatus').html('<span class="alert alert-warning">Deleted agency_id ' + agency_id + '</span>');
-			}
-		}}
+		{title:"agency_timezone", field:"agency_timezone", editor:"input", headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
+		
 	]
 });
 
@@ -117,7 +113,7 @@ $(document).ready(function() {
 	getPythonAgency();
 	getPythonCalendar();
 	getPythonTranslations();
-	getPythonAllIDs();
+	getPythonAllIDs();  
 });
 
 // #########################
@@ -187,12 +183,17 @@ $('#replaceIDButton').on('click', function(){
 	replaceID();
 });
 
-$('#replaceIDButton').on('keyPress', function(){
-	replaceID();
-});
-
 $("#renameDestination").bind("change keyup", function(){
 	resetGlobals();
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
+});
+
+$("#calendar2add").bind("change keyup", function(){
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
+});
+
+$("#agency2add").bind("change keyup", function(){
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
 });
 
 // #########################
@@ -241,6 +242,10 @@ function saveCalendar() {
 	var data = $("#calendar-table").tabulator('getData');
 	
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#calendarSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 
 	console.log('sending calendar data to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
@@ -264,6 +269,10 @@ function saveCalendar() {
 function saveAgency() {
 	$('#agencySaveStatus').html('Sending data to server.. please wait..');
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#agencySaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	var data = $('#agency-table').tabulator('getData');
 
 	console.log('sending to server via POST');
@@ -400,6 +409,10 @@ function saveTranslation() {
 	$('#translationSaveStatus').html('<span class="alert alert-secondary">Sending data to server.. please wait..</span>');
 	$('#translationAddStatus').html('&nbsp;');
 	var pw = $("#password").val();
+		if ( ! pw ) { 
+		$('#translationSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	var data = $('#translations-table').tabulator('getData');
 
 	console.log('sending to server via POST');
@@ -444,8 +457,10 @@ function populateMaintenanceLists() {
 		renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
 	});
 
+	// stop2Delete
 	$('#stop2Delete').html(content);
 	$('#stop2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Stop'});
+	$('#stop2Delete').trigger('chosen:updated'); // if the function is called again, then update it
 	$('#stop2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let stop_id = params.selected;
@@ -466,6 +481,7 @@ function populateMaintenanceLists() {
 
 	$('#route2Delete').html(content);
 	$('#route2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Route' });
+	$('#route2Delete').trigger('chosen:updated');
 	$('#route2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let route = params.selected;
@@ -486,6 +502,7 @@ function populateMaintenanceLists() {
 
 	$('#trip2Delete').html(content);
 	$('#trip2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Trip'});
+	$('#trip2Delete').trigger('chosen:updated');
 	$('#trip2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let trip = params.selected;
@@ -505,6 +522,7 @@ function populateMaintenanceLists() {
 	});
 	$('#shape2Delete').html(content);
 	$('#shape2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Shape'});
+	$('#shape2Delete').trigger('chosen:updated');
 	$('#shape2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let shape = params.selected;
@@ -516,6 +534,27 @@ function populateMaintenanceLists() {
 		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
 	});
 
+	// service2Delete
+	var content = '<option>No Selection</option>';
+	globalIDs['service_id_list'].forEach(function(row){
+			content += `<option value="${row}">${row}</option>`;
+			renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
+	});
+	$('#service2Delete').html(content);
+	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
+	$('#service2Delete').trigger('chosen:updated');
+	$('#service2Delete').on('change', function(evt,params) {
+		if(!params) return;
+		let service = params.selected;
+		console.log(service);
+		globalKey = 'service_id';
+		globalValue = service;
+		globalTables = 'calendar';
+		globalSecondaryTables = 'trips'
+		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+	});
+
+
 	// zone2Delete
 	var content = '<option>No Selection</option>';
 	globalIDs['zone_id_list'].forEach(function(row){
@@ -524,6 +563,7 @@ function populateMaintenanceLists() {
 	});
 	$('#zone2Delete').html(content);
 	$('#zone2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare Zone'});
+	$('#zone2Delete').trigger('chosen:updated');
 	$('#zone2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let zone = params.selected;
@@ -536,27 +576,52 @@ function populateMaintenanceLists() {
 
 	});
 
-	// service2Delete
+	// fareID2Delete
 	var content = '<option>No Selection</option>';
-	globalIDs['service_id_list'].forEach(function(row){
+	globalIDs['fare_id_list'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
+			renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
 	});
-	$('#service2Delete').html(content);
-	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
-	$('#service2Delete').on('change', function(evt,params) {
+	$('#fareID2Delete').html(content);
+	$('#fareID2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare ID'});
+	$('#fareID2Delete').trigger('chosen:updated');
+	$('#fareID2Delete').on('change', function(evt,params) {
 		if(!params) return;
-		let service = params.selected;
-		console.log(service);
-		globalKey = 'service_id';
-		globalValue = service;
-		globalTables = 'calendar';
-		globalSecondaryTables = 'trips'
+		let fare = params.selected;
+		console.log(fare);
+		globalKey = 'fare_id';
+		globalValue = fare;
+		globalTables = 'fare_attributes,fare_rules';
+		globalSecondaryTables = ''
 		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+
 	});
+
+	// agency2Delete
+	var content = '<option>No Selection</option>';
+	globalIDs['agency_id_list'].forEach(function(row){
+			content += `<option value="${row}">${row}</option>`;
+			renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
+	});
+	$('#agency2Delete').html(content);
+	$('#agency2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick an Agency ID'});
+	$('#agency2Delete').trigger('chosen:updated');
+	$('#agency2Delete').on('change', function(evt,params) {
+		if(!params) return;
+		let agency = params.selected;
+		console.log(agency);
+		globalKey = 'agency_id';
+		globalValue = agency;
+		globalTables = 'agency';
+		globalSecondaryTables = 'routes,fare_attributes'
+		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+
+	});
+
 
 	$('#renameSource').html(renameContent);
 	$('#renameSource').chosen({search_contains:true, allow_single_deselect:true, width:200, placeholder_text_single:'Pick a UID'});
+	$('#renameSource').trigger('chosen:updated');
 	$('#renameSource').on('change', function(evt,params) {
 		if(!params) return;
 		let uid = params.selected;
@@ -624,7 +689,7 @@ function deleteByKey() {
 	}
 
 	var pw = $("#password").val();
-	if ( ! pw.length ) { 
+	if ( ! pw ) { 
 		$('#deepActionsStatus').html('Please enter the password.');
 		shakeIt('password'); return;
 	}
@@ -660,6 +725,10 @@ function resetGlobals() {
 	globalKey = ''; globalValue = ''; globalTables='';
 	globalSecondaryTables = '';
 	$('#dryRunResults').val('');
+
+	// clear the consent checkbox
+	//$('#deepActionsConfirm').removeAttr('checked');
+	document.getElementById("deepActionsConfirm").checked = false;
 
 	// even Change UID:
 	var globalValueFrom = '';
@@ -710,9 +779,9 @@ function replaceIDDryRun() {
 		'shape_id': globalIDs['shapeIDsJson']['all'],
 		'zone_id': globalIDs['zone_id_list'],
 		'service_id': globalIDs['service_id_list'],
+		'fare_id': ['fare_attributes','fare_rules']	
 		//'origin_id': ['fare_rules'],	
 		//'destination_id': ['fare_rules'],
-		//'fare_id': ['fare_attributes','fare_rules']	
 	}
 	if ( keyListMap[key].indexOf(valueTo) > -1) {
 		$('#renameTablesInfo').html('Sorry, that ID is already taken. Please make another.');
@@ -763,7 +832,7 @@ function replaceID() {
 	// replaceDryRunButton, replaceIDButton
 	
 	var pw = $("#password").val();
-	if ( ! pw.length ) { 
+	if ( ! pw ) { 
 		$('#renameStatus').html('Please enter the password.');
 		shakeIt('password'); return;
 	}

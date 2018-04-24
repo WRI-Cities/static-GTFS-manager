@@ -75,6 +75,7 @@ $("#stops-table").tabulator({
 		var stop_id = cell.getRow().getData().stop_id; //get corresponding stop_id for that cell. Can also use cell.getRow().getIndex()
 		mapPop(stop_id);
 		logmessage('Changed "' + cell.getOldValue() + '" to "' + cell.getValue() + '" for stop_id: ' + stop_id);
+		$("#undoredo").show('slow');
 	}
 });
 
@@ -157,13 +158,13 @@ var stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 
 // adding buttons to zoom to show all stops
 // L.easyButton('<span class="mapButton" title="fit all points">&curren;</span>', function(btn, map){
-L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+L.easyButton('<img src="extra_files/home.png" title="show all stops" data-toggle="tooltip" data-placement="right">', function(btn, map){
 	//map.fitBounds(stopsLayer.getBounds(), {padding:[20,20]});
 	reloadMap('firstTime',false);
 }).addTo(map);
 
 //L.easyButton('<font size="5">&#9782;</font>', function(btn, map){
-L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to filter by table view">', function(btn, map){
+L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to filter by table view" data-toggle="tooltip" data-placement="right">', function(btn, map){
 	console.log('filter!');
 	reloadMap('firstTime',true);
 }).addTo(map);
@@ -207,12 +208,12 @@ $("#savetable").on("click", function(){
 
 // Clone zone_id
 $("#targetStopid").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
 	$("#zone_id").val(this.value);
 });
 
 $("#stop2delete").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
 });
 
 
@@ -465,11 +466,15 @@ function timestamp() {
 }
 
 function saveStops(){
-	$('#stopSaveStatus').text('');
+	$('#stopSaveStatus').html('<span class="alert alert-info">Sending data, please wait...</span>');
 
 	var data = $("#stops-table").tabulator("getData");
 
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#stopSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 
 	console.log('sending stops table data to server via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
@@ -480,10 +485,10 @@ function saveStops(){
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server /API/allStops, resonse received: ' + xhr.responseText);
-			$('#stopSaveStatus').text('Saved changes to stops. Message: ' + xhr.responseText);
+			$('#stopSaveStatus').html('<span class="alert alert-success">' + xhr.responseText + '</span>');
 		} else {
 			console.log('Server POST request to API/allStops failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#stopSaveStatus').text('Failed to save. Message: ' + xhr.responseText);
+			$('#stopSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

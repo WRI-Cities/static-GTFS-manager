@@ -5,7 +5,7 @@ def csvwriter( array2write, filename, keys=None ):
 	# 15.4.18: Changing to use pandas instead of csv.DictWriter. Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/3
 	df = pd.DataFrame(array2write)
 	df.to_csv(filename, index=False, columns=keys)
-	print( 'Created', filename )
+	logmessage( 'Created', filename )
 	
 
 def exportGTFS (dbfile, folder):
@@ -24,7 +24,7 @@ def exportGTFS (dbfile, folder):
 	#folder = 'commitfolder/'
 	tables = db.tables()
 
-	print('Tables found in ' + dbfile + ': ' + str(list(tables)) )
+	logmessage('Tables found in ' + dbfile + ': ' + str(list(tables)) )
 
 	# let's zip them too!
 	# may have to delete existing? Nah, it over-writes.
@@ -33,20 +33,20 @@ def exportGTFS (dbfile, folder):
 	for tablename in db.tables():
 		feedDb = db.table(tablename)
 		tableArray = feedDb.all()
-		# print( tablename + ': ' + str(len(tableArray)) + ' records' )
+		# logmessage( tablename + ': ' + str(len(tableArray)) + ' records' )
 		if( len(tableArray) ):
 			csvwriter(tableArray, folder + tablename + '.txt')
 			zf.write(folder + tablename + '.txt' , arcname=tablename + '.txt', compress_type=zipfile.ZIP_DEFLATED )
-			print('Added ' + tablename + '.txt to gtfs.zip')
+			logmessage('Added ' + tablename + '.txt to gtfs.zip')
 		else:
-			print(tablename + ' is empty so not exporting that.')
+			logmessage(tablename + ' is empty so not exporting that.')
 	zf.close()
 	db.close()
 
 	returnmessage = '<p>Success! Generated GTFS feed at <a href="' + folder + 'gtfs.zip' + '">' + folder + 'gtfs.zip<a></b>. Click to download.</p>'
 
 	end = time.time()
-	print("Function to export GTFS from db took {} seconds.".format(round(end-start,2)))
+	logmessage("Function to export GTFS from db took {} seconds.".format(round(end-start,2)))
 
 	return returnmessage
 
@@ -54,10 +54,10 @@ def importGTFS(dbfile, zipname):
 	start1 = time.time()
 	
 	# take backup first
-	print('Taking backup of existing contents of db')
+	logmessage('Taking backup of existing contents of db')
 	backupfolder = '{:GTFS/%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
 	exportGTFS (dbfile, backupfolder)
-	print('backup made to folder '+backupfolder)
+	logmessage('backup made to folder '+backupfolder)
 
 	# unzip imported zip
 
@@ -73,17 +73,17 @@ def importGTFS(dbfile, zipname):
 	# loading names of the unzipped files
 	# scan for txt files, non-recursively, only at folder level. from https://stackoverflow.com/a/22208063/4355695
 	filenames = [f for f in os.listdir(uploadFolder) if f.lower().endswith('.txt') and os.path.isfile(os.path.join(uploadFolder, f))]
-	print(filenames)
+	logmessage(filenames)
 
     # initiating and purging the db
 	db = tinyDBopen(dbfile)
 	db.purge_tables() # wipe out the database, clean slate.
-	print(dbfile + ' purged.')
+	logmessage(dbfile + ' purged.')
 
 	# also purge sequenceDB
 	db2 = TinyDB(sequenceDBfile, sort_keys=True, indent=2)
 	db2.purge_tables() # wipe out the database, clean slate.
-	print(sequenceDBfile + ' purged.')
+	logmessage(sequenceDBfile + ' purged.')
 	db2.close()
 
 	# Pandas: defining certain columns to be read as string by passing a json to dtype option. from https://stackoverflow.com/a/36938326/4355695
@@ -115,7 +115,7 @@ def importGTFS(dbfile, zipname):
 
 
 	end1 = time.time()
-	print("Loaded external GTFS.. full function took {} seconds.".format( round(end1-start1,2) ))
+	logmessage("Loaded external GTFS.. full function took {} seconds.".format( round(end1-start1,2) ))
 
 
 def GTFSstats(dbfile):
@@ -131,7 +131,7 @@ def GTFSstats(dbfile):
 	db.close()
 	# to do: last commit mention
 	end = time.time()
-	print("GTFSstats function took {} seconds.".format( round(end-start, 2) ) )
+	logmessage("GTFSstats function took {} seconds.".format( round(end-start, 2) ) )
 	return content
 
 
@@ -142,10 +142,10 @@ def readTableDB(dbfile, tablename, key=None, value=None):
 	if(key and value):
 		Item = Query()
 		count = tableDb.count(Item[key] == value)
-		print(tablename + ' has ' + str(count) + ' rows for ' + key + ' = ' + str(value) )
+		logmessage(tablename + ' has ' + str(count) + ' rows for ' + key + ' = ' + str(value) )
 		
 		tableArray = tableDb.search(Item[key] == value)
-		# print(tableArray) 
+		# logmessage(tableArray) 
 		#oh good the query doesn't error out when no match found, it merely returns empty array!
 
 	else:
@@ -165,10 +165,10 @@ def replaceTableDB(dbfile, tablename, data, key=None, value=None):
 		tableDb.remove(Item[key] == value)
 	else:
 		tableDb.purge() #this is a bit scary..
-		print('Table ' + tablename + ' emptied in ' + dbfile)
+		logmessage('Table ' + tablename + ' emptied in ' + dbfile)
 
 	tableDb.insert_multiple(data)
-	print('Inserted ' + str(len(data)) + ' entries into table ' + tablename + ' in ' + dbfile )
+	logmessage('Inserted ' + str(len(data)) + ' entries into table ' + tablename + ' in ' + dbfile )
 	db.close()
 	return True
 
@@ -217,10 +217,11 @@ def sequenceReadDB(sequenceDBfile, route_id):
 		return False
 
 	sequenceArray = [ sequenceItem[0]['0'], sequenceItem[0]['1'] ]
-	print('Got the sequence from sequence db file.')
+	logmessage('Got the sequence from sequence db file.')
 	return sequenceArray
 
 def sequenceFull(sequenceDBfile, route_id):
+	# 20.4.18 : writing this to pass on shapes data too. in future, change things on JS end and merge the sequenceReadDB function with this.
 	db = tinyDBopen(sequenceDBfile)
 	Item = Query()
 	sequenceItem = db.search(Item['route_id'] == route_id)
@@ -230,7 +231,7 @@ def sequenceFull(sequenceDBfile, route_id):
 		return False
 
 	sequenceArray = sequenceItem[0]
-	print('Got the sequence from sequence db file.')
+	logmessage('Got the sequence from sequence db file.')
 	return sequenceArray
 
 def extractSequencefromGTFS(dbfile, route_id):
@@ -247,12 +248,12 @@ def extractSequencefromGTFS(dbfile, route_id):
 	check = tripsDB.contains( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )
 	if check:
 		oneTrip0 = tripsDB.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )[0]['trip_id']
-		print('oneTrip0 found: '+oneTrip0)
+		logmessage('oneTrip0 found: '+oneTrip0)
 	
 	# In case it's a brand new route and no prior trips exist, then exit with an empty sequence array.
 	if not oneTrip0:
 		# no trips found, return a blank sequence and get out!
-		print('Nothing found for oneTrip0')
+		logmessage('Nothing found for oneTrip0')
 		db.close()
 		sequence = [ [], [] ]
 		return sequence
@@ -260,7 +261,7 @@ def extractSequencefromGTFS(dbfile, route_id):
 	check = tripsDB.contains( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 1) | (Item['direction_id'] == '1') ) )
 	if check:
 		oneTrip1 = tripsDB.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 1) | (Item['direction_id'] == '1') ) )[0]['trip_id']
-		print('oneTrip1 found: '+oneTrip1)
+		logmessage('oneTrip1 found: '+oneTrip1)
 	else:
 		# no reverse direction.. no probs, set as None
 		oneTrip1 = None
@@ -286,7 +287,7 @@ def uploadaFile(fileholder):
 	filename = fileholder['filename'].replace("/", "")
 	# zapping folder redirections if any
 
-	print('Saving filename: ' + filename + ' to ' + uploadFolder)
+	logmessage('Saving filename: ' + filename + ' to ' + uploadFolder)
 	
 	if not os.path.exists(uploadFolder):
 		os.makedirs(uploadFolder)
@@ -314,7 +315,7 @@ def diagnoseXMLs(weekdayXML, sundayXML, depot=None) :
 			depotsList = depot.split(',')
 		else:
 			depotsList = []
-		print('Depot stations: ' + str(depotsList) )
+		logmessage('Depot stations: ' + str(depotsList) )
 		# logic: if first stop or last stop is in depotsList, then increment dropDepotTrips counter. 
 
 		# 1. before processing XMLs, lets get the mapped stops list from the resident stations.csv
@@ -331,7 +332,7 @@ def diagnoseXMLs(weekdayXML, sundayXML, depot=None) :
 			scheduleHolder = [scheduleHolder]
 			# this makes a single schedule compatible with multiple schedule entries in xml
 		
-		print(str(len(scheduleHolder)) + ' route(s) found in ' + weekdayXML)
+		logmessage(str(len(scheduleHolder)) + ' route(s) found in ' + weekdayXML)
 
 		for schedule in scheduleHolder:
 			schedule_name = schedule['NAME']
@@ -374,7 +375,7 @@ def diagnoseXMLs(weekdayXML, sundayXML, depot=None) :
 			scheduleHolder = [scheduleHolder]
 			# this makes a single schedule compatible with multiple schedule entries in xml
 		
-		print(str(len(scheduleHolder)) + ' route(s) found in ' + sundayXML)
+		logmessage(str(len(scheduleHolder)) + ' route(s) found in ' + sundayXML)
 		
 		for schedule in scheduleHolder:
 			schedule_name = schedule['NAME']
@@ -458,7 +459,7 @@ def decrypt(password):
 	# 'not all who wander are lost'
 
 	if len(password) == 0:
-		print("Why u no entering password! Top right! Top right!")
+		logmessage("Why u no entering password! Top right! Top right!")
 		return False
 
 	with open(passwordFile, "rb") as f:
@@ -476,7 +477,7 @@ def decrypt(password):
 def csvunpivot(filename, keepcols, var_header, value_header, sortby):
 	# brought in from xml2GTFS functions.py
 	fares_pivoted = pd.read_csv(filename, encoding='utf8')
-	print( 'Loading and unpivoting',filename)
+	logmessage( 'Loading and unpivoting',filename)
 	fares_unpivoted = pd.melt(fares_pivoted, id_vars=keepcols, var_name=var_header, value_name=value_header).sort_values(by=sortby)
 	
 	# rename header 'Stations' to 'origin_id', from https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas/
@@ -519,7 +520,7 @@ def tinyDBopen(filename):
 	try:
 		db = TinyDB(filename, sort_keys=True, indent=2)
 	except JSONDecodeError:
-		print('DB file ' + filename + ' has invalid json. Making a backup copy and creating a new blank one. Please ask dev to check the backup, named '+ filename+'_backup')
+		logmessage('DB file ' + filename + ' has invalid json. Making a backup copy and creating a new blank one. Please ask dev to check the backup, named '+ filename+'_backup')
 		shutil.copy(filename, filename + '_backup') # copy file. from http://www.techbeamers.com/python-copy-file/
 		open(filename, 'w').close() # make a blank file. from https://stackoverflow.com/a/12654798/4355695
 		db = TinyDB(filename, sort_keys=True, indent=2)
@@ -529,13 +530,13 @@ def geoJson2shape(route_id, shapefile, shapefileRev=None):
 	with open(shapefile, encoding='utf8') as f:
 		# loading geojson, from https://gis.stackexchange.com/a/73771/44746
 		data = json.load(f)
-	print('Loaded',shapefile)
+	logmessage('Loaded',shapefile)
 		
 	output_array = []
 	try:
 		coordinates = data['features'][0]['geometry']['coordinates']
 	except:
-		print('Invalid geojson file ' + shapefile)
+		logmessage('Invalid geojson file ' + shapefile)
 		return False
 
 	prevlat = coordinates[0][1]
@@ -560,11 +561,11 @@ def geoJson2shape(route_id, shapefile, shapefileRev=None):
 	if( shapefileRev ):
 		with open(shapefileRev, encoding='utf8') as g:
 			data2 = json.load(g)
-		print('Loaded',shapefileRev)
+		logmessage('Loaded',shapefileRev)
 		try:
 			coordinates = data2['features'][0]['geometry']['coordinates']
 		except:
-			print('Invalid geojson file ' + shapefileRev)
+			logmessage('Invalid geojson file ' + shapefileRev)
 			return False
 	else:
 		coordinates.reverse()
@@ -634,7 +635,7 @@ def deletefromDB(dbfile,key,value,tables):
 
 	for tablename in tables:
 		tableDb = db.table(tablename)
-		print('removing entries from ' + tablename + ' having '+key+'='+str(value))
+		logmessage('removing entries from ' + tablename + ' having '+key+'='+str(value))
 		tableDb.remove(Item[key] == value)
 
 	# Zapping:
@@ -647,7 +648,7 @@ def deletefromDB(dbfile,key,value,tables):
 			for row in rows:
 				row['shape_id'] = ''
 			tableDb.write_back(rows)
-			print('Zapped shape_id: ' + value + ' values in trips table, while keeping those rows.')
+			logmessage('Zapped shape_id: ' + value + ' values in trips table, while keeping those rows.')
 	
 	if key == 'service_id':
 		# blank its entries in trips table
@@ -658,14 +659,14 @@ def deletefromDB(dbfile,key,value,tables):
 			for row in rows:
 				row['service_id'] = ''
 			tableDb.write_back(rows)
-			print('Zapped service_id: ' + value + ' from ' + len(rows) + ' in trips table, while keeping those rows.')
+			logmessage('Zapped service_id: ' + value + ' from ' + len(rows) + ' in trips table, while keeping those rows.')
 
 	# sequence DB
 	if key == 'route_id':
 		# drop it from sequence DB too.
 		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
-		print('Removing entires for route_id: '+value +' in sequenceDB too if any.')
+		logmessage('Removing entires for route_id: '+value +' in sequenceDB too if any.')
 		sDb.remove(sItem[key] == value)
 		sDb.close();
 
@@ -683,11 +684,11 @@ def deletefromDB(dbfile,key,value,tables):
 				if value in row['0']:
 					row['0'][:] = ( x for x in row['0'] if x != value )
 					changesFlag = True
-					print('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
+					logmessage('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
 				if value in row['1']:
 					row['1'][:] = ( x for x in row['1'] if x != value )
 					changesFlag = True
-					print('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
+					logmessage('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
 			
 			# rows loop over, now run write_back command only if there have been changes.
 			if changesFlag:
@@ -710,12 +711,12 @@ def deletefromDB(dbfile,key,value,tables):
 					if row['shape0'] == value:
 						row.pop('shape0', None)
 						changesFlag = True
-						print('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
+						logmessage('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
 				if row.get('shape1',False):
 					if row['shape1'] == value:
 						row.pop('shape1', None)
 						changesFlag = True
-						print('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
+						logmessage('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
 			
 			# rows loop over, now run write_back command only if there have been changes.
 			if changesFlag:
@@ -727,7 +728,7 @@ def deletefromDB(dbfile,key,value,tables):
 	if key == 'zone_id':
 		# drop either origin_id or destination_id rows
 		tableDb = db.table('fare_rules')
-		print('removing entries from fare_rules having origin_id or destination_id ='+str(value))
+		logmessage('removing entries from fare_rules having origin_id or destination_id ='+str(value))
 		tableDb.remove(Item['origin_id'] == value)
 		tableDb.remove(Item['destination_id'] == value)
 		
@@ -739,7 +740,7 @@ def deletefromDB(dbfile,key,value,tables):
 			for row in rows:
 				row['zone_id'] = ''
 			tableDb.write_back(rows)
-			print('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
+			logmessage('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
 	
 
 	db.close()
@@ -757,14 +758,14 @@ def collectfromDB(dbfile,key,value,tables,secondarytables):
 		tableDb = db.table(tablename)
 		tableArray = tableDb.search(Item[key] == value)
 		returnJson['main'][tablename] = tableArray
-		print(str(len(tableArray)) + ' rows to be deleted in ' + tablename +' for ' + key + '=' + 'value'  )
+		logmessage(str(len(tableArray)) + ' rows to be deleted in ' + tablename +' for ' + key + '=' + 'value'  )
 
 	if not secondarytables == ['']:
 		for tablename in secondarytables:
 			tableDb = db.table(tablename)
 			tableArray = tableDb.search(Item[key] == value)
 			returnJson['zap'][tablename] = tableArray
-			print(str(len(tableArray)) + ' rows to be zapped in ' + tablename +' where ' + key + '=' + 'value'  )
+			logmessage(str(len(tableArray)) + ' rows to be zapped in ' + tablename +' where ' + key + '=' + 'value'  )
 	db.close()
 	return returnJson
 
@@ -800,10 +801,23 @@ def replaceIDfunc(valueFrom,valueTo,tableKeys):
 		for row in rows:
 			row['0'][:] = ( x if (x != valueFrom) else valueTo for x in row['0']  )
 			row['1'][:] = ( x if (x != valueFrom) else valueTo for x in row['1'] )
-			print('Replaced stop_id = ' + valueFrom + ' with ' + valueTo + ' in sequence DB for route '+ row['route_id'])
+			logmessage('Replaced stop_id = ' + valueFrom + ' with ' + valueTo + ' in sequence DB for route '+ row['route_id'])
 			returnList.append('Replaced stop_id = ' + valueFrom + ' with <b>' + valueTo + '</b> in sequence DB for route '+ row['route_id'])
 		sDb.write_back(rows)
 		sDb.close();
 
 	returnMessage = '<br>'.join(returnList)
 	return returnMessage
+
+def logmessage( *content ):
+	timestamp = '{:%Y-%b-%d %H:%M:%S} :'.format(datetime.datetime.now())
+	# from https://stackoverflow.com/a/26455617/4355695
+	line = ' '.join(str(x) for x in list(content))
+	# str(x) for x in list(content) : handles numbers in the list, converts them to string before concatenating. 
+	# from https://stackoverflow.com/a/3590168/4355695
+	print(line) # print to screen also
+	f = open(logFolder + 'log.txt', 'a', newline='\r\n', encoding='utf8') #open in append mode
+	print(timestamp, line, file=f)
+	# `,file=f` argument at end writes the line, with newline as defined, to the file instead of to screen. 
+	# from https://stackoverflow.com/a/2918367/4355695
+	f.close()

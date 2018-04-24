@@ -4,13 +4,24 @@ const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:t
 
 const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
 
-var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[];
+var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
+
+
+// #########################################
+// function-variable to be used in tabulator, 
+
+var agencyListGlobal = {}; // global variable
+var agencyLister = function(cell) {
+	return agencyListGlobal;
+	// needs to be declared earlier but the variable referenced in it is a global one that will change later
+	// this function will get called every time user clicks the dropdown
+	//	getPythonAgency() function will make API call and load agencies listin into this global variable.
+}
 
 // #########################################
 // Construct tables
-
 $("#routes-table").tabulator({
-	selectable:1,
+	selectable:0,
 	index: 'route_id',
 	movableRows: true,
 	history:true,
@@ -24,37 +35,26 @@ $("#routes-table").tabulator({
 		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:["string", "minLength:2"] },
 		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", validator:["required","string", "minLength:2"] },
 		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
-		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, headerSort:false },
+		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
 		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:"input", tooltip:"Needed to fill when there is more than one agency." }
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
 	],
 	cellEdited:function(cell){
 		// discarding as now we'll directly trigger routes selection from this table
 		//setRouteIds(); // refresh the autocomplete for route picker
-	},
+	}
+	/*,
 	rowSelected:function(row){ //when a row is selected
-		let route_id = row.getIndex();
-		// clear present sequence tables.. passing to a function to handle "save changes" action later.
-		clearSequences();
-		// execute function to load corresponding route's sequence(s)
-		getPythonSequence(route_id);
-		displayRouteName(route_id);
-		selected_route_id = route_id;
-		getPythonShapesList(route_id);
-		$('#openShapeModalStatus').html('');
+		
 	},
 	rowDeselected:function(row){ //when a row is deselected
-		//to do: clear out sequence? naah, let it be till another route gets selected!
-		/*
-		$( "#routeSelector" ).val('');
-		sequenceLayer[0].clearLayers();
-		sequenceLayer[1].clearLayers();
-		$("#sequence-0-table").tabulator('setData',[] );
-		$("#sequence-1-table").tabulator('setData',[] );
-		*/
 	}
+	*/
 });
+
+// #####################
+// SEQUENCE TABLES
 
 $("#sequence-0-table").tabulator({
 	selectable:1,
@@ -85,13 +85,8 @@ $("#sequence-0-table").tabulator({
 			
 	},
 	rowDeselected:function(row){ //when a row is deselected
-		//depopulateFields();
 		map[0].closePopup();
-	}/*,
-
-	rowDeleted:function(row) {
-		//sequence0 = $("#sequence-0-table").tabulator('getData');
-	}*/
+	}
 });
 
 $("#sequence-1-table").tabulator({
@@ -119,16 +114,12 @@ $("#sequence-1-table").tabulator({
 		// to do: will have to declare this externally, after the two tables have been defined.
 	},
 	rowMoved:function(row){
-		console.log("A stop has been moved in direction 0 sequence.");
+		console.log("A stop has been moved in direction 1 sequence.");
 		mapsUpdate();
-		// redo the row numbering
-		// $("#sequence-0-table").tabulator("redraw", true);
-		// $("#sequence-1-table").tabulator("redraw", true);
-		// not redoing numbering as it seems better to have it to help people know if they've messed up.
-	}/*,
-	rowDeleted:function(row) {
-		//sequence1 = $("#sequence-1-table").tabulator('getData');
-	}*/
+	},
+	rowDeselected:function(row){ //when a row is deselected
+		map[1].closePopup();
+	}
 });
 
 
@@ -170,12 +161,12 @@ for ( i in [0,1] ) {
 }
 
 // adding buttons to zoom to show all stops
-L.easyButton('<span class="mapButton" title="zoom to see all stops">&curren;</span>', function(btn, map){
-	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20]});
+L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20], maxZoom:14});
 }).addTo( map[0] );
 
-L.easyButton('<span class="mapButton" title="zoom to see all stops">&curren;</span>', function(btn, map){
-	map.fitBounds(sequenceLayer[1].getBounds(), {padding:[20,20]});
+L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20], maxZoom:14});
 }).addTo( map[1] );
 
 // initiating layers for carrying shapes
@@ -186,26 +177,10 @@ for ( i in [0,1] ) {
 }
 
 // #########################################
-// initiate bootstrap / jquery components like tabs, accordions
+// Run initiating commands
 $(document).ready(function() {
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
-	// popover
-	$('[data-toggle="popover"]').popover(); 
-
-	// initiate accordion
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-
-	//############
-	//Run initiating commands
 	getPythonStops(); //load allStops array
+	getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
 	getPythonRoutes(); // load routes.. for routes management.
 	getPythonAllShapesList();
 
@@ -226,22 +201,19 @@ $("#add-1").on("click", function(){
 });
 
 $("#addRoute").on("click", function(){
-	var route_id = $('#route2add').val();
-	if(route_id.length < 2) {
-		$('#routeAddStatus').text('Invalid entry, try again');
-		shakeIt('route2add');
-		return;
-	}
-
+	var agency_id = $('#agencySelect').val();
+	if(! agency_id.length) return;
 	let data = $("#routes-table").tabulator("getData");
 	route_id_list = data.map(a => a.route_id); 
 
-	//var index = ;
-	if ( route_id_list.indexOf(route_id) > -1) {
-	    $('#routeAddStatus').text('This id is already taken. Try another value.');
-	    return;
-	}
-	$("#routes-table").tabulator('addRow',{route_id: route_id},true);
+	var counter = 1;
+	while ( route_id_list.indexOf(agency_id + pad(counter) ) > -1 ) counter++;
+
+	var route_id = agency_id + pad(counter);
+	
+	console.log(route_id);
+
+	$("#routes-table").tabulator('addRow',{route_id: route_id, agency_id:agency_id, route_short_name:route_id},true);
 	$('#route2add').val('');
 	$('#routeAddStatus').text('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
 });
@@ -276,7 +248,6 @@ $("#uploadShapeButton").on("click", function(){
 });
 
 $('#shapes0List').on('change', function (e) {
-	var optionSelected = $("option:selected", this);
 	var valueSelected = this.value;
 	if( valueSelected == '') { 
 		shapeLayer[0].clearLayers();
@@ -286,7 +257,6 @@ $('#shapes0List').on('change', function (e) {
 });
 
 $('#shapes1List').on('change', function (e) {
-	var optionSelected = $("option:selected", this);
 	var valueSelected = this.value;
 	if( valueSelected == '') { 
 		shapeLayer[1].clearLayers();
@@ -295,18 +265,25 @@ $('#shapes1List').on('change', function (e) {
 	loadShape(valueSelected,1);
 });
 
-// #########################################
-// auto-capitalize inputs
-$("#stop2add-0").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
-});
+$('#routeSelect').on('change', function (e) {
+	var valueSelected = this.value;
+	console.log(valueSelected)
+	if( valueSelected == '') { 
+		return;
+	}
 
-$("#stop2add-1").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
-});
+	let route_id = valueSelected;
+	// clear present sequence tables.. passing to a function to handle "save changes" action later.
+	clearSequences();
+	// execute function to load corresponding route's sequence(s)
+	getPythonSequence(route_id);
+	selected_route_id = route_id; // global variable
 
-$("#route2add").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
+	// shapes related:
+	uploadedShapePrefix = ''; // reset global shape uploaded variable.
+	getPythonShapesList(route_id);
+	$('#openShapeModalStatus').html('');
+	
 });
 
 
@@ -347,7 +324,18 @@ function getPythonRoutes() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`GET call to Server API/allRoutes succesful.`);
 			var data = JSON.parse(xhr.responseText);
-			initiateRoutes(data);
+			$("#routes-table").tabulator('setData',data);
+
+			// populating route select for sequence:
+			var dropdown = '<option value="">Select a route</option>';
+			data.forEach(function(row){
+				dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
+			});
+
+			$("#routeSelect").html(dropdown);
+			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
+			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
+
 		}
 		else {
 			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
@@ -415,29 +403,25 @@ function stopidAutocomplete() {
 }
 
 function getPythonSequence(route_id) {
+	$('#sequenceLoadStatus').html('<span class="alert alert-info">Loading sequence from DB...</span>');
 	// load from python.
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `API/sequence?route=${route_id}`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/sequence for route_id ${route_id}.`);
-			var data = JSON.parse(xhr.responseText);
-			initiateSequence(data);
+			var response = JSON.parse(xhr.responseText);
+			initiateSequence(response.data);
+			$('#sequenceLoadStatus').html(response.message);
 		}
 		else {
 			console.log('Server request to API/sequence for route_id ' + route_id + ' failed. Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+			$('#sequenceLoadStatus').html('<span class="alert alert-danger">API call failed. Please see console and debug.</span>');
 		}
 	};
 	xhr.send();
 }
 
-function initiateRoutes(routesData) {
-	
-	// Load the data
-	$("#routes-table").tabulator('setData',routesData);
-
-	//setRouteIds(); //initiate the autocomplete for route picker
-}
 
 function initiateSequence(sequenceData) {
 	
@@ -482,6 +466,10 @@ function mapsUpdate(timeflag='normal') {
 	for (j in [0,1]) {
 		data[j] = $(`#sequence-${j}-table`).tabulator("getData");
 		sequenceLayer[j].clearLayers();
+
+		// check and skip if empty sequence. And note, one sequence may be filled while other is empty.
+		if( ! data[j].length ) continue;
+
 		for (i in data[j]) {
 			let lat = parseFloat( data[j][i]['stop_lat'] );
 			let lon = parseFloat( data[j][i]['stop_lon'] );
@@ -507,14 +495,14 @@ function mapsUpdate(timeflag='normal') {
 			stopmarker.addTo(sequenceLayer[j]);
 		}
 
+		map[j].fitBounds(sequenceLayer[j].getBounds(), {padding:[20,20], maxZoom:14}); 
 		if(timeflag == 'firsttime') {
 			sequenceLayer[j].addTo(map[j]);
-			map[j].fitBounds(sequenceLayer[j].getBounds(), {padding:[20,20]}); 
 		}
 
-		// redo the row numbering
+		// redo the row numbering, in case stops have been moved.
 		$(`#sequence-${j}-table`).tabulator("redraw", true);
-		// $("#sequence-1-table").tabulator("redraw", true);
+		// to check: maybe this belongs elsewhere? -> No, the tabulators call this function when rows are moved. It's fine.
 	}
 }
 	
@@ -550,27 +538,6 @@ function markerOnClick(e) {
 	*/
 }
 
-function displayRouteName(route_id) {
-	var row = $("#routes-table").tabulator("getRow", route_id).getData();
-	$("#displayRouteName").html(`${row['route_short_name']}: ${row['route_long_name']}`);
-}
-
-
-// discarded for now.
-function moveAround( stop_id, direction_id, provision=true ) {
-	// provision will be true if the stop is to be "provisioned" ie added to the sequence; false if to be removed.
-	/* Splice method, From https://stackoverflow.com/a/5767357/4355695 
-	var array = [2, 5, 9];
-	var index = array.indexOf(5);
-	if (index > -1) {
-	    array.splice(index, 1);
-	}
-	*/
-
-	// After all is said and done,
-	mapsUpdate();
-	// and so the maps reflect the global data arrays, not the other way around.
-}
 
 function add2sequence(stop_id, direction_id=0) {
 	if(stop_id == '') {
@@ -583,19 +550,12 @@ function add2sequence(stop_id, direction_id=0) {
 	row['stop_id'] = stop_id;
 
 	if(direction_id == 0) {
-
-		//to do: check if stop already in sequence?
-		
 		$("#sequence-0-table").tabulator('addRow',row);
-		mapsUpdate();
-		$("#sequence-0-table").tabulator('selectRow',stop_id);
-		//sequence0 = $("#sequence-0-table").tabulator('getData');
+		mapsUpdate('firsttime'); // using firsttime as on new routes, on adding a stop, it needs to show on the map. Else it is staying invisible.
 	}
 	else {
 		$("#sequence-1-table").tabulator('addRow',row);
-		mapsUpdate();
-		$("#sequence-1-table").tabulator('selectRow',stop_id);
-		//sequence1 = $("#sequence-1-table").tabulator('getData');
+		mapsUpdate('firsttime');
 	}
 }
 
@@ -608,7 +568,7 @@ function saveRoutes() {
 	var data=$('#routes-table').tabulator('getData');
 
 	var pw = $("#password").val();
-	if ( ! pw.length ) { 
+	if ( ! pw ) { 
 		$('#routeSaveStatus').html('Please enter the password.');
 		shakeIt('password'); return;
 	}
@@ -623,6 +583,8 @@ function saveRoutes() {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/saveRoutes, resonse received: ' + xhr.responseText);
 			$('#routeSaveStatus').text('Saved changes to routes.txt.');
+			// reload routes data from DB, and repopulate route selector for sequence
+			getPythonRoutes();
 		} else {
 			console.log('Server POST request to API/saveRoutes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#routeSaveStatus').text('Failed to save. Message: ' + xhr.responseText);
@@ -657,7 +619,7 @@ function saveSequence() {
 	}
 	
 	var pw = $("#password").val();
-	if ( ! pw.length ) { 
+	if ( ! pw ) { 
 		$('#sequenceSaveStatus').html('Please enter the password.');
 		shakeIt('password'); return;
 	}
@@ -672,14 +634,16 @@ function saveSequence() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/sequence, resonse received: ' + xhr.responseText);
-			$('#sequenceSaveStatus').html('Success. Message: ' + xhr.responseText);
+			$('#sequenceSaveStatus').html('<span class="alert alert-success">Success: ' + xhr.responseText + '</span>');
+			uploadedShapePrefix = ''; // clearing uploaded shape global variable if any.
+			
 			console.log('Re-firing getPythonAllShapesList function after saving sequence to DB.');
 			getPythonAllShapesList();
 			mapsUpdate();
 
 		} else {
 			console.log('Server POST request to API/sequence failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#sequenceSaveStatus').text('Failed to save. Message: ' + xhr.responseText);
+			$('#sequenceSaveStatus').text('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
@@ -715,8 +679,16 @@ function getPythonAllShapesList() {
 		console.log('GET request to API/allShapesList succesful.');
 		console.log('globalShapesList: ' + JSON.stringify(globalShapesList) );
 		if(selected_route_id) {
+			// if a particular route is selected and global variable is holding a value
+			// this block is skipped at page load time as no route has been selected at the time.
+			
+			// no, let's not re-fire route selection as that is erasing all the fresh sequence data created and not saved!
+			/*
 			console.log('Re-firing selection of route ' + selected_route_id + ' from getPythonAllShapesList function to update shape dropdowns.')
 			$("#routes-table").tabulator("selectRow",selected_route_id);
+			*/
+			// should solve https://github.com/WRI-Cities/static-GTFS-manager/issues/34
+			getPythonShapesList(selected_route_id);
 		}
 		
 	})
@@ -733,7 +705,6 @@ function getPythonShapesList(route_id) {
 	var jqxhr = $.get( `${APIpath}shapesList?route=${route_id}`, function( data ) {
 		var shapes =  JSON.parse(data) ;
 		console.log('GET request to API/shapesList succesful.');
-		console.log(shapes);
 		populateShapesLists(shapes);
 	})
 	.fail( function() {
@@ -744,7 +715,13 @@ function getPythonShapesList(route_id) {
 function populateShapesLists(shapes) {
 	//use globalShapesList
 	// use selected_route_id
-	
+
+	// clearing the shape layers
+	shapeLayer[0].clearLayers(); 
+	shapeLayer[1].clearLayers(); 
+
+	if(! selected_route_id.length) return; //quietly exit if no route selected.
+
 	var allShapesList = globalShapesList['all']; //global variable
 	var thisRouteSaved = globalShapesList['saved'][selected_route_id];
 
@@ -753,18 +730,32 @@ function populateShapesLists(shapes) {
 	var alreadySelected = false;
 	var shapesSoFar = [];
 
+	// check if there's just been a shape uploaded
+	if( uploadedShapePrefix.length ) {
+		content += `<option value="${uploadedShapePrefix}_0"  selected="selected">^ ${uploadedShapePrefix}_0</option>`;
+			alreadySelected = true;
+			shapesSoFar.push(uploadedShapePrefix + '_0');
+			// load up the shape from backend
+			loadShape(uploadedShapePrefix+'_0',0);
+	}
 	if( thisRouteSaved ) {
 		if( thisRouteSaved[0]) {
-			content += `<option value="${thisRouteSaved[0]}"  selected="selected">${thisRouteSaved[0]} &#10004;</option>`;
-			alreadySelected = true;
+			if(! alreadySelected ) {
+				selectFlag = ' selected="selected"';
+				alreadySelected = true;
+			}
+			else selectFlag = '';
+			content += `<option value="${thisRouteSaved[0]}" ${selectFlag}>&#10004;${thisRouteSaved[0]}</option>`;
 			shapesSoFar.push(thisRouteSaved[0]);
+			loadShape(thisRouteSaved[0],0);
 		}
 	}
 	for (i in shapes[0]) {
-		selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
-		
+		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+		selectFlag = '';
+
 		if( shapesSoFar.indexOf(shapes[0][i]) < 0 ) {
-			content += `<option value="${shapes[0][i]}"${selectFlag}>${shapes[0][i]} #</option>`;
+			content += `<option value="${shapes[0][i]}"${selectFlag}># ${shapes[0][i]}</option>`;
 			shapesSoFar.push(shapes[0][i]);
 		}
 	}
@@ -774,27 +765,43 @@ function populateShapesLists(shapes) {
 	}
 
 	$('#shapes0List').html(content);
-	$('#shapes0List').trigger('change');
-	//fire chosen autocomplete after populating.
-	$('#shapes0List').chosen(shapeAutocompleteOptions);
+	$('#shapes0List').trigger('chosen:updated'); // need to check if this errors on first run when .chosen not initialized yet.
+	//fire chosen autocomplete after populating. 
+	$('#shapes0List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
 
+	//#######################
 	// direction 1:
 	var content = '<option value="">No Shape</option>';
 	var alreadySelected = false;
 	var shapesSoFar = [];
 
+	// check if there's just been a shape uploaded
+	if( uploadedShapePrefix.length ) {
+		content += `<option value="${uploadedShapePrefix}_1"  selected="selected">^ ${uploadedShapePrefix}_1</option>`;
+			alreadySelected = true;
+			shapesSoFar.push(uploadedShapePrefix + '_1');
+			loadShape(uploadedShapePrefix+'_1',1);
+	}
+
 	if( thisRouteSaved ) {
 		if( thisRouteSaved[1]) {
-			content += `<option value="${thisRouteSaved[1]}"  selected="selected">${thisRouteSaved[1]} &#10004;</option>`;
+			if(! alreadySelected ) {
+				selectFlag = ' selected="selected"';
+				alreadySelected = true;
+			}
+			else selectFlag = '';
+			content += `<option value="${thisRouteSaved[1]}"${selectFlag}>&#10004; ${thisRouteSaved[1]}</option>`;
 			alreadySelected = true;
 			shapesSoFar.push(thisRouteSaved[1]);
+			loadShape(thisRouteSaved[1],1);
 		}
 	}
 	for (i in shapes[1]) {
-		selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
-		
+		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+		selectFlag = '';
+
 		if( shapesSoFar.indexOf(shapes[1][i]) < 0 ) {
-			content += `<option value="${shapes[1][i]}"${selectFlag}>${shapes[1][i]} #</option>`;
+			content += `<option value="${shapes[1][i]}"${selectFlag}># ${shapes[1][i]}</option>`;
 			shapesSoFar.push(shapes[1][i]);
 		}
 	}
@@ -804,10 +811,10 @@ function populateShapesLists(shapes) {
 	}
 
 	$('#shapes1List').html(content);
-	$('#shapes1List').trigger('change');
+	$('#shapes1List').trigger('chosen:updated');
 
 	//fire chosen autocomplete after populating.
-	$('#shapes1List').chosen(shapeAutocompleteOptions);
+	$('#shapes1List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
 
 }
 
@@ -827,7 +834,7 @@ function uploadShape() {
 	}
 
 	var pw = $("#password").val();
-	if ( ! pw.length ) { 
+	if ( ! pw ) { 
 		shakeIt('password'); 
 		$('#uploadShapeStatus').html('please enter the password.');
 		return;
@@ -879,15 +886,16 @@ function uploadShape() {
 		contentType: false,  // tell jQuery not to set contentType
 		success : function(returndata) {
 			console.log('API/shape POST request with file upload successfully done.');
-			$('#uploadShapeStatus').html("Upload successful." + returndata);
+			$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');
 			//exit modal.
+			uploadedShapePrefix = shape_id_prefix; //assign to global variable
 			modal.style.display = "none";
 			getPythonAllShapesList();
 			
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/shape POST request failed.')
-			$('#uploadShapeStatus').text( jqXHR.responseText );
+			$('#uploadShapeStatus').text('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
 		}
 	});
 	
@@ -914,9 +922,10 @@ function drawShape(shapeArray, whichMap) {
 	shapeArray.forEach(function(row){
 			latlngs.push([ row['shape_pt_lat'], row['shape_pt_lon'] ]);
 		});
-	var shapeLine = L.polyline(latlngs, {color: lineColor, weight:2, interactive:true}).addTo(shapeLayer[whichMap]);
-	map[whichMap].fitBounds(shapeLine.getBounds());
+	var shapeLine = L.polyline.antPath(latlngs, {color: lineColor, weight:5}).addTo(shapeLayer[whichMap]);
+	map[whichMap].fitBounds(shapeLine.getBounds(), {padding:[20,20], maxZoom:14});
 	
+	/* // removing arrows as they were conflicting with the animation antPath that was brought in later.
 	var spacer = Array(5).join(" "); // repeater. from https://stackoverflow.com/a/1877479/4355695
 	shapeLine.setText(spacer+'►'+spacer, {repeat: true,
 		offset: 5,
@@ -924,5 +933,37 @@ function drawShape(shapeArray, whichMap) {
 			'font-size': '14', 'fill':lineColor}
 		}
 	); // arrows! https://github.com/makinacorpus/Leaflet.TextPath/tree/gh-pages
+	*/
 }
 
+function getPythonAgency() {
+	//to do: load agencies info, and store it in a global variable.
+	// for routes table, set a function for picking agency.
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}agency`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded agency data from Server API/agency .`);
+			var data = JSON.parse(xhr.responseText);
+			var dropdown = '<option value="">Select agency</option>'
+			var selectedFlag = false;
+			data.forEach(function(row){
+				agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
+				var select = '';
+				if(!selectedFlag) {
+					select = '  selected="selected"'; selectedFlag = true;
+				}
+				dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
+			});
+			$('#agencySelect').html(dropdown);
+			$('#agencySelect').trigger('chosen:updated');
+			$('#agencySelect').chosen({disable_search_threshold: 1, search_contains:true, width:200});
+
+		}
+		else {
+			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
+}

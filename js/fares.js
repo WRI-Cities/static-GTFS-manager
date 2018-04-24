@@ -1,7 +1,36 @@
 //#########################
+// Global variables
+var allStopsKeyed = '';
+
+// set dynamic dropdown for fare_ids, reading from fare attributes table
+var fareList = function(cell){
+	var data = $("#fare-attributes-table").tabulator("getData");
+	var faresList = data.map(a => a.fare_id);
+	var priceList = data.map(a => a.price);
+	faresList.push('');
+	priceList.push('');
+	var editorParamsList = {};
+	for (f in faresList) {
+		editorParamsList[faresList[f]] = faresList[f] + (priceList[f] != '' ? ' (' + priceList[f] + ')' : 'blank' );
+	}
+	return editorParamsList;
+}
+
+var routeIdListGlobal = {};
+var routeIdLister = function(cell) {
+	return routeIdListGlobal;
+}
+
+var zoneIdListGlobal = {};
+// solves https://github.com/WRI-Cities/static-GTFS-manager/issues/62
+var zoneIdLister = function(cell) {
+	return zoneIdListGlobal;
+}
+
+//#########################
 // defining tables
 $("#fare-attributes-table").tabulator({
-	selectable:1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
+	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	//layout:"fitColumns", //fit columns to width of table (optional)
 	index: "fare_id", 
@@ -12,9 +41,10 @@ $("#fare-attributes-table").tabulator({
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
 		{title:"fare_id", field:"fare_id", editor:"input", headerFilter:"input", width:100, validator:["string", "minLength:2"] },
 		{title:"price", field:"price", editor:"input", headerFilter:"input", width:70, validator:["required","numeric"] },
+		{title:"payment_method", field:"payment_method", editor:"select", editorParams:{0:"0 - on boarding", 1:"1 - before boarding"}, headerSort:false, width:100 },
+		{title:"transfers", field:"transfers", editor:"select", editorParams:{'':'blank - Unlimited transfers', 0:"0 - No transfers", 1:"1 - Once allowed"}, headerSort:false, width:80 },
 		{title:"currency_type", field:"currency_type", headerSort:false, width:120 },
-		{title:"payment_method", field:"payment_method", editor:"select", editorParams:{0:"on boarding", 1:"before boarding"}, headerSort:false, width:100 },
-		{title:"transfers", field:"transfers", editor:"select", editorParams:{0:"No transfers", 1:"Once allowed", '':"unlimited transfers"}, headerSort:false, width:80 }
+		{title:"route_id", field:"route_id", headerSort:false, width:120, tooltip:'' }
 	],
 	cellEdited:function(cell){
 		// on editing a cell, log changes 
@@ -63,24 +93,37 @@ $("#fare-attributes-table").tabulator({
 
 }); // end fare attributes table definition
 
-
+$("#fare-rules-simple-table").tabulator({
+	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
+	movableRows: true, //enable user movable rows
+	//layout:"fitColumns", //fit columns to width of table (optional)
+	//index: "fare_id", // no index on this one
+	history:true,
+	addRowPos: "top",
+	columns:[ //Define Table Columns
+		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
+		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
+		{title:"fare_id", field:"fare_id", headerFilter:"input", width:100, editor:"select", editorParams:fareList, tooltip:"Fare Id. Corresponds to a price set in Fare Attributes tab." },
+		{title:"origin_id", field:"origin_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Origin Zone Id. Journey starting from this zone. Zones defined in Stops page." },
+		{title:"destination_id", field:"destination_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Desitnation Zone Id. Journey ending in this zone. Zones defined in Stops page." },
+		{title:"route_id", field:"route_id", editor:"select", editorParams:routeIdLister, headerFilter:"input", width:100, tooltip:"If this fare rule only applies to a particular route then select the route here." },
+		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, minWidth:30, cellClick:function(e, cell){
+			if(confirm('Are you sure you want to delete this entry?'))
+				cell.getRow().delete();
+			}}
+	]
+});
 //#######################
 // initiating commands
 $(document).ready(function(){
-	$( "#accordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	}); 
 	//Initiate fare attributes table
 	getPythonFareAttributes();
 	// Initiating Fare Rules table.
 	getPythonFareRules();
+	getPythonSimpleFareRules();
+	getPythonStopsKeyed();
+	getPythonRouteIdList();
+	getPythonZones();
 });
 
 
@@ -88,9 +131,12 @@ $(document).ready(function(){
 // Button actions
 
 $("#addEditFare").on("click", function() {
-	var fare_id = $('#targetFareid').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
+	var fare_id = $('#targetFareid').val().replace(/[^A-Za-z0-9-_]/g, "");
+	if(CAPSLOCK) fare_id = fare_id.toUpperCase(); // change to uppercase if capslock
+	
 	$('#targetFareid').val(fare_id);
-	var price = $('#price').val().replace(/[^0-9.-]/g, "");
+	
+	var price = $('#price').val().replace(/[^0-9.-]/g, ""); //n1b3rs only
 	$('#price').val(price);
 
 	// validation
@@ -130,7 +176,7 @@ $("#deleteFare").on("click", function() {
 });
 
 $("#targetFareid").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
 });
 
 
@@ -156,8 +202,16 @@ $("#saveFareAttributesButton").on("click", function(){
 	saveFareAttributes();
 })
 
-$("#saveFareRulesButton").on("click", function(){
-	saveFareRules();
+$("#saveFareRulesPivotedButton").on("click", function(){
+	saveFareRulesPivoted();
+})
+
+$("#addFareRuleButton").on("click", function(){
+	addFareRule();
+})
+
+$("#saveFareRulesSimpleButton").on("click", function(){
+	saveFareRulesSimple();
 })
 
 // #####################################
@@ -184,11 +238,30 @@ function getPythonFareRules() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded pivoted Fare Rules data from Server API/fareRulesPivoted .`);
 			var data = JSON.parse(xhr.responseText);
-			initiateFareRules(data);
+			if(data.length)	initiateFareRules(data);
+			else $("#fare-rules-table").html('No fare rules data found.');
 		}
 		else {
 			console.log('Server request to API/fareRulesPivoted failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText );
-			
+		}
+	};
+	xhr.send();
+}
+
+function getPythonSimpleFareRules() {
+	// Here we want to fetch JSON from backend, which will take it from fare_rules.txt 
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}fareRules`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded Simple Fare Rules data from Server API/fareRules .`);
+			var data = JSON.parse(xhr.responseText);
+			if(data.length)	$("#fare-rules-simple-table").tabulator('setData',data);
+			else $("#fare-rules-simple-table").html('No fare rules data found.');
+		}
+		else {
+			console.log('Server request to API/fareRules failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText );
 		}
 	};
 	xhr.send();
@@ -204,6 +277,14 @@ function getPythonFareAttributes(){
 			console.log(`Loaded Fare Attributes data from Server API/fareAttributes .`);
 			var data = JSON.parse(xhr.responseText);
 			$("#fare-attributes-table").tabulator('setData', data);
+
+			// populate Fare id dropdown in simple fare rules tab
+			var dropdown = '';
+			data.forEach(function(row){
+				dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
+			});	
+			$('#fareSelect').html(dropdown);
+
 		}
 		else {
 			console.log('Server request to API/fareAttributes failed.  Returned status of ' + xhr.status );
@@ -214,22 +295,16 @@ function getPythonFareAttributes(){
 }
 
 function initiateFareRules(rulesData) {
+	// check if already initialized
+	if( $("#fare-rules-table").html().length > 1000 ) {
+		$("#fare-rules-table").tabulator('setData',rulesData);
+		$("#fare-rules-table").tabulator('redraw', true);
+		return;
+	}
+
 	var colslist = Object.keys(rulesData[0]); // get all the keys, ie, column headers. from https://stackoverflow.com/a/8430501/4355695
 	var columnSettings = [{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 }];
 
-	// set dynamic dropdown for fare_ids, reading from fare attributes table
-	var fareList = function(cell){
-		var data = $("#fare-attributes-table").tabulator("getData");
-		var faresList = data.map(a => a.fare_id);
-		var priceList = data.map(a => a.price);
-		faresList.push('');
-		priceList.push('');
-		var editorParamsList = {};
-		for (f in faresList) {
-			editorParamsList[faresList[f]] = faresList[f] + (priceList[f] != '' ? ' (' + priceList[f] + ')' : 'blank' );
-		}
-		return editorParamsList;
-	}
 
 	// setting options for the columns.
 	for (i in colslist) {
@@ -253,8 +328,8 @@ function initiateFareRules(rulesData) {
 		columns:columnSettings,
 		cellEdited:function(cell){
 			// on editing a cell, log changes 
-			let fromZone = cell.getRow().getIndex(); //get corresponding stop_id for that cell
-			let toZone = cell.getColumn().getField() ;
+			let fromZone = cell.getRow().getIndex(); //get corresponding zone_id for that cell
+			let toZone = cell.getColumn().getField() ;	// get the column header
 
 			logmessage('Changed fare rule ' + cell.getOldValue() + ' to ' + cell.getValue() + ' for zone ' + fromZone + '->' + toZone);
 		},
@@ -280,6 +355,10 @@ function initiateFareRules(rulesData) {
 
 function saveFareAttributes() {
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#saveFareAttributesStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	$('#saveFareAttributesStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
 
 	var data = JSON.stringify( $("#fare-attributes-table").tabulator('getData') );
@@ -303,8 +382,12 @@ function saveFareAttributes() {
 	});
 }
 
-function saveFareRules() {
+function saveFareRulesPivoted() {
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#saveFareRulesStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	$('#saveFareRulesStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
 
 	var data = JSON.stringify( $("#fare-rules-table").tabulator("getData") );
@@ -320,6 +403,8 @@ function saveFareRules() {
 			console.log('API/fareRulesPivoted POST request successfully done.');
 			$('#saveFareRulesStatus').html('<span class="alert alert-success">' + returndata + '</span>' );
 			logmessage( 'Fare Rules saved to DB.' );
+			getPythonFareRules();
+			getPythonSimpleFareRules();
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/fareRulesPivoted POST request failed.')
@@ -327,4 +412,111 @@ function saveFareRules() {
 		}
 	});	
 }
+
+function saveFareRulesSimple() {
+	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#saveFareRulesSimpleStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
+	$('#saveFareRulesSimpleStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
+
+	var data = JSON.stringify( $("#fare-rules-simple-table").tabulator("getData") );
 	
+	$.ajax({
+		url : `${APIpath}fareRules?pw=${pw}`,
+		type : 'POST',
+		data : data,
+		cache: false,
+		processData: false,  // tell jQuery not to process the data
+		contentType: 'application/json; charset=utf-8', 
+		success : function(returndata) {
+			console.log('API/fareRulesPivoted POST request successfully done.');
+			$('#saveFareRulesSimpleStatus').html('<span class="alert alert-success">' + returndata + '</span>' );
+			logmessage( 'Simple Fare Rules saved to DB.' );
+			getPythonFareRules();
+			getPythonSimpleFareRules();
+		},
+		error: function(jqXHR, exception) {
+			console.log('API/fareRules POST request failed.')
+			$('#saveFareRulesSimpleStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
+		}
+	});	
+}
+
+function getPythonStopsKeyed() {
+	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
+		let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/allStopsKeyed`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded data from Server API/allStopsKeyed .`);
+			var data = JSON.parse(xhr.responseText);
+			allStopsKeyed = data;
+		}
+		else {
+			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+
+function getPythonZones() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/zoneIdList`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded data from Server API/zoneIdList .`);
+			var data = JSON.parse(xhr.responseText);
+
+			// populating zone id dropdowns in Simple tab
+			var dropdown = '';
+			data.forEach(function(row){
+				dropdown += `<option value="${row}">${row}</option>`;
+				zoneIdListGlobal[row] = row; 
+				// solves https://github.com/WRI-Cities/static-GTFS-manager/issues/62
+
+			});
+			console.log(dropdown);
+			$('#originSelect').html(dropdown);
+			$('#destinationSelect').html(dropdown);
+
+		}
+		else {
+			console.log('Server request to API/zoneIdList failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+
+function getPythonRouteIdList() {
+	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
+		let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/routeIdList`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded data from Server API/routeIdList .`);
+			var data = JSON.parse(xhr.responseText);
+			var dropdown = '<option value="">All routes</option>';
+			data.forEach(function(row){
+				routeIdListGlobal[ row ] = row;
+				dropdown += `<option value="${row}">${row}</option>`;
+			});	
+			console.log(routeIdListGlobal);
+			$('#routeSelect').html(dropdown);
+		}
+		else {
+			console.log('Server request to API/routeIdList failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+
+function addFareRule() {
+	var origin_id = $('#originSelect').val();
+	var destination_id = $('#destinationSelect').val();
+	var route_id = $('#routeSelect').val();
+	var fare_id = $('#fareSelect').val();
+	$("#fare-rules-simple-table").tabulator('addRow', {fare_id:fare_id, origin_id:origin_id, destination_id:destination_id, route_id:route_id}, true );
+
+}

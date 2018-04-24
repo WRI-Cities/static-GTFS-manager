@@ -40,7 +40,10 @@
 <div id="instructions">
 <h3>Instructions</h3>
 <div>
-<p>This page handles the specific XML format of KMRL. There are some files to upload and some settings to set before converting to GTFS. Please follow the instruction below carefully.</p>
+<p>This page handles the <a target="_blank" href="extra_files/sample-XML-structure.txt">specific XML format&#x2197;</a> of KMRL. There are some files to upload and some settings to set before converting to GTFS. Please make your way through each of the tabs.</p>
+- Do remember to enter the password on top right for all actions.<br>
+- Detailed instructions are given in info boxes at each tab.
+
 </div></div><!-- Accordion over -->
 
 <hr>
@@ -138,11 +141,17 @@ Upload XMLs in step 1...
 
 <h5>Agency Info <span id="agency-check"></span></h5>
 <p><small>
-<label title="Short, unique internal code for agency, like KMRL">agency_id: <input required id="agency_id" size="5" value="KMRL"></label><br>
-<label title="Official name of agency">agency_name: <input required id="agency_name" size="10" value="Kochi Metro"></label><br>
-<label title="Local language translation of name of agency">agency_name translation: <input id="agency_name_translation" size="10" value="കൊച്ചി മെട്രോ"></label><br>
-<label title="Official website of agency">agency_url: <input required id="agency_url" size="15" value="http://www.kochimetro.org/"></label><br>
-<label>agency_timezone: <input required id="agency_timezone" size="10" value="Asia/Kolkata"></label></small></p>
+<label title="Short, unique internal code for agency, like KMRL">agency_id: 
+	<input required id="agency_id" size="5"></label><br>
+<label title="Official name of agency">agency_name: 
+	<input required id="agency_name" size="10"></label><br>
+<label title="Local language translation of name of agency">agency_name translation: 
+	<input id="agency_name_translation" size="10"></label><br>
+<label title="Official website of agency">agency_url: 
+	<input required id="agency_url" size="15"></label><br>
+<label>agency_timezone: 
+	<input required id="agency_timezone" size="10"></label>
+</small></p>
 <hr>
 
 </div><div class="col-md-3">
@@ -159,7 +168,7 @@ Upload XMLs in step 1...
 
 <h5>Calendar <span id="calendar-check"></span></h5>
 <p><small><label title="Date from which the uploaded schedule is in operation, in YYYYMMDD format.">Start date: <input required id="start_date" size="8" placeholder="YYYYMMDD"></label><br>
-<label title="Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.">End date: <input required id="end_date" size="8" placeholder="YYYYMMDD" value="20990101"></label></small></p>
+<label title="Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.">End date: <input required id="end_date" size="8" placeholder="YYYYMMDD"></label></small></p>
 
 
 </div>

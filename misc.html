@@ -41,6 +41,7 @@ width:100%;
 font-family: "Lucida Console", Monaco, monospace;
 font-size: 0.8em;
 }
+
 </style></head>
 <body>
 <div id="navBar"></div>
@@ -75,7 +76,7 @@ font-size: 0.8em;
 </div><div class="col-md-4">
 
 <div class="alert alert-info"><small>
-Used for the feed's metadata, and in ROUTES section if there are multiple agencies and the route has to be shown to operate under an agency.
+Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency.
 </small></div>
 
 </div></div>
@@ -90,7 +91,7 @@ Used for the feed's metadata, and in ROUTES section if there are multiple agenci
 <div class="col-md-9">
 <div id="calendar-table"></div>
 <br>
-<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="4"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
+<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="6"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
 
 <p><button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small></p>
 
@@ -177,12 +178,14 @@ These are names of stops, routes, agency etc from across the data, with their tr
 <!-- Tabs Menu 2 -->
 <div id="tabs2">
 <ul>
-<li><a href="#delStopDiv">Delete Stop</a></li>
-<li><a href="#delRouteDiv">Delete Route</a></li>
-<li><a href="#delTripDiv">Delete Trip</a></li>
-<li><a href="#delShapeDiv">Delete Shape</a></li>
-<li><a href="#delZoneDiv">Delete Fares Zone</a></li>
-<li><a href="#delCalendarDiv">Delete Calendar Service</a></li>
+<li><a href="#delStopDiv">Stop</a></li>
+<li><a href="#delRouteDiv">Route</a></li>
+<li><a href="#delTripDiv">Trip</a></li>
+<li><a href="#delShapeDiv">Shape</a></li>
+<li><a href="#delCalendarDiv">Calendar Service</a></li>
+<li><a href="#delZoneDiv">Fare Zone</a></li>
+<li><a href="#delFareIDDiv">Fare ID</a></li>
+<li><a href="#delAgencyDiv">Agency</a></li>
 </ul>
 
 
@@ -221,15 +224,6 @@ These are names of stops, routes, agency etc from across the data, with their tr
 
 </div> <!-- END delShapeDiv -->
 
-<!-- delZoneDiv Delete Fares Zone -->
-
-<div id="delZoneDiv">
-
-<h4>Delete a Fare Zone</h4>
-<select id="zone2Delete"></select>
-
-</div> <!-- END delZoneDiv -->
-
 <!-- delCalendarDiv Delete Calendar Service -->
 <div id="delCalendarDiv">
 
@@ -237,6 +231,37 @@ These are names of stops, routes, agency etc from across the data, with their tr
 <select id="service2Delete"></select>
 
 </div> <!-- END delCalendarDiv -->
+
+<!-- delZoneDiv Delete Fares Zone -->
+
+<div id="delZoneDiv">
+
+<h4>Delete a Fare Zone</h4>
+<p>Used in Fares > Fare Rules (the origin and destination id's are fare zone id's). Created in Stops page (zone_id) column.</p>
+<select id="zone2Delete"></select>
+
+</div> <!-- END delZoneDiv -->
+
+<!-- delFareIDDiv Delete Fares Zone -->
+
+<div id="delFareIDDiv">
+
+<h4>Delete a Fare ID</h4>
+<p>Created in Fares > Fare Attributes. Each fare_id represents an amount. Used in Fare Rules tabs under Fares page to set the fare amount.</p>
+<select id="fareID2Delete"></select>
+
+</div> <!-- END delFareIDDiv -->
+
+
+<!-- delAgencyDiv Delete Fares Zone -->
+
+<div id="delAgencyDiv">
+
+<h4>Delete an Agency ID</h4>
+<p>Created in Misc > Agency Info. Used in Routes.</p>
+<select id="agency2Delete"></select>
+
+</div> <!-- END delAgencyDiv -->
 
 
 </div> <!-- END Tabs 2 Content -->

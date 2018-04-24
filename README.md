@@ -19,18 +19,20 @@ Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) f
 
 ## Run on your system
 #### About the password
-Yeah.. I put that in to share a demo of the app online and keep off spam-bots. And also for basic kid-proofing. You need to type in a password at the top right corner for anything that involves edit / import / export of database. Reading is free.
+You need to type in a password at the top right corner for anything that involves edit / import / export of database. Reading is free.  
+This feature was put in to share a demo version of the app online and keep off spam-bots. And also for basic stranger-proofing, in case someone stumbles across the tool over LAN or something. 
 
-How to configure your own password: Run [utilities/encrypt.py](https://github.com/WRI-Cities/static-GTFS-manager/blob/master/utilities/encrypt.py) like so:  
+How to configure your own password:  
+1. Run [utilities/encrypt.py](https://github.com/WRI-Cities/static-GTFS-manager/blob/master/utilities/encrypt.py) like so:  
 `python3 encrypt.py "your-password"`  
-It will generate a file for you named `rsa_key.bin`, which you have to put in the `js` folder of this repo (replace the one already there.. that's for my password.) After that, it'll be your password that works.
+2. It will generate a file for you named `rsa_key.bin`, which you have to put in the `pw` folder of this repo (replace the one already there) After that, it'll be your password that works.
 
-If you don't want to bother with all that jazz, find the `decrypt` function in `GTFSserverfunction.py` and change it to:
+If you don't want to bother with all that jazz, here's a hack: find the `decrypt` function in `GTFSserverfunction.py` and change it to:
 ```
 def decrypt(password):
 	return true
 ```
-Then type in any junk text to make things happen.
+Then type in any junk text to make things happen. The check for *some* password being typed, though, is there on JS side in every page and every function, so that may be harder to script out.
 
 #### On Ubuntu / Linux OS
 1. Open Terminal (linux command prompt) and clone this repo to your side:  
@@ -55,7 +57,36 @@ Then type in any junk text to make things happen.
 
 
 #### On Windows OS
-To do! But Anaconda package is a good place to start, and similar steps to be followed. *Coming soon: a binary .exe to make the program stand-alone.*
+Currently trying to build a standalone executable. To run the python3 program in windows, follow these steps:
+
+1. Install MiniConda as per your OS and 32/64 bit: https://conda.io/miniconda.html . Choose the default options.. nothing special needed.
+2. Open start menu > Anaconda.. > Anaconda Prompt
+3. A command prompt (black dos box) will open. This is like the regular windows command prompt, but has the added functionality of having python commands working.
+4. You'll be at some C:\xy path. Navigate to the folder where you have cloned/unzipped this repo. (oh, in case you haven't already.. you do need to download this program's repo! See the "Clone.." button around the top of the page.
+5. Try running this command: `python web_wrapper.py` . You'll probably get an error saying a particular module is not found. We have to download and install some dependencies first.
+6. Run these commands. You might be shown some things and asked to confirm. Press y and Enter when its asks.
+```
+conda install tornado
+conda install pandas
+pip install xmltodict
+pip install tinydb
+pip install pycryptodome
+```
+7. Some explanation : `conda` and `pip` are both standard package managers in miniconda and python. They download these packages/modules from official sources. The packages that aren't in conda's official listing need to be downloaded by pip. I had tried using pip for all but some chain-dependencies made conda necesary for the first two.
+8. Once you are done, run `python web_wrapper.exe`. You should see lines like:
+```
+static GTFS Manager
+Fork it on Github: https://github.com/WRI-Cities/static-GTFS-manager/
+Starting up the program, please wait...
+
+Loaded dependences, starting static GTFS Manager program.
+Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+```
+9. You might get a prompt from Windows Firewall. You can click Cancel or OK, it won't make any difference at your end. But if you want this program to be accessed by other machines on your LAN or WiFi network, then choose the appropriate options and proceed.
+10. A new tab should open in your web browser automatically, but in case it doesn't, please browse to the URL given in the command prompt output.
+11. The program now runs like a website in your browser. Note that this program is best seen from Chrome browser.
+12. To exit, you can simply close your browser tabs and close the command prompt box. Pressing Ctrl+C doesn't work immediately.. you need to perform some action in the browser like navigating to a different page.
+
 
 ## GTFS feed Export
 The end output of this program is a gtfs.zip file having your transit agency's static GTFS data. See the **Commit and Export GTFS** section on the main page for the same.

@@ -10,7 +10,7 @@ var weekdaySchedules = [];
 var sundaySchedules = [];
 var allStopsMappedFlag = false;
 var faresListGlobal = [];
-var config = { "stations":"stations.csv", "timepoint":1, "wheelchair_accessible":1, "route_type":1, "route_color":"00B7F3", "route_text_color":"000000", "secondland":"ml", "currency_type":"INR", "payment_method":0, "transfers":"" };
+var config = KMRLDEFAULTS; // loading default config parameters, see in commonfuncs.js .
 
 // #######################
 // initiate map
@@ -82,24 +82,17 @@ $("#stations-table").tabulator({
 // #########################################
 // Initiate bootstrap / jquery components like tabs, accordions
 $(document).ready(function(){
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	}); 
-	// initiate accordion
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-	
-	// popover
-    $('[data-toggle="popover"]').popover(); 
-
 	var rightNow = new Date(); 
 	ydm = rightNow.toISOString().slice(0,10).replace(/-/g,'');
 	$( "#start_date").val(ydm);
+
+	//Pre-load input boxes with config defaults 
+	$( "#agency_id").val( config['agency_id'] );
+	$( "#agency_name").val( config['agency_name'] );
+	$( "#agency_name_translation").val( config['agency_name_translation'] );
+	$( "#agency_url").val( config['agency_url'] );
+	$( "#agency_timezone").val( config['agency_timezone'] );
+	$( "#end_date").val( config['end_date'] );
 
 });
 //###################
@@ -152,36 +145,12 @@ $("#xml2GTFSButton").on("click", function(){
 // #########################################
 // auto-capitalize inputs
 $("#station2add").bind("change keyup", function(){
-	this.value=this.value.toUpperCase();
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
 });
 
-//###################
-// Functions
-/* // tihs is being taken care of by tabulator itself now. it is loading by ajax request.
-function loadFromCsv(chosen1,mode='setData') {
-	Papa.parse(chosen1, {
-		download: true,
-		header: true,
-		dynamicTyping: true,
-		skipEmptyLines: true,
-		complete: function(results) {
-			console.log('loaded',chosen1);
-			
-			initiateStations(results.data, mode);
-
-		}, // END of Papa.parse complete() function
-		
-		error: function() {
-			console.log("Error. Could not load", chosen1);
-			
-		}
-	}); // END of Papa.parse
-}
-
-function initiateStations(data, mode='setData') {
-	$("#stations-table").tabulator(mode,data);
-}
-*/
+$("#agency_id").bind("change keyup", function(){
+	if(CAPSLOCK) this.value=this.value.toUpperCase();
+});
 
 function XMLUpload() {
 	// make POST request to API/XMLUpload
@@ -198,6 +167,10 @@ function XMLUpload() {
 	$('#XMLUploadStatus').text( 'Uploading files, please wait.. ');
 	$('#stationsStatus').text('');
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#XMLUploadStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	var depot = $('#depot').val();
 	config['depotstations'] = depot;
 
@@ -280,6 +253,10 @@ function saveStations() {
 	var data = $("#stations-table").tabulator("getData");
 
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#stationsSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 
 	console.log('sending stations table data to server via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
@@ -410,6 +387,10 @@ function fareChartUpload() {
 
 	$('#fareChartUploadStatus').text( 'Uploading file, please wait.. ');
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#fareChartUploadStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 
 	var formData = new FormData();
 	formData.append('fareChart', $('#fareChart')[0].files[0] );
@@ -551,6 +532,10 @@ function checkMisc() {
 function pythonxml2GTFS() {
 	//send config json variable to python
 	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#xml2GTFSStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
 	$('#xml2GTFSStatus').html('<div class="alert alert-secondary col-md-4">Sending config parameters...<br>Backing up existing data... <br>Processing uploaded files to generate new GTFS...<br>Populating database...<br>Please wait...</div>');
 	
 	$.ajax({
