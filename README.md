@@ -76,7 +76,7 @@ pip install -r requirements.txt
 ```
 
 8. Note that all of this happens while your command prompt is STILL in the downloaded program's folder. For explanation see notes after the steps. The first and the last commands will take time to complete. `pip install..` will need an active internet connection, note. Take a 10-min break while it all happens.
-9. Once you are done, run `python web_wrapper.exe`. You should see lines like:
+9. Once you are done, run `python GTFSManager.py`. You should see lines like:
 ```
 static GTFS Manager  
 Fork it on Github: https://github.com/WRI-Cities/static-GTFS-manager/  
@@ -191,4 +191,6 @@ In addition to this, there are several code snippets used throughout the program
 
 #### Personal mentions
 Big thanks to Srinivas from Hyderabad, India for connecting folks together and sharing guidance, and to Devdatta from Pune, India for a sharing a very simple [working example](https://github.com/devdattaT/sampleTornadoApp) to learn about Tornado web server serving asynchronous requests.
+
+
 
