@@ -140,3 +140,10 @@
 2018-Apr-25 15:00:28 : calendar GET call took 0.14 seconds.
 2018-Apr-25 15:00:33 : GTFSstats function took 1.1 seconds.
 2018-Apr-25 15:00:33 : pastCommits GET call took 0.0 seconds.
+2018-Apr-25 20:44:56 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-25 20:44:56 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-25 20:45:02 : pastCommits GET call took 0.15 seconds.
+2018-Apr-25 20:45:03 : GTFSstats function took 1.18 seconds.
+2018-Apr-25 20:45:42 : allStops GET call took 0.17 seconds.
+2018-Apr-25 20:45:46 : GTFSstats function took 1.09 seconds.
+2018-Apr-25 20:45:46 : pastCommits GET call took 0.0 seconds.

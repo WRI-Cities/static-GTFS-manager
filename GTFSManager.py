@@ -46,7 +46,7 @@ if not os.path.exists(logFolder):
 exec(open("./GTFSserverfunctions.py", encoding='utf8').read())
 exec(open("./xml2GTFSfunction.py", encoding='utf8').read())
 
-logmessage('Loaded dependences, starting static GTFS Manager program.')
+logmessage('Loaded dependencies, starting static GTFS Manager program.')
 
 '''
 class APIHandler(tornado.web.RequestHandler):

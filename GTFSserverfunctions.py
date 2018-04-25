@@ -756,14 +756,14 @@ def collectfromDB(dbfile,key,value,tables,secondarytables):
 		tableDb = db.table(tablename)
 		tableArray = tableDb.search(Item[key] == value)
 		returnJson['main'][tablename] = tableArray
-		logmessage(str(len(tableArray)) + ' rows to be deleted in ' + tablename +' for ' + key + '=' + 'value'  )
+		logmessage(str(len(tableArray)) + ' rows to be deleted in ' + tablename +' for ' + key + '=' + value  )
 
 	if not secondarytables == ['']:
 		for tablename in secondarytables:
 			tableDb = db.table(tablename)
 			tableArray = tableDb.search(Item[key] == value)
 			returnJson['zap'][tablename] = tableArray
-			logmessage(str(len(tableArray)) + ' rows to be zapped in ' + tablename +' where ' + key + '=' + 'value'  )
+			logmessage(str(len(tableArray)) + ' rows to be zapped in ' + tablename +' where ' + key + '=' + value  )
 	db.close()
 	return returnJson
 
