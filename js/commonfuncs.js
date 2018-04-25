@@ -1,8 +1,7 @@
 // ############################
 // CONSTANTS
-const version = 'v1.4.0';
+const VERSION = 'v1.4.2';
 const APIpath = 'API/';
-// const APIpath = 'https://lit-mesa-97724.herokuapp.com/API/';
 const CURRENCY = 'INR';
 const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };
 //const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
@@ -20,7 +19,7 @@ const KMRLDEFAULTS = { "stations":"stations.csv", "timepoint":1, "wheelchair_acc
 
 var navBarContentStart = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
  <!-- Brand --> \
-<div class="navbar-brand"><a class="navbar-brand" href="index.html">GTFS Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + version + '</span></a></div> \
+<div class="navbar-brand"><a class="navbar-brand" href="index.html"><img src="extra_files/GTFS.png" height="44" width="auto">GTFS Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + VERSION + '</span></a></div> \
 <!-- Links --> \
 <ul class="navbar-nav">';
 
@@ -67,6 +66,9 @@ $(document).ready(function() {
 	$( "#logaccordion" ).accordion({
 		collapsible: true, active: false
 	});
+	
+	// Footer
+	$("body").append('<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">GTFS Manager ' + VERSION + '</a></div>');
 
 });
 // ############################

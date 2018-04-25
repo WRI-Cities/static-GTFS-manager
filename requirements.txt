@@ -1,5 +1,5 @@
-tinydb==3.8.0
-tornado==4.5.3
+tinydb==3.9.0
+tornado==5.0.2
 pandas==0.22.0
 xmltodict==0.11.0
-pycryptodome==3.5.1
+pycryptodomex==3.6.1

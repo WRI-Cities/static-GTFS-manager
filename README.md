@@ -1,7 +1,7 @@
 # static-GTFS-manager
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 1.4.0 is ready, open for Beta Testing.
+**Development Status** : V 1.4.2 is ready, open for Beta Testing. And Windows binary is available too now. See [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
 
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
@@ -34,7 +34,9 @@ def decrypt(password):
 ```
 Then type in any junk text to make things happen. The check for *some* password being typed, though, is there on JS side in every page and every function, so that may be harder to script out.
 
-#### On Ubuntu / Linux OS
+Please scroll below for windows instructions for changing password.
+
+### On Ubuntu / Linux OS
 1. Open Terminal (linux command prompt) and clone this repo to your side:  
 `git clone https://github.com/WRI-Cities/static-GTFS-manager.git`
 
@@ -56,24 +58,36 @@ Then type in any junk text to make things happen. The check for *some* password 
 8. Note: there is a password input box at top right corner. For any operation involving editing, import or export of data, the password should be typed in as a basic precaution against data tampering. The password can be accessed by reading the `web_wrapper.py` file. This is just a rudimentary precaution against unintended edits for now; it is NOT a security feature. Otherwise for browsing through the app and seeing info (ie, read operations), no password is required.
 
 
-#### On Windows OS
-Currently trying to build a standalone executable. To run the python3 program in windows, follow these steps:
+### On Windows OS
 
+#### Windows executable, Double-click and Go!
+1. Download the latest `GTFS-Manager-Windows-vxxx.zip` from [Releases section](https://github.com/WRI-Cities/static-GTFS-manager/releases/) and unzip it on your system. Get into the folder created.
+2. Double-click on the shortcut "GTFS-Manager".
+3. That's it, that should start the program! A dos box should open up giving status messages, and in a few seconds a new tab should open in your system's default web browser with the program loaded.
+4. There will probably be a Windows Firewall popup. Just click cancel.. this program doesn't intend to do anything over the internet apart from loading the web map background tiles.
+
+**Notes on Windows executable**:  
+- In case the browser that opened is Internet Explorer, please copy-paste the URL to Chrome or similar modern browser. There may be some compatibility issues with IE.
+- **Closing** : Simply closing the dos-box and the browser tab should be enough. You can also press Ctrl+C in the dos box, but it acts on it only when there is a change in page at the browser end (will process the command only when an API call is activated).
+- We need feedback of how the program runs on different Windows systems. If you experience problems, please file an issue with details of your OS (windows version, 64bit or 32bit etc) and if possible give the output that came on the dos-box. (unlikely as it'll probably close itself when an error happens.. try opening command-prompt in the folder and run `dist\GTFSManager\GTFSManager.exe` )
+- This works on 64-bit Windows systems, Win7 and above. Support for older 32-bit versions isn't provided yet; we could give it a shot if there are enough requests, or we encourage a developer working on python3 from a 32-bit windows OS to try compiling it (as a binary for that version needs to be created from that OS). See #63 for details.
+- Want to **Change the Password** ? Double-click on the "encrypt" shortcut and follow the instructions.
+
+#### Running with Python3 on a Windows OS
 1. Install MiniConda as per your OS and 32/64 bit: https://conda.io/miniconda.html . Choose the default options.. nothing special needed.
-2. Open start menu > Anaconda.. > Anaconda Prompt
+2. Open Start Menu > Anaconda.. > Anaconda Prompt
 3. A command prompt (black dos box) will open. This is like the regular windows command prompt, but has the added functionality of having python commands working.
-4. You'll be at some C:\xy path. Navigate to the folder where you have cloned/unzipped this repo. (oh, in case you haven't already.. you do need to download this program's repo! See the "Clone.." button around the top of the page.
-5. Try running this command: `python web_wrapper.py` . You'll probably get an error saying a particular module is not found. We have to download and install some dependencies first.
-6. Run these commands. You might be shown some things and asked to confirm. Press y and Enter when its asks.
+4. You'll be at some C:\XYZ path. Navigate to the folder where you have cloned/unzipped this repo. (oh, in case you haven't already.. you do need to download this program's repo, dude! See the "Clone.." button around the top of the page.
+5. Try running this command: `python web_wrapper.py` . You'll probably get an error saying a particular module is not found. We have to download and install some dependencies first. No worries, they're nicely listed in the `requirements.txt` file in the same folder.
+6. We now create a virtual environment (no it won't be another folder, stay where you are.. just run the commands huh?) and install the required python modules:
+7. Run these commands. You might be shown some prompts and asked to confirm. Just go with the flow.
 ```
-conda install tornado
-conda install pandas
-pip install xmltodict
-pip install tinydb
-pip install pycryptodome
+conda create -n gtfs python=3
+activate gtfs
+pip install -r requirements.txt
 ```
-7. Some explanation : `conda` and `pip` are both standard package managers in miniconda and python. They download these packages/modules from official sources. The packages that aren't in conda's official listing need to be downloaded by pip. I had tried using pip for all but some chain-dependencies made conda necesary for the first two.
-8. Once you are done, run `python web_wrapper.exe`. You should see lines like:
+8. Note that all of this happens while your command prompt is STILL in the downloaded program's folder. For explanation see notes after the steps. The first and the last commands will take time to complete. `pip install..` will need an active internet connection, note. Take a 10-min break while it all happens.
+9. Once you are done, run `python web_wrapper.exe`. You should see lines like:
 ```
 static GTFS Manager
 Fork it on Github: https://github.com/WRI-Cities/static-GTFS-manager/
@@ -82,11 +96,17 @@ Starting up the program, please wait...
 Loaded dependences, starting static GTFS Manager program.
 Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
 ```
-9. You might get a prompt from Windows Firewall. You can click Cancel or OK, it won't make any difference at your end. But if you want this program to be accessed by other machines on your LAN or WiFi network, then choose the appropriate options and proceed.
+10. A web browser tab will open. If it's Internet Explorer, please copy-paste the URL and run it in Chrome or something else instead. There are some compatibility issues with IE on the JS side.
+11. You might get a prompt from Windows Firewall. You can click Cancel or OK, it won't make any difference at your end. But if you want this program to be accessed by other machines on your LAN or WiFi network, then choose the appropriate options and proceed.
 10. A new tab should open in your web browser automatically, but in case it doesn't, please browse to the URL given in the command prompt output.
 11. The program now runs like a website in your browser. Note that this program is best seen from Chrome browser.
 12. To exit, you can simply close your browser tabs and close the command prompt box. Pressing Ctrl+C doesn't work immediately.. you need to perform some action in the browser like navigating to a different page.
 
+
+#### Notes on Windows Python running:
+**Virtual Environment**: Python provides a way to create a virtual environment where the packages you download will not interfere with the main python installation. This becomes useful when you want to run a program having fixed dependencies and in later years the new versions change things that may break your program.  
+
+**pip install** : `pip` and even `conda` which you can use if pip doesn't work at your end, are standard package managers in python. They download these packages/modules from official sources.
 
 ## GTFS feed Export
 The end output of this program is a gtfs.zip file having your transit agency's static GTFS data. See the **Commit and Export GTFS** section on the main page for the same.

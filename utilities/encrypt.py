@@ -1,5 +1,5 @@
 # python3
-from Crypto.PublicKey import RSA
+from Cryptodome.PublicKey import RSA
 from sys import argv
 
 # usage: python3 encrypt.py "password"
@@ -22,5 +22,12 @@ if len(argv) > 1 :
 	print('Encrypted. You can put the file rsa_key.bin in your application and it will be decoded only by your password.')
 
 else:
-	print('Usage: python3 encrypt.py "password"')
+	print('Password encryption utility that uses RSA encryption.');
+	print('Normal usage: python3 encrypt.py "password"')
 	print('Output will be a file "rsa_key.bin" created in the same folder that you can keep in your application and use the decrypt function to authenticate password.')
+	print('\n\nDoing interactive mode. Enter a word or phrase as your password:')
+	password = input()
+	encrypt(password)
+	print('\nOk, created an encrypted key for your password. You should find a new "rsa_key.bin" file created in your working folder. Move it to "pw" folder, replacing the existing key there. Now when you run the program, you will be able to use the new password.')
+	print('Press any key to exit.')
+	a = input()

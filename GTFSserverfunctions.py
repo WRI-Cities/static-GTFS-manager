@@ -455,9 +455,7 @@ def readStationsCSV(csvfile = xmlFolder + 'stations.csv'):
 
 def decrypt(password):
 	# from https://stackoverflow.com/questions/2490334/simple-way-to-encode-a-string-according-to-a-password
-	# passwordHash
-	# 'not all who wander are lost'
-
+	
 	if len(password) == 0:
 		logmessage("Why u no entering password! Top right! Top right!")
 		return False
@@ -470,7 +468,7 @@ def decrypt(password):
 		return True
 	except ValueError:
 		return False
-
+	
 
 ##############################
 

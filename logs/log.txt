@@ -91,3 +91,52 @@
 2018-Apr-24 11:58:48 : calendar GET call took 0.14 seconds.
 2018-Apr-24 11:58:49 : listAll GET call took 0.87 seconds.
 2018-Apr-24 11:58:49 : translations GET call took 0.14 seconds.
+2018-Apr-24 13:10:52 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-24 13:10:52 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-24 13:11:00 : pastCommits GET call took 0.12 seconds.
+2018-Apr-24 13:11:01 : GTFSstats function took 1.14 seconds.
+2018-Apr-24 13:11:12 : allStops GET call took 0.16 seconds.
+2018-Apr-24 13:11:15 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-24 13:11:15 : allRoutes GET call took 0.13 seconds.
+2018-Apr-24 13:11:16 : agency GET call took 0.15 seconds.
+2018-Apr-24 13:11:16 : allShapesList GET call took 0.44 seconds.
+2018-Apr-24 13:11:22 : Got the sequence from sequence db file.
+2018-Apr-24 13:11:22 : sequence GET call took 0.0 seconds.
+2018-Apr-24 13:11:22 : shapes GET call took 0.22 seconds.
+2018-Apr-24 13:11:23 : shapes has 121 rows for shape_id = R1_0
+2018-Apr-24 13:11:23 : shape GET call took 0.16 seconds.
+2018-Apr-24 13:11:23 : shapes has 121 rows for shape_id = R1_1
+2018-Apr-24 13:11:23 : shape GET call took 0.15 seconds.
+2018-Apr-24 13:11:47 : GTFSstats function took 1.3 seconds.
+2018-Apr-24 13:11:47 : pastCommits GET call took 0.0 seconds.
+2018-Apr-24 13:14:07 : allStopsKeyed GET call took 0.15 seconds.
+2018-Apr-24 13:14:07 : agency GET call took 0.14 seconds.
+2018-Apr-24 13:14:07 : allRoutes GET call took 0.14 seconds.
+2018-Apr-24 13:14:07 : allShapesList GET call took 0.15 seconds.
+2018-Apr-24 13:14:12 : allStopsKeyed GET call took 0.14 seconds.
+2018-Apr-24 13:14:12 : agency GET call took 0.13 seconds.
+2018-Apr-24 13:14:13 : allRoutes GET call took 0.14 seconds.
+2018-Apr-24 13:14:13 : allShapesList GET call took 0.14 seconds.
+2018-Apr-24 13:14:14 : GTFSstats function took 1.09 seconds.
+2018-Apr-24 13:14:14 : pastCommits GET call took 0.0 seconds.
+2018-Apr-25 07:58:34 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-25 07:58:34 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-25 07:58:53 : GTFSstats function took 1.28 seconds.
+2018-Apr-25 07:58:53 : pastCommits GET call took 0.16 seconds.
+2018-Apr-25 14:37:44 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-25 14:37:44 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-25 14:38:20 : pastCommits GET call took 0.0 seconds.
+2018-Apr-25 14:38:21 : GTFSstats function took 1.13 seconds.
+2018-Apr-25 14:38:45 : allStops GET call took 0.17 seconds.
+2018-Apr-25 15:00:12 : Loaded dependences, starting static GTFS Manager program.
+2018-Apr-25 15:00:12 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
+2018-Apr-25 15:00:18 : GTFSstats function took 1.23 seconds.
+2018-Apr-25 15:00:18 : pastCommits GET call took 0.12 seconds.
+2018-Apr-25 15:00:20 : allStops GET call took 0.17 seconds.
+2018-Apr-25 15:00:27 : allRoutes GET call took 0.16 seconds.
+2018-Apr-25 15:00:27 : tripIdList GET call took 0.15 seconds.
+2018-Apr-25 15:00:27 : allStopsKeyed GET call took 0.15 seconds.
+2018-Apr-25 15:00:28 : allShapesList GET call took 0.51 seconds.
+2018-Apr-25 15:00:28 : calendar GET call took 0.14 seconds.
+2018-Apr-25 15:00:33 : GTFSstats function took 1.1 seconds.
+2018-Apr-25 15:00:33 : pastCommits GET call took 0.0 seconds.

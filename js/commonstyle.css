@@ -237,3 +237,15 @@ was interfering with well divs on main page.
     color:#fff;
 }
 
+/* Footer */
+.footer {
+   position:relative;
+   text-align: right;
+   right: 20px;
+   bottom:10px;
+   width:auto;
+}
+.footer a{
+text-decoration:none;
+color: black;
+}
