@@ -24,7 +24,7 @@ Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) f
 See this and many more GTFS related resources listed on **[Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools)**, a one-stop community listing for all things GTFS.
 
 ## Demo Videos
-[![GTFS Manager Runthrough video](http://img.youtube.com/vi/n8BuDM51QyU/0.jpg)](https://www.youtube.com/embed/n8BuDM51QyU?rel=0&autoplay=1 "GTFS Manager Runthrough video")
+[GTFS Manager Runthrough video](https://www.youtube.com/embed/n8BuDM51QyU?rel=0&autoplay=1)
 
 [Demonstration of XML Import feature](https://www.youtube.com/watch?v=_JYVtm-6iJg)
 
