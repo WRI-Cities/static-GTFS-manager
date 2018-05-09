@@ -11,8 +11,9 @@ var chosenDirection = 0;
 var trip_id_list = '';
 var sequenceHolder = '';
 var allStopsKeyed = '';
+
 // #########################################
-// function-variable to be used in tabulator, 
+// Function-variables to be used in tabulator
 
 var serviceListGlobal = {};
 var serviceLister = function(cell) {
@@ -24,7 +25,12 @@ var shapeLister = function(cell) {
 	return shapeListGlobal;
 }
 
+var tripsTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' trips total';
+}
 
+// #########################################
 // initializing tabulators
 $("#trips-table").tabulator({
 	selectable:1,
@@ -45,7 +51,7 @@ $("#trips-table").tabulator({
 		{title:"Calendar service", field:"service_id", editor:"select", editorParams:serviceLister, headerFilter:"input", validator:"required", headerSort:false },
 		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{0:"Onward(0)", 1:"Return(1)"}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return'} },
 		{title:"trip_headsign", field:"trip_headsign", editor:"input", headerFilter:"input", headerSort:false },
-		{title:"trip_short_name", field:"trip_short_name", editor:"input", headerFilter:"input", headerSort:false },
+		{title:"trip_short_name", field:"trip_short_name", editor:"input", headerFilter:"input", headerSort:false, bottomCalc:tripsTotal },
 		{title:"block_id", field:"block_id", editor:"input", headerFilter:"input", tooltip:"Vehicle identifier", headerSort:false },
 		{title:"shape_id", field:"shape_id", editor:"select", editorParams:shapeLister, headerFilter:"input", headerSort:false },
 		{title:"wheelchair_accessible", field:"wheelchair_accessible", headerSort:false, 
@@ -63,6 +69,8 @@ $("#trips-table").tabulator({
 		$('#chosenTrip').html('<big><span class="badge label-green">' + tripname + ' <small>(' + chosenTrip + ')</small></span></big>');
 		$("#stop-times-table").tabulator('clearData'); // on changing selection, clear the stop_times table in Timings tab.
 		$('#loadTimingsStatus').html('');
+
+		// load up start time if in the format 
 	},
 	rowDeselected:function(row){
 		;
@@ -176,6 +184,12 @@ function getPythonTrips(route_id) {
 			var data = JSON.parse(xhr.responseText);
 			$("#trips-table").tabulator('setData',data.trips);
 			$('#routeSelectStatus').html('<span class="alert alert-success">Loaded trips for route ' + route_id + '</span>');
+			
+			// resetting save to DB button if a new set of trips has been loaded from DB, clearing status text.
+			setSaveTrips(false);
+			$('#addTripStatus').html('');
+
+			// SEQUENCE:
 			sequenceHolder = data.sequence;
 			console.log(sequenceHolder);
 			if(!sequenceHolder) {
@@ -258,6 +272,7 @@ function populateRouteSelect(data) {
 	var content = '<option value="">No Selection</option>';
 	// route_id,route_short_name,route_long_name,route_type,route_color,route_text_color
 	data.forEach(function(row){
+			if(!row['route_long_name']) row['route_long_name'] = '(no long name)';
 			content += `<option value="${row['route_id']}">${row['route_short_name']}-${row['route_long_name']}</option>`;
 		});
 	$('#routeSelect').html(content);
@@ -265,7 +280,6 @@ function populateRouteSelect(data) {
 	$('#routeSelect').on('change', function(evt,params) {
 		let route_id = params.selected;
 		if( !route_id.length ) {
-			console.log('hello');
 			$("#trips-table").tabulator('clearData');
 			chosenRoute = '';
 			chosenRouteShortName = '';
@@ -395,24 +409,7 @@ function loadTimings() {
 function addTrip() {
 	route_id = chosenRoute ;
 	if(! chosenRoute.length) return;
-	/*
-	trip_id = $('#trip2add').val().toUpperCase().replace(/[^A-Za-z0-9-_]/g, ""); // cleanup!
-	
-	$('#trip2add').val(trip_id);
 
-	uniqueCheck = ( trip_id_list.indexOf(trip_id) < 0 );
-	if( uniqueCheck ) {
-		var tripRow = { 'trip_id':trip_id, 'route_id':route_id };
-		$("#trips-table").tabulator('addRow', tripRow, true);
-		$('#addTripStatus').html('Added ' + trip_id + ' to table at top. Please fill in the remaining columns and then save changes.');
-		trip_id_list.push(trip_id); //adding to list to avoid repeat adds
-		$('#trip2add').val(''); //resetting field
-	} else {
-		$('#addTripStatus').html('Sorry, this id is already taken by this or another route. Please choose another.');
-	}
-	*/
-
-	// redoing
 	var trip_time = $('#trip_time').val();
 	console.log(trip_time);
 	if(! trip_time.length) { shakeIt('trip_time'); return; }
@@ -447,7 +444,6 @@ function addTrip() {
 		$("#trips-table").tabulator('addRow',{ route_id:route_id, trip_id: trip_id, 
 			service_id:service_id, direction_id:directionsArray[i], shape_id:shape_id,
 			trip_short_name: trip_short_name, trip_headsign:trip_headsign },true);
-		content += 'Trip added with id ' + trip_id + '<br>';
 
 	}
 	

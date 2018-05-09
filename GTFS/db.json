@@ -77,495 +77,10 @@
       "fare_id": "F2",
       "origin_id": "ALVA"
     },
-    "2": {
-      "destination_id": "CCUV",
-      "fare_id": "F3",
-      "origin_id": "ALVA"
-    },
-    "3": {
-      "destination_id": "CGPP",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
-    "4": {
-      "destination_id": "CPPY",
-      "fare_id": "F2",
-      "origin_id": "ALVA"
-    },
-    "5": {
-      "destination_id": "EDAP",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
-    "6": {
-      "destination_id": "JLSD",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
-    "7": {
-      "destination_id": "KALR",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
-    "8": {
-      "destination_id": "KLMT",
-      "fare_id": "F3",
-      "origin_id": "ALVA"
-    },
-    "9": {
-      "destination_id": "LSSE",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
     "10": {
       "destination_id": "MACE",
       "fare_id": "F5",
       "origin_id": "ALVA"
-    },
-    "11": {
-      "destination_id": "MGRD",
-      "fare_id": "F5",
-      "origin_id": "ALVA"
-    },
-    "12": {
-      "destination_id": "MUTT",
-      "fare_id": "F2",
-      "origin_id": "ALVA"
-    },
-    "13": {
-      "destination_id": "PARV",
-      "fare_id": "F4",
-      "origin_id": "ALVA"
-    },
-    "14": {
-      "destination_id": "PDPM",
-      "fare_id": "F3",
-      "origin_id": "ALVA"
-    },
-    "15": {
-      "destination_id": "PNCU",
-      "fare_id": "F1",
-      "origin_id": "ALVA"
-    },
-    "16": {
-      "destination_id": "ALVA",
-      "fare_id": "F2",
-      "origin_id": "ATTK"
-    },
-    "17": {
-      "destination_id": "CCUV",
-      "fare_id": "F2",
-      "origin_id": "ATTK"
-    },
-    "18": {
-      "destination_id": "CGPP",
-      "fare_id": "F3",
-      "origin_id": "ATTK"
-    },
-    "19": {
-      "destination_id": "CPPY",
-      "fare_id": "F1",
-      "origin_id": "ATTK"
-    },
-    "20": {
-      "destination_id": "EDAP",
-      "fare_id": "F3",
-      "origin_id": "ATTK"
-    },
-    "21": {
-      "destination_id": "JLSD",
-      "fare_id": "F3",
-      "origin_id": "ATTK"
-    },
-    "22": {
-      "destination_id": "KALR",
-      "fare_id": "F3",
-      "origin_id": "ATTK"
-    },
-    "23": {
-      "destination_id": "KLMT",
-      "fare_id": "F2",
-      "origin_id": "ATTK"
-    },
-    "24": {
-      "destination_id": "LSSE",
-      "fare_id": "F4",
-      "origin_id": "ATTK"
-    },
-    "25": {
-      "destination_id": "MACE",
-      "fare_id": "F4",
-      "origin_id": "ATTK"
-    },
-    "26": {
-      "destination_id": "MGRD",
-      "fare_id": "F4",
-      "origin_id": "ATTK"
-    },
-    "27": {
-      "destination_id": "MUTT",
-      "fare_id": "F1",
-      "origin_id": "ATTK"
-    },
-    "28": {
-      "destination_id": "PARV",
-      "fare_id": "F3",
-      "origin_id": "ATTK"
-    },
-    "29": {
-      "destination_id": "PDPM",
-      "fare_id": "F2",
-      "origin_id": "ATTK"
-    },
-    "30": {
-      "destination_id": "PNCU",
-      "fare_id": "F1",
-      "origin_id": "ATTK"
-    },
-    "31": {
-      "destination_id": "ALVA",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "32": {
-      "destination_id": "ATTK",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "33": {
-      "destination_id": "CGPP",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "34": {
-      "destination_id": "CPPY",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "35": {
-      "destination_id": "EDAP",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "36": {
-      "destination_id": "JLSD",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "37": {
-      "destination_id": "KALR",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "38": {
-      "destination_id": "KLMT",
-      "fare_id": "F1",
-      "origin_id": "CCUV"
-    },
-    "39": {
-      "destination_id": "LSSE",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "40": {
-      "destination_id": "MACE",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "41": {
-      "destination_id": "MGRD",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "42": {
-      "destination_id": "MUTT",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "43": {
-      "destination_id": "PARV",
-      "fare_id": "F2",
-      "origin_id": "CCUV"
-    },
-    "44": {
-      "destination_id": "PDPM",
-      "fare_id": "F1",
-      "origin_id": "CCUV"
-    },
-    "45": {
-      "destination_id": "PNCU",
-      "fare_id": "F3",
-      "origin_id": "CCUV"
-    },
-    "46": {
-      "destination_id": "ALVA",
-      "fare_id": "F4",
-      "origin_id": "CGPP"
-    },
-    "47": {
-      "destination_id": "ATTK",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "48": {
-      "destination_id": "CCUV",
-      "fare_id": "F2",
-      "origin_id": "CGPP"
-    },
-    "49": {
-      "destination_id": "CPPY",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "50": {
-      "destination_id": "EDAP",
-      "fare_id": "F1",
-      "origin_id": "CGPP"
-    },
-    "51": {
-      "destination_id": "JLSD",
-      "fare_id": "F2",
-      "origin_id": "CGPP"
-    },
-    "52": {
-      "destination_id": "KALR",
-      "fare_id": "F2",
-      "origin_id": "CGPP"
-    },
-    "53": {
-      "destination_id": "KLMT",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "54": {
-      "destination_id": "LSSE",
-      "fare_id": "F2",
-      "origin_id": "CGPP"
-    },
-    "55": {
-      "destination_id": "MACE",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "56": {
-      "destination_id": "MGRD",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "57": {
-      "destination_id": "MUTT",
-      "fare_id": "F3",
-      "origin_id": "CGPP"
-    },
-    "58": {
-      "destination_id": "PARV",
-      "fare_id": "F1",
-      "origin_id": "CGPP"
-    },
-    "59": {
-      "destination_id": "PDPM",
-      "fare_id": "F2",
-      "origin_id": "CGPP"
-    },
-    "60": {
-      "destination_id": "PNCU",
-      "fare_id": "F4",
-      "origin_id": "CGPP"
-    },
-    "61": {
-      "destination_id": "ALVA",
-      "fare_id": "F2",
-      "origin_id": "CPPY"
-    },
-    "62": {
-      "destination_id": "ATTK",
-      "fare_id": "F1",
-      "origin_id": "CPPY"
-    },
-    "63": {
-      "destination_id": "CCUV",
-      "fare_id": "F2",
-      "origin_id": "CPPY"
-    },
-    "64": {
-      "destination_id": "CGPP",
-      "fare_id": "F3",
-      "origin_id": "CPPY"
-    },
-    "65": {
-      "destination_id": "EDAP",
-      "fare_id": "F3",
-      "origin_id": "CPPY"
-    },
-    "66": {
-      "destination_id": "JLSD",
-      "fare_id": "F3",
-      "origin_id": "CPPY"
-    },
-    "67": {
-      "destination_id": "KALR",
-      "fare_id": "F4",
-      "origin_id": "CPPY"
-    },
-    "68": {
-      "destination_id": "KLMT",
-      "fare_id": "F2",
-      "origin_id": "CPPY"
-    },
-    "69": {
-      "destination_id": "LSSE",
-      "fare_id": "F4",
-      "origin_id": "CPPY"
-    },
-    "70": {
-      "destination_id": "MACE",
-      "fare_id": "F4",
-      "origin_id": "CPPY"
-    },
-    "71": {
-      "destination_id": "MGRD",
-      "fare_id": "F4",
-      "origin_id": "CPPY"
-    },
-    "72": {
-      "destination_id": "MUTT",
-      "fare_id": "F2",
-      "origin_id": "CPPY"
-    },
-    "73": {
-      "destination_id": "PARV",
-      "fare_id": "F3",
-      "origin_id": "CPPY"
-    },
-    "74": {
-      "destination_id": "PDPM",
-      "fare_id": "F3",
-      "origin_id": "CPPY"
-    },
-    "75": {
-      "destination_id": "PNCU",
-      "fare_id": "F1",
-      "origin_id": "CPPY"
-    },
-    "76": {
-      "destination_id": "ALVA",
-      "fare_id": "F4",
-      "origin_id": "EDAP"
-    },
-    "77": {
-      "destination_id": "ATTK",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "78": {
-      "destination_id": "CCUV",
-      "fare_id": "F2",
-      "origin_id": "EDAP"
-    },
-    "79": {
-      "destination_id": "CGPP",
-      "fare_id": "F1",
-      "origin_id": "EDAP"
-    },
-    "80": {
-      "destination_id": "CPPY",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "81": {
-      "destination_id": "JLSD",
-      "fare_id": "F2",
-      "origin_id": "EDAP"
-    },
-    "82": {
-      "destination_id": "KALR",
-      "fare_id": "F2",
-      "origin_id": "EDAP"
-    },
-    "83": {
-      "destination_id": "KLMT",
-      "fare_id": "F2",
-      "origin_id": "EDAP"
-    },
-    "84": {
-      "destination_id": "LSSE",
-      "fare_id": "F2",
-      "origin_id": "EDAP"
-    },
-    "85": {
-      "destination_id": "MACE",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "86": {
-      "destination_id": "MGRD",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "87": {
-      "destination_id": "MUTT",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "88": {
-      "destination_id": "PARV",
-      "fare_id": "F1",
-      "origin_id": "EDAP"
-    },
-    "89": {
-      "destination_id": "PDPM",
-      "fare_id": "F1",
-      "origin_id": "EDAP"
-    },
-    "90": {
-      "destination_id": "PNCU",
-      "fare_id": "F3",
-      "origin_id": "EDAP"
-    },
-    "91": {
-      "destination_id": "ALVA",
-      "fare_id": "F4",
-      "origin_id": "JLSD"
-    },
-    "92": {
-      "destination_id": "ATTK",
-      "fare_id": "F4",
-      "origin_id": "JLSD"
-    },
-    "93": {
-      "destination_id": "CCUV",
-      "fare_id": "F3",
-      "origin_id": "JLSD"
-    },
-    "94": {
-      "destination_id": "CGPP",
-      "fare_id": "F1",
-      "origin_id": "JLSD"
-    },
-    "95": {
-      "destination_id": "CPPY",
-      "fare_id": "F4",
-      "origin_id": "JLSD"
-    },
-    "96": {
-      "destination_id": "EDAP",
-      "fare_id": "F2",
-      "origin_id": "JLSD"
-    },
-    "97": {
-      "destination_id": "KALR",
-      "fare_id": "F1",
-      "origin_id": "JLSD"
-    },
-    "98": {
-      "destination_id": "KLMT",
-      "fare_id": "F3",
-      "origin_id": "JLSD"
-    },
-    "99": {
-      "destination_id": "LSSE",
-      "fare_id": "F2",
-      "origin_id": "JLSD"
     },
     "100": {
       "destination_id": "MACE",
@@ -617,6 +132,11 @@
       "fare_id": "F2",
       "origin_id": "KALR"
     },
+    "11": {
+      "destination_id": "MGRD",
+      "fare_id": "F5",
+      "origin_id": "ALVA"
+    },
     "110": {
       "destination_id": "CPPY",
       "fare_id": "F4",
@@ -666,6 +186,11 @@
       "destination_id": "PDPM",
       "fare_id": "F3",
       "origin_id": "KALR"
+    },
+    "12": {
+      "destination_id": "MUTT",
+      "fare_id": "F2",
+      "origin_id": "ALVA"
     },
     "120": {
       "destination_id": "PNCU",
@@ -717,6 +242,11 @@
       "fare_id": "F3",
       "origin_id": "KLMT"
     },
+    "13": {
+      "destination_id": "PARV",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
     "130": {
       "destination_id": "MACE",
       "fare_id": "F4",
@@ -766,6 +296,11 @@
       "destination_id": "CGPP",
       "fare_id": "F2",
       "origin_id": "LSSE"
+    },
+    "14": {
+      "destination_id": "PDPM",
+      "fare_id": "F3",
+      "origin_id": "ALVA"
     },
     "140": {
       "destination_id": "CPPY",
@@ -817,6 +352,11 @@
       "fare_id": "F3",
       "origin_id": "LSSE"
     },
+    "15": {
+      "destination_id": "PNCU",
+      "fare_id": "F1",
+      "origin_id": "ALVA"
+    },
     "150": {
       "destination_id": "PNCU",
       "fare_id": "F4",
@@ -866,6 +406,11 @@
       "destination_id": "KLMT",
       "fare_id": "F4",
       "origin_id": "MACE"
+    },
+    "16": {
+      "destination_id": "ALVA",
+      "fare_id": "F2",
+      "origin_id": "ATTK"
     },
     "160": {
       "destination_id": "LSSE",
@@ -917,6 +462,11 @@
       "fare_id": "F2",
       "origin_id": "MGRD"
     },
+    "17": {
+      "destination_id": "CCUV",
+      "fare_id": "F2",
+      "origin_id": "ATTK"
+    },
     "170": {
       "destination_id": "CPPY",
       "fare_id": "F4",
@@ -966,6 +516,11 @@
       "destination_id": "PDPM",
       "fare_id": "F3",
       "origin_id": "MGRD"
+    },
+    "18": {
+      "destination_id": "CGPP",
+      "fare_id": "F3",
+      "origin_id": "ATTK"
     },
     "180": {
       "destination_id": "PNCU",
@@ -1017,6 +572,11 @@
       "fare_id": "F1",
       "origin_id": "MUTT"
     },
+    "19": {
+      "destination_id": "CPPY",
+      "fare_id": "F1",
+      "origin_id": "ATTK"
+    },
     "190": {
       "destination_id": "LSSE",
       "fare_id": "F3",
@@ -1066,6 +626,16 @@
       "destination_id": "CGPP",
       "fare_id": "F1",
       "origin_id": "PARV"
+    },
+    "2": {
+      "destination_id": "CCUV",
+      "fare_id": "F3",
+      "origin_id": "ALVA"
+    },
+    "20": {
+      "destination_id": "EDAP",
+      "fare_id": "F3",
+      "origin_id": "ATTK"
     },
     "200": {
       "destination_id": "CPPY",
@@ -1117,6 +687,11 @@
       "fare_id": "F2",
       "origin_id": "PARV"
     },
+    "21": {
+      "destination_id": "JLSD",
+      "fare_id": "F3",
+      "origin_id": "ATTK"
+    },
     "210": {
       "destination_id": "PNCU",
       "fare_id": "F4",
@@ -1166,6 +741,11 @@
       "destination_id": "KLMT",
       "fare_id": "F2",
       "origin_id": "PDPM"
+    },
+    "22": {
+      "destination_id": "KALR",
+      "fare_id": "F3",
+      "origin_id": "ATTK"
     },
     "220": {
       "destination_id": "LSSE",
@@ -1217,6 +797,11 @@
       "fare_id": "F3",
       "origin_id": "PNCU"
     },
+    "23": {
+      "destination_id": "KLMT",
+      "fare_id": "F2",
+      "origin_id": "ATTK"
+    },
     "230": {
       "destination_id": "CPPY",
       "fare_id": "F1",
@@ -1267,10 +852,425 @@
       "fare_id": "F3",
       "origin_id": "PNCU"
     },
+    "24": {
+      "destination_id": "LSSE",
+      "fare_id": "F4",
+      "origin_id": "ATTK"
+    },
     "240": {
       "destination_id": "PDPM",
       "fare_id": "F3",
       "origin_id": "PNCU"
+    },
+    "25": {
+      "destination_id": "MACE",
+      "fare_id": "F4",
+      "origin_id": "ATTK"
+    },
+    "26": {
+      "destination_id": "MGRD",
+      "fare_id": "F4",
+      "origin_id": "ATTK"
+    },
+    "27": {
+      "destination_id": "MUTT",
+      "fare_id": "F1",
+      "origin_id": "ATTK"
+    },
+    "28": {
+      "destination_id": "PARV",
+      "fare_id": "F3",
+      "origin_id": "ATTK"
+    },
+    "29": {
+      "destination_id": "PDPM",
+      "fare_id": "F2",
+      "origin_id": "ATTK"
+    },
+    "3": {
+      "destination_id": "CGPP",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
+    "30": {
+      "destination_id": "PNCU",
+      "fare_id": "F1",
+      "origin_id": "ATTK"
+    },
+    "31": {
+      "destination_id": "ALVA",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "32": {
+      "destination_id": "ATTK",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "33": {
+      "destination_id": "CGPP",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "34": {
+      "destination_id": "CPPY",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "35": {
+      "destination_id": "EDAP",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "36": {
+      "destination_id": "JLSD",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "37": {
+      "destination_id": "KALR",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "38": {
+      "destination_id": "KLMT",
+      "fare_id": "F1",
+      "origin_id": "CCUV"
+    },
+    "39": {
+      "destination_id": "LSSE",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "4": {
+      "destination_id": "CPPY",
+      "fare_id": "F2",
+      "origin_id": "ALVA"
+    },
+    "40": {
+      "destination_id": "MACE",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "41": {
+      "destination_id": "MGRD",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "42": {
+      "destination_id": "MUTT",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "43": {
+      "destination_id": "PARV",
+      "fare_id": "F2",
+      "origin_id": "CCUV"
+    },
+    "44": {
+      "destination_id": "PDPM",
+      "fare_id": "F1",
+      "origin_id": "CCUV"
+    },
+    "45": {
+      "destination_id": "PNCU",
+      "fare_id": "F3",
+      "origin_id": "CCUV"
+    },
+    "46": {
+      "destination_id": "ALVA",
+      "fare_id": "F4",
+      "origin_id": "CGPP"
+    },
+    "47": {
+      "destination_id": "ATTK",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "48": {
+      "destination_id": "CCUV",
+      "fare_id": "F2",
+      "origin_id": "CGPP"
+    },
+    "49": {
+      "destination_id": "CPPY",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "5": {
+      "destination_id": "EDAP",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
+    "50": {
+      "destination_id": "EDAP",
+      "fare_id": "F1",
+      "origin_id": "CGPP"
+    },
+    "51": {
+      "destination_id": "JLSD",
+      "fare_id": "F2",
+      "origin_id": "CGPP"
+    },
+    "52": {
+      "destination_id": "KALR",
+      "fare_id": "F2",
+      "origin_id": "CGPP"
+    },
+    "53": {
+      "destination_id": "KLMT",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "54": {
+      "destination_id": "LSSE",
+      "fare_id": "F2",
+      "origin_id": "CGPP"
+    },
+    "55": {
+      "destination_id": "MACE",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "56": {
+      "destination_id": "MGRD",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "57": {
+      "destination_id": "MUTT",
+      "fare_id": "F3",
+      "origin_id": "CGPP"
+    },
+    "58": {
+      "destination_id": "PARV",
+      "fare_id": "F1",
+      "origin_id": "CGPP"
+    },
+    "59": {
+      "destination_id": "PDPM",
+      "fare_id": "F2",
+      "origin_id": "CGPP"
+    },
+    "6": {
+      "destination_id": "JLSD",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
+    "60": {
+      "destination_id": "PNCU",
+      "fare_id": "F4",
+      "origin_id": "CGPP"
+    },
+    "61": {
+      "destination_id": "ALVA",
+      "fare_id": "F2",
+      "origin_id": "CPPY"
+    },
+    "62": {
+      "destination_id": "ATTK",
+      "fare_id": "F1",
+      "origin_id": "CPPY"
+    },
+    "63": {
+      "destination_id": "CCUV",
+      "fare_id": "F2",
+      "origin_id": "CPPY"
+    },
+    "64": {
+      "destination_id": "CGPP",
+      "fare_id": "F3",
+      "origin_id": "CPPY"
+    },
+    "65": {
+      "destination_id": "EDAP",
+      "fare_id": "F3",
+      "origin_id": "CPPY"
+    },
+    "66": {
+      "destination_id": "JLSD",
+      "fare_id": "F3",
+      "origin_id": "CPPY"
+    },
+    "67": {
+      "destination_id": "KALR",
+      "fare_id": "F4",
+      "origin_id": "CPPY"
+    },
+    "68": {
+      "destination_id": "KLMT",
+      "fare_id": "F2",
+      "origin_id": "CPPY"
+    },
+    "69": {
+      "destination_id": "LSSE",
+      "fare_id": "F4",
+      "origin_id": "CPPY"
+    },
+    "7": {
+      "destination_id": "KALR",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
+    "70": {
+      "destination_id": "MACE",
+      "fare_id": "F4",
+      "origin_id": "CPPY"
+    },
+    "71": {
+      "destination_id": "MGRD",
+      "fare_id": "F4",
+      "origin_id": "CPPY"
+    },
+    "72": {
+      "destination_id": "MUTT",
+      "fare_id": "F2",
+      "origin_id": "CPPY"
+    },
+    "73": {
+      "destination_id": "PARV",
+      "fare_id": "F3",
+      "origin_id": "CPPY"
+    },
+    "74": {
+      "destination_id": "PDPM",
+      "fare_id": "F3",
+      "origin_id": "CPPY"
+    },
+    "75": {
+      "destination_id": "PNCU",
+      "fare_id": "F1",
+      "origin_id": "CPPY"
+    },
+    "76": {
+      "destination_id": "ALVA",
+      "fare_id": "F4",
+      "origin_id": "EDAP"
+    },
+    "77": {
+      "destination_id": "ATTK",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "78": {
+      "destination_id": "CCUV",
+      "fare_id": "F2",
+      "origin_id": "EDAP"
+    },
+    "79": {
+      "destination_id": "CGPP",
+      "fare_id": "F1",
+      "origin_id": "EDAP"
+    },
+    "8": {
+      "destination_id": "KLMT",
+      "fare_id": "F3",
+      "origin_id": "ALVA"
+    },
+    "80": {
+      "destination_id": "CPPY",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "81": {
+      "destination_id": "JLSD",
+      "fare_id": "F2",
+      "origin_id": "EDAP"
+    },
+    "82": {
+      "destination_id": "KALR",
+      "fare_id": "F2",
+      "origin_id": "EDAP"
+    },
+    "83": {
+      "destination_id": "KLMT",
+      "fare_id": "F2",
+      "origin_id": "EDAP"
+    },
+    "84": {
+      "destination_id": "LSSE",
+      "fare_id": "F2",
+      "origin_id": "EDAP"
+    },
+    "85": {
+      "destination_id": "MACE",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "86": {
+      "destination_id": "MGRD",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "87": {
+      "destination_id": "MUTT",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "88": {
+      "destination_id": "PARV",
+      "fare_id": "F1",
+      "origin_id": "EDAP"
+    },
+    "89": {
+      "destination_id": "PDPM",
+      "fare_id": "F1",
+      "origin_id": "EDAP"
+    },
+    "9": {
+      "destination_id": "LSSE",
+      "fare_id": "F4",
+      "origin_id": "ALVA"
+    },
+    "90": {
+      "destination_id": "PNCU",
+      "fare_id": "F3",
+      "origin_id": "EDAP"
+    },
+    "91": {
+      "destination_id": "ALVA",
+      "fare_id": "F4",
+      "origin_id": "JLSD"
+    },
+    "92": {
+      "destination_id": "ATTK",
+      "fare_id": "F4",
+      "origin_id": "JLSD"
+    },
+    "93": {
+      "destination_id": "CCUV",
+      "fare_id": "F3",
+      "origin_id": "JLSD"
+    },
+    "94": {
+      "destination_id": "CGPP",
+      "fare_id": "F1",
+      "origin_id": "JLSD"
+    },
+    "95": {
+      "destination_id": "CPPY",
+      "fare_id": "F4",
+      "origin_id": "JLSD"
+    },
+    "96": {
+      "destination_id": "EDAP",
+      "fare_id": "F2",
+      "origin_id": "JLSD"
+    },
+    "97": {
+      "destination_id": "KALR",
+      "fare_id": "F1",
+      "origin_id": "JLSD"
+    },
+    "98": {
+      "destination_id": "KLMT",
+      "fare_id": "F3",
+      "origin_id": "JLSD"
+    },
+    "99": {
+      "destination_id": "LSSE",
+      "fare_id": "F2",
+      "origin_id": "JLSD"
     }
   },
   "routes": {

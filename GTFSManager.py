@@ -1,4 +1,4 @@
-print('static GTFS Manager')
+print('\n\nstatic GTFS Manager')
 print('Fork it on Github: https://github.com/WRI-Cities/static-GTFS-manager/')
 print('Starting up the program, loading dependencies, please wait...\n\n')
 
@@ -15,12 +15,13 @@ import zipfile, zlib
 from tinydb import TinyDB, Query
 from tinydb.operations import delete
 import webbrowser
-from Cryptodome.PublicKey import RSA
+from Cryptodome.PublicKey import RSA #uses pycryptodomex package.. disambiguates from pycrypto, pycryptodome
 import shutil # used in fareChartUpload to fix header if changed
 import pathlib
 from math import sin, cos, sqrt, atan2, radians
 # import requests
 from json.decoder import JSONDecodeError # used to catch corrupted DB file when tinyDB loads it.
+import signal, sys # for catching Ctrl+C and exiting gracefully.
 
 # setting constants
 root = os.path.dirname(__file__)
@@ -1252,7 +1253,13 @@ def make_app():
 		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
 	])
 
+# for catching Ctrl+C and exiting gracefully. From https://nattster.wordpress.com/2013/06/05/catch-kill-signal-in-python/
+def signal_term_handler(signal, frame):
+	print('\nClosing Program.\nThank you for using GTFS Manager. Website: https://github.com/WRI-Cities/static-GTFS-manager/\n')
+	sys.exit(0)
+
 if __name__ == "__main__":
+	signal.signal(signal.SIGINT, signal_term_handler)
 	app = make_app()
 	port = int(os.environ.get("PORT", 5000))
 	app.listen(port)
@@ -1261,8 +1268,5 @@ if __name__ == "__main__":
 	logmessage("Open " + thisURL + " in your Browser if you don't see it opening automatically within 5 seconds.")
 	tornado.ioloop.IOLoop.current().start()
 
-'''
-# UNZIP a zip file, from https://stackoverflow.com/a/36662770/4355695
-with zipfile.ZipFile("file.zip","r") as zip_ref:
-    zip_ref.extractall("targetdir")
-'''
+
+

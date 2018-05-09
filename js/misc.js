@@ -13,6 +13,22 @@ var globalValueFrom = '';
 var globalValueTo = '';
 var globalTableKeys = [];
 
+// #########################################
+// Function-variables to be used in tabulator
+var translationsTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' translations total';
+}
+
+var calendarTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' services total';
+}
+
+var agencyTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' agencies total';
+}
 
 //####################
 // Tabulator tables
@@ -27,7 +43,7 @@ $("#calendar-table").tabulator({
 
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id" },
+		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal },
 		{title:"monday", field:"monday", editor:"select", editorParams:operationalChoices, headerSort:false },
 		{title:"tuesday", field:"tuesday", editor:"select", editorParams:operationalChoices, headerSort:false },
 		{title:"wednesday", field:"wednesday", editor:"select", editorParams:operationalChoices, headerSort:false },
@@ -58,7 +74,7 @@ $("#agency-table").tabulator({
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false },
-		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false },
+		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false, bottomCalc:agencyTotal },
 		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false },
 		{title:"agency_timezone", field:"agency_timezone", editor:"input", headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
 		
@@ -76,7 +92,7 @@ $("#translations-table").tabulator({
 	// agency_id,agency_name,agency_url,agency_timezone
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120 },
+		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120, bottomCalc:translationsTotal },
 		{title:"lang", field:"lang", editor:"input", headerFilter:"input", headerSort:false },
 		{title:"translation", field:"translation", editor:"input", headerFilter:"input", headerSort:false, width:150, formatter:function(cell, formatterParams){
 			return "<big>" + cell.getValue() + '</big>'; //return the contents of the cell;

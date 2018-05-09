@@ -3,11 +3,11 @@
 
 ![Screenshot](https://github.com/WRI-Cities/static-GTFS-manager/raw/master/extra_files/gtfs-routes-screenshot.png)  
 
-
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 1.4.2 is ready, open for Beta Testing. And Windows binary is available too now. See [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
+**Development Status** : V 1.4.3 is ready, open for Beta Testing. And Windows binary is available too now. See [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
 
+## Intro
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
 
 Initially developed for use by KMRL, the source code has been open-sourced so it can grow and get better with community inputs and help for creating GTFS feeds for other transit agencies too.
@@ -21,6 +21,12 @@ It also implements a [GTFS extension for translations](https://developers.google
 
 Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) from Pune, India.
 
+See this and many more GTFS related resources listed on **[Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools)**, a one-stop community listing for all things GTFS.
+
+## Demo Videos
+[![GTFS Manager Runthrough video](http://img.youtube.com/vi/n8BuDM51QyU/0.jpg)](https://www.youtube.com/embed/n8BuDM51QyU?rel=0&autoplay=1 "GTFS Manager Runthrough video")
+
+[Demonstration of XML Import feature](https://www.youtube.com/watch?v=_JYVtm-6iJg)
 
 ## Run on your system
 

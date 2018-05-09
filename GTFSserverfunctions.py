@@ -43,7 +43,7 @@ def exportGTFS (dbfile, folder):
 	zf.close()
 	db.close()
 
-	returnmessage = '<p>Success! Generated GTFS feed at <a href="' + folder + 'gtfs.zip' + '">' + folder + 'gtfs.zip<a></b>. Click to download.</p>'
+	returnmessage = '<p>Success! Generated GTFS feed at <a href="' + folder + 'gtfs.zip' + '">' + folder + 'gtfs.zip<a></b>. Click to download.</p><p>You can validate the feed on <a href="https://gtfsfeedvalidator.transitscreen.com/" target="_blank">GTFS Feed Validator</a> website.</p>'
 
 	end = time.time()
 	logmessage("Function to export GTFS from db took {} seconds.".format(round(end-start,2)))

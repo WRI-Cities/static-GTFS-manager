@@ -2,6 +2,9 @@
 // Global variables
 var allStopsKeyed = '';
 
+// #########################################
+// Function-variables to be used in tabulator
+
 // set dynamic dropdown for fare_ids, reading from fare attributes table
 var fareList = function(cell){
 	var data = $("#fare-attributes-table").tabulator("getData");
@@ -27,6 +30,16 @@ var zoneIdLister = function(cell) {
 	return zoneIdListGlobal;
 }
 
+var faresTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' fares total';
+}
+
+var fareRulesTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' rules total';
+}
+
 //#########################
 // defining tables
 $("#fare-attributes-table").tabulator({
@@ -39,7 +52,7 @@ $("#fare-attributes-table").tabulator({
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"fare_id", field:"fare_id", editor:"input", headerFilter:"input", width:100, validator:["string", "minLength:2"] },
+		{title:"fare_id", field:"fare_id", editor:"input", headerFilter:"input", width:100, validator:["string", "minLength:2"], bottomCalc:faresTotal },
 		{title:"price", field:"price", editor:"input", headerFilter:"input", width:70, validator:["required","numeric"] },
 		{title:"payment_method", field:"payment_method", editor:"select", editorParams:{0:"0 - on boarding", 1:"1 - before boarding"}, headerSort:false, width:100 },
 		{title:"transfers", field:"transfers", editor:"select", editorParams:{'':'blank - Unlimited transfers', 0:"0 - No transfers", 1:"1 - Once allowed"}, headerSort:false, width:80 },
@@ -103,7 +116,7 @@ $("#fare-rules-simple-table").tabulator({
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"fare_id", field:"fare_id", headerFilter:"input", width:100, editor:"select", editorParams:fareList, tooltip:"Fare Id. Corresponds to a price set in Fare Attributes tab." },
+		{title:"fare_id", field:"fare_id", headerFilter:"input", width:120, editor:"select", editorParams:fareList, tooltip:"Fare Id. Corresponds to a price set in Fare Attributes tab.", bottomCalc:fareRulesTotal },
 		{title:"origin_id", field:"origin_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Origin Zone Id. Journey starting from this zone. Zones defined in Stops page." },
 		{title:"destination_id", field:"destination_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Desitnation Zone Id. Journey ending in this zone. Zones defined in Stops page." },
 		{title:"route_id", field:"route_id", editor:"select", editorParams:routeIdLister, headerFilter:"input", width:100, tooltip:"If this fare rule only applies to a particular route then select the route here." },

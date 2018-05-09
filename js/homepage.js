@@ -81,10 +81,14 @@ function exportGTFS() {
 
 	//reject if its blank
 	if (! commit.length) {
-		alert('Please give a valid name for the commit.');
-		return;
+		$('#exportGTFSlog').html('<div class="alert alert-danger">Please give a valid name for the commit.</div>');
+		shakeIt('commitName'); return;
 	}
 	var pw = $("#password").val();
+	if ( ! pw.length ) { 
+		$('#exportGTFSlog').html('<div class="alert alert-danger">Please enter the password.</div>');
+		shakeIt('password'); return;
+	}
 
 	$("#exportGTFSlog").html('Initated commit.. please wait..');
 	
@@ -110,10 +114,14 @@ function gtfsImportZip() {
 	// idiot-proofing: check if the files have been uploaded or not.
 	if( document.getElementById('gtfsZipFile').value == '') {
 		$('#importGTFSStatus').html('<div class="alert alert-warning">Please select a file first! ;)</div>');
-		return;
+		shakeIt('gtfsZipFile'); return;
 	}
 
 	var pw = $("#password").val();
+	if ( ! pw.length ) { 
+		$('#importGTFSStatus').html('<div class="alert alert-danger">Please enter the password.</div>');
+		shakeIt('password'); return;
+	}
 	$("#importGTFSStatus").html('Importing GTFS file, please wait..');
 
 	var formData = new FormData();
@@ -166,7 +174,7 @@ function gtfsBlankSlate() {
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/gtfsBlankSlate GET request failed.');
-			$("#gtfsBlankSlateStatus").text(jqXHR.responseText);
+			$("#gtfsBlankSlateStatus").html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>');
 		}
 	});
 }

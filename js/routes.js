@@ -8,7 +8,7 @@ var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list
 
 
 // #########################################
-// function-variable to be used in tabulator, 
+// Function-variables to be used in tabulator
 
 var agencyListGlobal = {}; // global variable
 var agencyLister = function(cell) {
@@ -16,6 +16,11 @@ var agencyLister = function(cell) {
 	// needs to be declared earlier but the variable referenced in it is a global one that will change later
 	// this function will get called every time user clicks the dropdown
 	//	getPythonAgency() function will make API call and load agencies listin into this global variable.
+}
+
+var routesTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' routes total';
 }
 
 // #########################################
@@ -34,7 +39,7 @@ $("#routes-table").tabulator({
 		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
 		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:["string", "minLength:2"] },
 		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", validator:["required","string", "minLength:2"] },
-		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
+		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
 		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
 		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
@@ -569,7 +574,7 @@ function saveRoutes() {
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#routeSaveStatus').html('Please enter the password.');
+		$('#routeSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
 		shakeIt('password'); return;
 	}
 
@@ -582,12 +587,12 @@ function saveRoutes() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/saveRoutes, resonse received: ' + xhr.responseText);
-			$('#routeSaveStatus').text('Saved changes to routes.txt.');
+			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes.txt.</span>');
 			// reload routes data from DB, and repopulate route selector for sequence
 			getPythonRoutes();
 		} else {
 			console.log('Server POST request to API/saveRoutes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#routeSaveStatus').text('Failed to save. Message: ' + xhr.responseText);
+			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
@@ -595,7 +600,7 @@ function saveRoutes() {
 }
 
 function saveSequence() {
-	$('#sequenceSaveStatus').html('Saving sequence to DB, please wait...');
+	$('#sequenceSaveStatus').html('<span class="alert alert-info">Saving sequence to DB, please wait...</span>');
 
 	// forget global sequences, retrieve latest sequence data straight from tables.
 	var sequence0 = $("#sequence-0-table").tabulator('getData');
@@ -836,7 +841,7 @@ function uploadShape() {
 	var pw = $("#password").val();
 	if ( ! pw ) { 
 		shakeIt('password'); 
-		$('#uploadShapeStatus').html('please enter the password.');
+		$('#uploadShapeStatus').html('Please enter the password.');
 		return;
 	}
 	var route_id = selected_route_id;

@@ -2,6 +2,13 @@
 const UID_leastchars = 4;
 const UID_maxchars = 8;
 
+// #########################################
+// Function-variables to be used in tabulator
+
+var stopsTotal = function(values, data, calcParams){
+	var calc = values.length;
+	return calc + ' stops total';
+}
 
 // #################################
 /* 2. Tabulator initiation */
@@ -19,7 +26,7 @@ $("#stops-table").tabulator({
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
 		{title:"stop_id", field:"stop_id", frozen:true, headerFilter:"input", validator:["string", "minLength:3"] },
-		{title:"stop_name", field:"stop_name", editor:"input", headerFilter:"input", validator:["required","string", "minLength:3"] },
+		{title:"stop_name", field:"stop_name", editor:"input", headerFilter:"input", validator:["required","string", "minLength:3"], bottomCalc:stopsTotal },
 		{title:"stop_lat", field:"stop_lat", headerSort:false },
 		{title:"stop_lon", field:"stop_lon", headerSort:false },
 		{title:"zone_id", field:"zone_id", editor:"input", validator:["string", "minLength:3"] },
