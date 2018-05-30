@@ -56,6 +56,11 @@ See on the project wiki: [Running on Ubuntu OS](https://github.com/WRI-Cities/st
 ### Running with Python3 on a Windows OS
 See on the project wiki: [Running on Windows OS with Python 3](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-on-Windows-OS-with-Python-3)
 
+### Running in Docker with Compose
+Check out the repo and run 
+
+    docker-compose up
+
 ----
 
 ## Changing the password
