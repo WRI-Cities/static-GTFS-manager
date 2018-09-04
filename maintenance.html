@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Miscellaneous Parameters</title>
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#agency-table {
+	height: 300px;
+}
+#calendar-table {
+	height: 300px;
+}
+#translations-table {
+	height: 400px;
+}
+.translationBig {
+	font-size: 2em;
+}
+input[type=checkbox]#deepActionsConfirm {
+ width: 20px; height: 20px;
+ -webkit-border-radius: 22px; -moz-border-radius: 22px; border-radius: 22px;
+  border: 1px solid #bbb;
+  vertical-align: middle; 
+}
+#dryRunResults {
+width:100%;
+font-family: "Lucida Console", Monaco, monospace;
+font-size: 0.8em;
+}
+
+</style></head>
+<body>
+<div id="navBar"></div>
+
+<div class="container">
+<h2>Miscellaneous Parameters</h2>
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">Agency Info</a></li>
+<li><a href="#tab2">Calendar</a></li>
+<li><a href="#tab3">Translations</a></li>
+<li><a href="#tab4">Maintenance</a></li>
+</ul>
+
+
+<!-- AGENCY -->
+<div id="tab1">
+
+
+<h4>Agency Info</h4>
+<div class="row">
+<div class="col-md-8">
+
+<div id="agency-table"></div>
+<br>
+<p>Create a new agency: 
+<input placeholder="agency_id" id="agency2add" size="7"><button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; <small><span id="agencyAddStatus"></span></small></p>
+
+<p><button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> &nbsp; <small id="agencySaveStatus"></small></p>
+
+</div><div class="col-md-4">
+
+<div class="alert alert-info"><small>
+Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency.
+</small></div>
+
+</div></div>
+
+</div>
+
+<!-- CALENDAR -->
+<div id="tab2">
+
+<h4>Calendar</h4>
+<div class="row">
+<div class="col-md-9">
+<div id="calendar-table"></div>
+<br>
+<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="6"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
+
+<p><button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small></p>
+
+</div><div class="col-md-3">
+
+<div class="alert alert-info"><small>
+These service_id's get used in TRIPS data (in Schedules section) to define which days of the week a trip operates on. This allows for different timings on weekends.
+</small></div>
+
+</div></div>
+
+
+<br><br>
+<div id="instructions" class="container">
+<h3>Instructions</h3>
+<div>
+<p>The service_id is referred to when defining trips. Typically there are different schedules followed on working days and holidays.</p>
+</div></div><!-- Accordion over -->
+
+</div>
+<!-- TRANSLATIONS -->
+<div id="tab3">
+
+<h4>Translations</h4>
+<div class="row">
+<div class="col-md-6">
+
+<div id="translations-table">Loading translations data from server.. please wait..</div>
+
+</div><div class="col-md-6">
+
+<div class="alert alert-info"><small>
+These are names of stops, routes, agency etc from across the data, with their translations. Keep the names exact.
+</small>
+</div>
+
+<p>Add a translation:<br>
+<input id="trans_id" placeholder="trans_id" size="6">
+<input id="lang" placeholder="lang" value="ml" size="2">
+<input id="translation" placeholder="translation" size="8"> &nbsp; <button class="btn btn-primary btn-sm" id="addTranslationButton" type="button">&nbsp;&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;</button></p>
+<p><small><span id="translationAddStatus">&nbsp;</span></small></p>
+
+<p><button id="saveTranslationButton" class="btn btn-outline-success btn-md">Save Translation Changes</button></p>
+<p><small><span id="translationSaveStatus"></span></small></p>
+
+</div>
+</div><!-- END COLS ROW-->
+
+</div><!-- END TRANSLATION TAB -->
+
+<!-- MAINTENANCE -->
+<div id="tab4">
+
+<h3>Change UID</h3>
+<div class="row"><div class="col-md-5">
+<p><select id="renameSource"></select> to <input id="renameDestination" placeholder="new Unique ID"></p>
+<p id="renameTablesInfo"></p>
+<br>
+</div><div class="col-md-7">
+
+<button class="btn btn-warning" id="replaceDryRunButton">Test It First</button> &nbsp;
+<button class="btn" id="replaceIDButton" disabled="true">Rename across the DB</button></p>
+<p id="renameStatus"></p>
+
+</div></div>
+<br>
+<small><p class="alert alert-info">Note: Please Reload this page after doing one change, to repopulate the dropdown lists here and elsewhere with the new ID.</p></small>
+
+<hr>
+<h3>Delete</h3>
+
+<div class="alert alert-warning"><small>
+<p>This section is for making deep-level changes that need more than just a simple row edit, and can <i>potentially break your GTFS dataset</i>. You are strongly advised you to create a <u>backup</u> of the data first (go to home page, create an export) before doing any operations here.</p>
+<p>It will be a multi-step process so we know exactly what we're doing:<br>
+1. Choose an ID to be deleted. <br>
+2. The backend will do a dry run and return details of all the operations to be done in the <b>large text box</b>. <br>
+3. <i>No actual changes to the database will be made at this time.</i><br>
+4. After reviewing and approving the changes to be done, you can click on <b class="btn-danger">the big red button</b> to make the changes to the database.<br>
+5. After clicking the final button for making the changes, please <u>stay</u> on the page and wait for the results to come. These deep-level changes can take a longer time than average operations so please be <u>patient</u>.<br>
+6. If you change your mind after seeing the dry run, you can simply <u>leave the page</u>. You will also be prompted once after clicking and can cancel out.<br>
+</p>
+</small></div>
+
+<!-- Tabs Menu 2 -->
+<div id="tabs2">
+<ul>
+<li><a href="#delStopDiv">Stop</a></li>
+<li><a href="#delRouteDiv">Route</a></li>
+<li><a href="#delTripDiv">Trip</a></li>
+<li><a href="#delShapeDiv">Shape</a></li>
+<li><a href="#delCalendarDiv">Calendar Service</a></li>
+<li><a href="#delZoneDiv">Fare Zone</a></li>
+<li><a href="#delFareIDDiv">Fare ID</a></li>
+<li><a href="#delAgencyDiv">Agency</a></li>
+</ul>
+
+
+<!-- delStopDiv Delete Stop -->
+<div id="delStopDiv">
+
+<h4>Delete a Stop</h4>
+<select id="stop2Delete"></select>
+
+</div> <!-- END delStopDiv -->
+
+<!-- delRouteDiv Delete Route -->
+<div id="delRouteDiv">
+
+<div class="row"><div class="col-md-5">
+<h4>Delete a Route</h4>
+<select id="route2Delete"></select>
+</div><div class="col col-md-7 alert alert-warning">
+<small>Note: Deleting a route will result in deleting all the trips under it as well as <i><b>all the timings data</b></i> under each of those trips. Handle with care. Also, this operation is likely to take quite long so please be patient. Another option is to just rename the route in the Change UID section.</small>
+</div></div>
+</div> <!-- END delRouteDiv -->
+
+<!-- delTripDiv Delete Trip -->
+<div id="delTripDiv">
+
+<h4>Delete a Trip</h4>
+<select id="trip2Delete"></select>
+
+</div> <!-- END delTripDiv -->
+
+<!-- delShapeDiv Delete Shape -->
+<div id="delShapeDiv">
+
+<h4>Delete a Shape</h4>
+<select id="shape2Delete"></select>
+
+</div> <!-- END delShapeDiv -->
+
+<!-- delCalendarDiv Delete Calendar Service -->
+<div id="delCalendarDiv">
+
+
+
+<div class="row"><div class="col-md-5">
+<h4>Delete a Calendar Service</h4>
+<select id="service2Delete"></select>
+</div><div class="col col-md-7 alert alert-warning">
+<small>Note: Deleting a calendar service will result in deleting all the trips under it as well as <i><b>all the timings data</b></i> under each of those trips. Handle with care. Also, this operation is likely to take quite long so please be patient. Another option is to just rename the route in the Change UID section.</small>
+</div></div>
+
+</div> <!-- END delCalendarDiv -->
+
+<!-- delZoneDiv Delete Fares Zone -->
+
+<div id="delZoneDiv">
+
+<h4>Delete a Fare Zone</h4>
+<p>Used in Fares > Fare Rules (the origin and destination id's are fare zone id's). Created in Stops page (zone_id) column.</p>
+<select id="zone2Delete"></select>
+
+</div> <!-- END delZoneDiv -->
+
+<!-- delFareIDDiv Delete Fares Zone -->
+
+<div id="delFareIDDiv">
+
+<h4>Delete a Fare ID</h4>
+<p>Created in Fares > Fare Attributes. Each fare_id represents an amount. Used in Fare Rules tabs under Fares page to set the fare amount.</p>
+<select id="fareID2Delete"></select>
+
+</div> <!-- END delFareIDDiv -->
+
+
+<!-- delAgencyDiv Delete Fares Zone -->
+
+<div id="delAgencyDiv">
+
+<h4>Delete an Agency ID</h4>
+<p>Created in Misc > Agency Info. Used in Routes.</p>
+<select id="agency2Delete"></select>
+
+</div> <!-- END delAgencyDiv -->
+
+
+</div> <!-- END Tabs 2 Content -->
+
+<div class="container"><div class="container">
+<h4>Dry Run:</h4>
+<small>Showing the data in tab-separated form. Copy-paste the contents below into an excel doc for better viewing.</small><br>
+<textarea id="dryRunResults" rows=10></textarea>
+
+<p><label><input type="checkbox" name="deepActionsConfirm" value="deepActionsConfirm" id="deepActionsConfirm">Check this ON to confirm that you understand the risks to your data and have taken proper precautions before proceeding.</label></p>
+<button class="btn btn-danger btn-bg" id="deepActionsButton">Alright Let's DELETE It</button><br>
+<span id="deepActionsStatus"></span></p>
+<p>Note: Please reload the page after doing a delete / rename operation to make the updated lists show in the selection menu.</p>
+</div></div>
+
+
+</div><!-- END MAINTENANCE TAB-->
+</div> <!-- END TABS -->
+
+<br>
+<!--
+<div id="logaccordion" class="container">
+<h3>Changes Log</h3>
+<div>
+<p><textarea id="trackChanges" rows=10></textarea>
+</p>
+</div></div>
+ Accordion over -->
+
+</div>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/misc.js"></script>
+</body>
+</html>

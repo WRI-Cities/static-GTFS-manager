@@ -134,7 +134,6 @@ $( function() {
 
 	getPythonRoutes();
 
-	//getPythonTripIDs();
 	getPythonIDs();
 
 	getPythonCalendar();
@@ -253,10 +252,10 @@ function getPythonStopTimes(trip_id){
 
 function getPythonRoutes() {
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allRoutes`);
+	xhr.open('GET', APIpath + `routes`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`GET call to Server API/allRoutes succesful.`);
+			console.log(`GET call to Server API/routes succesful.`);
 			var data = JSON.parse(xhr.responseText);
 			populateRouteSelect(data);
 			globalRoutes = data; // save to global variable; needed for trip addtion
@@ -267,6 +266,7 @@ function getPythonRoutes() {
 	};
 	xhr.send();
 }
+
 
 function populateRouteSelect(data) {
 	var content = '<option value="">No Selection</option>';
@@ -452,7 +452,7 @@ function addTrip() {
 	$("#trips-table").tabulator('redraw', true);
 
 }
-
+/*
 function getPythonTripIDs() {
 	// shorter GET request. from https://api.jquery.com/jQuery.get/
 	var jqxhr = $.get( `${APIpath}tripIdList`, function( data ) {
@@ -464,7 +464,7 @@ function getPythonTripIDs() {
 	});
 
 }
-
+*/
 function getPythonIDs() {
 	// replacement for getPythonTripIDs(). Apart from tripIDs, fetch all serviceIDs, blockIDs, shapeIDs and bring with relevant adjoining info if any.
 	// since we are mandating that the route have  sequence saved, and 

@@ -490,7 +490,7 @@ function getPythonZones() {
 				// solves https://github.com/WRI-Cities/static-GTFS-manager/issues/62
 
 			});
-			console.log(dropdown);
+			// console.log(dropdown);
 			$('#originSelect').html(dropdown);
 			$('#destinationSelect').html(dropdown);
 

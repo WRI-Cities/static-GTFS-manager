@@ -1,4 +1,4 @@
-/* Tabulator v3.5.1 (c) Oliver Folkerd */
+/* Tabulator v3.5.3 (c) Oliver Folkerd */
 .tabulator {
   position: relative;
   border: 1px solid #999;
@@ -128,6 +128,11 @@
   margin-top: 3px;
 }
 
+.tabulator .tabulator-header .tabulator-col .tabulator-header-filter input::-ms-clear {
+  width: 0;
+  height: 0;
+}
+
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
   padding-right: 25px;
 }
@@ -204,16 +209,19 @@
 }
 
 .tabulator .tabulator-tableHolder .tabulator-placeholder {
-  position: absolute;
   box-sizing: border-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
       align-items: center;
+  width: 100%;
+}
+
+.tabulator .tabulator-tableHolder .tabulator-placeholder[tabulator-render-mode="virtual"] {
+  position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
 }
 
 .tabulator .tabulator-tableHolder .tabulator-placeholder span {
@@ -265,7 +273,7 @@
 
 .tabulator .tabulator-footer .tabulator-calcs-holder {
   box-sizing: border-box;
-  width: calc("100% + 20px");
+  width: calc(100% + 20px);
   margin: -5px -10px 5px -10px;
   text-align: left;
   background: #f3f3f3 !important;

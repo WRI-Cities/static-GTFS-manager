@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>CSV to GTGS Conversion</title>
+<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link href="js/commonstyle.css" rel="stylesheet">
+
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/leaflet.js"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/leaflet-ant-path.js"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+</script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<!-- <script src="lib/leaflet-layerconfig.js" type="text/javascript"></script> -->
+<style>
+/* Tabulator tables: */
+#stops-table {
+	height:300px;
+}
+
+#missing-stops-table {
+	height:255px;
+}
+
+
+#replace-stops-table {
+	height:150px;
+}
+
+#fareIDs-table {
+	height:350px;
+}
+
+#translations-table {
+	height: 280px;
+}
+/* Leaflet maps: */
+#map {
+	height:400px;
+	width:100%;
+}
+
+#smallMap {
+	height:300px;
+	width: 350px;
+	/*
+	display: inline-block;
+	position:absolute;
+	top:45px;
+	right:0;
+	*/
+	border: 1px black solid;
+
+}
+
+.routeCard {
+	font-size: .9em;
+	padding: 3px;
+}
+
+/* accordions.. being in tabs maybe they get v.small height by default. so have to give them heigh. */
+.routeOptions .ui-accordion-content {
+	background: lavender;
+	font-size: .9em;
+	height: 280px;
+}
+
+.routeSequence .ui-accordion-content {
+	height: 500px;
+}
+
+
+.smallTables .ui-accordion-content {
+	font-size: .9em;
+	height: 400px;
+}
+
+/* For sequence sortable */
+.sortable { list-style-type: none; margin: 0; padding: 0; width: 250px; }
+.sortable li { margin: 0 0 5px 0; padding: 5px; font-size: 0.9em; height: 2em; }
+/*
+html>body .sortable li { height: 1.5em; line-height: 1.2em; }
+*/
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+
+.ui-sort-position {
+      text-align: center;
+      font-size: 3.8em;
+}
+
+
+ol.sortable {
+  list-style-position: inside;   
+  list-style-type: decimal;
+}
+
+.ui-accordion-content .delSortElement a {
+	font-weight: bold;
+}
+
+/* left and right spans in same line. from https://stackoverflow.com/a/5067308/4355695 */
+/*.left { float:left }*/
+.right { float:right }
+
+/* override jquery's */
+.ui-accordion-content a:hover {
+    text-decoration: none;
+}
+
+.routeSequence > div > ol > li > a:hover {
+	color: red;
+	font-weight: bold;
+}
+
+red {
+	color: red;
+	font-weight: bold;
+}
+
+</style></head>
+<body>
+<div id="navBar"></div>
+
+<div class="container-fluid">
+<h2>Convert CSV schedules format to GTFS (for Hyderabad Metro)</h2>
+
+<div id="instructions">
+<h3>Instructions</h3>
+<div>
+<p align="center"><a href="https://www.youtube.com/embed/MqEsAtcNieo?rel=0&autoplay=1" target="_blank"><img class="videothumb" src="hydcsv_related/hmrl-screenshot.png" height="240" width="auto"><br><small>Click here to see a demo video.</small></a></p>
+<p>This page handles the <a target="_blank" href="extra_files/sample-hyd-csv-input.txt">specific CSV format&#x2197;</a> of HMRL, Hyderabad, India. There are some files to upload and some settings to set before converting to GTFS. Please make your way through each of the tabs.</p>
+- Do remember to enter the password on top right for the final GTFS conversion.<br>
+- Detailed instructions are given in info boxes at each tab.
+
+</div></div><!-- Accordion over -->
+
+<hr>
+
+
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">1. Upload</a></li>
+<li><a href="#tab2">2. Stops</a></li>
+<li><a href="#tab3">3. Misc</a></li>
+<li><a href="#tab4">4. Convert to GTFS</a></li>
+</ul>
+
+<!-- 1 ############################-->
+<div id="tab1">
+	<h3>1. Upload Files</h3>
+	<p id="numRoutesLine">Choose number of Routes: 
+	<input id="numRoutesSelect" value="2" size="1">&nbsp;&nbsp;
+	<button id="numRoutesButton">Set number</button>
+	&nbsp; <small>warning: clicking this again will <span class="red">reset</span> everything below.</small>
+	</p>
+	<form id="form1" action="javascript:false;">
+	
+	<div class="row" id="routeUploadRepeater">
+		<!-- this will get populated by upload fields depending on number of routes -->
+	</div>
+
+	</form>
+
+	<div id="smallMap" class="smallMap"></div>
+	<br><br>
+	<p><a target="_blank" href="extra_files/sample-hyd-csv-input.txt">Click here&#x2197;</a> to see a sample structure of the HMRL CSV format.</p>
+
+	
+	<hr>
+	<div class="alert alert-warning" id=CSVUploadStatus">
+	Note: Be sure about which file is for weekdays and which for sunday.. as the files internally have no day information on them.<br><br>
+	</div>
+	
+</div>
+
+
+
+
+
+
+<!-- 2 ############################-->
+<div id="tab2">
+	<h3><a id="2"></a>2. Stops <small>(simplified)</small></h3>
+
+	<div class="row">
+	<div class="col-md-6">
+
+	<div id="stops-table"></div>
+
+	<br>
+	<div class="row"><div class="col">
+
+	<p>Add a new station: <input placeholder="stop_id" id="station2add" size="4"><button class="btn-primary" id="addStation" type="button">Add</button>
+	<br><small id="stationAddStatus"></small></p>
+
+	
+	</div>
+	<div class="col">
+
+	<button id="stopsDownloadButton">Download this data as CSV</button>
+
+	</div>
+	</div>
+	<br><br>
+	<div class="card mb-3 card-body bg-light">
+	<p>Note: This is a simplified representation of the metro stations. <br>In the system-generated data files that you will upload in 3rd tab, <br>each platform has its id like "MYP1", "MYP2" etc. <br><br>In the final GTFS, "MYP" will be automatically set as parent to "MYP1", "MYP2".</p>
+	</div>
+
+	</div><div class="col-md-6">
+
+	<div id="map"></div>
+	</div></div>
+	<br>
+
+	<br>
+</div>
+
+
+
+<!-- 3 ############################-->
+<div id="tab3">
+	<h3>3. Misc Info</h3>
+	<div class="row">
+
+
+	<div class="col-md-5">
+
+	<h5>Agency Info <span id="agency-check"></span></h5>
+	<p><small>
+	<label title="Short, unique internal code for agency, like KMRL">agency_id <red>*</red> : 
+		<input required id="agency_id" size="5"></label><br>
+	<label title="Official name of agency">agency_name <red>*</red> : 
+		<input required id="agency_name" size="20"></label><br>
+	<!--
+	<label title="Local language translation of name of agency">agency_name translation: 
+		<input id="agency_name_translation" size="10"></label><br>
+	-->
+	<label title="Official website of agency">agency_url <red>*</red>  : 
+		<input required id="agency_url" size="25"></label><br>
+	<label>agency_timezone <red>*</red> : 
+		<input required id="agency_timezone" size="10"></label>
+	</small></p>
+	<hr>
+
+	<h5>Calendar <span id="calendar-check"></span></h5>
+	<p><small><label title="Date from which the uploaded schedule is in operation, in YYYYMMDD format.">Start date <red>*</red> : <input required id="start_date" size="8" placeholder="YYYYMMDD"></label><br>
+	<label title="Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.">End date <red>*</red> : <input required id="end_date" size="8" placeholder="YYYYMMDD" value="20990101"></label></small></p>
+
+	<hr>
+	<br>
+	<h5>Stops Replacement</h5>
+	
+	<p>This table is for setting the correct stop_id's for platforms. Example: At Ameerpet, Blue Line uses platform 4 and Red Line uses platform 2.</p>
+	<div class="smallTables">
+		<h3>Click to expand</h3>
+		<div>
+		<div id="replace-stops-table"></div>
+		<br>
+		<button class="btn btn-primary btn-sm" id="addReplaceStopButton">Add a Row</button>
+		</div>
+	</div><!--Accordion over -->
+
+	</div>
+	<div class="col-md-7">
+
+	<h5>Fares <span id="fares-check"></span></h5>
+	<p>Upload Fares Chart CSV : (<a target="_blank" href="hydcsv_related/fares_chart_pivoted.csv">get template</a>)</p>
+
+	<small>
+	<p><input type="file" id="fareChart" name="fareChart" accept=".csv"  class="btn btn-sm btn-outline-secondary">
+	</p>
+	<p>Note: This is optional. If no file is chosen, fare_rules file won't be created.</p>
+	</small>
+	<br>
+	<p>Assign Fare ID's:</p>
+	<div class="row">
+		<div class="col-md-6">
+			<div id="fareIDs-table"></div>
+		</div>
+		<div class="col-md-6" id="fareAddBox">
+			<p>Add a fare</p>
+			<p><input placeholder="ex:50" id="fare2add" size="4"><button class="btn-primary" id="fare2addButton" type="button">Add</button>
+			</p>
+			<br><br>
+			<p class="alert alert-warning"><small>Please ensure that all the fare prices mentioned in the fares chart csv above have been assigned a fare_id here.</small></p>
+
+		</div>
+	</div><!-- fares row over -->
+	<br>
+	</div>
+
+	</div><!-- big row over -->
+	<hr>
+	<h5>Translations</h5>
+	<p>This table will be converted to the <a href="https://developers.google.com/transit/gtfs/reference/gtfs-extensions#translations" target="_blank">translations.txt</a> spec in GTFS extensions, that can be used in regions having multiple official languages.</p>
+	<div class="smallTables">
+		<h3>Click to expand</h3>
+		<div>
+		<div id="translations-table"></div>
+		
+		<p><br>
+		<button class="btn btn-primary btn-sm" id="addTranslationButton">Add a Row</button>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="btn btn-warning btn-sm" id="translationsDownloadButton">Download this data as CSV</button>
+		<span class="right">Note: names must exactly match those given in other places.
+		</span>
+		</p>
+	</div></div>
+		<!--Accordion over -->
+
+<hr>
+	<h5>Missing Stops</h5>
+	<p>This table will tell the program what timing calculations to apply in case a stop is missing from the uploaded csv datafile.</p>
+	<div class="smallTables">
+		<h3>Click to expand</h3>
+		<div>
+		<p>There are some default configurations already loaded. Skip this if there's been no major changes since last run.</p>
+		<div id="missing-stops-table"></div>
+		<p><br>
+		<button class="btn btn-primary btn-sm" id="addMissingStopButton">Add a Row</button>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="btn btn-warning btn-sm" id="missingStopsDownloadButton">Download this data as CSV</button>
+		</p>
+	</div></div>
+		<!--Accordion over -->
+
+	<br>
+</div>
+
+
+
+<!-- 4 ############################-->
+<div id="tab4">
+
+	<h3>4. Convert to GTFS</h3>
+
+	<div class="row">
+	<div class="col">
+		<p><button class="btn btn-md btn-warning" id="checkMiscButton" onclick="diagnoseConvertHYD()">&#10148; Diagnose and Convert to GTFS</button></p>
+		<p id="diagnoseConvertStatus"></p>
+		<p id="diagnoseConvertInfo"></p>
+	</div>
+	<div class="col"><div class="alert alert-secondary"><small>
+	Note: Pressing the button will first diagnose all the input and configuration data. If all is well, it will proceed with creating GTFS feed.
+	<br><br>
+	The import process will be similar to the GTFS import process on the home page. The data currently loaded will be exported as a backup, and a fresh GTFS feed will be created using the data you have uploaded and entered.
+	</small></div>
+	</div>
+
+	</div>
+
+</div>
+
+</div> <!-- End of Tabs container -->
+
+
+<br>
+<!--
+<div id="logaccordion">
+<h3>Changes Log</h3>
+<div>
+<p><textarea id="trackChanges" rows=10></textarea>
+</p>
+</div></div>
+ Accordion over -->
+
+<br><br><br>
+</div>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/hydcsv.js"></script>
+</body>
+</html>

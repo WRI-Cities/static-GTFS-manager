@@ -1,2 +1,0 @@
-route_color,route_long_name,route_short_name,route_text_color,route_id,route_type
-00B7F3,Aluva to Maharaja College,R1,000000,R001,1

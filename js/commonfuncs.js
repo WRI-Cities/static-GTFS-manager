@@ -1,6 +1,6 @@
 // ############################
 // CONSTANTS
-const VERSION = 'v1.4.3';
+const VERSION = 'v2.0.0';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
 const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };
@@ -8,7 +8,7 @@ const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metr
 const route_type_lookup = route_type_options;
 
 // this json holds the different pages. If you want to add/remove/rename a page, do so here.
-const menu = { 'index.html':'Main', 'stops.html':'Stops', 'routes.html':'Routes', 'schedules.html':'Schedules', 'fares.html':'Fares', 'misc.html':'Misc','xml2GTFS.html':'XML Import'};
+const menu = { 'index.html':'Main', 'stops.html':'Stops', 'routes.html':'Routes', 'schedules.html':'Schedules', 'fares.html':'Fares', 'misc.html':'Misc','xml2GTFS.html':'KMRL', 'hydcsv.html':'HMRL'};
 
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = true;
@@ -122,4 +122,14 @@ function shakeIt(targetId) {
 
 function pad(n, width=3, z=0) {
 	return (String(z).repeat(width) + String(n)).slice(String(n).length);
+}
+
+function writeProperties(data) {
+	var lines = [];
+	for (key in data) {
+		if(key == 'undefined') continue;
+		lines.push( key + ': ' + data[key] );
+	}
+	var returnHTML = lines.join('<br>');
+	return returnHTML;
 }

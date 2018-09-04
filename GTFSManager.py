@@ -18,38 +18,53 @@ import webbrowser
 from Cryptodome.PublicKey import RSA #uses pycryptodomex package.. disambiguates from pycrypto, pycryptodome
 import shutil # used in fareChartUpload to fix header if changed
 import pathlib
-from math import sin, cos, sqrt, atan2, radians
-# import requests
+from math import sin, cos, sqrt, atan2, radians # for lat-long distance calculations
+# import requests # nope, not needed for now
 from json.decoder import JSONDecodeError # used to catch corrupted DB file when tinyDB loads it.
 import signal, sys # for catching Ctrl+C and exiting gracefully.
+import gc # garbage collector, from https://stackoverflow.com/a/1316793/4355695
+import csv
+import numpy as np
+import io # used in hyd csv import
 
 # setting constants
-root = os.path.dirname(__file__)
-dbfile = 'GTFS/db.json'
-sequenceDBfile = 'GTFS/sequence.json'
+root = os.path.dirname(__file__) # needed for tornado
 uploadFolder = 'uploads/'
 xmlFolder = 'xml_related/'
 logFolder = 'logs/'
+configFolder = 'config/'
+dbFolder = 'db/' # 12.5.18 new pandas DB storage
+exportFolder = 'export/' # 4.9.18 putting exports here now
+
+sequenceDBfile = 'db/sequence.json'
 passwordFile = 'pw/rsa_key.bin'
+chunkRulesFile = 'chunkRules.json'
 thisURL = ''
 
+debugMode = False # using this flag at various places to do or not do things based on whether we're in development or production
+
+requiredFeeds = ['agency.txt','stops.txt','routes.txt','trips.txt','stop_times.txt','calendar.txt']
+# for checking imported ZIP against
+# to do: don't make this a HARD requirement. Simply logmessage about it.
+
+with open(configFolder + chunkRulesFile) as f:
+	chunkRules = json.load(f)
+
 # create folders if they don't exist
-if not os.path.exists(uploadFolder):
-	os.makedirs(uploadFolder)
+for folder in [uploadFolder, xmlFolder, logFolder, configFolder, dbFolder, exportFolder]:
+	if not os.path.exists(folder):
+		os.makedirs(folder)
 
-if not os.path.exists(xmlFolder):
-	os.makedirs(xmlFolder)
-
-if not os.path.exists(logFolder):
-	os.makedirs(logFolder)
 
 # importing GTFSserverfunctions.py, embedding it inline to avoid re-declarations etc
 exec(open("./GTFSserverfunctions.py", encoding='utf8').read())
 exec(open("./xml2GTFSfunction.py", encoding='utf8').read())
+exec(open("./hydCSV2GTFS.py", encoding='utf8').read())
 
 logmessage('Loaded dependencies, starting static GTFS Manager program.')
 
 '''
+# Tornado API functions template:
 class APIHandler(tornado.web.RequestHandler):
 	def get(self):
 		#get the Argument that User had passed as name in the get request
@@ -68,21 +83,16 @@ class APIHandler(tornado.web.RequestHandler):
 class allStops(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		'''
-		# better way to open files.. closes the file and frees up memory after the variable has been assigned.
-		with open("GTFS/stops.txt", encoding='utf8') as f: 
-			allStopsArray = list(csv.DictReader(f))
-		'''
-		# reading from database
-		allStopsArray = readTableDB(dbfile, 'stops')
-		
-		self.write(json.dumps(allStopsArray))
+		logmessage('\nallStops GET call')
+		allStopsJson = readTableDB('stops').to_json(orient='records', force_ascii=False)
+		self.write(allStopsJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("allStops GET call took {} seconds.".format(round(end-start,2)))
 		
 	def post(self):
 		start = time.time()
+		logmessage('\nallStops POST call')
 		pw=self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -90,10 +100,12 @@ class allStops(tornado.web.RequestHandler):
 			return 
 		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
 		data = json.loads( self.request.body.decode('UTF-8') )
-		#csvwriter(data,'stops.txt')
-		# save to db..
-		if replaceTableDB(dbfile, 'stops', data): #replaceTableDB(dbfile, tablename, data)
+
+		if replaceTableDB('stops', data): #replaceTableDB(tablename, data)
 			self.write('Saved stops data to DB.')
+		else:
+			self.set_status(400)
+			self.write("Error: Could not save to DB.")
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("allStops POST call took {} seconds.".format(round(end-start,2)))
@@ -112,48 +124,54 @@ class allStops(tornado.web.RequestHandler):
 class allStopsKeyed(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		'''
-		with open("GTFS/stops.txt", encoding='utf8') as f:
-			allStopsArray = list(csv.DictReader(f))
-		'''
-		# move to accessing DB
-		allStopsArray = readTableDB(dbfile, 'stops')
-		# desired: {"ALVA":{"stop_name":"Aluva","stop_lat":10.1099,"stop_lon":76.3495,"zone_id":"ALVA","wheelchair_boarding":1}
-		array2 = OrderedDict()
-		for row in allStopsArray:
-			stop_id = row['stop_id']
-			del row['stop_id']
-			array2[ stop_id ] = row	
-		self.write(json.dumps(array2))
+		logmessage('\nallStopsKeyed GET call')
+		stopsDF = readTableDB('stops')
+		# putting in a check for empty df, because set_index() errors out with empty df.
+		if len(stopsDF):
+			keyedStopsJson = stopsDF.set_index('stop_id').to_json(orient='index', force_ascii=False)
+			# change index to stop_id and make json keyed by index
+		else : keyedStopsJson = '{}'
+		
+		self.write(keyedStopsJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("allStopsKeyed GET call took {} seconds.".format(round(end-start,2)))
 
 		
-class allRoutes(tornado.web.RequestHandler):
+class routes(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		'''
-		with open("GTFS/routes.txt", encoding='utf8') as f:
-			allRoutesArray = list(csv.DictReader(f))
-		'''
-		allRoutesArray = readTableDB(dbfile, 'routes')
-		self.write(json.dumps(allRoutesArray))
+		logmessage('\nroutes GET call')
+		
+		allRoutesJson = readTableDB('routes').to_json(orient='records', force_ascii=False)
+		self.write(allRoutesJson)
+		end = time.time()
+		logmessage("routes GET call took {} seconds.".format(round(end-start,2)))
+
+	def post(self):
+		start = time.time()
+		logmessage('\nroutes POST call')
+		pw = self.get_argument('pw',default='')
+		if not decrypt(pw):
+			self.set_status(400)
+			self.write("Error: invalid password.")
+			return 
+		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
+		data = json.loads( self.request.body.decode('UTF-8') )
+		# writing back to db now
+		if replaceTableDB('routes', data): #replaceTableDB(tablename, data)
+			self.write('Saved routes data to DB')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		logmessage("allRoutes GET call took {} seconds.".format(round(end-start,2)))
-
+		logmessage("routes POST call took {} seconds.".format(round(end-start,2)))
 
 class fareAttributes(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		'''
-		with open("GTFS/fare_attributes.txt", encoding='utf8') as f:
-			fareAttributesArray = list(csv.DictReader(f)) 
-		'''
-		fareAttributesArray = readTableDB(dbfile, 'fare_attributes')
+		logmessage('\nfareAttributes GET call')
+		fareAttributesJson = readTableDB('fare_attributes').to_json(orient='records', force_ascii=False)
 
-		self.write(json.dumps(fareAttributesArray))
+		self.write(fareAttributesJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("fareAttributes GET call took {} seconds.".format(round(end-start,2)))
@@ -161,6 +179,7 @@ class fareAttributes(tornado.web.RequestHandler):
 	def post(self):
 		# API/fareAttributes
 		start = time.time()
+		logmessage('\nfareAttributes POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -170,7 +189,7 @@ class fareAttributes(tornado.web.RequestHandler):
 		data = json.loads( self.request.body.decode('UTF-8') )
 	
 		# writing back to db
-		if replaceTableDB(dbfile, 'fare_attributes', data): #replaceTableDB(dbfile, tablename, data)
+		if replaceTableDB('fare_attributes', data): #replaceTableDB(tablename, data)
 			self.write('Saved Fare Attributes data to DB.')
 		else:
 			self.set_status(400)
@@ -182,9 +201,10 @@ class fareAttributes(tornado.web.RequestHandler):
 class fareRules(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		fareRulesSimpleArray = readTableDB(dbfile, 'fare_rules')
+		logmessage('\nfareRules GET call')
+		fareRulesSimpleJson = readTableDB('fare_rules').to_json(orient='records', force_ascii=False)
 
-		self.write(json.dumps(fareRulesSimpleArray))
+		self.write(fareRulesSimpleJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("fareRules GET call took {} seconds.".format(round(end-start,2)))
@@ -192,6 +212,7 @@ class fareRules(tornado.web.RequestHandler):
 	def post(self):
 		# API/fareRules
 		start = time.time()
+		logmessage('\nfareRules POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -201,7 +222,7 @@ class fareRules(tornado.web.RequestHandler):
 		data = json.loads( self.request.body.decode('UTF-8') )
 	
 		# writing back to db
-		if replaceTableDB(dbfile, 'fare_rules', data): #replaceTableDB(dbfile, tablename, data)
+		if replaceTableDB('fare_rules', data): #replaceTableDB(tablename, data)
 			self.write('Saved Fare Rules data to DB.')
 		else:
 			self.set_status(400)
@@ -213,26 +234,30 @@ class fareRules(tornado.web.RequestHandler):
 class fareRulesPivoted(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		
-		fareRulesArray = readTableDB(dbfile, 'fare_rules')
+		logmessage('\nfareRulesPivoted GET call')
+		fareRulesDf = readTableDB('fare_rules')
 		# do pivoting operation only if there is data. Else send a blank array. 
 		# Solves part of https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-		if len(fareRulesArray):
-			df = pd.DataFrame(fareRulesArray).drop_duplicates()
+		if len(fareRulesDf):
+			df = fareRulesDf.drop_duplicates()
 			# skipping duplicate entries if any, as pivoting errors out if there are duplicates.
-			fareRulesPivotedArray = df.pivot(index='origin_id', columns='destination_id', values='fare_id').reset_index().rename(columns={'origin_id':'zone_id'}).to_dict(orient='records', into=OrderedDict)
+			fareRulesPivotedJson = df.pivot(index='origin_id',\
+				columns='destination_id', values='fare_id')\
+				.reset_index()\
+				.rename(columns={'origin_id':'zone_id'})\
+				.to_json(orient='records', force_ascii=False)
 		else:
-			fareRulesPivotedArray = []
+			fareRulesPivotedJson = '[]'
 
 		# multiple pandas ops..
 		# .pivot() : pivoting. Keep origin as vertical axis, destination as horizontal axis, and fill the 2D matrix with values from fare_id column.
-		# .reset_index() : move the vertical axis in as a column so that we can export it to dict further along. from https://stackoverflow.com/a/20461206/4355695
+		# .reset_index() : move the index in as a column so that we can export it to dict further along. from https://stackoverflow.com/a/20461206/4355695
 		# .rename() : rename the index column which we've moved in. Proper name is zone_id.
 		# .to_dict(orient='records', into=OrderedDict) : convert to flat list of dicts. from https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_dict.html
 
 		# to do: if we get a route or two, then order these by the route's sequence.
 
-		self.write( json.dumps(fareRulesPivotedArray) )
+		self.write(fareRulesPivotedJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("fareRulesPivoted GET call took {} seconds.".format(round(end-start,2)))
@@ -240,6 +265,7 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 	def post(self):
 		# API/fareRulesPivoted?pw=${pw}
 		start = time.time()
+		logmessage('\nfareRulesPivoted POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -251,7 +277,13 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 		# need to unpivot this. We basically need to do the exact same steps as the get(self) function did, in reverse.
 		df = pd.DataFrame(data)
 		
-		fareRulesArray = pd.melt(df, id_vars=['zone_id'], var_name='destination_id',value_name='fare_id').rename(columns={'zone_id': 'origin_id'}).replace('', pd.np.nan).dropna().sort_values(by=['origin_id','destination_id']).to_dict('records',into=OrderedDict)
+		fareRulesArray = pd.melt(df, id_vars=['zone_id'],\
+			var_name='destination_id',value_name='fare_id')\
+			.rename(columns={'zone_id': 'origin_id'})\
+			.replace('', pd.np.nan)\
+			.dropna()\
+			.sort_values(by=['origin_id','destination_id'])\
+			.to_dict('records',into=OrderedDict)
 		
 		# pandas: chained many commands together. explaining..
 		# .melt(df.. : that's the UNPIVOT command. id_vars: columns to keep. Everthing else "melts" down. var_name: new column name of the remaining cols serialized into one.
@@ -262,7 +294,7 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 		# to_dict(.. : output as an OrderedDict.
 
 		# writing back to db
-		if replaceTableDB(dbfile, 'fare_rules', fareRulesArray):
+		if replaceTableDB('fare_rules', fareRulesArray):
 			 self.write('Saved Fare Rules data to DB.')
 		else:
 			self.set_status(400)
@@ -275,14 +307,16 @@ class fareRulesPivoted(tornado.web.RequestHandler):
 class agency(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		agencyArray = readTableDB(dbfile, 'agency')
-		self.write(json.dumps(agencyArray))
+		logmessage('\nagency GET call')
+		agencyJson = readTableDB('agency').to_json(orient='records', force_ascii=False)
+		self.write(agencyJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("agency GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
 		start = time.time()
+		logmessage('\nagency POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -291,37 +325,18 @@ class agency(tornado.web.RequestHandler):
 		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
 		data = json.loads( self.request.body.decode('UTF-8') )
 	
-		if replaceTableDB(dbfile, 'agency', data): #replaceTableDB(dbfile, tablename, data)
+		if replaceTableDB('agency', data): #replaceTableDB(tablename, data)
 			self.write('Saved Agency data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("saveAgency POST call took {} seconds.".format(round(end-start,2)))
 
 
-class saveRoutes(tornado.web.RequestHandler):
-	def post(self):
-		start = time.time()
-		pw = self.get_argument('pw',default='')
-		if not decrypt(pw):
-			self.set_status(400)
-			self.write("Error: invalid password.")
-			return 
-		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
-		data = json.loads( self.request.body.decode('UTF-8') )
-		# logmessage(data)
-		# csvwriter(data,'routes.txt')
-		# writing back to db now
-		if replaceTableDB(dbfile, 'routes', data): #replaceTableDB(dbfile, tablename, data)
-			self.write('Saved routes data to DB')
-		# time check, from https://stackoverflow.com/a/24878413/4355695
-		end = time.time()
-		logmessage("saveRoutes POST call took {} seconds.".format(round(end-start,2)))
-
-
 class sequence(tornado.web.RequestHandler):
 	def get(self):
 		# API/sequence?route=${route_id}
 		start = time.time()
+		logmessage('\nsequence GET call')
 		route_id = self.get_argument('route',default='')
 
 		if not len(route_id):
@@ -339,7 +354,7 @@ class sequence(tornado.web.RequestHandler):
 		if not sequence:
 			logmessage('sequence not found in sequence DB file, so extracting from gtfs tables instead.')
 			# Picking the first trip instance for each direction of the route.
-			sequence = extractSequencefromGTFS(dbfile, route_id)
+			sequence = extractSequencefromGTFS(route_id)
 
 			if sequence == [ [], [] ] :
 				message = '<span class="alert alert-info">This seems to be a new route. Please create a sequence below and save to DB.</span>'
@@ -357,11 +372,11 @@ class sequence(tornado.web.RequestHandler):
 		end = time.time()
 		logmessage("sequence GET call took {} seconds.".format(round(end-start,2)))
 
-
 	#using same API endpoint, post request for saving.
 	def post(self):
 		# ${APIpath}sequence?pw=${pw}&route=${selected_route_id}&shape0=${chosenShape0}&shape1=${chosenShape1}
 		start = time.time()
+		logmessage('\nsequence POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -404,13 +419,14 @@ class trips(tornado.web.RequestHandler):
 	def get(self):
 		# API/trips?route=${route_id}
 		start = time.time()
+		logmessage('\ntrips GET call')
 		route_id = self.get_argument('route', default='')
 		if not len(route_id):
 			self.set_status(400)
 			self.write("Error: invalid route.")
 			return 
 
-		tripsArray = readTableDB(dbfile, 'trips', key='route_id', value=route_id)
+		tripsArray = readTableDB('trips', key='route_id', value=route_id).to_dict(orient='records')
 
 		# also read sequence for that route and send.
 		sequence = sequenceFull(sequenceDBfile, route_id)		
@@ -426,6 +442,7 @@ class trips(tornado.web.RequestHandler):
 	def post(self):
 		start  = time.time() # time check, from https://stackoverflow.com/a/24878413/4355695
 		# ${APIpath}trips?pw=${pw}&route=${route_id}
+		logmessage('\ntrips POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -440,7 +457,7 @@ class trips(tornado.web.RequestHandler):
 		tripsData = json.loads( self.request.body.decode('UTF-8') )
 
 		# heres where all the action happens:
-		result = replaceTableDB(dbfile, 'trips', tripsData, key='route_id', value=route_id)
+		result = replaceTableDB('trips', tripsData, key='route_id', value=route_id)
 		
 		if result:
 			self.write('Saved trips data for route '+route_id)
@@ -456,6 +473,7 @@ class stopTimes(tornado.web.RequestHandler):
 	def get(self):
 		# API/stopTimes?trip=${trip_id}&route=${route_id}&direction=${direction_id}
 		start = time.time()
+		logmessage('\nstopTimes GET call')
 		trip_id = self.get_argument('trip', default='')
 		route_id = self.get_argument('route', default='')
 		direction_id = int(self.get_argument('direction',default=0))
@@ -466,21 +484,28 @@ class stopTimes(tornado.web.RequestHandler):
 			self.write("Error: Invalid trip or route ID given.")
 			return
 
-		tripInTrips = readTableDB(dbfile, 'trips', 'trip_id', trip_id)
-		if tripInTrips == []:
+		tripInTrips = readTableDB('trips', 'trip_id', trip_id)
+		if not len(tripInTrips):
 			self.set_status(400)
 			self.write("Error: Please save this trip to DB in the Trips tab first.")
 			return
 
-		stoptimesArray = readTableDB(dbfile, 'stop_times', 'trip_id', trip_id)
-		
-		returnMessage = 'This trip has timings data in the db, so loaded that.'
-		newFlag = False
-		
-		if stoptimesArray == [] :
+		chunkFile = findChunk(trip_id)
+		if chunkFile is None:
 			returnMessage = 'This trip is new. Loading default sequence, please fill in timings and save to DB.'
 			newFlag = True
+		else:
+			tablename = chunkFile[:-3]
+			stoptimesDf = readTableDB(tablename, 'trip_id', trip_id)
+			returnMessage = 'This trip has timings data in the db, so loaded that.'
+			newFlag = False
 
+			if not len(stoptimesDf) : # this shouldn't happen
+				self.set_status(400)
+				self.write('Error: trip {} is supposed to be in {} but couldn\'t find it there.'.format(trip_id,chunkFile))
+				return
+
+		stoptimesArray = stoptimesDf.to_dict(orient='records')
 		# let's send back not just the array but even the message to display.
 		returnJson = {'data':stoptimesArray, 'message':returnMessage, 'newFlag':newFlag }
 		logmessage(returnJson['message'])
@@ -491,8 +516,9 @@ class stopTimes(tornado.web.RequestHandler):
 		logmessage("stopTimes GET call took {} seconds.".format(round(end-start,2)))
 
 	def post(self):
-		start  = time.time() # time check, from https://stackoverflow.com/a/24878413/4355695
 		# ${APIpath}stopTimes?pw=${pw}&trip=${trip_id}
+		start  = time.time() # time check, from https://stackoverflow.com/a/24878413/4355695
+		logmessage('\nstopTimes POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -507,7 +533,7 @@ class stopTimes(tornado.web.RequestHandler):
 		timingsData = json.loads( self.request.body.decode('UTF-8') )
 
 		# heres where all the action happens:
-		result = replaceTableDB(dbfile, 'stop_times', timingsData, key='trip_id', value=trip_id)
+		result = replaceTableDB('stop_times', timingsData, key='trip_id', value=trip_id)
 		
 		if result:
 			self.write('Changed timings data for trip '+trip_id)
@@ -523,24 +549,26 @@ class routeIdList(tornado.web.RequestHandler):
 	def get(self):
 		# API/routeIdList
 		start = time.time()
-
-		routesArray = readTableDB(dbfile, 'routes')
-
-		route_id_list = [ n['route_id'] for n in routesArray ]
+		logmessage('\nrouteIdList GET call')
+		#routesArray = readTableDB('routes')
+		#route_id_list = [ n['route_id'] for n in routesArray ]
+		
+		route_id_list = readColumnDB('routes','route_id')
 		self.write(json.dumps(route_id_list))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("routeIdList GET call took {} seconds.".format(round(end-start,2)))
 
+
 class tripIdList(tornado.web.RequestHandler):
 	def get(self):
 		# API/tripIdList
 		start = time.time()
-		db = tinyDBopen(dbfile)
-		tripsDb = db.table('trips')
-		trip_id_list = [ x['trip_id'] for x in tripsDb.all() ]
+		logmessage('\ntripIdList GET call')
+		trip_id_list = readColumnDB('trips','trip_id')
+
 		self.write(json.dumps(trip_id_list))
-		db.close()
+		# db.close()
 		end = time.time()
 		logmessage("tripIdList GET call took {} seconds.".format(round(end-start,2)))
 
@@ -549,10 +577,10 @@ class calendar(tornado.web.RequestHandler):
 	def get(self):
 		# API/calendar
 		start = time.time() # time check
+		logmessage('\ncalendar GET call')
+		calendarJson = readTableDB('calendar').to_json(orient='records', force_ascii=False)
 		
-		calendarArray = readTableDB(dbfile, 'calendar')
-
-		self.write(json.dumps(calendarArray))
+		self.write(calendarJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("calendar GET call took {} seconds.".format(round(end-start,2)))
@@ -560,6 +588,7 @@ class calendar(tornado.web.RequestHandler):
 	def post(self):
 		# API/calendar?pw=${pw}
 		start = time.time() # time check
+		logmessage('\ncalendar POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -569,7 +598,7 @@ class calendar(tornado.web.RequestHandler):
 		calendarData = json.loads( self.request.body.decode('UTF-8') )
 		
 		#csvwriter(calendarData,'calendar.txt')
-		replaceTableDB(dbfile, 'calendar', calendarData)
+		replaceTableDB('calendar', calendarData)
 
 		self.write('Saved Calendar data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
@@ -581,6 +610,7 @@ class serviceIds(tornado.web.RequestHandler):
 	def get(self):
 		# API/serviceIds
 		start = time.time() # time check
+		logmessage('\nserviceIds GET call')
 		service_id_list = serviceIdsFunc()
 		self.write(json.dumps(service_id_list))
 		end = time.time()
@@ -589,12 +619,20 @@ class serviceIds(tornado.web.RequestHandler):
 class stats(tornado.web.RequestHandler):
 	def get(self):
 		# API/stats
-		stats = GTFSstats(dbfile)
+		start = time.time()
+		logmessage('\nstats GET call')
+		stats = GTFSstats()
+
 		self.write(json.dumps(stats))
+		end = time.time()
+		logmessage("stats GET call took {} seconds.".format( round(end-start, 2) ) )
 
 
 class gtfsImportZip(tornado.web.RequestHandler):
 	def post(self):
+		# API/gtfsImportZip?pw=${pw}
+		start = time.time()
+		logmessage('\ngtfsImportZip GET call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -602,15 +640,20 @@ class gtfsImportZip(tornado.web.RequestHandler):
 			return 
 
 		zipname = uploadaFile( self.request.files['gtfsZipFile'][0] )
-		importGTFS(dbfile, zipname)
-		
-		self.write(zipname)
-		
+		if importGTFS(zipname):
+			self.write(zipname)
+		else:
+			self.set_status(400)
+			self.write("Error: invalid GTFS feed.")
+
+		end = time.time()
+		logmessage("gtfsImportZip POST call took {} seconds.".format( round(end-start,2) ))
 
 class commitExport(tornado.web.RequestHandler):
 	def get(self):
 		# API/commitExport?pw=${pw}&commit=${commit}
 		start = time.time()
+		logmessage('\ncommitExport GET call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -621,8 +664,8 @@ class commitExport(tornado.web.RequestHandler):
 			self.set_status(400)
 			self.write("Error: invalid commit name.")
 			return 
-		commitFolder = '{:GTFS/%Y-%m-%d-}'.format(datetime.datetime.now()) + commit + '/'
-		finalmessage = exportGTFS (dbfile, commitFolder) 
+		commitFolder = exportFolder + '{:%Y-%m-%d-}'.format(datetime.datetime.now()) + commit + '/'
+		finalmessage = exportGTFS(commitFolder) 
 		# this is the main function. it's in GTFSserverfunctions.py
 		
 		self.write(finalmessage)
@@ -634,10 +677,11 @@ class pastCommits(tornado.web.RequestHandler):
 	def get(self):
 		# API/pastCommits
 		start = time.time()
+		logmessage('\npastCommits GET call')
 		dirnames = []
-		for root, dirs, files in os.walk('GTFS/'):
+		for root, dirs, files in os.walk(exportFolder):
 			for folder in dirs:
-				if os.path.isfile('GTFS/' + folder + '/gtfs.zip'):
+				if os.path.isfile(exportFolder + folder + '/gtfs.zip'):
 					dirnames.append(folder)
 		if not len(dirnames):
 			self.set_status(400)
@@ -656,6 +700,7 @@ class XMLUpload(tornado.web.RequestHandler):
 	def post(self):
 		# `${APIpath}XMLUpload?pw=${pw}&depot=${depot}`,
 		start = time.time()
+		logmessage('\nXMLUpload GET call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -689,6 +734,7 @@ class XMLDiagnose(tornado.web.RequestHandler):
 	def get(self):
 		# `${APIpath}XMLDiagnose?weekdayXML=${weekdayXML}&sundayXML=${sundayXML}&depot=${depot}`
 		start = time.time()
+		logmessage('\nXMLDiagnose GET call')
 		weekdayXML = self.get_argument('weekdayXML', default='')
 		sundayXML = self.get_argument('sundayXML', default='')
 		
@@ -720,10 +766,7 @@ class XMLDiagnose(tornado.web.RequestHandler):
 class stations(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		'''
-		with open(xmlFolder + "stations.csv", encoding='utf8') as f: 
-			stationsArray = list(csv.DictReader(f))
-		'''
+		logmessage('\nstations GET call')
 		stationsArray = pd.read_csv(xmlFolder + "stations.csv", na_filter=False).to_dict('records')
 		self.write(json.dumps(stationsArray))
 		end = time.time()
@@ -731,10 +774,7 @@ class stations(tornado.web.RequestHandler):
 
 	def post(self):
 		start = time.time()
-		'''
-		with open(xmlFolder + "stations.csv", encoding='utf8') as f: 
-			stationsArray = list(csv.DictReader(f))
-		'''
+		logmessage('\nstations POST call')
 		stationsArray = pd.read_csv(xmlFolder + "stations.csv", na_filter=False).to_dict('records')
 		
 		pw = self.get_argument('pw',default='')
@@ -759,6 +799,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 	def post(self):
 		# `${APIpath}fareChartUpload?pw=${pw}`,
 		start = time.time()
+		logmessage('\nfareChartUpload POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -786,7 +827,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 		from_file.close()
 
 		try:
-			fares_array = csvunpivot(uploadFolder + fareChart, ['Stations'], 'destination_id', 'fare_id', ['fare_id','Stations','destination_id'])
+			fares_array = csvunpivot(uploadFolder + fareChart, ['Stations'], 'destination_id', 'fare_id', ['fare_id','Stations','destination_id']).to_dict('records')
 	
 		except:
 			self.set_status(400)
@@ -817,6 +858,7 @@ class xml2GTFS(tornado.web.RequestHandler):
 	def post(self):
 		# `${APIpath}xml2GTFS?pw=${pw}`
 		start = time.time()
+		logmessage('\nxml2GTFS POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -825,14 +867,13 @@ class xml2GTFS(tornado.web.RequestHandler):
 		configdata = json.loads( self.request.body.decode('UTF-8') )
 		logmessage(configdata)
 		# and so it begins! Ack lets pass it to a function.
-		try:
-			xml2GTFSConvert(configdata)
-			result = 'Imported XML data into database successfully.'
-		except:
-			self.set_status(400)
-			result = 'Import was unsuccessful, please debug on python side.'
+		returnMessage = xml2GTFSConvert(configdata)
 		
-		self.write(result)
+		if not len(returnMessage):
+			self.set_status(400)
+			returnMessage = 'Import was unsuccessful, please debug on python side.'
+		
+		self.write(returnMessage)
 		end = time.time()
 		logmessage("xml2GTFS POST call took {} seconds.".format(round(end-start,2)))
 
@@ -841,34 +882,22 @@ class gtfsBlankSlate(tornado.web.RequestHandler):
 	def get(self):
 		# API/gtfsBlankSlate?pw=${pw}
 		start = time.time()
+		logmessage('\ngtfsBlankSlate GET call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
 			self.write("Error: invalid password.")
 			return 
 		
-		# take backup first
-		backupfolder = '{:GTFS/%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
-		exportGTFS (dbfile, backupfolder)
-		logmessage('backup made to folder '+backupfolder)
+		# take backup first, if we're not in debug mode.
+		if not debugMode: 
+			backupDB()
+			finalmessage = '<font color=green size=6>&#10004;</font> Took a backup and cleaned out the DB.'
+		else:
+			finalmessage = '<font color=green size=6>&#10004;</font> Cleaned out the DB.'
 
-		
-		db = tinyDBopen(dbfile)
-		db.purge_tables() # wipe out the database, clean slate.
-		logmessage(dbfile + ' purged.')
-		db.close()
-		
-		# also purge sequenceDB
-		db = tinyDBopen(sequenceDBfile)
-		
-		db.purge_tables() # wipe out the database, clean slate.
-		logmessage(sequenceDBfile + ' purged.')
-		db.close()
-		
-
-
-		finalmessage = '<font color=green size=6>&#10004;</font> Took a backup and cleaned out the DB.'
-		# this is the main function. it's in GTFSserverfunctions.py
+		# outsourced purging DB to a function
+		purgeDB()
 		
 		self.write(finalmessage)
 		end = time.time()
@@ -877,8 +906,9 @@ class gtfsBlankSlate(tornado.web.RequestHandler):
 class translations(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
-		translationsArray = readTableDB(dbfile, 'translations')
-		self.write(json.dumps(translationsArray))
+		logmessage('\ntranslations GET call')
+		translationsJson = readTableDB('translations').to_json(orient='records', force_ascii=False)
+		self.write(translationsJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("translations GET call took {} seconds.".format(round(end-start,2)))
@@ -886,6 +916,7 @@ class translations(tornado.web.RequestHandler):
 	def post(self):
 		# API/translations?pw=${pw}
 		start = time.time() # time check
+		logmessage('\ntranslations POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -894,7 +925,7 @@ class translations(tornado.web.RequestHandler):
 		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
 		translationsData = json.loads( self.request.body.decode('UTF-8') )
 		
-		replaceTableDB(dbfile, 'translations', translationsData)
+		replaceTableDB('translations', translationsData)
 
 		self.write('Saved Translations data to DB.')
 		# time check, from https://stackoverflow.com/a/24878413/4355695
@@ -903,53 +934,42 @@ class translations(tornado.web.RequestHandler):
 
 class shapesList(tornado.web.RequestHandler):
 	def get(self):
+		# API/shapesList?route=${route_id}
 		start = time.time()
+		logmessage('\nshapesList GET call')
 		route_id = self.get_argument('route','')
 		if not len(route_id):
 			self.set_status(400)
 			self.write("Error: invalid route.")
-			return 
-		
-		db = tinyDBopen(dbfile)
-		Item = Query()
-		
+			return
+
 		shapeIDsJson = {}
-		
-		# shapesDb = db.table('shapes')
-		# allShapes = shapesDb.all()
-		# shapeIDsJson['all'] = list( pd.DataFrame(allShapes)['shape_id'].replace('', pd.np.nan).dropna().unique() )
+		df = readTableDB('trips', key='route_id', value=route_id)
 
-		tripsDb = db.table('trips')
+		# since shape_id is an optional column, handle gracefully if column not present.
+		if 'shape_id' not in df.columns:
+			shapeIDsJson = { '0':[], '1':[] }
+			self.write(json.dumps(shapeIDsJson))
+			del df
+			gc.collect()
+			return
 
-		# direction 0
-		trips = tripsDb.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )
-		# if there are no shapes in db, then skip the pandas command and assign empty array.
-		# should solve https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-		if len(trips):
-			shapeIDsJson['0'] = list( pd.DataFrame(trips)['shape_id'].replace('', pd.np.nan).dropna().unique() )
-		else:
-			shapeIDsJson['0'] = []
-
-		# ------------
-		# direction 1
-		trips = tripsDb.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 1) | (Item['direction_id'] == '1') ) )
-		if len(trips):
-			shapeIDsJson['1'] = list( pd.DataFrame(trips)['shape_id'].replace('', pd.np.nan).dropna().unique() )
-		else:
-			shapeIDsJson['1'] = []
-		
-
+		# get shape_id's used by that route and direction. Gets rid of blanks and NaNs, gets unique list and outputs as list.
+		shapeIDsJson['0'] = df[ (df.direction_id == '0') ].shape_id.replace('', pd.np.nan).dropna().unique().tolist()
+		shapeIDsJson['1'] = df[ (df.direction_id == '1') ].shape_id.replace('', pd.np.nan).dropna().unique().tolist()
 
 		self.write(json.dumps(shapeIDsJson))
-		db.close()
+		del df
+		gc.collect()
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
-		logmessage("shapes GET call took {} seconds.".format(round(end-start,2)))
+		logmessage("shapesList GET call took {} seconds.".format(round(end-start,2)))
 
 class shape(tornado.web.RequestHandler):
 	def post(self):
 		# ${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id}&reverseFlag=${reverseFlag}
 		start = time.time()
+		logmessage('\nshape POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -976,7 +996,7 @@ class shape(tornado.web.RequestHandler):
 			logmessage(geoJson1)
 			shapeArray = geoJson2shape(shapePrefix, shapefile=(uploadFolder+geoJson0), shapefileRev=(uploadFolder+geoJson1) )
 		else:
-			shapeArray = geoJson2shape(shapePrefix, shapefile=uploadFolder+geoJson0, shapefileRev=None)
+			shapeArray = geoJson2shape(shapePrefix, shapefile=(uploadFolder+geoJson0), shapefileRev=None)
 
 		if not shapeArray:
 			self.set_status(400)
@@ -988,11 +1008,8 @@ class shape(tornado.web.RequestHandler):
 		shapeArray0 = [ x for x in  shapeArray if x['shape_id'] == shape0 ]
 		shapeArray1 = [ x for x in  shapeArray if x['shape_id'] == shape1 ]
 
-		db=tinyDBopen(dbfile)
-		shapesDb = db.table('shapes')
-
-		replaceTableDB(dbfile, 'shapes', shapeArray0, key='shape_id', value=shape0)
-		replaceTableDB(dbfile, 'shapes', shapeArray1, key='shape_id', value=shape1)
+		replaceTableDB('shapes', shapeArray0, key='shape_id', value=shape0)
+		replaceTableDB('shapes', shapeArray1, key='shape_id', value=shape1)
 
 
 		self.write('Saved ' + shape0 + ', ' + shape1 + ' to shapes table in DB.')
@@ -1002,25 +1019,30 @@ class shape(tornado.web.RequestHandler):
 	def get(self):
 		# API/shape?shape=${shape_id}
 		start = time.time()
+		logmessage('\nshape GET call')
 		shape_id = self.get_argument('shape', default='')
+		print(shape_id)
 
 		if not len(shape_id):
 			self.set_status(400)
 			self.write("Error: invalid shape.")
 			return 
 
-		shapeArray = readTableDB(dbfile, 'shapes', key='shape_id', value=shape_id)
+		shapeDf = readTableDB('shapes', key='shape_id', value=shape_id)
 
-		if not len(shapeArray):
+		if not len(shapeDf):
 			self.set_status(400)
 			self.write("Error: Given shape_id is not present in shapes table in DB.")
 			return 
 
 		# need to sort this array before returning it. See https://github.com/WRI-Cities/static-GTFS-manager/issues/22
-		sortedShapeArray = sorted(shapeArray, key=lambda k: k['shape_pt_sequence'])
-		# from https://stackoverflow.com/a/73050/4355695
+		shapeDf.shape_pt_sequence = shapeDf.shape_pt_sequence.astype(int)
+		# type-cast the column as int before sorting!
 
-		self.write(json.dumps(sortedShapeArray))
+		sortedShapeJson = shapeDf.sort_values('shape_pt_sequence').to_json(orient='records', force_ascii=False)
+		# sort ref: http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
+		self.write(sortedShapeJson)
+
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("shape GET call took {} seconds.".format(round(end-start,2)))
@@ -1028,6 +1050,7 @@ class shape(tornado.web.RequestHandler):
 class allShapesList(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
+		logmessage('\nallShapesList GET call')
 		shapeIDsJson = allShapesListFunc()
 		self.write(json.dumps(shapeIDsJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
@@ -1039,56 +1062,36 @@ class listAll(tornado.web.RequestHandler):
 		# ${APIpath}listAll
 		# a Master API call for fetching all id's!
 		start = time.time()
+		logmessage('\nlistAll GET call')
 
 		zoneCollector = set()
 		
-		db = tinyDBopen(dbfile)
-
 		# stops
-		tableDB = db.table('stops')
-		stopsArray = tableDB.all()
-		stop_id_list = [ x['stop_id'] for x in stopsArray ]
+		stop_id_list = readColumnDB('stops','stop_id')
 		
 		# also collect zone_ids
-		# put in if loop to prevent error if db is empty. May solve https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-		if len(stopsArray):
-			df = pd.DataFrame(stopsArray)
-			zoneCollector.update( list( df['zone_id'].replace('', pd.np.nan).dropna().unique() ) )
+		zoneCollector.update( readColumnDB('stops','zone_id') )
 		
 		# routes
-		tableDB = db.table('routes')
-		route_id_list = [ x['route_id'] for x in tableDB.all() ]
+		route_id_list = readColumnDB('routes','route_id')
 
 		# trips
-		tableDB = db.table('trips')
-		trip_id_list = [ x['trip_id'] for x in tableDB.all() ]
+		trip_id_list = readColumnDB('trips','trip_id')
 
 		# fare zone ids
-		tableDB = db.table('fare_rules')
-		# put in if loop to prevent error if this table is empty
-		fare_rules_array = tableDB.all()
-		if len(fare_rules_array):
-			# to avoid errors if https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-			df = pd.DataFrame(fare_rules_array)
-			zoneCollector.update( list( df['origin_id'].replace('', pd.np.nan).dropna().unique() ) )
-			zoneCollector.update( list( df['destination_id'].replace('', pd.np.nan).dropna().unique() ) )
-		
+		zoneCollector.update( readColumnDB('fare_rules','origin_id') )
+		zoneCollector.update( readColumnDB('fare_rules','destination_id') )
+			
 		# zones collected; transfer all collected zones to zone_id_list
 		zone_id_list = list(zoneCollector)
 		
 		# fare_ids
 		# solves https://github.com/WRI-Cities/static-GTFS-manager/issues/36
-		tableDB = db.table('fare_attributes')
-		fare_attributes_array = tableDB.all()
-		fare_id_list = [ x['fare_id'] for x in fare_attributes_array ]
+		fare_id_list = readColumnDB('fare_attributes','fare_id')
 
 		# agency_ids
 		# solves https://github.com/WRI-Cities/static-GTFS-manager/issues/42
-		tableDB = db.table('agency')
-		agency_array = tableDB.all()
-		agency_id_list = [ x['agency_id'] for x in agency_array ]
-
-		db.close()
+		agency_id_list = readColumnDB('agency','agency_id')
 		
 		# next are repetitions of other functions		
 		# shapes
@@ -1108,20 +1111,11 @@ class zoneIdList(tornado.web.RequestHandler):
 	def get(self):
 		# ${APIpath}zoneIdList
 		start = time.time()
+		logmessage('\nzoneIdList GET call')
 
-		zoneCollector = set()
-			
-		db = tinyDBopen(dbfile)
-
-		# stops
-		tableDB = db.table('stops')
-		stopsArray = tableDB.all()
-		
-		# also collect zone_ids
-		# put in if loop to prevent error if db is empty. May solve https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-		if len(stopsArray):
-			df = pd.DataFrame(stopsArray)
-			zoneCollector.update( list( df['zone_id'].replace('', pd.np.nan).dropna().unique() ) )
+		zoneCollector = set()		
+		zoneCollector.update( readColumnDB('stops','zone_id') )
+		# to do: find out why this function is only looking at stops table
 		
 		zoneList = list(zoneCollector)
 		zoneList.sort()
@@ -1132,27 +1126,19 @@ class zoneIdList(tornado.web.RequestHandler):
 
 class diagnoseID(tornado.web.RequestHandler):
 	def get(self):
-		# ${APIpath}diagnoseID?key=key&value=value&tables=table1,table2&secondarytables=table3,table4
+		# ${APIpath}diagnoseID?column=column&value=value
 		start = time.time()
-		key = self.get_argument('key', default='')
+		logmessage('\ndiagnoseID GET call')
+		column = self.get_argument('column', default='')
 		value = self.get_argument('value', default='')
-		tables = self.get_argument('tables', default='').split(',')
-		secondarytables = self.get_argument('secondarytables', default='').split(',')
-		logmessage(tables)
-		logmessage(secondarytables)
-		if not ( len(key) and len(value) ):
+
+		if not ( len(column) and len(value) ):
 			self.set_status(400)
 			self.write("Error: invalid parameters.")
 			return 
+		returnMessage = diagnoseIDfunc(column,value)
+		self.write(returnMessage)
 
-		returnJson = collectfromDB(dbfile=dbfile,key=key,value=value,tables=tables,secondarytables=secondarytables)
-
-		if key == 'zone_id':
-			returnJson['main'].update( collectfromDB(dbfile=dbfile,key='origin_id',value=value,tables=['fare_rules'],secondarytables=[])['main'] )
-			tempJson = collectfromDB(dbfile=dbfile,key='destination_id',value=value,tables=['fare_rules'],secondarytables=[])['main']
-			returnJson['main']['fare_rules (destination id)'] = tempJson['fare_rules']
-
-		self.write(json.dumps(returnJson) )
 		end = time.time()
 		logmessage("diagnoseID GET call took {} seconds.".format(round(end-start,2)))
 
@@ -1161,23 +1147,24 @@ class deleteByKey(tornado.web.RequestHandler):
 	def get(self):
 		# ${APIpath}deleteByKey?pw=pw&key=key&value=value&tables=table1,table2
 		start = time.time()
+		logmessage('\ndeleteByKey GET call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
 			self.write("Error: invalid password.")
 			return 
 
-		key = self.get_argument('key', default='')
+		column = self.get_argument('key', default='')
 		value = self.get_argument('value', default='')
-		tables = self.get_argument('tables', default='').split(',')
-		if not ( len(key) and len(value) ):
+		if not ( len(column) and len(value) ):
+			logmessage("API/deleteByKey : Error: invalid parameters.")
 			self.set_status(400)
 			self.write("Error: invalid parameters.")
 			return 
 
-		deletefromDB(dbfile=dbfile,key=key,value=value,tables=tables)
-
-		self.write('Deleted all entries for ' + key + ' = ' + value +' from tables: ' + ', '.join(tables) + ' and zapped their mentions in other tables.' )
+		returnMessage = deleteID(column,value)
+		self.write(returnMessage)
+		
 		end = time.time()
 		logmessage("deleteByKey GET call took {} seconds.".format(round(end-start,2)))
 
@@ -1186,6 +1173,7 @@ class replaceID(tornado.web.RequestHandler):
 	def post(self):
 		# ${APIpath}replaceID?pw=pw&valueFrom=valueFrom&valueTo=valueTo
 		start = time.time()
+		logmessage('\nreplaceID POST call')
 		pw = self.get_argument('pw',default='')
 		if not decrypt(pw):
 			self.set_status(400)
@@ -1196,16 +1184,13 @@ class replaceID(tornado.web.RequestHandler):
 		valueTo = self.get_argument('valueTo', default='')
 		tableKeys = json.loads( self.request.body.decode('UTF-8') )
 		# tablekeys: [ {'table':'stops','key':'stop_id'},{...}]
-		
-		logmessage(tableKeys)
-		logmessage(valueFrom)
-		logmessage(valueTo)
 
 		if not ( len(valueFrom) and len(valueTo) and len(tableKeys) ):
 			self.set_status(400)
 			self.write("Error: Invalid parameters.")
 			return 
 
+		# main function:
 		returnMessage = replaceIDfunc(valueFrom,valueTo,tableKeys)
 		
 		self.write(returnMessage)
@@ -1213,17 +1198,44 @@ class replaceID(tornado.web.RequestHandler):
 		end = time.time()
 		logmessage("replaceID POST call took {} seconds.".format(round(end-start,2)))
 
+
+class hydGTFS(tornado.web.RequestHandler):
+	def post(self):
+		start = time.time()
+		logmessage('\nhydGTFS POST call')
+		pw = self.get_argument('pw',default='')
+		if not decrypt(pw):
+			self.set_status(400)
+			self.write("Error: invalid password.")
+			return 
+		
+		files = self.request.files
+		#print(files)
+		
+		# Getting POST form input data, from https://stackoverflow.com/a/32418838/4355695
+		#formdata = self.request.body_arguments() # that didn't work
+		payload = json.loads( self.get_body_argument("payload", default=None, strip=False) )
+		#print(payload)
+		
+		returnJson = hydGTFSfunc(files, payload)
+
+		#returnMessage = {'status':'Feature Under Construction!'}
+		self.write(returnJson)
+		
+		end = time.time()
+		logmessage("hydGTFS POST call took {} seconds.".format(round(end-start,2)))
+
+
 def make_app():
 	return tornado.web.Application([
 		#(r"/API/data", APIHandler),
 		(r"/API/allStops", allStops),
 		(r"/API/allStopsKeyed", allStopsKeyed),
-		(r"/API/allRoutes", allRoutes),
+		(r"/API/routes", routes),
 		(r"/API/fareAttributes", fareAttributes),
 		(r"/API/fareRulesPivoted", fareRulesPivoted),
 		(r"/API/fareRules", fareRules),
 		(r"/API/agency", agency),
-		(r"/API/saveRoutes", saveRoutes),
 		(r"/API/calendar", calendar),
 		(r"/API/sequence", sequence),
 		(r"/API/trips", trips),
@@ -1250,22 +1262,34 @@ def make_app():
 		(r"/API/diagnoseID", diagnoseID),
 		(r"/API/deleteByKey", deleteByKey),
 		(r"/API/replaceID", replaceID),
+		(r"/API/hydGTFS", hydGTFS),
 		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
 	])
 
 # for catching Ctrl+C and exiting gracefully. From https://nattster.wordpress.com/2013/06/05/catch-kill-signal-in-python/
 def signal_term_handler(signal, frame):
-	print('\nClosing Program.\nThank you for using GTFS Manager. Website: https://github.com/WRI-Cities/static-GTFS-manager/\n')
+	# to do: Make this work in windows, ra!
+	print('\nClosing Program.\nThank you for using static GTFS Manager. Website: https://github.com/WRI-Cities/static-GTFS-manager/\n')
 	sys.exit(0)
 
 if __name__ == "__main__":
 	signal.signal(signal.SIGINT, signal_term_handler)
 	app = make_app()
-	port = int(os.environ.get("PORT", 5000))
-	app.listen(port)
+	portnum = 5000
+	while True: # loop to increment the port number till we find one that isn't occupied
+		try:
+			port = int(os.environ.get("PORT", portnum))
+			app.listen(port)
+			break
+		except OSError:
+			portnum += 1
+			if portnum > 9999: 
+				print('Thats it I give up! Even port 9999 isn\'t free!')
+				sys.exit()
+
 	thisURL = "http://localhost:" + str(port)
 	webbrowser.open(thisURL)
-	logmessage("Open " + thisURL + " in your Browser if you don't see it opening automatically within 5 seconds.")
+	logmessage("Open {} in your Web Browser if you don't see it opening automatically within 5 seconds.".format(thisURL))
 	tornado.ioloop.IOLoop.current().start()
 
 

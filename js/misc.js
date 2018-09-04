@@ -5,8 +5,6 @@ var service_id_list = [];
 var globalIDs = {}; // Contains keys: stop_id_list, route_id_list, trip_id_list, shapeIDsJson, zone_id_list, service_id_list
 var globalKey = '';
 var globalValue = '';
-var globalTables = '';
-var globalSecondaryTables = '';
 
 // for Maintenance Change UID function:
 var globalValueFrom = '';
@@ -453,7 +451,7 @@ function getPythonAllIDs() {
 	// shorter GET request. from https://api.jquery.com/jQuery.get/
 	var jqxhr = $.get( `${APIpath}listAll`, function( data ) {
 		globalIDs =  JSON.parse(data) ;
-		console.log('listAll API GET request successful. Loaed lists of all ids.');
+		console.log('listAll API GET request successful. Loaded lists of all ids.');
 		populateMaintenanceLists();
 	})
 	.fail( function() {
@@ -483,9 +481,7 @@ function populateMaintenanceLists() {
 		console.log(stop_id);
 		globalKey = 'stop_id';
 		globalValue = stop_id;
-		globalTables = 'stops,stop_times';
-		globalSecondaryTables='';
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// route2Delete
@@ -504,9 +500,7 @@ function populateMaintenanceLists() {
 		console.log(route);
 		globalKey = 'route_id';
 		globalValue = route;
-		globalTables = 'routes,trips';
-		globalSecondaryTables = '';
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// trip2Delete
@@ -525,9 +519,7 @@ function populateMaintenanceLists() {
 		console.log(trip);
 		globalKey = 'trip_id';
 		globalValue = trip;
-		globalTables = 'trips,stop_times';
-		globalSecondaryTables = '';
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// shape2Delete
@@ -545,9 +537,7 @@ function populateMaintenanceLists() {
 		console.log(shape);
 		globalKey = 'shape_id';
 		globalValue = shape;
-		globalTables = 'shapes';
-		globalSecondaryTables = 'trips'
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// service2Delete
@@ -565,9 +555,7 @@ function populateMaintenanceLists() {
 		console.log(service);
 		globalKey = 'service_id';
 		globalValue = service;
-		globalTables = 'calendar';
-		globalSecondaryTables = 'trips'
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 	});
 
 
@@ -586,9 +574,7 @@ function populateMaintenanceLists() {
 		console.log(zone);
 		globalKey = 'zone_id';
 		globalValue = zone;
-		globalTables = '';
-		globalSecondaryTables = 'stops'
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 
 	});
 
@@ -607,9 +593,7 @@ function populateMaintenanceLists() {
 		console.log(fare);
 		globalKey = 'fare_id';
 		globalValue = fare;
-		globalTables = 'fare_attributes,fare_rules';
-		globalSecondaryTables = ''
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 
 	});
 
@@ -628,9 +612,7 @@ function populateMaintenanceLists() {
 		console.log(agency);
 		globalKey = 'agency_id';
 		globalValue = agency;
-		globalTables = 'agency';
-		globalSecondaryTables = 'routes,fare_attributes'
-		diagnoseID(globalKey,globalValue,globalTables,globalSecondaryTables);
+		diagnoseID(globalKey,globalValue);
 
 	});
 
@@ -650,15 +632,17 @@ function populateMaintenanceLists() {
 
 // #################################
 
-function diagnoseID(key,value,tables,secondarytables) {
+function diagnoseID(column,value,tables,secondarytables) {
 	if(value == 'No Selection' || value == '') {
 		resetGlobals();
 		return;
 	}
 
 		// shorter GET request. from https://api.jquery.com/jQuery.get/
-	var jqxhr = $.get( `${APIpath}diagnoseID?key=${key}&value=${value}&tables=${tables}&secondarytables=${secondarytables}`, function( data ) {
+	var jqxhr = $.get( `${APIpath}diagnoseID?column=${column}&value=${value}`, function( returndata ) {
 		console.log('diagnoseID API GET request successful.');
+		$('#dryRunResults').val(returndata);
+		/*
 		returndata = JSON.parse(data);
 		var content = 'Listing changes that will happen for deleting ' + key + ' = ' + value + '\n';
 
@@ -680,9 +664,11 @@ function diagnoseID(key,value,tables,secondarytables) {
 		}
 
 		$('#dryRunResults').val(content);
+		*/
 	})
 	.fail( function() {
-		console.log('GET request to API/diagnoseID failed.')
+		console.log('GET request to API/diagnoseID failed.');
+		$('#dryRunResults').val('GET request to API/diagnoseID failed. Please check logs.');
 	});
 }
 
@@ -699,8 +685,6 @@ function deleteByKey() {
 		$('#deepActionsStatus').html('Okay, not this time. Make a fresh selection again if you change your mind.');
 		globalKey = '';
 		globalValue = '';
-		globalTables = '';
-		globalSecondaryTables = '';
 		return;
 	}
 
@@ -714,16 +698,15 @@ function deleteByKey() {
 	
 	key = globalKey;
 	value = globalValue;
-	tables = globalTables;
-	console.log(key,value,tables);
+	console.log(key,value);
 
 	if( ! (key.length && value.length ) ) {
 		$('#deepActionsStatus').html('All values have not been properly set. Please check and try again.');
 		shakeIt('deepActionsButton'); return;
 	}
-	var jqxhr = $.get( `${APIpath}deleteByKey?pw=${pw}&key=${key}&value=${value}&tables=${tables}`, function( data ) {
-		console.log('deleteByKey API GET request successful. Message: ' + data);
-		$('#deepActionsStatus').html(data);
+	var jqxhr = $.get( `${APIpath}deleteByKey?pw=${pw}&key=${key}&value=${value}`, function( returndata ) {
+		console.log('deleteByKey API GET request successful. Message: ' + returndata);
+		$('#deepActionsStatus').html('<div class="alert alert-warning">' + returndata +'</div>');
 		
 		// resetting global vars and emptying of dry run textbox so that pressing this button again doesn't send the API request. 
 		resetGlobals();
@@ -733,13 +716,11 @@ function deleteByKey() {
 	.fail( function() {
 		console.log('GET request to API/deleteByKey failed.');
 		$('#deepActionsStatus').html('Error at backend, please debug.');
-
 	});
 }
 
 function resetGlobals() {
-	globalKey = ''; globalValue = ''; globalTables='';
-	globalSecondaryTables = '';
+	globalKey = ''; globalValue = '';
 	$('#dryRunResults').val('');
 
 	// clear the consent checkbox

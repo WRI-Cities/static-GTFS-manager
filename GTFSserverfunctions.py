@@ -6,11 +6,9 @@ def csvwriter( array2write, filename, keys=None ):
 	df = pd.DataFrame(array2write)
 	df.to_csv(filename, index=False, columns=keys)
 	logmessage( 'Created', filename )
-	
 
-def exportGTFS (dbfile, folder):
-	start = time.time()
 
+def exportGTFS (folder):
 	# create commit folder
 	if not os.path.exists(folder):
 		os.makedirs(folder)
@@ -18,168 +16,366 @@ def exportGTFS (dbfile, folder):
 		returnmessage = 'Folder with same name already exists: ' + folder + '. Please choose a different commit name.'
 		return returnmessage
 
-	db = tinyDBopen(dbfile)
-	# have to do the other params even when I'm just reading, as otherwise it changes that file.
-
-	#folder = 'commitfolder/'
-	tables = db.tables()
-
-	logmessage('Tables found in ' + dbfile + ': ' + str(list(tables)) )
-
-	# let's zip them too!
-	# may have to delete existing? Nah, it over-writes.
+	# let's zip them!
 	zf = zipfile.ZipFile(folder + 'gtfs.zip', mode='w')
-	
-	for tablename in db.tables():
-		feedDb = db.table(tablename)
-		tableArray = feedDb.all()
-		# logmessage( tablename + ': ' + str(len(tableArray)) + ' records' )
-		if( len(tableArray) ):
-			csvwriter(tableArray, folder + tablename + '.txt')
+
+	# find .h5 files.. non-chunk ones first
+	filenames = findFiles(dbFolder, ext='.h5', chunk='n')
+	print(filenames)
+
+	for h5File in filenames:
+		start1 = time.time()
+		tablename = h5File[:-3] # remove last 3 chars, .h5
+
+		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		
+		if len(df):
+			logmessage('Writing ' + tablename + ' to disk and zipping...')
+			df.to_csv(folder + tablename + '.txt', index=False, chunksize=1000000)
+			del df
 			zf.write(folder + tablename + '.txt' , arcname=tablename + '.txt', compress_type=zipfile.ZIP_DEFLATED )
-			logmessage('Added ' + tablename + '.txt to gtfs.zip')
 		else:
+			del df
 			logmessage(tablename + ' is empty so not exporting that.')
+		end1 = time.time()
+		logmessage('Added {} in {} seconds.'.format(tablename,round(end1-start1,3)))
+	gc.collect()
+		
+	# Now, process chunk files.
+
+	for tablename in list(chunkRules.keys()):
+		start1 = time.time()
+		filenames = findFiles(dbFolder, ext='.h5', prefix=tablename)
+		if not len(filenames): continue #skip if no files
+
+		print('Processing chunks for {}: {}'.format(tablename,list(filenames)) )
+
+		# first, getting all columns
+		columnsList = set()
+		for count,h5File in enumerate(filenames):
+			df = pd.read_hdf(dbFolder + h5File,'df',stop=0)
+			columnsList.update(df.columns.tolist())
+			del df
+		gc.collect()
+		columnsList = list(columnsList)
+
+		# moving the main ID to first position
+		# from https://stackoverflow.com/a/1014544/4355695
+		IDcol = chunkRules[tablename]['key']
+		columnsList.insert(0, columnsList.pop(columnsList.index(IDcol)))
+		logmessage('Columns for {}: {}'.format(tablename,list(columnsList)))
+
+		for count,h5File in enumerate(filenames):
+			logmessage('Writing {} to csv'.format(h5File))
+			df1 = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			
+			# in case the final columns list has more columns than df1 does, concatenating an empty df with the full columns list.
+			# from https://stackoverflow.com/a/30926717/4355695
+			columnsetter = pd.DataFrame(columns=columnsList)
+			df2 = pd.concat([df1,columnsetter], ignore_index=True, copy=False, sort=False)[columnsList]
+			# adding [columnsList] so the ordering of columns is strictly maintained between all chunks
+
+			appendFlag,headerFlag = ('w',True) if count == 0 else ('a',False)
+			# so at first loop, we'll create a new one and include column headers. 
+			# In subsequent loops we'll append and not repeat the column headers.
+			df2.to_csv(folder + tablename + '.txt', mode=appendFlag, index=False, header=headerFlag, chunksize=10000)
+
+			del df2
+			del df1
+			gc.collect()
+		
+		mid1 = time.time()
+		logmessage('CSV {} created in {} seconds, now zipping'.format(tablename + '.txt',round(mid1-start1,3)))
+
+		zf.write(folder + tablename +'.txt' , arcname=tablename +'.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+		end1 = time.time()
+		logmessage('Added {} to zip in {} seconds.'.format(tablename,round(end1-mid1,3)))
+
+		logmessage('Added {} in {} seconds.'.format(tablename,round(end1-start1,3)))
+
 	zf.close()
-	db.close()
-
+	gc.collect()
+	logmessage('Generated GTFS feed at {}'.format(folder))
+	
 	returnmessage = '<p>Success! Generated GTFS feed at <a href="' + folder + 'gtfs.zip' + '">' + folder + 'gtfs.zip<a></b>. Click to download.</p><p>You can validate the feed on <a href="https://gtfsfeedvalidator.transitscreen.com/" target="_blank">GTFS Feed Validator</a> website.</p>'
-
-	end = time.time()
-	logmessage("Function to export GTFS from db took {} seconds.".format(round(end-start,2)))
-
 	return returnmessage
 
-def importGTFS(dbfile, zipname):
+def importGTFS(zipname):
 	start1 = time.time()
 	
 	# take backup first
-	logmessage('Taking backup of existing contents of db')
-	backupfolder = '{:GTFS/%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
-	exportGTFS (dbfile, backupfolder)
-	logmessage('backup made to folder '+backupfolder)
+	if not debugMode:
+		backupDB() # do when in production, skip when developing / debugging
 
 	# unzip imported zip
-
-	# to do: make a separate folder to unzip in, so that when importing we don't end up picking other .txt files that happen to be in the general uploads folder.
-	if not os.path.exists(uploadFolder):
-		os.makedirs(uploadFolder)
+	# make a separate folder to unzip in, so that when importing we don't end up picking other .txt files that happen to be in the general uploads folder.
+	unzipFolder = uploadFolder + '{:unzip-%H%M%S}/'.format(datetime.datetime.now())
+	if not os.path.exists(unzipFolder):
+		os.makedirs(unzipFolder)
 
 	fileToUnzip = uploadFolder + zipname
+	logmessage('Extracting uploaded zip to {}'.format(unzipFolder))
+
 	# UNZIP a zip file, from https://stackoverflow.com/a/36662770/4355695
 	with zipfile.ZipFile( fileToUnzip,"r" ) as zf:
-		zf.extractall(uploadFolder)
+		zf.extractall(unzipFolder)
 
 	# loading names of the unzipped files
 	# scan for txt files, non-recursively, only at folder level. from https://stackoverflow.com/a/22208063/4355695
-	filenames = [f for f in os.listdir(uploadFolder) if f.lower().endswith('.txt') and os.path.isfile(os.path.join(uploadFolder, f))]
-	logmessage(filenames)
+	filenames = [f for f in os.listdir(unzipFolder) if f.lower().endswith('.txt') and os.path.isfile(os.path.join(unzipFolder, f))]
+	logmessage('Extracted files: ' + str(list(filenames)) )
 
-    # initiating and purging the db
-	db = tinyDBopen(dbfile)
-	db.purge_tables() # wipe out the database, clean slate.
-	logmessage(dbfile + ' purged.')
+	if not len(filenames):
+		return False
 
-	# also purge sequenceDB
-	db2 = TinyDB(sequenceDBfile, sort_keys=True, indent=2)
-	db2.purge_tables() # wipe out the database, clean slate.
-	logmessage(sequenceDBfile + ' purged.')
-	db2.close()
+	# Check if essential files are there or not.
+	# ref: https://developers.google.com/transit/gtfs/reference/#feed-files
+	# using set and subset. From https://stackoverflow.com/a/16579133/4355695
+	# hey we need to be ok with incomplete datasets, the tool's purpose is to complete them!
+	if not set(requiredFeeds).issubset(filenames):
+		logmessage('Note: We are importing a GTFS feed that does not contain all the required files as per GTFS spec: %s \
+				Kindly ensure the necessary files get created before exporting.' % str(list(requiredFeeds)))
 
-	# Pandas: defining certain columns to be read as string by passing a json to dtype option. from https://stackoverflow.com/a/36938326/4355695
-	dtype_dic= {
-		'service_id':str, 'end_date':str, 'start_date':str, #calendar
-		'route_id':str, 'route_short_name':str, 'route_long_name':str, 'route_text_color': str, 'route_color' : str, #routes
-		'fare_id': str, 'shape_id':str, 
-		'stop_id': str, 'zone_id': str, 'stop_name':str, #stops
-		'trip_id' : str, 'block_id': str, 'trip_headsign':str, #trips
-		'trans_id':str, 'translation':str, #translation
-		'agency_id':str, 'agency_name':str, 'agency_timezone':str, 'agency_url':str #agency
-	}
-	# damn this is getting exhausting. And what if the user uploads a feed having custom columns that also need to be string?? There should be a way to define all columns as string except a chosen few. Posted a question on stackoverflow for it: https://stackoverflow.com/questions/49684951/pandas-read-csv-dtype-read-all-columns-but-few-as-string		
+
+	# purge the DB. We're doing this only AFTER the ZIPfile is successfully uploaded and unzipped and tested.
+	purgeDB()
 	
-	for feedfile in filenames:
-		# using Pandas to read the csv.
-		feedArray = pd.read_csv(uploadFolder + feedfile , na_filter=False, dtype = dtype_dic).to_dict('records')
-		# na_filter=False to read blank cells as empty strings instead of NaN. from https://stackoverflow.com/a/45194703/4355695
-		# and passing the dtype options defined above to read certain columns as string.
-		# at end, converting the pandas dataframe to a dict array.
+	logmessage('Commencing conversion of gtfs feed files into the DB\'s .h5 files')
+	for txtfile in filenames:
+		tablename = txtfile[:-4]
+		# using Pandas to read the csv and write it as .h5 file
 
-		feed = feedfile[:-4].lower() # strip .txt from end, and set to lowercase
-		feedDb = db.table(feed)
-		feedDb.insert_multiple(feedArray)
-		del feedArray
+		if not chunkRules.get(tablename,None):
+			# normal files that don't need chunking
+			df = pd.read_csv(unzipFolder + txtfile ,dtype=str, na_values='')
+			# na_filter=False to read blank cells as empty strings instead of NaN. from https://stackoverflow.com/a/45194703/4355695
+			# reading ALL columns as string, and taking all NA values as blank string
 
-	db.close()
+			if not len(df): 
+				# skip the table if it's empty.
+				print('Skipping',tablename,'because its empty')
+				continue 
+
+			h5File = tablename.lower() + '.h5'
+			logmessage('{}: {} rows'.format(h5File, str(len(df)) ) )
+			df.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
+			# if there is no chunking rule for this table, then make one .h5 file with the full table.
+			del df
+			gc.collect()
+
+		else:
+			# let the chunking commence
+			logmessage('Storing {} in chunks.'.format(tablename))
+			chunkSize = chunkRules[tablename].get('chunkSize',200000)
+			IDcol = chunkRules[tablename].get('key')
+
+			fileCounter = 0
+			lookupJSON = OrderedDict()
+			carryOverChunk = pd.DataFrame()
+
+			for chunk in pd.read_csv(unzipFolder + txtfile, chunksize=chunkSize, dtype=str, na_values=''):
+				# see if can use na_filter=False to speed up
+
+				if not len(chunk): 
+					# skip the table if it's empty.
+					# there's probably going to be only one chunk if this is true
+					print('Skipping',tablename,'because its empty')
+					continue
+
+				# zap the NaNs at chunk level
+				chunk = chunk.fillna('')
+
+				IDList = chunk[IDcol].unique().tolist()
+				# print('first ID: ' + IDList[0])
+				# print('last ID: ' + IDList[-1])
+				workChunk = chunk[ chunk[IDcol].isin(IDList[:-1]) ]
+				if len(carryOverChunk):
+					workChunk = pd.concat([carryOverChunk, workChunk],ignore_index=True)
+				carryOverChunk = chunk[ chunk[IDcol] == IDList[-1] ]
+
+				fileCounter += 1
+				h5File = tablename + '_' + str(fileCounter) + '.h5' # ex: stop_times_1.h5
+				logmessage('{}: {} rows'.format(h5File, str(len(workChunk)) ) )
+				workChunk.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
+				del workChunk
+				gc.collect()
+
+				# making lookup table
+				for x in IDList[:-1]:
+					if lookupJSON.get(x,None):
+						logmessage('WARNING: {} may not have been sorted properly. Encountered a repeat instance of {}={}'
+							.format(txtfile,IDcol,x))
+					lookupJSON[x] = h5File
+
+			# chunk loop over. 
+			del chunk
+
+			# Now append the last carry-over chunk in to the last chunkfile
+			logmessage('Appending the {} rows of last ID to last chunk {}'
+				.format(str(len(carryOverChunk)),h5File))
+			carryOverChunk.to_hdf(dbFolder+h5File, 'df', format='table', append=True, mode='a', complevel=1)
+			# need to set append=True to tell it to append. mode='a' is only for file-level.
+			# add last ID to lookup
+			lookupJSON[ IDList[-1] ] = h5File
+
+			del carryOverChunk
+			gc.collect()
+
+			lookupJSONFile = chunkRules[tablename].get('lookup','lookup.json')
+			with open(dbFolder + lookupJSONFile, 'w') as outfile:
+				json.dump(lookupJSON, outfile, indent=2)
+			# storing lookup json
+			logmessage('Lookup json: {} created for mapping ID {} to {}_n.h5 chunk files.'.format(lookupJSONFile,IDcol,tablename))
+			
+
+	logmessage('Finished importing GTFS feed. You can remove the feed zip {} and folder {} from {} if you want.'.format(zipname,unzipFolder,uploadFolder))
+	return True
 
 
-
-	end1 = time.time()
-	logmessage("Loaded external GTFS.. full function took {} seconds.".format( round(end1-start1,2) ))
-
-
-def GTFSstats(dbfile):
-	start = time.time()
-	db = tinyDBopen(dbfile)
+def GTFSstats():
+	'''
+	Gives number of rows in all the tables.
+	To do: give stats properly. Show the main tables first, and then show extra tables.
+	'''
+	filenames = findFiles(dbFolder, ext='.h5', prefix=None, chunk='all')
+	print(filenames)
 	content = '';
-	for tablename in db.tables():
-		feedDb = db.table(tablename)
-		count = len(feedDb)
+
+	for h5File in filenames:
+		tablename = h5File[:-3] # remove last 3 chars, .h5
+		hdf = pd.HDFStore(dbFolder + h5File)
+		count = hdf.get_storer('df').nrows
+		# gets number of rows, without reading the entire file into memory. From https://stackoverflow.com/a/26466301/4355695
+		# its different for data in table mode:
+		# frame_table  (typ->appendable,nrows->40,ncols->6,indexers->[index])
+		hdf.close()
 		if count:
-			content = content + tablename + ': ' + str( count ) + ' entries<br>'
-	
-	db.close()
+			content += tablename + ': ' + str( count ) + ' entries<br>'
+	if len(filenames): 
+		del hdf
+	gc.collect()
 	# to do: last commit mention
-	end = time.time()
-	logmessage("GTFSstats function took {} seconds.".format( round(end-start, 2) ) )
 	return content
 
+def readTableDB(tablename, key=None, value=None):
+	'''
+	main function for reading a table or part of it from the DB
+	read-only
+	note: this does not handle non-primary keys for chunked tables. - let's change that!
+	'''
 
-def readTableDB(dbfile, tablename, key=None, value=None):
-	db = tinyDBopen(dbfile)
-	tableDb = db.table(tablename)
+	# if tablename is a blank string, return empty array.
+	if not len(tablename):
+		return pd.DataFrame()
 	
-	if(key and value):
-		Item = Query()
-		count = tableDb.count(Item[key] == value)
-		logmessage(tablename + ' has ' + str(count) + ' rows for ' + key + ' = ' + str(value) )
+
+	if tablename not in chunkRules.keys():
+		# not a chunked file
+		h5Files = [tablename + '.h5']
+
+	else:
+		# if it's a chunked file
+		if key == chunkRules[tablename].get('key'):
+			h5File = findChunk(value, tablename)
+			if not h5File:
+				logmessage('readTableDB: No {} chunk found for key={}'.format(tablename,value))
+				h5Files = []
+			else: h5Files = [h5File]
+		else:
+			h5Files = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
+
+	# so now we have array/list h5Files having one or more .h5 files to be read.
+	
+	collectDF = pd.DataFrame()
+	for h5File in h5Files:
+
+		# check if file exists.
+		if not os.path.exists(dbFolder+h5File):
+			continue
 		
-		tableArray = tableDb.search(Item[key] == value)
-		# logmessage(tableArray) 
-		#oh good the query doesn't error out when no match found, it merely returns empty array!
+		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str) 
+		# typecasting as str, keeping NA values blank ''
+
+		if(key and value):
+			logmessage('readTableDB: table:{}, column:{}, value:"{}"'.format(tablename,key,value))
+			# check if this column is present or not
+			if key not in df.columns:
+				logmessage('readTableDB: Error: column {} not found in {}. Skipping it.'.format(key,h5File) )
+				continue
+			df.query('{} == "{}"'.format(key,value), inplace=True)
+			# note: in case the column (key) has a space, see https://github.com/pandas-dev/pandas/issues/6508. Let's avoid spaces in column headers please!
+			# dilemma: what if the value is a number instead of a string? let's see that happens!
+			# -> solved by typecasting everything as str by default
+		collectDF = collectDF.append(df.copy(), ignore_index=True, sort=True)
+		del df
+	
+	logmessage('readTableDB: Loaded {}, {} records'.format(tablename,len(collectDF)) )
+	return collectDF
+	
+
+def replaceTableDB(tablename, data, key=None, value=None):
+	# new Data
+	xdf = pd.DataFrame(data).fillna('').astype(str)
+	# type-casting everything as string only, it's safer. See https://github.com/WRI-Cities/static-GTFS-manager/issues/82
+
+	if value is not None:
+		value = str(value)
+	
+	# fork out if it's stop_times or other chunked table
+	
+	if tablename in chunkRules.keys():
+		# we do NOT want to come here from the replaceID() function. That should be handled separately.
+		# Here, do only if it's coming from the actual data editing side.
+		if value is None or key != chunkRules[tablename]['key']:
+			# NOPE, not happening! for chunked table, value HAS to be a valid id.
+			logmessage('Invalid key-value pair for chunked table',tablename,':',key,'=',value)
+			del xdf
+			gc.collect()
+			return False
+		chunkyStatus = replaceChunkyTableDB(xdf, value, tablename) 
+		
+		del xdf
+		gc.collect()
+		return chunkyStatus
+
+	# fork over, now back to regular
+
+	h5File = tablename + '.h5'
+
+	# if file doesn't exist (ie, brand new data), make a new .h5 with the data and scram
+	if not os.path.exists(dbFolder+h5File):
+		xdf.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
+		logmessage('DB file for {} not found so created with the new data.'.format(tablename))
+
+	# else proceed if file exists
+
+	elif ((key is not None) and (value is not None) ):
+		# remove entries matching the key and value
+		df = pd.read_hdf(h5File,'df').fillna('').astype(str)
+		df.query(key + ' != "' + str(value) + '"', inplace=True)
+		
+		df3 = pd.concat([df,xdf], ignore_index=True)
+		df3.to_hdf(h5File, 'df', format='table', mode='w', complevel=1)
+
+		logmessage('Replaced entries for {}={} with {} new entries in {}.'\
+			.format(key,str(value),str(len(xdf)),tablename ) )
+		del df3
+		del df
 
 	else:
-		tableArray = tableDb.all()
+		# directly replace whatever's there with new data.
+		xdf.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
+		logmessage('Replaced {} with new data, {} entries inserted.'.format(tablename,str(len(data)) ) )
 
-	db.close()
-	return tableArray
-
-
-def replaceTableDB(dbfile, tablename, data, key=None, value=None):
-	db = tinyDBopen(dbfile)
-	tableDb = db.table(tablename)
-
-	if(key and value):
-		Item = Query()
-		count = tableDb.count(Item[key] == value)
-		tableDb.remove(Item[key] == value)
-	else:
-		tableDb.purge() #this is a bit scary..
-		logmessage('Table ' + tablename + ' emptied in ' + dbfile)
-
-	tableDb.insert_multiple(data)
-	logmessage('Inserted ' + str(len(data)) + ' entries into table ' + tablename + ' in ' + dbfile )
-	db.close()
+	del xdf
+	gc.collect()
 	return True
 
 
 def sequenceSaveDB(sequenceDBfile, route_id, data, shapes=None):
 	'''
-	data = [
-		['ALVA','PNCU','CPPY','ATTK','MUTT','KLMT','CCUV','PDPM','EDAP','CGPP','PARV','JLSD','KALR','LSSE','MGRD'],
-		['MACE','MGRD','LSSE','KALR','JLSD','PARV','CGPP','EDAP','PDPM','CCUV','KLMT','MUTT','ATTK','CPPY','PNCU','ALVA']
-	];
-	# shapes cam be like ['S0',''] or ['',''] or ['','S1']
+	save onward and return stops sequence for a route
 	'''
 	dataToUpsert = {'route_id': route_id, '0': data[0], '1': data[1] }
 	if shapes:
@@ -234,49 +430,50 @@ def sequenceFull(sequenceDBfile, route_id):
 	logmessage('Got the sequence from sequence db file.')
 	return sequenceArray
 
-def extractSequencefromGTFS(dbfile, route_id):
+
+def extractSequencefromGTFS(route_id):
 	# idea: scan for the first trip matching a route_id, in each direction, and get its sequence from stop_times. 
 	# In case it hasn't been provisioned yet in stop_times, will return empty arrays.
 
-	db = tinyDBopen(dbfile)
-	Item = Query()
-	tripsDB = db.table('trips')
-
-	oneTrip0 = None
-
-	# note: for AND or OR conditions within a tinDB query, have to use &,| and enclose everthing in brackets. From https://tinydb.readthedocs.io/en/latest/usage.html#query-modifiers
-	check = tripsDB.contains( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )
-	if check:
-		oneTrip0 = tripsDB.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 0) | (Item['direction_id'] == '0') ) )[0]['trip_id']
-		logmessage('oneTrip0 found: '+oneTrip0)
+	tripsdf = readTableDB('trips', key='route_id', value=route_id)
+	if not len(tripsdf):
+		logmessage('extractSequencefromGTFS: no trips found for {}. Skipping.'.format(route_id))
+		return [ [], [] ]
 	
-	# In case it's a brand new route and no prior trips exist, then exit with an empty sequence array.
-	if not oneTrip0:
-		# no trips found, return a blank sequence and get out!
-		logmessage('Nothing found for oneTrip0')
-		db.close()
-		sequence = [ [], [] ]
-		return sequence
-
-	check = tripsDB.contains( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 1) | (Item['direction_id'] == '1') ) )
-	if check:
-		oneTrip1 = tripsDB.search( (Item['route_id'] == route_id) & ( (Item['direction_id'] == 1) | (Item['direction_id'] == '1') ) )[0]['trip_id']
-		logmessage('oneTrip1 found: '+oneTrip1)
-	else:
-		# no reverse direction.. no probs, set as None
+	if 'direction_id' not in tripsdf.columns:
+		logmessage('extractSequencefromGTFS: Trips table doesn\'t have any direction_id column. Well, its optional.. taking the first trip only for route {}.'.format(route_id))
+		oneTrip0 = tripsdf.iloc[0].trip_id
 		oneTrip1 = None
 
-	stop_timesDB = db.table('stop_times')
+	else: 
+		dir0df = tripsdf[ tripsdf.direction_id == '0'].copy().reset_index(drop=True).trip_id
+		oneTrip0 = dir0df.iloc[0] if len(dir0df) else tripsdf.iloc[0].trip_id
+		# using first trip's id as default, for cases where direction_id is blank.
 
-	array0 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip0) ]
-	array1 = [ n['stop_id'] for n in stop_timesDB.search(Item['trip_id'] == oneTrip1) ]
-	# if the condition doesn't work out, then these arrays will be empty arrays, won't error out.
+		dir1df = tripsdf[ tripsdf.direction_id == '1'].copy().reset_index(drop=True).trip_id
+		oneTrip1 = dir1df.iloc[0] if len(dir1df) else None
+		# reset_index: re-indexes as 0,1,... from https://stackoverflow.com/a/20491748/4355695
+
+		del dir0df
+		del dir1df
+	del tripsdf
+
+	if oneTrip0:
+		array0 = readColumnDB('stop_times','stop_id', key='trip_id', value=oneTrip0)
+		logmessage('extractSequencefromGTFS: Loading sequence for route {}, onward direction from trip {}:\n{}'.format(route_id,oneTrip0,str(list(array0[:50])) ))
+	else:
+		array0 = []
+		logmessage('No onward sequence found for route {}'.format(route_id))
 	
-	sequence = [array0, array1]
+	if oneTrip1:
+		array1 = readColumnDB('stop_times','stop_id', key='trip_id', value=oneTrip1)
+		logmessage('extractSequencefromGTFS: Loading sequence for route {}, return direction from trip {}:\n{}'.format(route_id,oneTrip1,str(list(array1[:50])) ))
+	else:
+		array1 = []
+		logmessage('No return sequence found for route {}'.format(route_id))
 
-	# to do: If the selected route is absent from trips.txt at present, then pass an empty sequence.
-	# sequence = [ [], [] ]
-	db.close()
+
+	sequence = [array0, array1]
 	return sequence
 
 def uploadaFile(fileholder):
@@ -440,6 +637,9 @@ def diagnoseXMLs(weekdayXML, sundayXML, depot=None) :
 ##############################
 
 def readStationsCSV(csvfile = xmlFolder + 'stations.csv'):
+	'''
+	This is for KMRL Metro file import
+	'''
 	stations = pd.read_csv(csvfile)
 	
 	# load up_id and down_id columns, but removing blank/null values. From https://stackoverflow.com/a/22553757/4355695
@@ -481,9 +681,8 @@ def csvunpivot(filename, keepcols, var_header, value_header, sortby):
 	# rename header 'Stations' to 'origin_id', from https://stackoverflow.com/questions/11346283/renaming-columns-in-pandas/
 	# and drop all rows having NaN values. from https://stackoverflow.com/a/13434501/4355695
 	fares_unpivoted_clean = fares_unpivoted.rename(columns={'Stations': 'origin_id'}).dropna() 
-
-	fares_dict = fares_unpivoted_clean.to_dict('records')
-	return fares_dict
+	# 4.9.18: returns a dataframe now
+	return fares_unpivoted_clean
 
 ##############################
 
@@ -518,10 +717,14 @@ def tinyDBopen(filename):
 	try:
 		db = TinyDB(filename, sort_keys=True, indent=2)
 	except JSONDecodeError:
-		logmessage('DB file ' + filename + ' has invalid json. Making a backup copy and creating a new blank one. Please ask dev to check the backup, named '+ filename+'_backup')
+		logmessage('tinyDBopen: DB file {} has invalid json. Making a backup copy and creating a new blank one.'.format(filename))
 		shutil.copy(filename, filename + '_backup') # copy file. from http://www.techbeamers.com/python-copy-file/
+		
+	except FileNotFoundError:
+		logmessage('tinyDBopen: {} not found so creating.'.format(filename))
 		open(filename, 'w').close() # make a blank file. from https://stackoverflow.com/a/12654798/4355695
 		db = TinyDB(filename, sort_keys=True, indent=2)
+
 	return db
 
 def geoJson2shape(route_id, shapefile, shapefileRev=None):
@@ -589,32 +792,27 @@ def geoJson2shape(route_id, shapefile, shapefileRev=None):
 	return output_array
 
 def allShapesListFunc():
-	db = tinyDBopen(dbfile)
 	shapeIDsJson = {}
-	
-	shapesDb = db.table('shapes')
-	allShapes = shapesDb.all()
-	db.close()
-	# if there are no shapes in db, then skip the pandas command and assign empty array.
-	# should solve https://github.com/WRI-Cities/static-GTFS-manager/issues/35
-	if len(allShapes):
-		shapeIDsJson['all'] = list( pd.DataFrame(allShapes)['shape_id'].replace('', pd.np.nan).dropna().unique() )
-	else:
-		shapeIDsJson['all'] = []
+
+	shapeIDsJson['all'] = readColumnDB('shapes','shape_id')
 
 	db = tinyDBopen(sequenceDBfile)
 	allSequences = db.all()
 	db.close()
-
+	
 	shapeIDsJson['saved'] = { x['route_id']:[ x.get('shape0', ''), x.get('shape1','') ]  for x in allSequences }
+	
 	return shapeIDsJson
 
 def serviceIdsFunc():
-	calendarArray = readTableDB(dbfile, 'calendar')
-	service_id_list = [ n['service_id'] for n in calendarArray ]
+	calendarDF = readTableDB('calendar')
+	if not len(calendarDF):
+		service_id_list = []
+	else:
+		service_id_list = calendarDF['service_id'].tolist()
 	return service_id_list
 
-
+'''
 def deletefromDB(dbfile,key,value,tables):
 	
 	# first, delete linked trips if it is a route. INCEPTION! aka recursive function.
@@ -743,53 +941,31 @@ def deletefromDB(dbfile,key,value,tables):
 
 	db.close()
 	return True
-
-
-def collectfromDB(dbfile,key,value,tables,secondarytables):
-	db = tinyDBopen(dbfile)
-	Item = Query()
-	returnJson = OrderedDict()
-	returnJson['main']= OrderedDict()
-	returnJson['zap']= OrderedDict()
-
-	for tablename in tables:
-		tableDb = db.table(tablename)
-		tableArray = tableDb.search(Item[key] == value)
-		returnJson['main'][tablename] = tableArray
-		logmessage(str(len(tableArray)) + ' rows to be deleted in ' + tablename +' for ' + key + '=' + value  )
-
-	if not secondarytables == ['']:
-		for tablename in secondarytables:
-			tableDb = db.table(tablename)
-			tableArray = tableDb.search(Item[key] == value)
-			returnJson['zap'][tablename] = tableArray
-			logmessage(str(len(tableArray)) + ' rows to be zapped in ' + tablename +' where ' + key + '=' + value  )
-	db.close()
-	return returnJson
+'''
+#################################################3
 
 def replaceIDfunc(valueFrom,valueTo,tableKeys):
-	db = tinyDBopen(dbfile)
-	Item = Query()
 	returnList = []
-	# https://tinydb.readthedocs.io/en/latest/usage.html#replacing-data
+	if debugMode: logmessage('replaceIDfunc: valueFrom:',valueFrom,\
+		'\nvalueTo:',valueTo,'\ntableKeys:',tableKeys)
+
 	for row in tableKeys:
 		tablename = row['table']
-		key = row['key']
-		tableDb = db.table(tablename)
-		rows = tableDb.search(Item[key] == valueFrom)
-		count = len(rows)
+		column = row['key']
+		if tablename in chunkRules.keys():
+			filesLoop = replaceIDChunk(valueFrom,valueTo,tablename,column)
+			if not filesLoop: continue
 
-		# skip to next table-key pair if this table didn't have any matching records.
-		# Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/40
-		if not count:
-			continue
+		else:
+			# normal table
+			filesLoop = [ tablename + '.h5' ]
 
-		for row in rows:
-			row[key] = valueTo
-		tableDb.write_back(rows)
-		returnList.append('Replaced ' + key + ' = ' + valueFrom + ' with <b>' + valueTo + '</b> in ' + tablename + ' table, <b>' + str(count) + '</b> rows edited.')
+		for h5File in filesLoop:
+			replacingStatus = replaceTableCell(h5File,column,valueFrom,valueTo)
+			if replacingStatus:
+				returnList.append(replacingStatus)
 
-	db.close()
+	# end of tableKeys loop
 
 	# additional: if it's a stop, replace it in sequence DB too.
 	if 'stop_id' in [x['key'] for x in tableKeys]:
@@ -804,8 +980,103 @@ def replaceIDfunc(valueFrom,valueTo,tableKeys):
 		sDb.write_back(rows)
 		sDb.close();
 
-	returnMessage = '<br>'.join(returnList)
+	# hey, don't forget shapes!
+	if 'shape_id' in [x['key'] for x in tableKeys]:
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		rows = sDb.all()
+		somethingEditedFlag = False
+		for row in rows:
+			editedFlag = False
+			if row.get('shape0') == valueFrom :
+				row['shape0'] = valueTo
+				editedFlag = True
+			if row.get('shape1') == valueFrom :
+				row['shape1'] = valueTo
+				editedFlag = True
+			
+			if editedFlag:
+				a = 'Replaced shape_id = {} with {} in sequence DB for route {}'\
+					.format(valueFrom,valueTo,row.get('route_id') )
+				logmessage(a) 
+				returnList.append(a)
+				somethingEditedFlag = True
+
+		if somethingEditedFlag: sDb.write_back(rows) # write updated data back only if you've edited something, else don't bother.
+		sDb.close();
+
+	returnMessage = 'Success.<br>' + '<br>'.join(returnList)
 	return returnMessage
+
+######################
+def replaceIDChunk(valueFrom,valueTo,tablename,column):
+	# do NOT call any other function for replacing db etc now!
+	# first, figure out if this is a key column or other column
+	if column == chunkRules[tablename]['key']:
+		if debugMode: logmessage('replaceIDChunk: {} is the primary key. So, we need only load its corresponding chunk.'.format(column))
+
+		# find the chunk that has valueFrom
+		h5File = findChunk(valueFrom,tablename)
+		if not h5File:
+			logmessage('replaceIDChunk: No entry in lookupJSON for {} .'.format(valueFrom))
+			return False
+		filesLoop = [ h5File ]
+
+		# replace it in the json too.
+		lookupJSONFile = chunkRules[tablename]['lookup']
+		with open(dbFolder + lookupJSONFile) as f:
+			table_lookup = json.load(f)
+
+		table_lookup[valueTo] = h5File # make a new key-value pair
+		table_lookup.pop(valueFrom,None) # delete old key which is getting replaced
+		
+		with open(dbFolder + lookupJSONFile, 'w') as outfile:
+			json.dump(table_lookup, outfile, indent=2)
+		logmessage('replaceIDChunk: replaced {} with {} in lookupJSON {}'\
+			.format( valueFrom,valueTo,lookupJSONFile  ))	
+		# replacing lookupJSON done.
+
+	else:
+		if debugMode: logmessage('replaceIDChunk: {} is NOT the primary key ({}). So, we have to loop through all the chunks.'.format(column,chunkRules[tablename]['key']))
+		filesLoop = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
+		if debugMode: logmessage('replaceIDChunk: filesLoop:',filesLoop)
+
+	return filesLoop
+
+
+def replaceTableCell(h5File,column,valueFrom,valueTo):
+	returnStatus = False
+	# check if file exists.
+	if not os.path.exists(dbFolder + h5File):
+		logmessage('replaceIDChunk: {} not found.'.format(h5File))
+		return False
+	
+	df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str) 
+	if column not in df.columns:
+		if debugMode: logmessage('replaceTableCell: column {} not found in {}. Skipping this one.'\
+			.format(column,h5file) )
+		return False
+
+	count = len( df[df[column] == valueFrom ])
+	if count:
+		# the replacing:
+		df[column].replace(to_replace=str(valueFrom), value=str(valueTo), inplace=True )
+		# hey lets do this for the ordinary tables too!
+		logmessage('replaceTableCell(): replaced {} instances of "{}" with "{}" in {} column in {}'\
+			.format(count,valueFrom,valueTo,column,h5File) )
+		# write it back
+		df.to_hdf(dbFolder + h5File,'df', format='table', mode='w', complevel=1)
+		returnStatus = 'Replaced {} instances of "{}" with "{}" in {} column in {}'\
+			.format(count,valueFrom,valueTo,column,h5File)
+	else:
+		returnStatus = 'Nothing found in {} for {}="{}"'.format(h5File,column,valueFrom)
+
+	del df
+	return returnStatus
+
+
+############################
+
 
 def logmessage( *content ):
 	timestamp = '{:%Y-%b-%d %H:%M:%S} :'.format(datetime.datetime.now())
@@ -819,3 +1090,393 @@ def logmessage( *content ):
 	# `,file=f` argument at end writes the line, with newline as defined, to the file instead of to screen. 
 	# from https://stackoverflow.com/a/2918367/4355695
 	f.close()
+
+
+def readColumnDB(tablename, column, key=None, value=None):
+	returnList = []
+	# check if chunking:
+	if tablename not in chunkRules.keys():
+		# Not chunking
+		df = readTableDB(tablename, key, value)
+		if len(df):
+			if column in df.columns:
+				returnList = df[column].replace('', np.nan).dropna().unique().tolist()
+			else:
+				logmessage('readColumnDB: Hey, the column {} doesn\'t exist in the table {} for {}={}'\
+						.format(column,tablename,key,value))
+		del df
+	
+	else:
+		# Yes chunking
+		# to do:
+		# if the column seeked is the same as the primary key of the chunk, then just get that list from the json.
+		# but if the column is something else, then load that chunk and get the column.
+
+		if column == chunkRules[tablename]['key']:
+			lookupJSONFile = chunkRules[tablename]['lookup']
+			# check if file exists.
+			if not os.path.exists(dbFolder + lookupJSONFile):
+				print('readColumnDB: HEY! {} does\'t exist! Returning [].'.format(lookupJSONFile))
+			else:
+				with open(dbFolder + lookupJSONFile) as f:
+					table_lookup = json.load(f)
+				returnList = list( table_lookup.keys() )
+			# so now we have the ids list taken from the lookup json itself, no need to open .h5 files.
+		
+		else:
+			if key == chunkRules[tablename]['key']:
+				df = readTableDB(tablename, key=key, value=value)
+			else:	
+				if debugMode: logmessage('readColumnDB(): Note: reading a chunked table {} by non-primary key {}. May take time.'\
+					.format(tablename,key))
+				df = readChunkTableDB(tablename, key=key, value=value)
+
+			if column in df.columns:
+				# in a chunked file, give the values as-is, don't do any unique'ing business.
+				returnList = df[column].tolist()
+			else:
+				logmessage('readColumnDB(): Hey, the column {} doesn\'t exist in the chunked table {} for {}={}'\
+					.format(column,tablename,key,value))
+			del df
+
+	gc.collect()
+	return returnList
+
+
+def purgeDB():
+	# purging existing .h5 files in dbFolder
+	for filename in os.listdir(dbFolder):
+		if filename.endswith('.h5'):
+			os.unlink(dbFolder + filename)
+	logmessage('Removed .h5 files from ' + dbFolder)
+
+	# purge lookup files of chunked files too
+	for filename in os.listdir(dbFolder):
+		if filename.endswith('.json'):
+			os.unlink(dbFolder + filename)
+	logmessage('Removed .json files from ' + dbFolder)
+
+	# also purge sequenceDB
+	db2 = TinyDB(sequenceDBfile, sort_keys=True, indent=2)
+	db2.purge_tables() # wipe out the database, clean slate.
+	logmessage(sequenceDBfile + ' purged.')
+	db2.close()
+
+
+def backupDB():
+	backupfolder = exportFolder + '{:%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
+	logmessage('\nbackupDB: Creating backup of DB in {}.'.format(backupfolder))
+	exportGTFS(backupfolder)
+	logmessage('Backup created.\n')
+
+
+def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
+
+	chunkFile = findChunk(value, tablename)
+	key = chunkRules[tablename]['key']
+	lookupJSONFile = chunkRules[tablename]['lookup']
+
+	if chunkFile:
+		logmessage('Editing ' + chunkFile)
+		df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+		initLen = len(df)
+		
+		df = df[df[key] != str(value)]
+		# df.query('trip_id != "' + str(trip_id) + '"', inplace=True)
+		reducedLen = len(df)
+
+		if reducedLen == initLen:
+			logmessage('Warning: id {} was supposed to be in {} but no entries there. \
+			Cross-check later. Proceeding with insering new data for now.'.format(value,chunkFile))
+		else:
+			logmessage('{} older entries for id {} removed.'.format( str( initLen - reducedLen ),value ))
+
+		newdf = pd.concat([df,xdf],ignore_index=True)
+		logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
+		newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
+
+	else:
+		# if the trip wasn't previously existing, take the smallest chunk and add in there.
+		chunkFile = smallestChunk(tablename)
+		df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+
+		newdf = pd.concat([df,xdf],ignore_index=True)
+		logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
+
+		newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
+
+	
+	# add entry for new trip in stop_times_lookup.json
+	with open(dbFolder + lookupJSONFile) as f:
+		table_lookup = json.load(f)
+
+	# adding a new key in the json.
+	table_lookup[value] = chunkFile
+
+	with open(dbFolder + lookupJSONFile, 'w') as outfile:
+		json.dump(table_lookup, outfile, indent=2)
+
+	# for cross-checking
+	logmessage('Making new.csv and test.csv in {} for cross-checking.'.format(uploadFolder))
+	xdf.to_csv(uploadFolder + 'new.csv', index_label='sr')
+	newdf.to_csv(uploadFolder + 'test.csv', index_label='sr')
+
+	# clean up after job done
+	del newdf
+	del df
+	gc.collect()
+	return True
+
+
+def findChunk(value, tablename="stop_times"):
+	lookupJSONFile = chunkRules[tablename]['lookup']
+	print('lookup for {}: {}'.format(tablename,lookupJSONFile))
+
+	with open(dbFolder + lookupJSONFile) as f:
+		table_lookup = json.load(f)
+	chunkFile = table_lookup.get(value,None)
+	print('Found chunk for id {}: {}'.format(value,chunkFile) )
+	return chunkFile
+
+
+def smallestChunk(prefix):
+	filenames = [f for f in os.listdir(dbFolder) if f.lower().endswith('.h5') and ( f.lower().startswith(prefix) ) and os.path.isfile(os.path.join(dbFolder, f))]
+
+	chunkFile = sorted(filenames, key=lambda filename: os.path.getsize(os.path.join(dbFolder, filename)))[0]
+	# sort the list of files by size and pick first one. From https://stackoverflow.com/a/44215088/4355695
+
+	return chunkFile
+
+
+def findFiles(folder, ext='.h5', prefix=None, chunk='all'):
+	# chunk : 'all','n' for not chunked,'y' for chunked
+	filenames = [f for f in os.listdir(folder) 
+		if f.lower().endswith(ext) 
+		and ( checkPrefix(f,prefix) ) 
+		and ( chunkFilter(f,chunk) )
+		and os.path.isfile(os.path.join(folder, f))]
+	return filenames
+
+
+def checkPrefix(f,prefix):
+	if not prefix: return True
+	return f.lower().startswith(prefix)
+
+def chunkFilter(f,chunk):
+	'''
+	Tells you if the given file is to be taken or not depending on whether you want all, chunked-only or not-chunked-only
+	'''
+	if chunk=='all': return True
+	chunkList = list(chunkRules.keys())
+	if any([f.startswith(x) for x in chunkList]) and chunk=='y': return True
+	if ( not any([f.startswith(x) for x in chunkList]) ) and chunk=='n': return True
+	return False
+
+
+###################
+
+def diagnoseIDfunc(column,value):
+	'''
+	function to take column, value and find its occurence throughout the DB, and return the tables the value appears in.
+	'''
+	# load the delete config file
+	content = ''
+	deleteRulesDF = pd.read_csv(configFolder + 'deleteRules.csv', dtype=str).fillna('')
+	deleteRulesDF.query('key == "{}"'.format(column), inplace=True)
+	if len(deleteRulesDF):
+		deleteRulesDF.reset_index(drop=True,inplace=True)
+	else:
+		logmessage('No deleteRules found for column',column)
+		content = 'No deleteRules found for this column.'
+
+	if debugMode: logmessage(deleteRulesDF)
+
+	counter = 1
+	for i,row in deleteRulesDF.iterrows():
+		dbPresent = findFiles(dbFolder, ext='.h5', prefix=row.table, chunk='all')
+		if dbPresent:
+			searchColumn = row.column_name if len(row.column_name) else row.key
+			
+			if row.table not in chunkRules.keys():
+				df = readTableDB(row.table, key=searchColumn, value=value)
+			else:
+				if searchColumn == chunkRules[row.table].get('key'):
+					df = readTableDB(row.table, key=searchColumn, value=value)
+				else:
+					df = readChunkTableDB(row.table, key=searchColumn, value=value)
+
+			if len(df):
+				content += '{}] {} rows to {} in table "{}":\n'\
+					.format(counter,len(df),row.action,row.table)
+				content += df.to_csv(index=False, sep='\t')
+				content += '\n' + '#'*100 + '\n'
+				counter += 1
+	return content
+
+def readChunkTableDB(tablename, key, value):
+	'''
+	function to collect data from all the chunks of a chunked table when the key is not the primary key
+	'''
+	collectDF = pd.DataFrame()
+	if (key is None) or (value is None):
+		# very nice! take a blank table, go!
+		logmessage('readChunkTableDB: Sorry, cannot extract data from table {} with key={} and value={}'\
+			.format(tablename,key,value))
+		return pd.DataFrame()
+
+	collect = []
+	chunksHaving = []
+	for i,h5File in enumerate( findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y') ):
+		df = pd.read_hdf(dbFolder+h5File,'df')\
+			.fillna('').astype(str)\
+			.query( '{}=="{}"'.format(key,value) )
+		if len(df): 
+			collect.append(df.copy())
+			chunksHaving.append(h5File)
+		del df
+
+	if len(collect): 
+		collectDF = pd.concat(collect, ignore_index=True)
+		logmessage('readChunkTableDB: Collected {} rows from table {} for {}={}'\
+			.format(len(collectDF),tablename,key,value),\
+			'\nChunks having entries:',chunksHaving)
+		return collectDF
+	else:
+		logmessage('readChunkTableDB: No rows found in chunked table {} for {}={}'\
+			.format(tablename,key,value))
+		return pd.DataFrame()
+
+
+def deleteID(column,value):
+	content = ''
+
+	# special case: if its a route_id or a calendar service_id, have to delete all the trips under it first, so their respective entries in stop_times are deleted too.
+	if column in ['route_id','service_id']:
+		tripsList = readColumnDB(tablename='trips', column='trip_id', key=column, value=value)
+		message = 'deleteID: Deleting {} trips first under {}="{}"'.format(len(tripsList),column,value) 
+		logmessage(message)
+		content += message + '<br>'
+		content += ''.join([deleteID('trip_id',trip_id) for trip_id in tripsList]) + '<br>'
+
+	# load deleteRules csv from config folder
+	deleteRulesDF = pd.read_csv(configFolder + 'deleteRules.csv', dtype=str).fillna('')
+	deleteRulesDF.query('key == "{}"'.format(column), inplace=True)
+	if len(deleteRulesDF):
+		deleteRulesDF.reset_index(drop=True,inplace=True)
+	else:
+		logmessage('No deleteRules found for column',column)
+		content = 'No deleteRules found for column {}.'.format(column)
+		return content
+	
+	if debugMode: logmessage(deleteRulesDF)
+
+	counter = 1
+	for i,row in deleteRulesDF.iterrows():
+		dbPresent = findFiles(dbFolder, ext='.h5', prefix=row.table, chunk='all')
+		if dbPresent:
+			searchColumn = row.column_name if len(row.column_name) else row.key
+			
+			content += deleteInTable(tablename=row.table, key=searchColumn, value=value, action=row.action)
+
+	# sequence DB
+	content += sequenceDel(column,value)
+
+	return content
+
+def deleteInTable(tablename, key, value, action="delete"):
+	if tablename not in chunkRules.keys():
+		h5Files = [tablename + '.h5']
+		# since we've composed this filename, check if file exists.
+		if not os.path.exists(dbFolder + h5Files[0]):
+			logmessage('deleteInTable: {} not found.'.format(h5Files[0]))
+			return ''
+	else:
+		if key == chunkRules[tablename].get('key'):
+			h5Files = [findChunk(value, tablename)]
+			
+			# delete it in the lookup json too.
+			lookupJSONFile = chunkRules[tablename]['lookup']
+			with open(dbFolder + lookupJSONFile) as f:
+				table_lookup = json.load(f)
+
+			table_lookup.pop(value,None) # delete old key which is getting replaced
+			
+			with open(dbFolder + lookupJSONFile, 'w') as outfile:
+				json.dump(table_lookup, outfile, indent=2)
+
+		else:
+			h5Files = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
+
+	# now in h5Files we have which all files to process.
+	returnMessage = ''
+	for h5File in h5Files:
+		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+
+		# check if given column is present in table or not
+		if key not in df.columns:
+			logmessage('deleteInTable: Column {} not found in {}. Skipping.'.format(key,h5File) )
+			continue
+
+		numDel = len(df.query('{} == "{}"'.format(key,value)) )
+		if not numDel: continue
+
+		if action == 'delete':
+			df.query('{} != "{}"'.format(key,value), inplace=True)
+			df.reset_index(drop=True, inplace=True)
+			
+			returnMessage += 'Deleted {} rows with {}="{}" in table: {}<br>'.format(numDel,key,value,tablename)
+		else: # for zap
+			df[key] = df[key].apply(lambda x: '' if x==value else x)
+			# zap all occurences of value in the column [key] to blank. leave all other values as-is
+			returnMessage += 'Zapped {} occurences of {}="{}", in table: {}<br>'.format(numDel,key,value,tablename)
+		
+		# commenting out while developing
+		df.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
+	logmessage(returnMessage)
+	return returnMessage
+
+
+def sequenceDel(column,value):
+	content = ''
+	if column == 'route_id':
+		# drop it from sequence DB too.
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		sDb.remove(sItem[column] == value)
+		sDb.close();
+
+		message = 'Removed entries if any for route_id: '+value +' in sequenceDB.'
+		logmessage(message)
+		content += message + '<br>'
+
+	if column == 'stop_id':
+		# drop the stop from sequence DB too.
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		changesFlag = False
+		rows = sDb.all()
+
+		# do this this only if sequenceDBfile is not empty
+		if len(rows):
+			for row in rows:
+				# do zapping only if the stop is present in that sequence
+				if value in row['0']:
+					row['0'][:] = ( x for x in row['0'] if x != value )
+					changesFlag = True
+					message = 'Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0'
+					logmessage(message)
+					content += message + '<br>'
+				if value in row['1']:
+					row['1'][:] = ( x for x in row['1'] if x != value )
+					changesFlag = True
+					message = 'Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1'
+					logmessage(message)
+					content += message + '<br>'
+			
+			# rows loop over, now run write_back command only if there have been changes.
+			if changesFlag:
+				sDb.write_back(rows)
+		
+		sDb.close();
+
+	return content

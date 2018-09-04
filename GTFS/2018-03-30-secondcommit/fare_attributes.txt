@@ -1,6 +1,0 @@
-price,currency_type,fare_id,transfers,payment_method
-10,INR,F1,,1
-20,INR,F2,,1
-30,INR,F3,,1
-40,INR,F4,,1
-50,INR,F5,,1

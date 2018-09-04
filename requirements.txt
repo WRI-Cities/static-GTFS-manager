@@ -3,3 +3,4 @@ tornado==5.0
 tinydb==3.9.0
 pandas==0.22.0
 pycryptodomex==3.6.1
+tables==3.4.4
