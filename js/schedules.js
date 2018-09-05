@@ -441,7 +441,7 @@ function addTrip() {
 
 		dirIndex = ( directionsArray[i] == '' ? 0 : directionsArray[i]);
 
-		var trip_id = route_id + '.'pad(counter);
+		var trip_id = route_id + pad(counter);
 		// to do: change this, adopt naming conventions.
 		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
 		
