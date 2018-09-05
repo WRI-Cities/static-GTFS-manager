@@ -946,6 +946,8 @@ def deletefromDB(dbfile,key,value,tables):
 
 def replaceIDfunc(valueFrom,valueTo,tableKeys):
 	returnList = []
+	# to do: wean off tableKeys, bring in the deleteRules.csv code blocks from diagnose, delete functions.
+	
 	if debugMode: logmessage('replaceIDfunc: valueFrom:',valueFrom,\
 		'\nvalueTo:',valueTo,'\ntableKeys:',tableKeys)
 
@@ -1010,6 +1012,11 @@ def replaceIDfunc(valueFrom,valueTo,tableKeys):
 
 ######################
 def replaceIDChunk(valueFrom,valueTo,tablename,column):
+	'''
+	replaceIDChunk: this function finds the relevant chunks where replacement is to be done, and passes back the filenames in a list.
+	It does NOT do the actual replacing in the .h5 file. That is done by the subsequently called replaceTableCell function.
+	But it does edit the lookup JSON in case the column to be edited is the primary column of the chunked table. (like: stop_times > trip_id)
+	'''
 	# do NOT call any other function for replacing db etc now!
 	# first, figure out if this is a key column or other column
 	if column == chunkRules[tablename]['key']:

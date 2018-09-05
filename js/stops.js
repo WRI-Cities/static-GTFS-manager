@@ -22,6 +22,8 @@ $("#stops-table").tabulator({
 	history:true,
 	layout:"fitDataFill",
 	addRowPos: "top",
+	ajaxURL: APIpath + 'allStops', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
@@ -32,6 +34,7 @@ $("#stops-table").tabulator({
 		{title:"zone_id", field:"zone_id", editor:"input", validator:["string", "minLength:3"] },
 		{title:"wheelchair_boarding", field:"wheelchair_boarding", editor:"select", editorParams:{0:"No (0)", 1:"Yes (1)"}, headerSort:false }
 	],
+	
 	rowSelected:function(row){ //when a row is selected
 		//console.log("Row " + row.getData().stop_id + " Clicked, index: " + row.getIndex() );
 		mapPop(row.getData().stop_id);
@@ -84,7 +87,6 @@ $("#stops-table").tabulator({
 		logmessage('Changed "' + cell.getOldValue() + '" to "' + cell.getValue() + '" for stop_id: ' + stop_id);
 		$("#undoredo").show('slow');
 	},
-	ajaxURL: APIpath + 'allStops', //ajax URL
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`Loaded all stops data from Server API/allStops .`);

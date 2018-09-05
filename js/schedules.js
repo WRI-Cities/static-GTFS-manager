@@ -49,7 +49,7 @@ $("#trips-table").tabulator({
 		{title:"route_id", field:"route_id",headerSort:false, visible:true },
 		{title:"trip_id", field:"trip_id", headerFilter:"input", headerSort:false },
 		{title:"Calendar service", field:"service_id", editor:"select", editorParams:serviceLister, headerFilter:"input", validator:"required", headerSort:false },
-		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{0:"Onward(0)", 1:"Return(1)"}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return'} },
+		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{0:"Onward(0)", 1:"Return(1)", '':"None(blank)"}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return','':''} },
 		{title:"trip_headsign", field:"trip_headsign", editor:"input", headerFilter:"input", headerSort:false },
 		{title:"trip_short_name", field:"trip_short_name", editor:"input", headerFilter:"input", headerSort:false, bottomCalc:tripsTotal },
 		{title:"block_id", field:"block_id", editor:"input", headerFilter:"input", tooltip:"Vehicle identifier", headerSort:false },
@@ -418,9 +418,13 @@ function addTrip() {
 
 	var direction = $('#trip_direction').val();
 	// if "both" is selected then we need to loop. Hence, array.
+	// 5.9.18: addind in support for blank direction
+	if (direction == 'both') directionsArray = [0,1];
+	else if (parseInt(direction) == 0) directionsArray = [0];
+	else if (parseInt(direction) == 1) directionsArray = [1];
+	else directionsArray = [''];
 
-	directionsArray = (direction == 'both' ? [0,1] : [ parseInt(direction) ] );
-	console.log(directionsArray);
+	// console.log(directionsArray);
 
 	var counter = 1;
 	var message = '';
@@ -430,16 +434,24 @@ function addTrip() {
 		// search next available id
 		var tripsTableList = $("#trips-table").tabulator('getData').map(a => a.trip_id);
 		var allTrips = trip_id_list.concat(tripsTableList);
+
+		// loop till you find an available id:
 		while ( allTrips.indexOf(route_id + pad(counter) ) > -1 ) 
 			counter++;
 
-		var trip_id = route_id + pad(counter);
-		let sequence = sequenceHolder[directionsArray[i]];
+		dirIndex = ( directionsArray[i] == '' ? 0 : directionsArray[i]);
+
+		var trip_id = route_id + '.'pad(counter);
+		// to do: change this, adopt naming conventions.
+		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
+		
+
+		let sequence = sequenceHolder[dirIndex];
 		var last_stop_id = sequence[ sequence.length - 1];
 		var trip_headsign = allStopsKeyed[ last_stop_id ]['stop_name'];
 		var trip_short_name = chosenRouteShortName + ' ' + trip_time + ' to ' + trip_headsign;
 		var shape_id = '';
-		if(sequenceHolder[ 'shape' + directionsArray[i] ] ) shape_id = sequenceHolder[ 'shape' + directionsArray[i] ];
+		if(sequenceHolder[ 'shape' + dirIndex ] ) shape_id = sequenceHolder[ 'shape' + dirIndex ];
 		
 		$("#trips-table").tabulator('addRow',{ route_id:route_id, trip_id: trip_id, 
 			service_id:service_id, direction_id:directionsArray[i], shape_id:shape_id,

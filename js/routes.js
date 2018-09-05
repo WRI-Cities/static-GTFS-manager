@@ -45,6 +45,7 @@ $("#routes-table").tabulator({
 		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
 	],
 	ajaxURL: APIpath + 'routes', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`routes GET request successful.`);

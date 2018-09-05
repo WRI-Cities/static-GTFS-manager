@@ -84,6 +84,7 @@ class allStops(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
 		logmessage('\nallStops GET call')
+		
 		allStopsJson = readTableDB('stops').to_json(orient='records', force_ascii=False)
 		self.write(allStopsJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695

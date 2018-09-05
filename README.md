@@ -133,7 +133,7 @@ Big thanks to :
 - Srinivas from Hyderabad, India for connecting folks together and sharing guidance
 - Devdatta from Pune, India for a sharing a very simple [working example](https://github.com/devdattaT/sampleTornadoApp) to learn about Tornado web server serving asynchronous requests
 - Tony Laidig from the global GTFS community for helping build a docker image
-- Aaron and other co-ordinators of the GTFS community for including this program on [Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools) and giving encouragement and feedback on the GTFS forum.
+- Sean Barbeau and other co-ordinators of the GTFS community for including this program on [Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools) and giving encouragement and feedback on the GTFS forum.
 
 
 

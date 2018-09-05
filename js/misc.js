@@ -38,7 +38,8 @@ $("#calendar-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-
+	ajaxURL: `${APIpath}calendar`, //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal },
@@ -51,13 +52,10 @@ $("#calendar-table").tabulator({
 		{title:"sunday", field:"sunday", editor:"select", editorParams:operationalChoices, headerSort:false },
 		{title:"start_date", field:"start_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" },
 		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" }
-		/* removing as to delete an entry we need to zap its entries from trips table too. Shift deleting to Maintenance section.
-		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
-			if(confirm('Are you sure you want to delete this entry?'))
-				cell.getRow().delete();
-			}}
-		*/
-	]
+	],
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to calendar failed.  Returned status of: ' + errorThrown);
+	}
 });
 
 $("#agency-table").tabulator({
@@ -68,7 +66,8 @@ $("#agency-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-	// trans_id,lang,translation
+	ajaxURL: `${APIpath}agency`, //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false },
@@ -76,7 +75,10 @@ $("#agency-table").tabulator({
 		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false },
 		{title:"agency_timezone", field:"agency_timezone", editor:"input", headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
 		
-	]
+	],
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to agency failed.  Returned status of: ' + errorThrown);
+	}
 });
 
 $("#translations-table").tabulator({
@@ -87,7 +89,8 @@ $("#translations-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-	// agency_id,agency_name,agency_url,agency_timezone
+	ajaxURL: `${APIpath}translations`, //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120, bottomCalc:translationsTotal },
@@ -100,7 +103,10 @@ $("#translations-table").tabulator({
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
 			}}
-	]
+	],
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to translations failed.  Returned status of: ' + errorThrown);
+	}
 });
 
 // ###################
@@ -124,9 +130,9 @@ $(document).ready(function() {
 			resetGlobals();
 		}
 	});
-	getPythonAgency();
-	getPythonCalendar();
-	getPythonTranslations();
+	//getPythonAgency();
+	//getPythonCalendar();
+	//getPythonTranslations();
 	getPythonAllIDs();  
 });
 
@@ -213,6 +219,7 @@ $("#agency2add").bind("change keyup", function(){
 // #########################
 // Functions
 
+/*
 function getPythonCalendar() {
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
@@ -249,6 +256,23 @@ function getPythonAgency() {
 	xhr.send();
 }
 
+function getPythonTranslations() {
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}translations`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded translations data from Server API/translations .`);
+			var data = JSON.parse(xhr.responseText);
+			$('#translations-table').tabulator('setData',data);
+		}
+		else {
+			console.log('Server request to API/translations failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
+}
+*/
 
 function saveCalendar() {
 	$('#calendarSaveStatus').html('Sending data to server.. Please wait..');
@@ -367,22 +391,6 @@ function delCalendar() {
 		$('#calendarAddStatus').html('<span class="alert alert-danger">' + service_id + ' is not there.</span>');
 }
 
-function getPythonTranslations() {
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}translations`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded translations data from Server API/translations .`);
-			var data = JSON.parse(xhr.responseText);
-			$('#translations-table').tabulator('setData',data);
-		}
-		else {
-			console.log('Server request to API/translations failed.  Returned status of ' + xhr.status);
-		}
-	};
-	xhr.send();
-}
 
 function addTranslation() {
 	$('#translationSaveStatus').html('&nbsp;');
@@ -632,7 +640,8 @@ function populateMaintenanceLists() {
 
 // #################################
 
-function diagnoseID(column,value,tables,secondarytables) {
+function diagnoseID(column,value) {
+	$('#dryRunResults').val('Loading...');
 	if(value == 'No Selection' || value == '') {
 		resetGlobals();
 		return;
@@ -642,29 +651,6 @@ function diagnoseID(column,value,tables,secondarytables) {
 	var jqxhr = $.get( `${APIpath}diagnoseID?column=${column}&value=${value}`, function( returndata ) {
 		console.log('diagnoseID API GET request successful.');
 		$('#dryRunResults').val(returndata);
-		/*
-		returndata = JSON.parse(data);
-		var content = 'Listing changes that will happen for deleting ' + key + ' = ' + value + '\n';
-
-		if(Object.keys(returndata['main']).length) {
-			content += '\n' + Array(100).join("#") + '\nThe following table entries will be deleted:\n\n';
-			for(tablename in returndata['main']) {
-				content += tablename + ' (' + returndata['main'][tablename].length + ' rows):\n' + Papa.unparse(returndata['main'][tablename], {delimiter: "\t"}) + '\n\n';
-			}
-		}
-
-		if(key == 'route_id') content += '\n' + Array(100).join("#") + '\nNOTE: Since it is a route being deleted, all trips under it will be deleted and all the timings data in stop_times table for each of these trips will also be deleted.\n\n';
-
-		if(Object.keys(returndata['zap']).length) {
-			content+= '\n' + Array(100).join("#") + '\nThe following table entries will have "' + value + '" zapped (replaced with blank) in the '+key+' column:\n\n';
-
-			for(tablename in returndata['zap']) {
-				content += tablename + ' (' + returndata['zap'][tablename].length + ' rows):\n' + Papa.unparse(returndata['zap'][tablename], {delimiter: "\t"}) + '\n\n';
-			}
-		}
-
-		$('#dryRunResults').val(content);
-		*/
 	})
 	.fail( function() {
 		console.log('GET request to API/diagnoseID failed.');
@@ -706,7 +692,7 @@ function deleteByKey() {
 	}
 	var jqxhr = $.get( `${APIpath}deleteByKey?pw=${pw}&key=${key}&value=${value}`, function( returndata ) {
 		console.log('deleteByKey API GET request successful. Message: ' + returndata);
-		$('#deepActionsStatus').html('<div class="alert alert-warning">' + returndata +'</div>');
+		$('#deepActionsStatus').html('<div class="alert alert-success">' + returndata +'</div>');
 		
 		// resetting global vars and emptying of dry run textbox so that pressing this button again doesn't send the API request. 
 		resetGlobals();
