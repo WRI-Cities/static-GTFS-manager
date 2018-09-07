@@ -1,0 +1,4 @@
+{ 
+	"stop_times": {"key":"trip_id","chunkSize": 500000, "lookup":"stop_times_lookup.json"},
+	"shapes": {"key": "shape_id", "chunkSize": 1000000, "lookup":"shapes_lookup.json"}
+}

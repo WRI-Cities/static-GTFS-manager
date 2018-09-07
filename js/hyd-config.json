@@ -1,0 +1,40 @@
+{
+	"routes": [
+	{
+		"route_id" : "RED",
+		"route_sequence" : ["AME","SRN","ESI","ERA","BTN","MSP",	"BLR","KUK","KPH","JNT","MYP"],
+		"direction_suffix" : ["2","1"],
+		"route_short_name" : "Red",
+		"route_long_name" : "Red Line, Ameerpet to Miyapur",
+		"route_desc" : "Ameerpet to Miyapur. Corridor 1",
+		"route_color" : "FF0000",
+		"route_text_color" : "FFFFFF"
+	},
+	
+	{
+		"route_id" : "BLU",
+		"route_sequence" : ["AME","BEG","PRN","ROP","PAR","PRG","SEC",	"MET","TAR","HSG","NGR","SOI","UPL","NAG"],
+		"direction_suffix" : ["2","1"],
+		"route_short_name" : "Blue",
+		"route_long_name" : "Blue Line, Ameerpet to Nagole",
+		"route_desc" : "Ameerpet to Nagole. Corridor 1",
+		"route_color" : "0000FF",
+		"route_text_color" : "FFFFFF"
+	}
+	],
+
+	"agency_id": "HMRL",
+	"agency_name": "Hyderabad Metro Rail Limited",
+	"agency_url": "http://hmrl.telangana.gov.in/",
+	"agency_timezone": "Asia/Kolkata",
+
+	"stopsCSV": "hydcsv_related/stops_simple.csv",
+	"missingStopsCSV": "hydcsv_related/missing-stops-rules.csv",
+	"replaceStopsCSV": "hydcsv_related/stops-override.csv",
+	"translationCSV": "hydcsv_related/translations.csv",
+
+	"fares": [10,15,25,30,35,40,45,50,55,60],
+
+	"transfers": [["AME2","AME4"]]
+
+}

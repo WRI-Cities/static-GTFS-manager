@@ -67,9 +67,10 @@ $("#stations-table").tabulator({
 		{title:"wheelchair_boarding", field:"wheelchair_boarding", editor:"select", editorParams:{0:"0 - No", 1:"1 - Yes"}, headerSort:false }
 	],
 	ajaxURL:"API/stations", //ajax URL
+	/* // don't need to process the incoming data here, but may be useful elsewhere.
 	ajaxResponse:function(url, params, response){
 		return response; 
-	},
+	},*/
 	dataLoaded:function(data) {
 		// this fires after the ajax response. 
 		//Note: presently this fires twice on data load, it's a known bug. See https://github.com/olifolkerd/tabulator/pull/725
@@ -237,15 +238,7 @@ function loadmap(stopsjson) {
 	map.fitBounds(stopsLayer.getBounds());
 }
 
-function writeProperties(data) {
-	var lines = [];
-	for (key in data) {
-		if(key == 'undefined') continue;
-		lines.push( key + ': ' + data[key] );
-	}
-	var returnHTML = lines.join('<br>');
-	return returnHTML;
-}
+
 
 function saveStations() {
 	$('#stationsSaveStatus').text('');

@@ -1,1246 +1,1475 @@
-2018-Apr-23 09:09:55 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-23 09:09:55 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-23 09:10:00 : GTFSstats function took 1.1 seconds.
-2018-Apr-23 09:10:00 : pastCommits GET call took 0.0 seconds.
-2018-Apr-23 09:10:16 : GTFSstats function took 1.1 seconds.
-2018-Apr-23 09:10:16 : pastCommits GET call took 0.0 seconds.
-2018-Apr-23 09:10:24 : stations GET call took 0.01 seconds.
-2018-Apr-23 09:10:31 : agency GET call took 0.15 seconds.
-2018-Apr-23 09:10:31 : translations GET call took 0.14 seconds.
-2018-Apr-23 09:10:32 : listAll GET call took 0.87 seconds.
-2018-Apr-23 09:10:32 : calendar GET call took 0.14 seconds.
-2018-Apr-23 09:10:40 : fareAttributes GET call took 0.13 seconds.
-2018-Apr-23 09:10:40 : routeIdList GET call took 0.14 seconds.
-2018-Apr-23 09:10:40 : zoneIdList GET call took 0.13 seconds.
-2018-Apr-23 09:10:40 : fareRules GET call took 0.13 seconds.
-2018-Apr-23 09:10:41 : fareRulesPivoted GET call took 0.14 seconds.
-2018-Apr-23 09:10:41 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-23 09:10:47 : allRoutes GET call took 0.14 seconds.
-2018-Apr-23 09:10:47 : calendar GET call took 0.14 seconds.
-2018-Apr-23 09:10:47 : tripIdList GET call took 0.14 seconds.
-2018-Apr-23 09:10:48 : allStopsKeyed GET call took 0.13 seconds.
-2018-Apr-23 09:10:48 : allShapesList GET call took 0.14 seconds.
-2018-Apr-23 09:11:07 : allStopsKeyed GET call took 0.13 seconds.
-2018-Apr-23 09:11:07 : allShapesList GET call took 0.14 seconds.
-2018-Apr-23 09:11:07 : allRoutes GET call took 0.13 seconds.
-2018-Apr-23 09:11:07 : agency GET call took 0.14 seconds.
-2018-Apr-23 09:11:12 : allStops GET call took 0.15 seconds.
-2018-Apr-23 09:11:18 : GTFSstats function took 1.08 seconds.
-2018-Apr-23 09:11:18 : pastCommits GET call took 0.01 seconds.
-2018-Apr-23 09:11:37 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-23 09:11:37 : agency GET call took 0.13 seconds.
-2018-Apr-23 09:11:37 : allShapesList GET call took 0.15 seconds.
-2018-Apr-23 09:11:37 : allRoutes GET call took 0.13 seconds.
-2018-Apr-23 09:11:39 : Got the sequence from sequence db file.
-2018-Apr-23 09:11:39 : sequence GET call took 0.0 seconds.
-2018-Apr-23 09:11:40 : shapes GET call took 0.24 seconds.
-2018-Apr-23 09:11:40 : shapes has 121 rows for shape_id = R1_0
-2018-Apr-23 09:11:40 : shape GET call took 0.14 seconds.
-2018-Apr-23 09:11:41 : shapes has 121 rows for shape_id = R1_1
-2018-Apr-23 09:11:41 : shape GET call took 0.15 seconds.
-2018-Apr-23 09:12:04 : Got the sequence from sequence db file.
-2018-Apr-23 09:12:04 : sequence GET call took 0.0 seconds.
-2018-Apr-23 09:12:04 : shapes GET call took 0.25 seconds.
-2018-Apr-23 09:12:05 : shapes has 121 rows for shape_id = R1_0
-2018-Apr-23 09:12:05 : shape GET call took 0.16 seconds.
-2018-Apr-23 09:12:05 : shapes has 121 rows for shape_id = R1_1
-2018-Apr-23 09:12:05 : shape GET call took 0.16 seconds.
-2018-Apr-23 09:12:48 : allRoutes GET call took 0.21 seconds.
-2018-Apr-23 09:12:48 : allShapesList GET call took 0.2 seconds.
-2018-Apr-23 09:12:48 : calendar GET call took 0.18 seconds.
-2018-Apr-23 09:12:49 : tripIdList GET call took 0.18 seconds.
-2018-Apr-23 09:12:49 : allStopsKeyed GET call took 0.18 seconds.
-2018-Apr-23 09:12:53 : trips has 376 rows for route_id = R1
-2018-Apr-23 09:12:53 : Got the sequence from sequence db file.
-2018-Apr-23 09:12:53 : trips GET call took 0.17 seconds.
-2018-Apr-23 09:13:01 : trips has 1 rows for trip_id = R1SUR195617
-2018-Apr-23 09:13:02 : stop_times has 16 rows for trip_id = R1SUR195617
-2018-Apr-23 09:13:02 : This trip has timings data in the db, so loaded that.
-2018-Apr-23 09:13:02 : stopTimes GET call took 0.35 seconds.
-2018-Apr-23 09:13:15 : GTFSstats function took 1.09 seconds.
-2018-Apr-23 09:13:15 : pastCommits GET call took 0.01 seconds.
-2018-Apr-23 09:13:29 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-23 09:13:29 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-23 09:13:32 : GTFSstats function took 1.23 seconds.
-2018-Apr-23 09:13:32 : pastCommits GET call took 0.0 seconds.
-2018-Apr-23 15:27:43 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-23 15:27:43 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-23 15:27:46 : GTFSstats function took 1.66 seconds.
-2018-Apr-23 15:27:46 : pastCommits GET call took 0.0 seconds.
-2018-Apr-24 11:57:46 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-24 11:57:46 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-24 11:57:53 : GTFSstats function took 1.24 seconds.
-2018-Apr-24 11:57:54 : pastCommits GET call took 0.37 seconds.
-2018-Apr-24 11:58:29 : allStops GET call took 0.15 seconds.
-2018-Apr-24 11:58:32 : GTFSstats function took 1.13 seconds.
-2018-Apr-24 11:58:32 : pastCommits GET call took 0.0 seconds.
-2018-Apr-24 11:58:36 : allShapesList GET call took 0.24 seconds.
-2018-Apr-24 11:58:36 : agency GET call took 0.15 seconds.
-2018-Apr-24 11:58:36 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-24 11:58:37 : allRoutes GET call took 0.13 seconds.
-2018-Apr-24 11:58:38 : allRoutes GET call took 0.14 seconds.
-2018-Apr-24 11:58:38 : allShapesList GET call took 0.15 seconds.
-2018-Apr-24 11:58:38 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-24 11:58:39 : tripIdList GET call took 0.14 seconds.
-2018-Apr-24 11:58:39 : calendar GET call took 0.13 seconds.
-2018-Apr-24 11:58:40 : trips has 376 rows for route_id = R1
-2018-Apr-24 11:58:40 : Got the sequence from sequence db file.
-2018-Apr-24 11:58:40 : trips GET call took 0.15 seconds.
-2018-Apr-24 11:58:46 : stations GET call took 0.07 seconds.
-2018-Apr-24 11:58:48 : agency GET call took 0.14 seconds.
-2018-Apr-24 11:58:48 : calendar GET call took 0.14 seconds.
-2018-Apr-24 11:58:49 : listAll GET call took 0.87 seconds.
-2018-Apr-24 11:58:49 : translations GET call took 0.14 seconds.
-2018-Apr-24 13:10:52 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-24 13:10:52 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-24 13:11:00 : pastCommits GET call took 0.12 seconds.
-2018-Apr-24 13:11:01 : GTFSstats function took 1.14 seconds.
-2018-Apr-24 13:11:12 : allStops GET call took 0.16 seconds.
-2018-Apr-24 13:11:15 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-24 13:11:15 : allRoutes GET call took 0.13 seconds.
-2018-Apr-24 13:11:16 : agency GET call took 0.15 seconds.
-2018-Apr-24 13:11:16 : allShapesList GET call took 0.44 seconds.
-2018-Apr-24 13:11:22 : Got the sequence from sequence db file.
-2018-Apr-24 13:11:22 : sequence GET call took 0.0 seconds.
-2018-Apr-24 13:11:22 : shapes GET call took 0.22 seconds.
-2018-Apr-24 13:11:23 : shapes has 121 rows for shape_id = R1_0
-2018-Apr-24 13:11:23 : shape GET call took 0.16 seconds.
-2018-Apr-24 13:11:23 : shapes has 121 rows for shape_id = R1_1
-2018-Apr-24 13:11:23 : shape GET call took 0.15 seconds.
-2018-Apr-24 13:11:47 : GTFSstats function took 1.3 seconds.
-2018-Apr-24 13:11:47 : pastCommits GET call took 0.0 seconds.
-2018-Apr-24 13:14:07 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-24 13:14:07 : agency GET call took 0.14 seconds.
-2018-Apr-24 13:14:07 : allRoutes GET call took 0.14 seconds.
-2018-Apr-24 13:14:07 : allShapesList GET call took 0.15 seconds.
-2018-Apr-24 13:14:12 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-24 13:14:12 : agency GET call took 0.13 seconds.
-2018-Apr-24 13:14:13 : allRoutes GET call took 0.14 seconds.
-2018-Apr-24 13:14:13 : allShapesList GET call took 0.14 seconds.
-2018-Apr-24 13:14:14 : GTFSstats function took 1.09 seconds.
-2018-Apr-24 13:14:14 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 07:58:34 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-25 07:58:34 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-25 07:58:53 : GTFSstats function took 1.28 seconds.
-2018-Apr-25 07:58:53 : pastCommits GET call took 0.16 seconds.
-2018-Apr-25 14:37:44 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-25 14:37:44 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-25 14:38:20 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 14:38:21 : GTFSstats function took 1.13 seconds.
-2018-Apr-25 14:38:45 : allStops GET call took 0.17 seconds.
-2018-Apr-25 15:00:12 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-25 15:00:12 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-25 15:00:18 : GTFSstats function took 1.23 seconds.
-2018-Apr-25 15:00:18 : pastCommits GET call took 0.12 seconds.
-2018-Apr-25 15:00:20 : allStops GET call took 0.17 seconds.
-2018-Apr-25 15:00:27 : allRoutes GET call took 0.16 seconds.
-2018-Apr-25 15:00:27 : tripIdList GET call took 0.15 seconds.
-2018-Apr-25 15:00:27 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-25 15:00:28 : allShapesList GET call took 0.51 seconds.
-2018-Apr-25 15:00:28 : calendar GET call took 0.14 seconds.
-2018-Apr-25 15:00:33 : GTFSstats function took 1.1 seconds.
-2018-Apr-25 15:00:33 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 20:44:56 : Loaded dependences, starting static GTFS Manager program.
-2018-Apr-25 20:44:56 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-25 20:45:02 : pastCommits GET call took 0.15 seconds.
-2018-Apr-25 20:45:03 : GTFSstats function took 1.18 seconds.
-2018-Apr-25 20:45:42 : allStops GET call took 0.17 seconds.
-2018-Apr-25 20:45:46 : GTFSstats function took 1.09 seconds.
-2018-Apr-25 20:45:46 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 22:47:03 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-25 22:47:03 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-25 22:47:07 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 22:47:09 : GTFSstats function took 1.17 seconds.
-2018-Apr-25 22:47:24 : allStops GET call took 0.21 seconds.
-2018-Apr-25 22:48:02 : allStopsKeyed GET call took 0.18 seconds.
-2018-Apr-25 22:48:02 : agency GET call took 0.17 seconds.
-2018-Apr-25 22:48:03 : allShapesList GET call took 0.49 seconds.
-2018-Apr-25 22:48:03 : allRoutes GET call took 0.17 seconds.
-2018-Apr-25 22:48:25 : shapes GET call took 0.21 seconds.
-2018-Apr-25 22:48:25 : Got the sequence from sequence db file.
-2018-Apr-25 22:48:25 : sequence GET call took 0.0 seconds.
-2018-Apr-25 22:48:26 : shapes has 121 rows for shape_id = R1_0
-2018-Apr-25 22:48:26 : shape GET call took 0.19 seconds.
-2018-Apr-25 22:48:26 : shapes has 121 rows for shape_id = R1_1
-2018-Apr-25 22:48:26 : shape GET call took 0.21 seconds.
-2018-Apr-25 22:48:56 : shapes has 121 rows for shape_id = R1_1
-2018-Apr-25 22:48:56 : shape GET call took 0.19 seconds.
-2018-Apr-25 22:49:01 : shapes has 121 rows for shape_id = R1_0
-2018-Apr-25 22:49:01 : shape GET call took 0.26 seconds.
-2018-Apr-25 22:49:19 : allRoutes GET call took 0.22 seconds.
-2018-Apr-25 22:49:19 : calendar GET call took 0.19 seconds.
-2018-Apr-25 22:49:19 : allShapesList GET call took 0.22 seconds.
-2018-Apr-25 22:49:19 : allStopsKeyed GET call took 0.2 seconds.
-2018-Apr-25 22:49:20 : tripIdList GET call took 0.19 seconds.
-2018-Apr-25 22:49:24 : trips has 376 rows for route_id = R1
-2018-Apr-25 22:49:24 : Got the sequence from sequence db file.
-2018-Apr-25 22:49:24 : trips GET call took 0.19 seconds.
-2018-Apr-25 22:49:44 : trips has 1 rows for trip_id = R1SUL191601
-2018-Apr-25 22:49:44 : stop_times has 16 rows for trip_id = R1SUL191601
-2018-Apr-25 22:49:44 : This trip has timings data in the db, so loaded that.
-2018-Apr-25 22:49:44 : stopTimes GET call took 0.4 seconds.
-2018-Apr-25 22:49:51 : allStopsKeyed GET call took 0.16 seconds.
-2018-Apr-25 22:49:51 : fareRulesPivoted GET call took 0.57 seconds.
-2018-Apr-25 22:49:51 : fareAttributes GET call took 0.17 seconds.
-2018-Apr-25 22:49:52 : routeIdList GET call took 0.17 seconds.
-2018-Apr-25 22:49:52 : zoneIdList GET call took 0.19 seconds.
-2018-Apr-25 22:49:52 : fareRules GET call took 0.19 seconds.
-2018-Apr-25 22:50:23 : agency GET call took 0.17 seconds.
-2018-Apr-25 22:50:23 : calendar GET call took 0.15 seconds.
-2018-Apr-25 22:50:23 : translations GET call took 0.15 seconds.
-2018-Apr-25 22:50:24 : listAll GET call took 1.0 seconds.
-2018-Apr-25 22:50:42 : ['stops', 'stop_times']
-2018-Apr-25 22:50:42 : ['']
-2018-Apr-25 22:50:42 : 1 rows to be deleted in stops for stop_id=ALVA
-2018-Apr-25 22:50:42 : 376 rows to be deleted in stop_times for stop_id=ALVA
-2018-Apr-25 22:50:42 : diagnoseID GET call took 0.34 seconds.
-2018-Apr-25 22:50:49 : ['routes', 'trips']
-2018-Apr-25 22:50:49 : ['']
-2018-Apr-25 22:50:50 : 1 rows to be deleted in routes for route_id=R1
-2018-Apr-25 22:50:50 : 376 rows to be deleted in trips for route_id=R1
-2018-Apr-25 22:50:50 : diagnoseID GET call took 0.24 seconds.
-2018-Apr-25 22:51:07 : ['trips', 'stop_times']
-2018-Apr-25 22:51:07 : ['']
-2018-Apr-25 22:51:07 : 1 rows to be deleted in trips for trip_id=R1SUR184100
-2018-Apr-25 22:51:07 : 16 rows to be deleted in stop_times for trip_id=R1SUR184100
-2018-Apr-25 22:51:07 : diagnoseID GET call took 0.35 seconds.
-2018-Apr-25 22:51:25 : ['shapes']
-2018-Apr-25 22:51:25 : ['trips']
-2018-Apr-25 22:51:25 : 121 rows to be deleted in shapes for shape_id=R1_0
-2018-Apr-25 22:51:25 : 188 rows to be zapped in trips where shape_id=R1_0
-2018-Apr-25 22:51:25 : diagnoseID GET call took 0.25 seconds.
-2018-Apr-25 22:51:48 : ['calendar']
-2018-Apr-25 22:51:48 : ['trips']
-2018-Apr-25 22:51:48 : 1 rows to be deleted in calendar for service_id=WK
-2018-Apr-25 22:51:48 : 202 rows to be zapped in trips where service_id=WK
-2018-Apr-25 22:51:48 : diagnoseID GET call took 0.25 seconds.
-2018-Apr-25 22:51:54 : ['']
-2018-Apr-25 22:51:54 : ['stops']
-2018-Apr-25 22:51:54 : 0 rows to be deleted in  for zone_id=PNCU
-2018-Apr-25 22:51:54 : 1 rows to be zapped in stops where zone_id=PNCU
-2018-Apr-25 22:51:55 : 15 rows to be deleted in fare_rules for origin_id=PNCU
-2018-Apr-25 22:51:55 : 15 rows to be deleted in fare_rules for destination_id=PNCU
-2018-Apr-25 22:51:55 : diagnoseID GET call took 0.99 seconds.
-2018-Apr-25 22:52:07 : ['fare_attributes', 'fare_rules']
-2018-Apr-25 22:52:07 : ['']
-2018-Apr-25 22:52:07 : 1 rows to be deleted in fare_attributes for fare_id=F3
-2018-Apr-25 22:52:07 : 72 rows to be deleted in fare_rules for fare_id=F3
-2018-Apr-25 22:52:07 : diagnoseID GET call took 0.26 seconds.
-2018-Apr-25 22:52:12 : ['agency']
-2018-Apr-25 22:52:12 : ['routes', 'fare_attributes']
-2018-Apr-25 22:52:12 : 1 rows to be deleted in agency for agency_id=KMRL
-2018-Apr-25 22:52:12 : 1 rows to be zapped in routes where agency_id=KMRL
-2018-Apr-25 22:52:12 : 0 rows to be zapped in fare_attributes where agency_id=KMRL
-2018-Apr-25 22:52:12 : diagnoseID GET call took 0.34 seconds.
-2018-Apr-25 22:52:25 : stations GET call took 0.01 seconds.
-2018-Apr-25 23:07:13 : GTFSstats function took 1.2 seconds.
-2018-Apr-25 23:07:13 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 23:09:14 : stations GET call took 0.01 seconds.
-2018-Apr-25 23:09:26 : GTFSstats function took 1.18 seconds.
-2018-Apr-25 23:09:26 : pastCommits GET call took 0.0 seconds.
-2018-Apr-25 23:09:51 : stations GET call took 0.01 seconds.
-2018-Apr-25 23:10:30 : Saving filename: 8W0845_MACE.xml to uploads/
-2018-Apr-25 23:10:30 : Saving filename: 8S0845_MACE.xml to uploads/
-2018-Apr-25 23:10:30 : Depot stations: ['STA_COD_3512T_BH', 'STA_COD_3509T_DN']
-2018-Apr-25 23:10:30 : 1 route(s) found in 8W0845_MACE.xml
-2018-Apr-25 23:10:30 : 1 route(s) found in 8S0845_MACE.xml
-2018-Apr-25 23:10:30 : XMLUpload POST call took 1.61 seconds.
-2018-Apr-25 23:11:15 : Saving filename: fares-chart.csv to uploads/
-2018-Apr-25 23:11:15 : Loading and unpivoting uploads/fares-chart.csv
-2018-Apr-25 23:11:15 : ['F1', 'F2', 'F3', 'F4', 'F5']
-2018-Apr-25 23:11:15 : fareChartUpload POST call took 0.49 seconds.
-2018-Apr-25 23:11:26 : {'checkCalendarFlag': True, 'wheelchair_accessible': 1, 'checkRoutesFlag': True, 'currency_type': 'INR', 'route_text_color': '000000', 'weekdayXML': '8W0845_MACE.xml', 'agency_name_translation': 'കൊച്ചി മെട്രോ', 'start_date': '20180425', 'checkAgencyFlag': True, 'end_date': '20990101', 'agency_url': 'http://www.kochimetro.org/', 'agency_id': 'KMRL', 'timepoint': 1, 'secondland': 'ml', 'depotstations': 'STA_COD_3512T_BH,STA_COD_3509T_DN', 'agency_name': 'Kochi Metro', 'payment_method': 0, 'transfers': '', 'agency_timezone': 'Asia/Kolkata', 'route_color': '00B7F3', 'fares': {'F5': 50, 'F1': 10, 'F4': 40, 'F2': 20, 'F3': 30}, 'routes': [{'sundaySchedule': '8S0845_MACE', 'route_long_name': 'Route 1', 'weekdaySchedule': '8W0845_MACE', 'route_short_name': 'R1', 'route_id': 'R1'}], 'route_type': 1, 'fareschart': 'fares-chart.csv', 'stations': 'stations.csv', 'sundayXML': '8S0845_MACE.xml', 'checkFaresFlag': True}
-2018-Apr-25 23:11:27 : Tables found in GTFS/db.json: ['', 'stops', 'trips', 'shapes', '_default', 'stop_times', 'fare_attributes', 'routes', 'fare_rules', 'calendar', 'translations', 'agency']
-2018-Apr-25 23:11:27 :  is empty so not exporting that.
-2018-Apr-25 23:11:27 : Created GTFS/2018-04-25-backup-2311/stops.txt
-2018-Apr-25 23:11:27 : Added stops.txt to gtfs.zip
-2018-Apr-25 23:11:27 : Created GTFS/2018-04-25-backup-2311/trips.txt
-2018-Apr-25 23:11:27 : Added trips.txt to gtfs.zip
-2018-Apr-25 23:11:27 : Created GTFS/2018-04-25-backup-2311/shapes.txt
-2018-Apr-25 23:11:27 : Added shapes.txt to gtfs.zip
-2018-Apr-25 23:11:27 : _default is empty so not exporting that.
-2018-Apr-25 23:11:27 : Created GTFS/2018-04-25-backup-2311/stop_times.txt
-2018-Apr-25 23:11:27 : Added stop_times.txt to gtfs.zip
-2018-Apr-25 23:11:27 : Created GTFS/2018-04-25-backup-2311/fare_attributes.txt
-2018-Apr-25 23:11:27 : Added fare_attributes.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Created GTFS/2018-04-25-backup-2311/routes.txt
-2018-Apr-25 23:11:28 : Added routes.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Created GTFS/2018-04-25-backup-2311/fare_rules.txt
-2018-Apr-25 23:11:28 : Added fare_rules.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Created GTFS/2018-04-25-backup-2311/calendar.txt
-2018-Apr-25 23:11:28 : Added calendar.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Created GTFS/2018-04-25-backup-2311/translations.txt
-2018-Apr-25 23:11:28 : Added translations.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Created GTFS/2018-04-25-backup-2311/agency.txt
-2018-Apr-25 23:11:28 : Added agency.txt to gtfs.zip
-2018-Apr-25 23:11:28 : Function to export GTFS from db took 1.52 seconds.
-2018-Apr-25 23:11:30 : Loading and unpivoting uploads/fares-chart.csv
-2018-Apr-25 23:11:34 : xml2GTFS POST call took 8.37 seconds.
-2018-Apr-25 23:11:43 : GTFSstats function took 1.5 seconds.
-2018-Apr-25 23:11:43 : pastCommits GET call took 0.01 seconds.
-2018-Apr-25 23:11:51 : allStops GET call took 0.15 seconds.
-2018-Apr-25 23:12:01 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-25 23:12:01 : allRoutes GET call took 0.14 seconds.
-2018-Apr-25 23:12:02 : allShapesList GET call took 0.68 seconds.
-2018-Apr-25 23:12:02 : agency GET call took 0.14 seconds.
-2018-Apr-25 23:12:08 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-Apr-25 23:12:08 : oneTrip0 found: R1WKR055636
-2018-Apr-25 23:12:08 : oneTrip1 found: R1WKL063147
-2018-Apr-25 23:12:08 : sequence GET call took 0.55 seconds.
-2018-Apr-25 23:12:09 : shapes GET call took 0.2 seconds.
-2018-Apr-25 23:53:42 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-Apr-25 23:53:42 : oneTrip0 found: R1WKR055636
-2018-Apr-25 23:53:42 : oneTrip1 found: R1WKL063147
-2018-Apr-25 23:53:43 : sequence GET call took 0.54 seconds.
-2018-Apr-25 23:53:43 : shapes GET call took 0.23 seconds.
-2018-Apr-25 23:53:51 : allRoutes GET call took 0.16 seconds.
-2018-Apr-25 23:53:51 : tripIdList GET call took 0.14 seconds.
-2018-Apr-25 23:53:51 : calendar GET call took 0.12 seconds.
-2018-Apr-25 23:53:52 : allShapesList GET call took 0.13 seconds.
-2018-Apr-25 23:53:52 : allStopsKeyed GET call took 0.12 seconds.
-2018-Apr-25 23:53:53 : trips has 376 rows for route_id = R1
-2018-Apr-25 23:53:53 : trips GET call took 0.14 seconds.
-2018-Apr-25 23:54:18 : trips has 376 rows for route_id = R1
-2018-Apr-25 23:54:18 : trips GET call took 0.15 seconds.
-2018-Apr-25 23:54:23 : trips has 376 rows for route_id = R1
-2018-Apr-25 23:54:23 : trips GET call took 0.15 seconds.
-2018-Apr-25 23:54:31 : fareAttributes GET call took 0.14 seconds.
-2018-Apr-25 23:54:31 : fareRulesPivoted GET call took 0.14 seconds.
-2018-Apr-25 23:54:31 : fareRules GET call took 0.13 seconds.
-2018-Apr-25 23:54:31 : allStopsKeyed GET call took 0.13 seconds.
-2018-Apr-25 23:54:31 : zoneIdList GET call took 0.14 seconds.
-2018-Apr-25 23:54:31 : routeIdList GET call took 0.13 seconds.
-2018-Apr-26 00:00:47 : stations GET call took 0.01 seconds.
-2018-Apr-26 16:19:59 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-26 16:19:59 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-26 16:20:07 : pastCommits GET call took 0.24 seconds.
-2018-Apr-26 16:20:08 : GTFSstats function took 1.2 seconds.
-2018-Apr-26 16:20:59 : allStopsKeyed GET call took 0.13 seconds.
-2018-Apr-26 16:20:59 : agency GET call took 0.14 seconds.
-2018-Apr-26 16:20:59 : allShapesList GET call took 0.33 seconds.
-2018-Apr-26 16:20:59 : allRoutes GET call took 0.14 seconds.
-2018-Apr-26 16:21:00 : allStops GET call took 0.17 seconds.
-2018-Apr-26 16:22:54 : allStopsKeyed GET call took 0.17 seconds.
-2018-Apr-26 16:22:54 : agency GET call took 0.13 seconds.
-2018-Apr-26 16:22:54 : allRoutes GET call took 0.13 seconds.
-2018-Apr-26 16:22:54 : allShapesList GET call took 0.15 seconds.
-2018-Apr-26 16:23:12 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-Apr-26 16:23:12 : oneTrip0 found: R1WKR055636
-2018-Apr-26 16:23:12 : oneTrip1 found: R1WKL063147
-2018-Apr-26 16:23:12 : sequence GET call took 0.6 seconds.
-2018-Apr-26 16:23:13 : shapes GET call took 0.42 seconds.
-2018-Apr-26 16:24:04 : R1
-2018-Apr-26 16:24:04 : R001
-2018-Apr-26 16:24:04 : False
-2018-Apr-26 16:24:04 : Saving filename: R001.geojson to uploads/
-2018-Apr-26 16:24:04 : R001.geojson
-2018-Apr-26 16:24:04 : Loaded uploads/R001.geojson
-2018-Apr-26 16:24:06 : Inserted 121 entries into table shapes in GTFS/db.json
-2018-Apr-26 16:24:07 : Inserted 121 entries into table shapes in GTFS/db.json
-2018-Apr-26 16:24:07 : shape POST call took 4.05 seconds.
-2018-Apr-26 16:24:08 : allShapesList GET call took 0.17 seconds.
-2018-Apr-26 16:24:08 : shapes GET call took 0.22 seconds.
-2018-Apr-26 16:24:08 : shapes has 121 rows for shape_id = R001_0
-2018-Apr-26 16:24:08 : shape GET call took 0.18 seconds.
-2018-Apr-26 16:24:08 : shapes has 121 rows for shape_id = R001_1
-2018-Apr-26 16:24:08 : shape GET call took 0.21 seconds.
-2018-Apr-26 16:24:55 : API/sequence POST call took 1.26 seconds.
-2018-Apr-26 16:24:55 : allShapesList GET call took 0.39 seconds.
-2018-Apr-26 16:24:56 : shapes GET call took 0.48 seconds.
-2018-Apr-26 16:24:57 : shapes has 121 rows for shape_id = R001_0
-2018-Apr-26 16:24:57 : shape GET call took 0.29 seconds.
-2018-Apr-26 16:24:57 : shapes has 121 rows for shape_id = R001_1
-2018-Apr-26 16:24:57 : shape GET call took 0.29 seconds.
-2018-Apr-26 16:25:07 : allRoutes GET call took 0.3 seconds.
-2018-Apr-26 16:25:07 : allShapesList GET call took 0.3 seconds.
-2018-Apr-26 16:25:07 : allStopsKeyed GET call took 0.27 seconds.
-2018-Apr-26 16:25:07 : tripIdList GET call took 0.31 seconds.
-2018-Apr-26 16:25:08 : calendar GET call took 0.26 seconds.
-2018-Apr-26 16:25:09 : trips has 376 rows for route_id = R1
-2018-Apr-26 16:25:09 : Got the sequence from sequence db file.
-2018-Apr-26 16:25:09 : trips GET call took 0.22 seconds.
-2018-Apr-26 16:25:53 : trips has 1 rows for trip_id = R1WKL074147
-2018-Apr-26 16:25:53 : stop_times has 16 rows for trip_id = R1WKL074147
-2018-Apr-26 16:25:53 : This trip has timings data in the db, so loaded that.
-2018-Apr-26 16:25:53 : stopTimes GET call took 0.36 seconds.
-2018-Apr-26 16:26:27 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-26 16:26:27 : routeIdList GET call took 0.14 seconds.
-2018-Apr-26 16:26:27 : fareAttributes GET call took 0.13 seconds.
-2018-Apr-26 16:26:27 : fareRules GET call took 0.14 seconds.
-2018-Apr-26 16:26:27 : zoneIdList GET call took 0.14 seconds.
-2018-Apr-26 16:26:28 : fareRulesPivoted GET call took 0.28 seconds.
-2018-Apr-26 16:26:46 : agency GET call took 0.19 seconds.
-2018-Apr-26 16:26:46 : calendar GET call took 0.14 seconds.
-2018-Apr-26 16:26:46 : translations GET call took 0.15 seconds.
-2018-Apr-26 16:26:47 : listAll GET call took 0.92 seconds.
-2018-Apr-26 16:27:18 : allRoutes GET call took 0.15 seconds.
-2018-Apr-26 16:27:18 : tripIdList GET call took 0.15 seconds.
-2018-Apr-26 16:27:18 : calendar GET call took 0.14 seconds.
-2018-Apr-26 16:27:19 : allShapesList GET call took 0.14 seconds.
-2018-Apr-26 16:27:19 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-26 16:27:21 : trips has 376 rows for route_id = R1
-2018-Apr-26 16:27:21 : Got the sequence from sequence db file.
-2018-Apr-26 16:27:21 : trips GET call took 0.15 seconds.
-2018-Apr-26 16:27:35 : fareAttributes GET call took 0.14 seconds.
-2018-Apr-26 16:27:36 : zoneIdList GET call took 0.14 seconds.
-2018-Apr-26 16:27:36 : fareRulesPivoted GET call took 0.15 seconds.
-2018-Apr-26 16:27:36 : fareRules GET call took 0.14 seconds.
-2018-Apr-26 16:27:36 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-26 16:27:36 : routeIdList GET call took 0.16 seconds.
-2018-Apr-26 16:28:00 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-26 16:28:00 : agency GET call took 0.17 seconds.
-2018-Apr-26 16:28:00 : allRoutes GET call took 0.16 seconds.
-2018-Apr-26 16:28:01 : allShapesList GET call took 0.16 seconds.
-2018-Apr-26 16:28:04 : Got the sequence from sequence db file.
-2018-Apr-26 16:28:04 : sequence GET call took 0.0 seconds.
-2018-Apr-26 16:28:05 : shapes GET call took 0.23 seconds.
-2018-Apr-26 16:28:05 : shapes has 121 rows for shape_id = R001_0
-2018-Apr-26 16:28:05 : shape GET call took 0.16 seconds.
-2018-Apr-26 16:28:06 : shapes has 121 rows for shape_id = R001_1
-2018-Apr-26 16:28:06 : shape GET call took 0.16 seconds.
-2018-Apr-26 16:28:18 : shapes has 121 rows for shape_id = R001_1
-2018-Apr-26 16:28:18 : shape GET call took 0.21 seconds.
-2018-Apr-26 16:28:26 : shapes has 121 rows for shape_id = R001_0
-2018-Apr-26 16:28:26 : shape GET call took 0.25 seconds.
-2018-Apr-26 16:29:11 : allRoutes GET call took 0.23 seconds.
-2018-Apr-26 16:29:11 : tripIdList GET call took 0.23 seconds.
-2018-Apr-26 16:29:11 : calendar GET call took 0.21 seconds.
-2018-Apr-26 16:29:12 : allShapesList GET call took 0.22 seconds.
-2018-Apr-26 16:29:12 : allStopsKeyed GET call took 0.21 seconds.
-2018-Apr-26 16:29:15 : fareAttributes GET call took 0.18 seconds.
-2018-Apr-26 16:29:15 : fareRulesPivoted GET call took 0.21 seconds.
-2018-Apr-26 16:29:16 : fareRules GET call took 0.21 seconds.
-2018-Apr-26 16:29:16 : allStopsKeyed GET call took 0.21 seconds.
-2018-Apr-26 16:29:16 : routeIdList GET call took 0.19 seconds.
-2018-Apr-26 16:29:16 : zoneIdList GET call took 0.2 seconds.
-2018-Apr-26 16:30:26 : agency GET call took 0.15 seconds.
-2018-Apr-26 16:30:26 : calendar GET call took 0.15 seconds.
-2018-Apr-26 16:30:26 : translations GET call took 0.14 seconds.
-2018-Apr-26 16:30:27 : listAll GET call took 0.91 seconds.
-2018-Apr-26 16:38:21 : allStops GET call took 0.15 seconds.
-2018-Apr-26 16:38:27 : allRoutes GET call took 0.14 seconds.
-2018-Apr-26 16:38:28 : allShapesList GET call took 0.15 seconds.
-2018-Apr-26 16:38:28 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-26 16:38:28 : agency GET call took 0.14 seconds.
-2018-Apr-26 16:38:29 : allRoutes GET call took 0.16 seconds.
-2018-Apr-26 16:38:29 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-26 16:38:29 : tripIdList GET call took 0.14 seconds.
-2018-Apr-26 16:38:30 : calendar GET call took 0.14 seconds.
-2018-Apr-26 16:38:30 : allShapesList GET call took 0.15 seconds.
-2018-Apr-26 16:38:33 : agency GET call took 0.14 seconds.
-2018-Apr-26 16:38:33 : calendar GET call took 0.14 seconds.
-2018-Apr-26 16:38:33 : translations GET call took 0.13 seconds.
-2018-Apr-26 16:38:34 : listAll GET call took 0.87 seconds.
-2018-Apr-26 16:38:48 : ['stops', 'stop_times']
-2018-Apr-26 16:38:48 : ['']
-2018-Apr-26 16:38:48 : 1 rows to be deleted in stops for stop_id=ALVA
-2018-Apr-26 16:38:48 : 376 rows to be deleted in stop_times for stop_id=ALVA
-2018-Apr-26 16:38:48 : diagnoseID GET call took 0.34 seconds.
-2018-Apr-26 16:40:11 : ['shapes']
-2018-Apr-26 16:40:11 : ['trips']
-2018-Apr-26 16:40:11 : 121 rows to be deleted in shapes for shape_id=R001_0
-2018-Apr-26 16:40:11 : 0 rows to be zapped in trips where shape_id=R001_0
-2018-Apr-26 16:40:11 : diagnoseID GET call took 0.24 seconds.
-2018-Apr-26 16:40:28 : ['calendar']
-2018-Apr-26 16:40:28 : ['trips']
-2018-Apr-26 16:40:28 : 1 rows to be deleted in calendar for service_id=WK
-2018-Apr-26 16:40:28 : 202 rows to be zapped in trips where service_id=WK
-2018-Apr-26 16:40:28 : diagnoseID GET call took 0.24 seconds.
-2018-Apr-26 16:41:08 : stations GET call took 0.09 seconds.
-2018-Apr-26 16:42:27 : Saving filename: 8W0845_MACE.xml to uploads/
-2018-Apr-26 16:42:27 : Saving filename: 8S0845_MACE.xml to uploads/
-2018-Apr-26 16:42:27 : Depot stations: ['STA_COD_3512T_BH', 'STA_COD_3509T_DN']
-2018-Apr-26 16:42:28 : 1 route(s) found in 8W0845_MACE.xml
-2018-Apr-26 16:42:28 : 1 route(s) found in 8S0845_MACE.xml
-2018-Apr-26 16:42:28 : XMLUpload POST call took 1.05 seconds.
-2018-Apr-26 16:43:41 : Depot stations: ['STA_COD_3512T_BH', 'STA_COD_3509T_DN']
-2018-Apr-26 16:43:41 : 1 route(s) found in 8W0845_MACE.xml
-2018-Apr-26 16:43:41 : 1 route(s) found in 8S0845_MACE.xml
-2018-Apr-26 16:43:41 : XMLDiagnose GET call took 0.42 seconds.
-2018-Apr-26 16:43:56 : Saving filename: fares-chart.csv to uploads/
-2018-Apr-26 16:43:56 : Loading and unpivoting uploads/fares-chart.csv
-2018-Apr-26 16:43:56 : ['F1', 'F2', 'F3', 'F4', 'F5']
-2018-Apr-26 16:43:56 : fareChartUpload POST call took 0.48 seconds.
-2018-Apr-26 16:44:12 : {'transfers': '', 'checkAgencyFlag': True, 'payment_method': 0, 'route_color': '00B7F3', 'weekdayXML': '8W0845_MACE.xml', 'routes': [{'route_id': 'R1', 'weekdaySchedule': '8W0845_MACE', 'route_short_name': 'R1', 'sundaySchedule': '8S0845_MACE', 'route_long_name': 'Route 1'}], 'route_type': 1, 'currency_type': 'INR', 'agency_url': 'http://www.kochimetro.org/', 'sundayXML': '8S0845_MACE.xml', 'agency_timezone': 'Asia/Kolkata', 'depotstations': 'STA_COD_3512T_BH,STA_COD_3509T_DN', 'checkFaresFlag': True, 'checkRoutesFlag': True, 'fareschart': 'fares-chart.csv', 'agency_id': 'KMRL', 'end_date': '20990101', 'agency_name': 'Kochi Metro', 'fares': {'F2': 20, 'F4': 40, 'F3': 30, 'F5': 50, 'F1': 10}, 'checkCalendarFlag': True, 'timepoint': 1, 'wheelchair_accessible': 1, 'route_text_color': '000000', 'stations': 'stations.csv', 'agency_name_translation': 'കൊച്ചി മെട്രോ', 'start_date': '20180426', 'secondland': 'ml'}
-2018-Apr-26 16:44:13 : Tables found in GTFS/db.json: ['_default', 'fare_rules', 'agency', 'trips', 'shapes', 'translations', 'calendar', 'fare_attributes', 'routes', 'stops', 'stop_times']
-2018-Apr-26 16:44:13 : _default is empty so not exporting that.
-2018-Apr-26 16:44:13 : Created GTFS/2018-04-26-backup-1644/fare_rules.txt
-2018-Apr-26 16:44:13 : Added fare_rules.txt to gtfs.zip
-2018-Apr-26 16:44:13 : Created GTFS/2018-04-26-backup-1644/agency.txt
-2018-Apr-26 16:44:13 : Added agency.txt to gtfs.zip
-2018-Apr-26 16:44:13 : Created GTFS/2018-04-26-backup-1644/trips.txt
-2018-Apr-26 16:44:13 : Added trips.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/shapes.txt
-2018-Apr-26 16:44:14 : Added shapes.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/translations.txt
-2018-Apr-26 16:44:14 : Added translations.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/calendar.txt
-2018-Apr-26 16:44:14 : Added calendar.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/fare_attributes.txt
-2018-Apr-26 16:44:14 : Added fare_attributes.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/routes.txt
-2018-Apr-26 16:44:14 : Added routes.txt to gtfs.zip
-2018-Apr-26 16:44:14 : Created GTFS/2018-04-26-backup-1644/stops.txt
-2018-Apr-26 16:44:14 : Added stops.txt to gtfs.zip
-2018-Apr-26 16:44:15 : Created GTFS/2018-04-26-backup-1644/stop_times.txt
-2018-Apr-26 16:44:15 : Added stop_times.txt to gtfs.zip
-2018-Apr-26 16:44:15 : Function to export GTFS from db took 1.79 seconds.
-2018-Apr-26 16:44:16 : Loading and unpivoting uploads/fares-chart.csv
-2018-Apr-26 16:44:20 : xml2GTFS POST call took 8.56 seconds.
-2018-Apr-26 16:44:32 : GTFSstats function took 1.45 seconds.
-2018-Apr-26 16:44:32 : pastCommits GET call took 0.05 seconds.
-2018-Apr-26 16:44:35 : allStops GET call took 0.13 seconds.
-2018-Apr-26 16:44:40 : stations GET call took 0.01 seconds.
-2018-Apr-26 16:48:03 : calendar GET call took 0.22 seconds.
-2018-Apr-26 16:48:04 : translations GET call took 0.15 seconds.
-2018-Apr-26 16:48:04 : agency GET call took 0.13 seconds.
-2018-Apr-26 16:48:05 : listAll GET call took 1.6 seconds.
-2018-Apr-26 16:53:36 : allRoutes GET call took 0.14 seconds.
-2018-Apr-26 16:53:36 : tripIdList GET call took 0.13 seconds.
-2018-Apr-26 16:53:36 : calendar GET call took 0.13 seconds.
-2018-Apr-26 16:53:36 : allStopsKeyed GET call took 0.14 seconds.
-2018-Apr-26 16:53:36 : allShapesList GET call took 0.13 seconds.
-2018-Apr-26 16:53:39 : trips has 376 rows for route_id = R1
-2018-Apr-26 16:53:39 : trips GET call took 0.14 seconds.
-2018-Apr-26 17:05:52 : pastCommits GET call took 0.19 seconds.
-2018-Apr-26 17:05:53 : GTFSstats function took 1.04 seconds.
-2018-Apr-26 17:07:03 : allStops GET call took 0.14 seconds.
-2018-Apr-26 17:07:05 : GTFSstats function took 1.07 seconds.
-2018-Apr-26 17:07:05 : pastCommits GET call took 0.0 seconds.
-2018-Apr-26 17:14:14 : allStops GET call took 0.17 seconds.
-2018-Apr-26 17:25:11 : allStopsKeyed GET call took 0.15 seconds.
-2018-Apr-26 17:25:11 : allRoutes GET call took 0.13 seconds.
-2018-Apr-26 17:25:12 : allShapesList GET call took 0.32 seconds.
-2018-Apr-26 17:25:12 : agency GET call took 0.16 seconds.
-2018-Apr-26 17:25:14 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-Apr-26 17:25:14 : oneTrip0 found: R1WKR055636
-2018-Apr-26 17:25:14 : oneTrip1 found: R1WKL063147
-2018-Apr-26 17:25:14 : sequence GET call took 0.56 seconds.
-2018-Apr-26 17:25:15 : shapes GET call took 0.38 seconds.
-2018-Apr-26 17:25:38 : R1
-2018-Apr-26 17:25:38 : R001
-2018-Apr-26 17:25:38 : False
-2018-Apr-26 17:25:38 : Saving filename: R001.geojson to uploads/
-2018-Apr-26 17:25:38 : R001.geojson
-2018-Apr-26 17:25:38 : Loaded uploads/R001.geojson
-2018-Apr-26 17:25:40 : Inserted 121 entries into table shapes in GTFS/db.json
-2018-Apr-26 17:25:41 : Inserted 121 entries into table shapes in GTFS/db.json
-2018-Apr-26 17:25:41 : shape POST call took 4.42 seconds.
-2018-Apr-26 17:25:42 : allShapesList GET call took 0.14 seconds.
-2018-Apr-26 17:25:42 : shapes GET call took 0.19 seconds.
-2018-Apr-26 17:25:42 : shapes has 121 rows for shape_id = R001_0
-2018-Apr-26 17:25:42 : shape GET call took 0.17 seconds.
-2018-Apr-26 17:25:42 : shapes has 121 rows for shape_id = R001_1
-2018-Apr-26 17:25:42 : shape GET call took 0.15 seconds.
-2018-Apr-29 06:42:46 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 06:42:46 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 06:42:48 : pastCommits GET call took 0.11 seconds.
-2018-Apr-29 06:42:49 : GTFSstats function took 1.27 seconds.
-2018-Apr-29 07:16:50 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 07:16:50 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 07:16:58 : GTFSstats function took 1.82 seconds.
-2018-Apr-29 07:16:59 : pastCommits GET call took 0.08 seconds.
-2018-Apr-29 07:17:25 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 07:17:25 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 07:17:32 : GTFSstats function took 2.81 seconds.
-2018-Apr-29 07:17:32 : pastCommits GET call took 0.01 seconds.
-2018-Apr-29 07:18:23 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 07:55:19 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 08:01:06 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 08:01:06 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 08:01:14 : pastCommits GET call took 0.01 seconds.
-2018-Apr-29 08:18:27 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 08:18:27 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 08:18:39 : GTFSstats function took 6.63 seconds.
-2018-Apr-29 08:18:39 : pastCommits GET call took 0.0 seconds.
-2018-Apr-29 08:18:54 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 08:21:00 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 08:25:35 : GTFSstats function took 3.45 seconds.
-2018-Apr-29 08:25:35 : pastCommits GET call took 0.0 seconds.
-2018-Apr-29 09:23:46 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 09:23:46 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 09:23:55 : GTFSstats function took 1.79 seconds.
-2018-Apr-29 09:23:56 : pastCommits GET call took 0.05 seconds.
-2018-Apr-29 09:24:50 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 09:24:50 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 09:24:56 : GTFSstats function took 2.17 seconds.
-2018-Apr-29 09:24:57 : pastCommits GET call took 0.01 seconds.
-2018-Apr-29 15:57:05 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 15:57:06 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 15:57:15 : GTFSstats function took 2.89 seconds.
-2018-Apr-29 15:57:15 : pastCommits GET call took 0.37 seconds.
-2018-Apr-29 15:57:19 : agency GET call took 0.24 seconds.
-2018-Apr-29 15:57:19 : calendar GET call took 0.23 seconds.
-2018-Apr-29 15:57:21 : listAll GET call took 1.57 seconds.
-2018-Apr-29 15:57:21 : translations GET call took 0.22 seconds.
-2018-Apr-29 15:59:39 : Loaded dependencies, starting static GTFS Manager program.
-2018-Apr-29 15:59:39 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-Apr-29 15:59:47 : GTFSstats function took 4.55 seconds.
-2018-Apr-29 15:59:47 : pastCommits GET call took 0.0 seconds.
-2018-Apr-29 15:59:49 : agency GET call took 0.35 seconds.
-2018-Apr-29 15:59:50 : calendar GET call took 0.37 seconds.
-2018-Apr-29 15:59:50 : translations GET call took 0.36 seconds.
-2018-Apr-29 15:59:52 : listAll GET call took 2.39 seconds.
-2018-May-08 10:58:15 : Loaded dependencies, starting static GTFS Manager program.
-2018-May-08 10:58:15 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-May-08 10:58:20 : GTFSstats function took 1.23 seconds.
-2018-May-08 10:58:20 : pastCommits GET call took 0.08 seconds.
-2018-May-08 10:58:33 : allStops GET call took 0.14 seconds.
-2018-May-08 10:58:44 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 10:58:44 : agency GET call took 0.16 seconds.
-2018-May-08 10:58:44 : allRoutes GET call took 0.14 seconds.
-2018-May-08 10:58:45 : allShapesList GET call took 0.3 seconds.
-2018-May-08 10:58:51 : allStops GET call took 0.18 seconds.
-2018-May-08 10:59:14 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 10:59:14 : agency GET call took 0.14 seconds.
-2018-May-08 10:59:14 : allRoutes GET call took 0.15 seconds.
-2018-May-08 10:59:14 : allShapesList GET call took 0.15 seconds.
-2018-May-08 10:59:17 : allRoutes GET call took 0.15 seconds.
-2018-May-08 10:59:17 : tripIdList GET call took 0.16 seconds.
-2018-May-08 10:59:17 : calendar GET call took 0.14 seconds.
-2018-May-08 10:59:17 : allShapesList GET call took 0.14 seconds.
-2018-May-08 10:59:17 : allStopsKeyed GET call took 0.13 seconds.
-2018-May-08 10:59:50 : trips has 376 rows for route_id = R1
-2018-May-08 10:59:50 : trips GET call took 0.16 seconds.
-2018-May-08 11:04:36 : pastCommits GET call took 0.0 seconds.
-2018-May-08 11:04:38 : GTFSstats function took 1.76 seconds.
-2018-May-08 12:01:05 : agency GET call took 0.47 seconds.
-2018-May-08 12:01:06 : allShapesList GET call took 0.32 seconds.
-2018-May-08 12:01:07 : allRoutes GET call took 0.23 seconds.
-2018-May-08 12:01:07 : allStopsKeyed GET call took 0.22 seconds.
-2018-May-08 12:01:07 : allRoutes GET call took 0.22 seconds.
-2018-May-08 12:01:07 : allShapesList GET call took 0.2 seconds.
-2018-May-08 12:01:07 : allStopsKeyed GET call took 0.19 seconds.
-2018-May-08 12:01:08 : calendar GET call took 0.19 seconds.
-2018-May-08 12:01:08 : tripIdList GET call took 0.2 seconds.
-2018-May-08 12:01:10 : trips has 376 rows for route_id = R1
-2018-May-08 12:01:10 : trips GET call took 0.21 seconds.
-2018-May-08 12:01:16 : allStops GET call took 0.28 seconds.
-2018-May-08 12:01:18 : agency GET call took 0.25 seconds.
-2018-May-08 12:01:18 : allStopsKeyed GET call took 0.27 seconds.
-2018-May-08 12:01:19 : allRoutes GET call took 0.29 seconds.
-2018-May-08 12:01:19 : allShapesList GET call took 0.31 seconds.
-2018-May-08 12:01:29 : Table routes emptied in GTFS/db.json
-2018-May-08 12:01:29 : Inserted 2 entries into table routes in GTFS/db.json
-2018-May-08 12:01:29 : saveRoutes POST call took 2.46 seconds.
-2018-May-08 12:01:30 : allRoutes GET call took 0.26 seconds.
-2018-May-08 12:01:35 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-May-08 12:01:35 : Nothing found for oneTrip0
-2018-May-08 12:01:35 : sequence GET call took 0.19 seconds.
-2018-May-08 12:01:36 : shapes GET call took 0.23 seconds.
-2018-May-08 12:01:52 : API/sequence POST call took 1.16 seconds.
-2018-May-08 12:01:52 : allShapesList GET call took 0.34 seconds.
-2018-May-08 12:01:53 : shapes GET call took 0.4 seconds.
-2018-May-08 12:01:58 : allRoutes GET call took 0.25 seconds.
-2018-May-08 12:01:58 : tripIdList GET call took 0.28 seconds.
-2018-May-08 12:01:59 : calendar GET call took 0.26 seconds.
-2018-May-08 12:01:59 : allShapesList GET call took 0.22 seconds.
-2018-May-08 12:01:59 : allStopsKeyed GET call took 0.25 seconds.
-2018-May-08 12:02:01 : trips has 0 rows for route_id = KMRL001
-2018-May-08 12:02:01 : Got the sequence from sequence db file.
-2018-May-08 12:02:01 : trips GET call took 0.31 seconds.
-2018-May-08 15:01:00 : Loaded dependencies, starting static GTFS Manager program.
-2018-May-08 15:01:00 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-May-08 15:01:02 : pastCommits GET call took 0.13 seconds.
-2018-May-08 15:01:04 : GTFSstats function took 1.33 seconds.
-2018-May-08 15:02:20 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 15:02:21 : allShapesList GET call took 0.25 seconds.
-2018-May-08 15:02:21 : agency GET call took 0.17 seconds.
-2018-May-08 15:02:21 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:02:33 : allRoutes GET call took 0.21 seconds.
-2018-May-08 15:02:33 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 15:02:33 : tripIdList GET call took 0.15 seconds.
-2018-May-08 15:02:33 : allShapesList GET call took 0.15 seconds.
-2018-May-08 15:02:33 : calendar GET call took 0.15 seconds.
-2018-May-08 15:02:38 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:02:38 : Got the sequence from sequence db file.
-2018-May-08 15:02:38 : trips GET call took 0.16 seconds.
-2018-May-08 15:02:43 : trips has 376 rows for route_id = R1
-2018-May-08 15:02:43 : trips GET call took 0.16 seconds.
-2018-May-08 15:03:03 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:03:03 : Got the sequence from sequence db file.
-2018-May-08 15:03:03 : trips GET call took 0.16 seconds.
-2018-May-08 15:14:33 : allStopsKeyed GET call took 0.24 seconds.
-2018-May-08 15:14:33 : allShapesList GET call took 0.2 seconds.
-2018-May-08 15:14:33 : agency GET call took 0.18 seconds.
-2018-May-08 15:14:34 : allRoutes GET call took 0.17 seconds.
-2018-May-08 15:14:53 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:14:53 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 15:14:54 : tripIdList GET call took 0.15 seconds.
-2018-May-08 15:14:54 : calendar GET call took 0.15 seconds.
-2018-May-08 15:14:54 : allShapesList GET call took 0.15 seconds.
-2018-May-08 15:14:57 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:14:57 : Got the sequence from sequence db file.
-2018-May-08 15:14:57 : trips GET call took 0.16 seconds.
-2018-May-08 15:46:41 : calendar GET call took 0.61 seconds.
-2018-May-08 15:46:41 : allRoutes GET call took 0.19 seconds.
-2018-May-08 15:46:41 : allShapesList GET call took 0.49 seconds.
-2018-May-08 15:46:42 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 15:46:42 : tripIdList GET call took 0.16 seconds.
-2018-May-08 15:46:44 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:46:44 : Got the sequence from sequence db file.
-2018-May-08 15:46:44 : trips GET call took 0.29 seconds.
-2018-May-08 15:47:57 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:47:58 : tripIdList GET call took 0.16 seconds.
-2018-May-08 15:47:58 : calendar GET call took 0.15 seconds.
-2018-May-08 15:47:58 : allShapesList GET call took 0.16 seconds.
-2018-May-08 15:47:58 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 15:47:59 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:47:59 : Got the sequence from sequence db file.
-2018-May-08 15:47:59 : trips GET call took 0.17 seconds.
-2018-May-08 15:53:17 : trips has 376 rows for route_id = R1
-2018-May-08 15:53:17 : trips GET call took 0.16 seconds.
-2018-May-08 15:53:21 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 15:53:21 : allRoutes GET call took 0.17 seconds.
-2018-May-08 15:53:22 : allShapesList GET call took 0.16 seconds.
-2018-May-08 15:53:22 : agency GET call took 0.19 seconds.
-2018-May-08 15:53:26 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-May-08 15:53:26 : oneTrip0 found: R1WKR055636
-2018-May-08 15:53:26 : oneTrip1 found: R1WKL063147
-2018-May-08 15:53:27 : sequence GET call took 0.61 seconds.
-2018-May-08 15:53:27 : shapes GET call took 0.49 seconds.
-2018-May-08 15:53:44 : API/sequence POST call took 1.45 seconds.
-2018-May-08 15:53:44 : allShapesList GET call took 0.2 seconds.
-2018-May-08 15:53:45 : shapes GET call took 0.22 seconds.
-2018-May-08 15:53:55 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 15:53:55 : agency GET call took 0.19 seconds.
-2018-May-08 15:53:55 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:53:55 : allShapesList GET call took 0.19 seconds.
-2018-May-08 15:54:02 : Got the sequence from sequence db file.
-2018-May-08 15:54:02 : sequence GET call took 0.0 seconds.
-2018-May-08 15:54:02 : shapes GET call took 0.21 seconds.
-2018-May-08 15:54:05 : Got the sequence from sequence db file.
-2018-May-08 15:54:05 : sequence GET call took 0.0 seconds.
-2018-May-08 15:54:05 : shapes GET call took 0.24 seconds.
-2018-May-08 15:54:14 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 15:54:14 : agency GET call took 0.17 seconds.
-2018-May-08 15:54:14 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:54:14 : allShapesList GET call took 0.19 seconds.
-2018-May-08 15:54:15 : allRoutes GET call took 0.18 seconds.
-2018-May-08 15:54:16 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 15:54:16 : allShapesList GET call took 0.16 seconds.
-2018-May-08 15:54:16 : tripIdList GET call took 0.15 seconds.
-2018-May-08 15:54:16 : calendar GET call took 0.15 seconds.
-2018-May-08 15:54:18 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:54:18 : Got the sequence from sequence db file.
-2018-May-08 15:54:18 : trips GET call took 0.16 seconds.
-2018-May-08 15:54:20 : trips has 376 rows for route_id = R1
-2018-May-08 15:54:20 : Got the sequence from sequence db file.
-2018-May-08 15:54:20 : trips GET call took 0.16 seconds.
-2018-May-08 15:54:39 : allRoutes GET call took 0.16 seconds.
-2018-May-08 15:54:39 : tripIdList GET call took 0.17 seconds.
-2018-May-08 15:54:39 : calendar GET call took 0.17 seconds.
-2018-May-08 15:54:40 : allShapesList GET call took 0.16 seconds.
-2018-May-08 15:54:40 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 15:54:44 : trips has 376 rows for route_id = R1
-2018-May-08 15:54:44 : Got the sequence from sequence db file.
-2018-May-08 15:54:44 : trips GET call took 0.16 seconds.
-2018-May-08 15:54:57 : trips has 0 rows for route_id = KMRL001
-2018-May-08 15:54:57 : Got the sequence from sequence db file.
-2018-May-08 15:54:57 : trips GET call took 0.16 seconds.
-2018-May-08 16:03:42 : allRoutes GET call took 0.16 seconds.
-2018-May-08 16:03:42 : tripIdList GET call took 0.19 seconds.
-2018-May-08 16:03:42 : calendar GET call took 0.17 seconds.
-2018-May-08 16:03:42 : allShapesList GET call took 0.17 seconds.
-2018-May-08 16:03:42 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 16:03:49 : trips has 376 rows for route_id = R1
-2018-May-08 16:03:49 : Got the sequence from sequence db file.
-2018-May-08 16:03:49 : trips GET call took 0.17 seconds.
-2018-May-08 16:03:54 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:03:54 : Got the sequence from sequence db file.
-2018-May-08 16:03:54 : trips GET call took 0.16 seconds.
-2018-May-08 16:13:25 : allRoutes GET call took 0.21 seconds.
-2018-May-08 16:13:25 : tripIdList GET call took 0.19 seconds.
-2018-May-08 16:13:25 : calendar GET call took 0.15 seconds.
-2018-May-08 16:13:26 : allShapesList GET call took 0.16 seconds.
-2018-May-08 16:13:26 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:13:31 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:13:31 : Got the sequence from sequence db file.
-2018-May-08 16:13:31 : trips GET call took 0.16 seconds.
-2018-May-08 16:13:59 : trips has 376 rows for route_id = R1
-2018-May-08 16:13:59 : Got the sequence from sequence db file.
-2018-May-08 16:13:59 : trips GET call took 0.17 seconds.
-2018-May-08 16:14:01 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:14:01 : Got the sequence from sequence db file.
-2018-May-08 16:14:01 : trips GET call took 0.16 seconds.
-2018-May-08 16:14:02 : trips has 376 rows for route_id = R1
-2018-May-08 16:14:02 : Got the sequence from sequence db file.
-2018-May-08 16:14:02 : trips GET call took 0.16 seconds.
-2018-May-08 16:14:18 : allRoutes GET call took 0.17 seconds.
-2018-May-08 16:14:18 : tripIdList GET call took 0.17 seconds.
-2018-May-08 16:14:18 : calendar GET call took 0.16 seconds.
-2018-May-08 16:14:18 : allShapesList GET call took 0.17 seconds.
-2018-May-08 16:14:18 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 16:17:16 : allRoutes GET call took 0.17 seconds.
-2018-May-08 16:17:16 : tripIdList GET call took 0.17 seconds.
-2018-May-08 16:17:16 : calendar GET call took 0.16 seconds.
-2018-May-08 16:17:16 : allShapesList GET call took 0.16 seconds.
-2018-May-08 16:17:16 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:17:18 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:17:18 : Got the sequence from sequence db file.
-2018-May-08 16:17:18 : trips GET call took 0.18 seconds.
-2018-May-08 16:17:25 : trips has 376 rows for route_id = R1
-2018-May-08 16:17:25 : Got the sequence from sequence db file.
-2018-May-08 16:17:25 : trips GET call took 0.18 seconds.
-2018-May-08 16:18:41 : allRoutes GET call took 0.2 seconds.
-2018-May-08 16:18:41 : tripIdList GET call took 0.17 seconds.
-2018-May-08 16:18:41 : calendar GET call took 0.15 seconds.
-2018-May-08 16:18:42 : allShapesList GET call took 0.16 seconds.
-2018-May-08 16:18:42 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:18:46 : trips has 376 rows for route_id = R1
-2018-May-08 16:18:46 : Got the sequence from sequence db file.
-2018-May-08 16:18:46 : trips GET call took 0.16 seconds.
-2018-May-08 16:18:48 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:18:48 : Got the sequence from sequence db file.
-2018-May-08 16:18:48 : trips GET call took 0.16 seconds.
-2018-May-08 16:19:03 : trips has 376 rows for route_id = R1
-2018-May-08 16:19:03 : Got the sequence from sequence db file.
-2018-May-08 16:19:03 : trips GET call took 0.16 seconds.
-2018-May-08 16:26:59 : allRoutes GET call took 0.16 seconds.
-2018-May-08 16:26:59 : tripIdList GET call took 0.16 seconds.
-2018-May-08 16:26:59 : calendar GET call took 0.15 seconds.
-2018-May-08 16:26:59 : allShapesList GET call took 0.16 seconds.
-2018-May-08 16:26:59 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:27:02 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:27:02 : Got the sequence from sequence db file.
-2018-May-08 16:27:02 : trips GET call took 0.16 seconds.
-2018-May-08 16:27:06 : trips has 376 rows for route_id = R1
-2018-May-08 16:27:06 : Got the sequence from sequence db file.
-2018-May-08 16:27:06 : trips GET call took 0.16 seconds.
-2018-May-08 16:30:43 : allRoutes GET call took 0.16 seconds.
-2018-May-08 16:30:43 : tripIdList GET call took 0.16 seconds.
-2018-May-08 16:30:43 : calendar GET call took 0.17 seconds.
-2018-May-08 16:30:43 : allShapesList GET call took 0.17 seconds.
-2018-May-08 16:30:44 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:30:46 : trips has 376 rows for route_id = R1
-2018-May-08 16:30:46 : Got the sequence from sequence db file.
-2018-May-08 16:30:46 : trips GET call took 0.16 seconds.
-2018-May-08 16:30:49 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:30:49 : Got the sequence from sequence db file.
-2018-May-08 16:30:49 : trips GET call took 0.15 seconds.
-2018-May-08 16:30:51 : trips has 376 rows for route_id = R1
-2018-May-08 16:30:51 : Got the sequence from sequence db file.
-2018-May-08 16:30:51 : trips GET call took 0.16 seconds.
-2018-May-08 16:32:41 : allRoutes GET call took 0.37 seconds.
-2018-May-08 16:32:41 : calendar GET call took 0.2 seconds.
-2018-May-08 16:32:41 : allStopsKeyed GET call took 0.33 seconds.
-2018-May-08 16:32:42 : tripIdList GET call took 0.23 seconds.
-2018-May-08 16:32:42 : allShapesList GET call took 0.42 seconds.
-2018-May-08 16:33:13 : allRoutes GET call took 0.23 seconds.
-2018-May-08 16:33:13 : tripIdList GET call took 0.22 seconds.
-2018-May-08 16:33:13 : calendar GET call took 0.17 seconds.
-2018-May-08 16:33:14 : allShapesList GET call took 0.24 seconds.
-2018-May-08 16:33:14 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 16:33:18 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:33:19 : Got the sequence from sequence db file.
-2018-May-08 16:33:19 : trips GET call took 0.5 seconds.
-2018-May-08 16:33:20 : trips has 376 rows for route_id = R1
-2018-May-08 16:33:20 : Got the sequence from sequence db file.
-2018-May-08 16:33:20 : trips GET call took 0.57 seconds.
-2018-May-08 16:33:43 : trips has 1 rows for trip_id = R1WKR070646
-2018-May-08 16:33:43 : stop_times has 16 rows for trip_id = R1WKR070646
-2018-May-08 16:33:43 : This trip has timings data in the db, so loaded that.
-2018-May-08 16:33:43 : stopTimes GET call took 0.71 seconds.
-2018-May-08 16:34:34 : trips has 0 rows for route_id = KMRL001
-2018-May-08 16:34:34 : Got the sequence from sequence db file.
-2018-May-08 16:34:34 : trips GET call took 0.18 seconds.
-2018-May-08 16:35:07 : Inserted 1 entries into table trips in GTFS/db.json
-2018-May-08 16:35:07 : trips POST call took 1.93 seconds.
-2018-May-08 16:35:19 : trips has 1 rows for trip_id = KMRL001001
-2018-May-08 16:35:19 : stop_times has 0 rows for trip_id = KMRL001001
-2018-May-08 16:35:19 : This trip is new. Loading default sequence, please fill in timings and save to DB.
-2018-May-08 16:35:19 : stopTimes GET call took 0.41 seconds.
-2018-May-08 16:41:24 : trips has 1 rows for route_id = KMRL001
-2018-May-08 16:41:24 : Got the sequence from sequence db file.
-2018-May-08 16:41:24 : trips GET call took 0.17 seconds.
-2018-May-08 16:42:19 : allRoutes GET call took 0.18 seconds.
-2018-May-08 16:42:20 : allShapesList GET call took 0.19 seconds.
-2018-May-08 16:42:20 : tripIdList GET call took 0.15 seconds.
-2018-May-08 16:42:20 : calendar GET call took 0.15 seconds.
-2018-May-08 16:42:20 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:42:22 : trips has 1 rows for route_id = KMRL001
-2018-May-08 16:42:22 : Got the sequence from sequence db file.
-2018-May-08 16:42:22 : trips GET call took 0.16 seconds.
-2018-May-08 16:43:45 : allRoutes GET call took 0.18 seconds.
-2018-May-08 16:43:45 : tripIdList GET call took 0.17 seconds.
-2018-May-08 16:43:45 : calendar GET call took 0.15 seconds.
-2018-May-08 16:43:45 : allShapesList GET call took 0.16 seconds.
-2018-May-08 16:43:46 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 16:43:48 : trips has 1 rows for route_id = KMRL001
-2018-May-08 16:43:48 : Got the sequence from sequence db file.
-2018-May-08 16:43:48 : trips GET call took 0.16 seconds.
-2018-May-08 16:56:59 : allStopsKeyed GET call took 0.18 seconds.
-2018-May-08 16:56:59 : allRoutes GET call took 0.17 seconds.
-2018-May-08 16:56:59 : allShapesList GET call took 0.2 seconds.
-2018-May-08 16:57:00 : agency GET call took 0.23 seconds.
-2018-May-08 17:28:05 : allStopsKeyed GET call took 0.3 seconds.
-2018-May-08 17:28:06 : allShapesList GET call took 0.52 seconds.
-2018-May-08 17:28:06 : allRoutes GET call took 0.16 seconds.
-2018-May-08 17:28:06 : agency GET call took 0.16 seconds.
-2018-May-08 17:28:17 : fareAttributes GET call took 0.16 seconds.
-2018-May-08 17:28:17 : fareRulesPivoted GET call took 0.32 seconds.
-2018-May-08 17:28:17 : fareRules GET call took 0.17 seconds.
-2018-May-08 17:28:18 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 17:28:18 : routeIdList GET call took 0.18 seconds.
-2018-May-08 17:28:18 : zoneIdList GET call took 0.17 seconds.
-2018-May-08 17:31:25 : allStopsKeyed GET call took 0.18 seconds.
-2018-May-08 17:31:25 : fareRulesPivoted GET call took 0.17 seconds.
-2018-May-08 17:31:25 : fareAttributes GET call took 0.17 seconds.
-2018-May-08 17:31:26 : routeIdList GET call took 0.17 seconds.
-2018-May-08 17:31:26 : fareRules GET call took 0.21 seconds.
-2018-May-08 17:31:26 : zoneIdList GET call took 0.18 seconds.
-2018-May-08 17:34:06 : fareAttributes GET call took 0.21 seconds.
-2018-May-08 17:34:06 : fareRulesPivoted GET call took 0.17 seconds.
-2018-May-08 17:34:07 : fareRules GET call took 0.16 seconds.
-2018-May-08 17:34:07 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 17:34:07 : routeIdList GET call took 0.17 seconds.
-2018-May-08 17:34:07 : zoneIdList GET call took 0.17 seconds.
-2018-May-08 17:34:17 : fareAttributes GET call took 0.2 seconds.
-2018-May-08 17:34:17 : fareRulesPivoted GET call took 0.16 seconds.
-2018-May-08 17:34:17 : fareRules GET call took 0.16 seconds.
-2018-May-08 17:34:17 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 17:34:18 : routeIdList GET call took 0.16 seconds.
-2018-May-08 17:34:18 : zoneIdList GET call took 0.16 seconds.
-2018-May-08 17:34:26 : fareAttributes GET call took 0.21 seconds.
-2018-May-08 17:34:26 : fareRulesPivoted GET call took 0.19 seconds.
-2018-May-08 17:34:26 : fareRules GET call took 0.17 seconds.
-2018-May-08 17:34:26 : allStopsKeyed GET call took 0.19 seconds.
-2018-May-08 17:34:26 : routeIdList GET call took 0.2 seconds.
-2018-May-08 17:34:27 : zoneIdList GET call took 0.18 seconds.
-2018-May-08 17:34:29 : agency GET call took 0.24 seconds.
-2018-May-08 17:34:29 : translations GET call took 0.23 seconds.
-2018-May-08 17:34:30 : listAll GET call took 1.08 seconds.
-2018-May-08 17:34:30 : calendar GET call took 0.2 seconds.
-2018-May-08 17:34:31 : allStops GET call took 0.18 seconds.
-2018-May-08 17:35:40 : allStops GET call took 0.44 seconds.
-2018-May-08 17:35:46 : allStopsKeyed GET call took 0.18 seconds.
-2018-May-08 17:35:46 : agency GET call took 0.17 seconds.
-2018-May-08 17:35:46 : allRoutes GET call took 0.17 seconds.
-2018-May-08 17:35:46 : allShapesList GET call took 0.18 seconds.
-2018-May-08 17:35:49 : allRoutes GET call took 0.2 seconds.
-2018-May-08 17:35:49 : calendar GET call took 0.18 seconds.
-2018-May-08 17:35:49 : allShapesList GET call took 0.19 seconds.
-2018-May-08 17:35:49 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 17:35:49 : tripIdList GET call took 0.16 seconds.
-2018-May-08 17:35:55 : trips has 1 rows for route_id = KMRL001
-2018-May-08 17:35:55 : Got the sequence from sequence db file.
-2018-May-08 17:35:55 : trips GET call took 0.17 seconds.
-2018-May-08 17:36:29 : allRoutes GET call took 0.2 seconds.
-2018-May-08 17:36:29 : tripIdList GET call took 0.2 seconds.
-2018-May-08 17:36:29 : calendar GET call took 0.16 seconds.
-2018-May-08 17:36:29 : allShapesList GET call took 0.16 seconds.
-2018-May-08 17:36:30 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 17:36:41 : stations GET call took 0.58 seconds.
-2018-May-08 17:36:44 : agency GET call took 0.16 seconds.
-2018-May-08 17:36:44 : calendar GET call took 0.17 seconds.
-2018-May-08 17:36:45 : listAll GET call took 0.97 seconds.
-2018-May-08 17:36:46 : translations GET call took 0.16 seconds.
-2018-May-08 17:42:01 : agency GET call took 0.16 seconds.
-2018-May-08 17:42:01 : calendar GET call took 0.18 seconds.
-2018-May-08 17:42:01 : translations GET call took 0.17 seconds.
-2018-May-08 17:42:02 : listAll GET call took 1.01 seconds.
-2018-May-08 17:42:54 : allStops GET call took 0.21 seconds.
-2018-May-08 17:42:57 : allStopsKeyed GET call took 0.21 seconds.
-2018-May-08 17:42:57 : agency GET call took 0.19 seconds.
-2018-May-08 17:42:57 : allRoutes GET call took 0.18 seconds.
-2018-May-08 17:42:58 : allShapesList GET call took 0.24 seconds.
-2018-May-08 17:43:19 : Got the sequence from sequence db file.
-2018-May-08 17:43:19 : sequence GET call took 0.0 seconds.
-2018-May-08 17:43:19 : shapes GET call took 0.63 seconds.
-2018-May-08 17:43:25 : allRoutes GET call took 0.16 seconds.
-2018-May-08 17:43:26 : tripIdList GET call took 0.16 seconds.
-2018-May-08 17:43:26 : calendar GET call took 0.15 seconds.
-2018-May-08 17:43:26 : allShapesList GET call took 0.16 seconds.
-2018-May-08 17:43:26 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 17:43:31 : trips has 1 rows for route_id = KMRL001
-2018-May-08 17:43:31 : Got the sequence from sequence db file.
-2018-May-08 17:43:31 : trips GET call took 0.16 seconds.
-2018-May-08 17:43:33 : trips has 376 rows for route_id = R1
-2018-May-08 17:43:33 : Got the sequence from sequence db file.
-2018-May-08 17:43:33 : trips GET call took 0.16 seconds.
-2018-May-08 17:43:39 : trips has 1 rows for route_id = KMRL001
-2018-May-08 17:43:39 : Got the sequence from sequence db file.
-2018-May-08 17:43:39 : trips GET call took 0.16 seconds.
-2018-May-08 18:08:10 : allStops GET call took 0.36 seconds.
-2018-May-08 18:08:23 : allRoutes GET call took 0.16 seconds.
-2018-May-08 18:08:23 : calendar GET call took 0.17 seconds.
-2018-May-08 18:08:23 : allShapesList GET call took 0.22 seconds.
-2018-May-08 18:08:24 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 18:08:24 : tripIdList GET call took 0.15 seconds.
-2018-May-08 18:08:32 : fareAttributes GET call took 0.23 seconds.
-2018-May-08 18:08:32 : fareRulesPivoted GET call took 0.18 seconds.
-2018-May-08 18:08:32 : zoneIdList GET call took 0.18 seconds.
-2018-May-08 18:08:32 : fareRules GET call took 0.16 seconds.
-2018-May-08 18:08:33 : allStopsKeyed GET call took 0.22 seconds.
-2018-May-08 18:08:33 : routeIdList GET call took 0.16 seconds.
-2018-May-08 18:08:41 : agency GET call took 0.25 seconds.
-2018-May-08 18:08:41 : translations GET call took 0.17 seconds.
-2018-May-08 18:08:41 : calendar GET call took 0.15 seconds.
-2018-May-08 18:08:42 : listAll GET call took 0.97 seconds.
-2018-May-08 18:09:01 : pastCommits GET call took 0.12 seconds.
-2018-May-08 18:09:02 : GTFSstats function took 1.32 seconds.
-2018-May-08 18:09:02 : allStops GET call took 0.17 seconds.
-2018-May-08 18:09:07 : agency GET call took 0.17 seconds.
-2018-May-08 18:09:08 : calendar GET call took 0.15 seconds.
-2018-May-08 18:09:08 : translations GET call took 0.15 seconds.
-2018-May-08 18:09:09 : listAll GET call took 0.97 seconds.
-2018-May-08 18:22:25 : agency GET call took 0.16 seconds.
-2018-May-08 18:22:25 : translations GET call took 0.18 seconds.
-2018-May-08 18:22:26 : listAll GET call took 0.97 seconds.
-2018-May-08 18:22:26 : calendar GET call took 0.15 seconds.
-2018-May-08 18:22:33 : fareAttributes GET call took 0.22 seconds.
-2018-May-08 18:22:34 : fareRulesPivoted GET call took 0.29 seconds.
-2018-May-08 18:22:34 : fareRules GET call took 0.17 seconds.
-2018-May-08 18:22:34 : allStopsKeyed GET call took 0.18 seconds.
-2018-May-08 18:22:34 : routeIdList GET call took 0.17 seconds.
-2018-May-08 18:22:34 : zoneIdList GET call took 0.23 seconds.
-2018-May-08 18:22:43 : allRoutes GET call took 0.23 seconds.
-2018-May-08 18:22:43 : tripIdList GET call took 0.17 seconds.
-2018-May-08 18:22:43 : calendar GET call took 0.15 seconds.
-2018-May-08 18:22:43 : allShapesList GET call took 0.16 seconds.
-2018-May-08 18:22:44 : allStopsKeyed GET call took 0.15 seconds.
-2018-May-08 18:22:48 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 18:22:49 : agency GET call took 0.2 seconds.
-2018-May-08 18:22:49 : allRoutes GET call took 0.16 seconds.
-2018-May-08 18:22:49 : allShapesList GET call took 0.16 seconds.
-2018-May-08 18:22:56 : allStops GET call took 0.19 seconds.
-2018-May-08 18:23:02 : GTFSstats function took 1.29 seconds.
-2018-May-08 18:23:02 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:26:11 : GTFSstats function took 1.3 seconds.
-2018-May-08 18:26:11 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:26:14 : GTFSstats function took 1.25 seconds.
-2018-May-08 18:26:14 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:29:35 : Why u no entering password! Top right! Top right!
-2018-May-08 18:32:03 : GTFSstats function took 1.27 seconds.
-2018-May-08 18:32:04 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:32:44 : GTFSstats function took 1.32 seconds.
-2018-May-08 18:32:44 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:33:24 : Saving filename: gtfs.zip to uploads/
-2018-May-08 18:33:24 : Taking backup of existing contents of db
-2018-May-08 18:33:24 : Tables found in GTFS/db.json: ['fare_rules', 'trips', 'stop_times', 'agency', 'shapes', 'routes', 'calendar', 'translations', 'fare_attributes', 'stops', '_default']
-2018-May-08 18:33:25 : Created GTFS/2018-05-08-backup-1833/fare_rules.txt
-2018-May-08 18:33:25 : Added fare_rules.txt to gtfs.zip
-2018-May-08 18:33:25 : Created GTFS/2018-05-08-backup-1833/trips.txt
-2018-May-08 18:33:25 : Added trips.txt to gtfs.zip
-2018-May-08 18:33:25 : Created GTFS/2018-05-08-backup-1833/stop_times.txt
-2018-May-08 18:33:25 : Added stop_times.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/agency.txt
-2018-May-08 18:33:26 : Added agency.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/shapes.txt
-2018-May-08 18:33:26 : Added shapes.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/routes.txt
-2018-May-08 18:33:26 : Added routes.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/calendar.txt
-2018-May-08 18:33:26 : Added calendar.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/translations.txt
-2018-May-08 18:33:26 : Added translations.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/fare_attributes.txt
-2018-May-08 18:33:26 : Added fare_attributes.txt to gtfs.zip
-2018-May-08 18:33:26 : Created GTFS/2018-05-08-backup-1833/stops.txt
-2018-May-08 18:33:26 : Added stops.txt to gtfs.zip
-2018-May-08 18:33:26 : _default is empty so not exporting that.
-2018-May-08 18:33:26 : Function to export GTFS from db took 2.27 seconds.
-2018-May-08 18:33:26 : backup made to folder GTFS/2018-05-08-backup-1833/
-2018-May-08 18:33:27 : ['agency.txt', 'calendar.txt', 'fare_attributes.txt', 'fare_rules.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'translations.txt', 'trips.txt']
-2018-May-08 18:33:27 : GTFS/db.json purged.
-2018-May-08 18:33:27 : GTFS/sequence.json purged.
-2018-May-08 18:33:32 : Loaded external GTFS.. full function took 7.75 seconds.
-2018-May-08 18:33:34 : GTFSstats function took 1.85 seconds.
-2018-May-08 18:33:34 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:40:38 : agency GET call took 0.15 seconds.
-2018-May-08 18:40:38 : allRoutes GET call took 0.16 seconds.
-2018-May-08 18:40:38 : allStopsKeyed GET call took 0.2 seconds.
-2018-May-08 18:40:38 : allShapesList GET call took 0.32 seconds.
-2018-May-08 18:40:44 : shapes GET call took 0.24 seconds.
-2018-May-08 18:40:44 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-May-08 18:40:44 : oneTrip0 found: R1SUR184100
-2018-May-08 18:40:44 : oneTrip1 found: R1SUL191601
-2018-May-08 18:40:44 : sequence GET call took 0.59 seconds.
-2018-May-08 18:41:32 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:41:32 : shape GET call took 0.17 seconds.
-2018-May-08 18:41:42 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:41:42 : shape GET call took 0.19 seconds.
-2018-May-08 18:41:49 : API/sequence POST call took 0.79 seconds.
-2018-May-08 18:41:49 : allShapesList GET call took 0.2 seconds.
-2018-May-08 18:41:50 : shapes GET call took 0.25 seconds.
-2018-May-08 18:41:50 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:41:50 : shape GET call took 0.16 seconds.
-2018-May-08 18:41:50 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:41:50 : shape GET call took 0.17 seconds.
-2018-May-08 18:45:05 : Table routes emptied in GTFS/db.json
-2018-May-08 18:45:05 : Inserted 1 entries into table routes in GTFS/db.json
-2018-May-08 18:45:05 : saveRoutes POST call took 1.86 seconds.
-2018-May-08 18:45:06 : allRoutes GET call took 0.2 seconds.
-2018-May-08 18:45:36 : agency GET call took 0.19 seconds.
-2018-May-08 18:45:36 : allRoutes GET call took 0.16 seconds.
-2018-May-08 18:45:37 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 18:45:37 : allShapesList GET call took 0.17 seconds.
-2018-May-08 18:46:35 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 18:46:36 : agency GET call took 0.18 seconds.
-2018-May-08 18:46:36 : allRoutes GET call took 0.17 seconds.
-2018-May-08 18:46:36 : allShapesList GET call took 0.19 seconds.
-2018-May-08 18:46:45 : Table routes emptied in GTFS/db.json
-2018-May-08 18:46:46 : Inserted 1 entries into table routes in GTFS/db.json
-2018-May-08 18:46:46 : saveRoutes POST call took 1.67 seconds.
-2018-May-08 18:46:46 : allRoutes GET call took 0.15 seconds.
-2018-May-08 18:46:55 : Got the sequence from sequence db file.
-2018-May-08 18:46:55 : sequence GET call took 0.0 seconds.
-2018-May-08 18:46:55 : shapes GET call took 0.24 seconds.
-2018-May-08 18:46:56 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:46:56 : shape GET call took 0.16 seconds.
-2018-May-08 18:46:56 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:46:56 : shape GET call took 0.18 seconds.
-2018-May-08 18:47:03 : API/sequence POST call took 0.59 seconds.
-2018-May-08 18:47:03 : allShapesList GET call took 0.22 seconds.
-2018-May-08 18:47:04 : shapes GET call took 0.25 seconds.
-2018-May-08 18:47:04 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:47:04 : shape GET call took 0.17 seconds.
-2018-May-08 18:47:04 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:47:04 : shape GET call took 0.17 seconds.
-2018-May-08 18:47:27 : allStopsKeyed GET call took 0.18 seconds.
-2018-May-08 18:47:27 : agency GET call took 0.17 seconds.
-2018-May-08 18:47:27 : allRoutes GET call took 0.17 seconds.
-2018-May-08 18:47:28 : allShapesList GET call took 0.19 seconds.
-2018-May-08 18:47:33 : Got the sequence from sequence db file.
-2018-May-08 18:47:33 : sequence GET call took 0.0 seconds.
-2018-May-08 18:47:33 : shapes GET call took 0.25 seconds.
-2018-May-08 18:47:34 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:47:34 : shape GET call took 0.17 seconds.
-2018-May-08 18:47:34 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:47:34 : shape GET call took 0.17 seconds.
-2018-May-08 18:47:41 : API/sequence POST call took 0.79 seconds.
-2018-May-08 18:47:41 : allShapesList GET call took 0.26 seconds.
-2018-May-08 18:47:42 : shapes GET call took 0.38 seconds.
-2018-May-08 18:47:42 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:47:42 : shape GET call took 0.28 seconds.
-2018-May-08 18:47:42 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:47:42 : shape GET call took 0.35 seconds.
-2018-May-08 18:47:53 : API/sequence POST call took 0.81 seconds.
-2018-May-08 18:47:54 : allShapesList GET call took 0.23 seconds.
-2018-May-08 18:47:54 : shapes GET call took 0.36 seconds.
-2018-May-08 18:47:55 : shapes has 121 rows for shape_id = R1_0
-2018-May-08 18:47:55 : shape GET call took 0.26 seconds.
-2018-May-08 18:47:55 : shapes has 121 rows for shape_id = R1_1
-2018-May-08 18:47:55 : shape GET call took 0.29 seconds.
-2018-May-08 18:47:59 : allRoutes GET call took 0.25 seconds.
-2018-May-08 18:47:59 : allShapesList GET call took 0.24 seconds.
-2018-May-08 18:47:59 : allStopsKeyed GET call took 0.22 seconds.
-2018-May-08 18:47:59 : calendar GET call took 0.21 seconds.
-2018-May-08 18:48:00 : tripIdList GET call took 0.22 seconds.
-2018-May-08 18:48:04 : trips has 376 rows for route_id = R1
-2018-May-08 18:48:04 : Got the sequence from sequence db file.
-2018-May-08 18:48:04 : trips GET call took 0.21 seconds.
-2018-May-08 18:48:12 : allStopsKeyed GET call took 0.25 seconds.
-2018-May-08 18:48:12 : fareRules GET call took 0.21 seconds.
-2018-May-08 18:48:12 : zoneIdList GET call took 0.18 seconds.
-2018-May-08 18:48:13 : fareAttributes GET call took 0.19 seconds.
-2018-May-08 18:48:13 : routeIdList GET call took 0.18 seconds.
-2018-May-08 18:48:13 : fareRulesPivoted GET call took 0.21 seconds.
-2018-May-08 18:48:20 : agency GET call took 0.27 seconds.
-2018-May-08 18:48:21 : calendar GET call took 0.2 seconds.
-2018-May-08 18:48:22 : listAll GET call took 1.17 seconds.
-2018-May-08 18:48:22 : translations GET call took 0.19 seconds.
-2018-May-08 18:48:33 : GTFSstats function took 1.38 seconds.
-2018-May-08 18:48:33 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:51:04 : fareAttributes GET call took 0.17 seconds.
-2018-May-08 18:51:04 : fareRulesPivoted GET call took 0.17 seconds.
-2018-May-08 18:51:04 : fareRules GET call took 0.16 seconds.
-2018-May-08 18:51:04 : allStopsKeyed GET call took 0.17 seconds.
-2018-May-08 18:51:05 : routeIdList GET call took 0.2 seconds.
-2018-May-08 18:51:05 : zoneIdList GET call took 0.18 seconds.
-2018-May-08 18:51:14 : agency GET call took 0.17 seconds.
-2018-May-08 18:51:14 : calendar GET call took 0.18 seconds.
-2018-May-08 18:51:14 : translations GET call took 0.17 seconds.
-2018-May-08 18:51:15 : listAll GET call took 1.05 seconds.
-2018-May-08 18:51:17 : stations GET call took 0.06 seconds.
-2018-May-08 18:51:20 : GTFSstats function took 1.3 seconds.
-2018-May-08 18:51:20 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:51:28 : Why u no entering password! Top right! Top right!
-2018-May-08 18:52:11 : Why u no entering password! Top right! Top right!
-2018-May-08 18:52:50 : GTFSstats function took 1.28 seconds.
-2018-May-08 18:52:50 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:52:52 : Why u no entering password! Top right! Top right!
-2018-May-08 18:52:55 : Why u no entering password! Top right! Top right!
-2018-May-08 18:55:47 : GTFSstats function took 1.29 seconds.
-2018-May-08 18:55:47 : pastCommits GET call took 0.0 seconds.
-2018-May-08 18:56:49 : GTFSstats function took 1.33 seconds.
-2018-May-08 18:56:49 : pastCommits GET call took 0.0 seconds.
-2018-May-08 19:39:33 : allStops GET call took 0.29 seconds.
-2018-May-08 19:39:44 : allStopsKeyed GET call took 0.16 seconds.
-2018-May-08 19:39:44 : fareRules GET call took 0.15 seconds.
-2018-May-08 19:39:44 : fareAttributes GET call took 0.15 seconds.
-2018-May-08 19:39:45 : fareRulesPivoted GET call took 0.57 seconds.
-2018-May-08 19:39:45 : zoneIdList GET call took 0.16 seconds.
-2018-May-08 19:39:45 : routeIdList GET call took 0.15 seconds.
-2018-May-08 19:40:03 : pastCommits GET call took 0.0 seconds.
-2018-May-08 19:40:04 : GTFSstats function took 1.23 seconds.
-2018-May-09 10:24:26 : Loaded dependencies, starting static GTFS Manager program.
-2018-May-09 10:24:27 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-May-09 10:24:40 : GTFSstats function took 1.3 seconds.
-2018-May-09 10:24:40 : pastCommits GET call took 0.08 seconds.
-2018-May-09 10:25:28 : Tables found in GTFS/db.json: ['routes', 'trips', 'agency', 'fare_attributes', 'calendar', 'translations', 'fare_rules', 'shapes', 'stop_times', '_default', 'stops']
-2018-May-09 10:25:28 : Created GTFS/2018-05-09-test/routes.txt
-2018-May-09 10:25:28 : Added routes.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/trips.txt
-2018-May-09 10:25:29 : Added trips.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/agency.txt
-2018-May-09 10:25:29 : Added agency.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/fare_attributes.txt
-2018-May-09 10:25:29 : Added fare_attributes.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/calendar.txt
-2018-May-09 10:25:29 : Added calendar.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/translations.txt
-2018-May-09 10:25:29 : Added translations.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/fare_rules.txt
-2018-May-09 10:25:29 : Added fare_rules.txt to gtfs.zip
-2018-May-09 10:25:29 : Created GTFS/2018-05-09-test/shapes.txt
-2018-May-09 10:25:29 : Added shapes.txt to gtfs.zip
-2018-May-09 10:25:30 : Created GTFS/2018-05-09-test/stop_times.txt
-2018-May-09 10:25:30 : Added stop_times.txt to gtfs.zip
-2018-May-09 10:25:30 : _default is empty so not exporting that.
-2018-May-09 10:25:30 : Created GTFS/2018-05-09-test/stops.txt
-2018-May-09 10:25:30 : Added stops.txt to gtfs.zip
-2018-May-09 10:25:30 : Function to export GTFS from db took 2.35 seconds.
-2018-May-09 10:25:30 : commitExport GET call took 3.19 seconds.
-2018-May-09 10:29:31 : Loaded dependencies, starting static GTFS Manager program.
-2018-May-09 10:29:31 : Open http://localhost:5000 in your Browser if you don't see it opening automatically within 5 seconds.
-2018-May-09 10:29:33 : pastCommits GET call took 0.0 seconds.
-2018-May-09 10:29:34 : GTFSstats function took 1.19 seconds.
-2018-May-09 10:29:44 : commitExport GET call took 0.47 seconds.
-2018-May-09 10:29:50 : Tables found in GTFS/db.json: ['calendar', 'stop_times', 'routes', 'fare_rules', 'stops', '_default', 'translations', 'shapes', 'trips', 'agency', 'fare_attributes']
-2018-May-09 10:29:50 : Created GTFS/2018-05-09-test2/calendar.txt
-2018-May-09 10:29:50 : Added calendar.txt to gtfs.zip
-2018-May-09 10:29:50 : Created GTFS/2018-05-09-test2/stop_times.txt
-2018-May-09 10:29:50 : Added stop_times.txt to gtfs.zip
-2018-May-09 10:29:50 : Created GTFS/2018-05-09-test2/routes.txt
-2018-May-09 10:29:50 : Added routes.txt to gtfs.zip
-2018-May-09 10:29:50 : Created GTFS/2018-05-09-test2/fare_rules.txt
-2018-May-09 10:29:50 : Added fare_rules.txt to gtfs.zip
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/stops.txt
-2018-May-09 10:29:51 : Added stops.txt to gtfs.zip
-2018-May-09 10:29:51 : _default is empty so not exporting that.
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/translations.txt
-2018-May-09 10:29:51 : Added translations.txt to gtfs.zip
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/shapes.txt
-2018-May-09 10:29:51 : Added shapes.txt to gtfs.zip
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/trips.txt
-2018-May-09 10:29:51 : Added trips.txt to gtfs.zip
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/agency.txt
-2018-May-09 10:29:51 : Added agency.txt to gtfs.zip
-2018-May-09 10:29:51 : Created GTFS/2018-05-09-test2/fare_attributes.txt
-2018-May-09 10:29:51 : Added fare_attributes.txt to gtfs.zip
-2018-May-09 10:29:51 : Function to export GTFS from db took 1.31 seconds.
-2018-May-09 10:29:51 : commitExport GET call took 1.77 seconds.
-2018-May-09 11:12:42 : pastCommits GET call took 0.2 seconds.
-2018-May-09 11:12:44 : GTFSstats function took 1.9 seconds.
-2018-May-09 11:13:45 : GTFSstats function took 1.1 seconds.
-2018-May-09 11:13:45 : pastCommits GET call took 0.0 seconds.
-2018-May-09 11:15:30 : stations GET call took 0.35 seconds.
-2018-May-09 11:18:32 : stations GET call took 0.01 seconds.
-2018-May-09 11:18:54 : GTFSstats function took 1.14 seconds.
-2018-May-09 11:18:54 : pastCommits GET call took 0.0 seconds.
-2018-May-09 11:20:06 : listAll GET call took 1.36 seconds.
-2018-May-09 11:20:06 : agency GET call took 0.15 seconds.
-2018-May-09 11:20:06 : calendar GET call took 0.15 seconds.
-2018-May-09 11:20:06 : translations GET call took 0.13 seconds.
-2018-May-09 11:20:06 : stations GET call took 0.01 seconds.
+2018-Sep-04 22:23:24 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-04 22:23:24 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-04 22:23:26 : 
+stats GET call
+2018-Sep-04 22:23:26 : stats GET call took 0.02 seconds.
+2018-Sep-04 22:23:26 : 
+pastCommits GET call
+2018-Sep-04 22:23:35 : 
+allStops GET call
+2018-Sep-04 22:23:35 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:23:45 : allStops GET call took 10.19 seconds.
+2018-Sep-04 22:23:46 : 
+allStops GET call
+2018-Sep-04 22:23:46 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:23:56 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:24:00 : 
+allStops GET call
+2018-Sep-04 22:24:00 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:24:10 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:25:05 : 
+allStops GET call
+2018-Sep-04 22:25:05 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:25:15 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:25:24 : 
+allStops GET call
+2018-Sep-04 22:25:24 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:25:34 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:25:35 : 
+allStops GET call
+2018-Sep-04 22:25:35 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:25:45 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:26:34 : 
+allStops GET call
+2018-Sep-04 22:26:34 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:26:44 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:27:26 : 
+allStops GET call
+2018-Sep-04 22:27:26 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:27:36 : allStops GET call took 10.0 seconds.
+2018-Sep-04 22:34:35 : 
+allStops GET call
+2018-Sep-04 22:34:35 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:34:45 : allStops GET call took 10.05 seconds.
+2018-Sep-04 22:34:48 : 
+allStops GET call
+2018-Sep-04 22:34:48 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:34:58 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:35:00 : 
+allStops GET call
+2018-Sep-04 22:35:00 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:35:10 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:35:12 : 
+allStops GET call
+2018-Sep-04 22:35:12 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:35:22 : allStops GET call took 10.0 seconds.
+2018-Sep-04 22:35:22 : 
+allStops GET call
+2018-Sep-04 22:35:22 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:35:32 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:35:33 : 
+allStops GET call
+2018-Sep-04 22:35:33 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:35:43 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:36:01 : 
+stats GET call
+2018-Sep-04 22:36:01 : stats GET call took 0.02 seconds.
+2018-Sep-04 22:36:01 : 
+pastCommits GET call
+2018-Sep-04 22:36:02 : 
+allStops GET call
+2018-Sep-04 22:36:02 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:36:12 : allStops GET call took 10.01 seconds.
+2018-Sep-04 22:36:15 : 
+allStopsKeyed GET call
+2018-Sep-04 22:36:15 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:36:15 : allStopsKeyed GET call took 0.0 seconds.
+2018-Sep-04 22:36:15 : 
+allShapesList GET call
+2018-Sep-04 22:36:15 : allShapesList GET call took 0.14 seconds.
+2018-Sep-04 22:36:15 : 
+routes GET call
+2018-Sep-04 22:36:15 : readTableDB: Loaded routes, 0 records
+2018-Sep-04 22:36:15 : routes GET call took 0.0 seconds.
+2018-Sep-04 22:36:15 : 
+agency GET call
+2018-Sep-04 22:36:15 : readTableDB: Loaded agency, 0 records
+2018-Sep-04 22:36:15 : agency GET call took 0.0 seconds.
+2018-Sep-04 22:36:19 : 
+allStops GET call
+2018-Sep-04 22:36:19 : readTableDB: Loaded stops, 0 records
+2018-Sep-04 22:36:29 : allStops GET call took 10.01 seconds.
+2018-Sep-05 09:56:23 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-05 09:56:23 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-05 09:56:25 : 
+pastCommits GET call
+2018-Sep-05 09:56:25 : 
+stats GET call
+2018-Sep-05 09:56:25 : stats GET call took 0.02 seconds.
+2018-Sep-05 09:57:02 : 
+allStops GET call
+2018-Sep-05 09:57:02 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 09:57:02 : allStops GET call took 0.03 seconds.
+2018-Sep-05 09:57:07 : 
+routes GET call
+2018-Sep-05 09:57:07 : readTableDB: Loaded routes, 0 records
+2018-Sep-05 09:57:07 : routes GET call took 0.0 seconds.
+2018-Sep-05 09:57:07 : 
+allStopsKeyed GET call
+2018-Sep-05 09:57:07 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 09:57:07 : allStopsKeyed GET call took 0.0 seconds.
+2018-Sep-05 09:57:07 : 
+allShapesList GET call
+2018-Sep-05 09:57:07 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 09:57:07 : 
+agency GET call
+2018-Sep-05 09:57:07 : readTableDB: Loaded agency, 0 records
+2018-Sep-05 09:57:07 : agency GET call took 0.01 seconds.
+2018-Sep-05 09:57:14 : 
+routes GET call
+2018-Sep-05 09:57:14 : readTableDB: Loaded routes, 0 records
+2018-Sep-05 09:57:14 : routes GET call took 0.0 seconds.
+2018-Sep-05 09:57:14 : 
+allShapesList GET call
+2018-Sep-05 09:57:14 : allShapesList GET call took 0.02 seconds.
+2018-Sep-05 09:57:14 : 
+allStopsKeyed GET call
+2018-Sep-05 09:57:14 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 09:57:14 : allStopsKeyed GET call took 0.0 seconds.
+2018-Sep-05 09:57:14 : 
+tripIdList GET call
+2018-Sep-05 09:57:14 : readTableDB: Loaded trips, 0 records
+2018-Sep-05 09:57:14 : tripIdList GET call took 0.02 seconds.
+2018-Sep-05 09:57:14 : 
+calendar GET call
+2018-Sep-05 09:57:14 : readTableDB: Loaded calendar, 0 records
+2018-Sep-05 09:57:14 : calendar GET call took 0.0 seconds.
+2018-Sep-05 09:57:25 : 
+allStopsKeyed GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 09:57:25 : allStopsKeyed GET call took 0.0 seconds.
+2018-Sep-05 09:57:25 : 
+fareRulesPivoted GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-05 09:57:25 : fareRulesPivoted GET call took 0.0 seconds.
+2018-Sep-05 09:57:25 : 
+fareAttributes GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded fare_attributes, 0 records
+2018-Sep-05 09:57:25 : fareAttributes GET call took 0.0 seconds.
+2018-Sep-05 09:57:25 : 
+fareRules GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-05 09:57:25 : fareRules GET call took 0.0 seconds.
+2018-Sep-05 09:57:25 : 
+routeIdList GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded routes, 0 records
+2018-Sep-05 09:57:25 : routeIdList GET call took 0.03 seconds.
+2018-Sep-05 09:57:25 : 
+zoneIdList GET call
+2018-Sep-05 09:57:25 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 09:57:25 : zoneIdList GET call took 0.02 seconds.
+2018-Sep-05 10:01:37 : 
+routes GET call
+2018-Sep-05 10:01:37 : readTableDB: Loaded routes, 0 records
+2018-Sep-05 10:01:37 : routes GET call took 0.0 seconds.
+2018-Sep-05 10:01:37 : 
+allStopsKeyed GET call
+2018-Sep-05 10:01:37 : readTableDB: Loaded stops, 0 records
+2018-Sep-05 10:01:37 : allStopsKeyed GET call took 0.0 seconds.
+2018-Sep-05 10:01:37 : 
+agency GET call
+2018-Sep-05 10:01:37 : readTableDB: Loaded agency, 0 records
+2018-Sep-05 10:01:37 : agency GET call took 0.0 seconds.
+2018-Sep-05 10:01:37 : 
+allShapesList GET call
+2018-Sep-05 10:01:37 : allShapesList GET call took 0.02 seconds.
+2018-Sep-05 10:01:41 : 
+stats GET call
+2018-Sep-05 10:01:42 : stats GET call took 0.02 seconds.
+2018-Sep-05 10:01:42 : 
+pastCommits GET call
+2018-Sep-05 10:02:02 : 
+gtfsImportZip GET call
+2018-Sep-05 10:02:02 : Saving filename: Oakland AC transit gtfs.zip to uploads/
+2018-Sep-05 10:02:02 : 
+backupDB: Creating backup of DB in export/2018-09-05-backup-1002/.
+2018-Sep-05 10:02:03 : Generated GTFS feed at export/2018-09-05-backup-1002/
+2018-Sep-05 10:02:03 : Backup created.
+
+2018-Sep-05 10:02:03 : Extracting uploaded zip to uploads/unzip-100203/
+2018-Sep-05 10:02:04 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'trips.txt']
+2018-Sep-05 10:02:04 : Removed .h5 files from db/
+2018-Sep-05 10:02:04 : Removed .json files from db/
+2018-Sep-05 10:02:05 : db/sequence.json purged.
+2018-Sep-05 10:02:05 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2018-Sep-05 10:02:05 : agency.h5: 1 rows
+2018-Sep-05 10:02:09 : calendar.h5: 89 rows
+2018-Sep-05 10:02:09 : calendar_dates.h5: 3128 rows
+2018-Sep-05 10:02:09 : routes.h5: 152 rows
+2018-Sep-05 10:02:09 : Storing shapes in chunks.
+2018-Sep-05 10:02:10 : shapes_1.h5: 263258 rows
+2018-Sep-05 10:02:12 : Appending the 508 rows of last ID to last chunk shapes_1.h5
+2018-Sep-05 10:02:12 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2018-Sep-05 10:02:12 : stops.h5: 5332 rows
+2018-Sep-05 10:02:12 : Storing stop_times in chunks.
+2018-Sep-05 10:02:14 : stop_times_1.h5: 499981 rows
+2018-Sep-05 10:02:20 : stop_times_2.h5: 177035 rows
+2018-Sep-05 10:02:22 : Appending the 26 rows of last ID to last chunk stop_times_2.h5
+2018-Sep-05 10:02:22 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2018-Sep-05 10:02:22 : trips.h5: 15388 rows
+2018-Sep-05 10:02:23 : Finished importing GTFS feed. You can remove the feed zip Oakland AC transit gtfs.zip and folder uploads/unzip-100203/ from uploads/ if you want.
+2018-Sep-05 10:02:23 : gtfsImportZip POST call took 21.37 seconds.
+2018-Sep-05 10:02:23 : 
+pastCommits GET call
+2018-Sep-05 10:02:23 : pastCommits GET call took 0.0 seconds.
+2018-Sep-05 10:02:23 : 
+stats GET call
+2018-Sep-05 10:02:23 : stats GET call took 0.14 seconds.
+2018-Sep-05 10:03:16 : 
+routes GET call
+2018-Sep-05 10:03:16 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:03:16 : routes GET call took 0.11 seconds.
+2018-Sep-05 10:03:17 : 
+allStopsKeyed GET call
+2018-Sep-05 10:03:17 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:03:17 : allStopsKeyed GET call took 0.32 seconds.
+2018-Sep-05 10:03:17 : 
+allShapesList GET call
+2018-Sep-05 10:03:17 : allShapesList GET call took 0.12 seconds.
+2018-Sep-05 10:03:17 : 
+agency GET call
+2018-Sep-05 10:03:17 : readTableDB: Loaded agency, 1 records
+2018-Sep-05 10:03:17 : agency GET call took 0.04 seconds.
+2018-Sep-05 10:03:20 : 
+routes GET call
+2018-Sep-05 10:03:20 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:03:20 : routes GET call took 0.04 seconds.
+2018-Sep-05 10:03:20 : 
+calendar GET call
+2018-Sep-05 10:03:20 : readTableDB: Loaded calendar, 89 records
+2018-Sep-05 10:03:20 : calendar GET call took 0.04 seconds.
+2018-Sep-05 10:03:20 : 
+allStopsKeyed GET call
+2018-Sep-05 10:03:20 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:03:20 : allStopsKeyed GET call took 0.19 seconds.
+2018-Sep-05 10:03:20 : 
+tripIdList GET call
+2018-Sep-05 10:03:21 : readTableDB: Loaded trips, 15388 records
+2018-Sep-05 10:03:21 : tripIdList GET call took 0.29 seconds.
+2018-Sep-05 10:03:21 : 
+allShapesList GET call
+2018-Sep-05 10:03:21 : allShapesList GET call took 0.02 seconds.
+2018-Sep-05 10:03:23 : 
+trips GET call
+2018-Sep-05 10:03:23 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:03:24 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:03:24 : trips GET call took 0.68 seconds.
+2018-Sep-05 10:03:35 : 
+routes GET call
+2018-Sep-05 10:03:35 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:03:35 : routes GET call took 0.04 seconds.
+2018-Sep-05 10:03:35 : 
+tripIdList GET call
+2018-Sep-05 10:03:35 : readTableDB: Loaded trips, 15388 records
+2018-Sep-05 10:03:35 : tripIdList GET call took 0.3 seconds.
+2018-Sep-05 10:03:35 : 
+calendar GET call
+2018-Sep-05 10:03:35 : readTableDB: Loaded calendar, 89 records
+2018-Sep-05 10:03:35 : calendar GET call took 0.02 seconds.
+2018-Sep-05 10:03:35 : 
+allShapesList GET call
+2018-Sep-05 10:03:35 : allShapesList GET call took 0.02 seconds.
+2018-Sep-05 10:03:35 : 
+allStopsKeyed GET call
+2018-Sep-05 10:03:35 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:03:35 : allStopsKeyed GET call took 0.15 seconds.
+2018-Sep-05 10:03:37 : 
+trips GET call
+2018-Sep-05 10:03:37 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:03:37 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:03:37 : trips GET call took 0.28 seconds.
+2018-Sep-05 10:04:08 : 
+routes GET call
+2018-Sep-05 10:04:08 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:04:08 : routes GET call took 0.03 seconds.
+2018-Sep-05 10:04:09 : 
+allStopsKeyed GET call
+2018-Sep-05 10:04:09 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:04:09 : allStopsKeyed GET call took 0.18 seconds.
+2018-Sep-05 10:04:09 : 
+agency GET call
+2018-Sep-05 10:04:09 : readTableDB: Loaded agency, 1 records
+2018-Sep-05 10:04:09 : agency GET call took 0.02 seconds.
+2018-Sep-05 10:04:09 : 
+allShapesList GET call
+2018-Sep-05 10:04:09 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 10:04:13 : 
+sequence GET call
+2018-Sep-05 10:04:13 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2018-Sep-05 10:04:13 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:04:13 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:04:20 : readTableDB: table:stop_times, column:trip_id, value:"6185921"
+2018-Sep-05 10:04:20 : readTableDB: Loaded stop_times, 47 records
+2018-Sep-05 10:04:20 : extractSequencefromGTFS: Loading sequence for route 1, onward direction from trip 6185921:
+['1502820', '1500850', '9904390', '1501420', '1501370', '1008880', '1008260', '9904630', '1008860', '9904640', '1008830', '9904650', '1030860', '9904660', '9904670', '1030720', '1008680', '1008920', '9904680', '1008990', '9904690', '9904700', '1008530', '1030730', '1008500', '1008490', '1030820', '1008900', '1008430', '1008980', '1008410', '1008400', '1008370', '1008350', '1008320', '1008300', '1008280', '1030630', '1030650', '1032180', '1000460', '1000520', '1000490', '1030750', '1030740', '1000430', '9904430']
+2018-Sep-05 10:04:26 : readTableDB: table:stop_times, column:trip_id, value:"6185813"
+2018-Sep-05 10:04:27 : readTableDB: Loaded stop_times, 44 records
+2018-Sep-05 10:04:27 : extractSequencefromGTFS: Loading sequence for route 1, return direction from trip 6185813:
+['9904430', '1000350', '1030760', '1030690', '1008450', '1030660', '1030640', '1008290', '1008310', '1008330', '1008340', '1008380', '9902750', '1008420', '1008440', '1008890', '1030810', '1008480', '1008510', '9904510', '1008520', '9904710', '9904530', '1030710', '9904540', '1008910', '1008690', '1008930', '9904550', '1008790', '9904560', '1031640', '9904570', '1030770', '9904580', '9904590', '9904600', '9904610', '9904400', '1501340', '9904410', '9904420', '9904620', '1502810']
+2018-Sep-05 10:04:27 : sequence GET call took 14.08 seconds.
+2018-Sep-05 10:04:27 : 
+shapesList GET call
+2018-Sep-05 10:04:27 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:04:27 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:04:27 : shapesList GET call took 0.26 seconds.
+2018-Sep-05 10:04:33 : 
+shape GET call
+2018-Sep-05 10:04:35 : readTableDB: table:shapes, column:shape_id, value:"10018"
+2018-Sep-05 10:04:35 : readTableDB: Loaded shapes, 495 records
+2018-Sep-05 10:04:35 : shape GET call took 2.14 seconds.
+2018-Sep-05 10:04:36 : 
+shape GET call
+2018-Sep-05 10:04:37 : readTableDB: table:shapes, column:shape_id, value:"10019"
+2018-Sep-05 10:04:38 : readTableDB: Loaded shapes, 496 records
+2018-Sep-05 10:04:38 : shape GET call took 2.06 seconds.
+2018-Sep-05 10:04:46 : 
+sequence POST call
+2018-Sep-05 10:04:47 : API/sequence POST call took 0.86 seconds.
+2018-Sep-05 10:04:47 : 
+allShapesList GET call
+2018-Sep-05 10:04:47 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 10:04:48 : 
+shapesList GET call
+2018-Sep-05 10:04:48 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:04:48 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:04:48 : shapesList GET call took 0.31 seconds.
+2018-Sep-05 10:04:48 : 
+shape GET call
+2018-Sep-05 10:04:50 : readTableDB: table:shapes, column:shape_id, value:"10018"
+2018-Sep-05 10:04:50 : readTableDB: Loaded shapes, 495 records
+2018-Sep-05 10:04:50 : shape GET call took 2.04 seconds.
+2018-Sep-05 10:04:50 : 
+shape GET call
+2018-Sep-05 10:04:52 : readTableDB: table:shapes, column:shape_id, value:"10019"
+2018-Sep-05 10:04:52 : readTableDB: Loaded shapes, 496 records
+2018-Sep-05 10:04:52 : shape GET call took 2.1 seconds.
+2018-Sep-05 10:04:54 : 
+routes GET call
+2018-Sep-05 10:04:54 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:04:54 : routes GET call took 0.03 seconds.
+2018-Sep-05 10:04:54 : 
+tripIdList GET call
+2018-Sep-05 10:04:55 : readTableDB: Loaded trips, 15388 records
+2018-Sep-05 10:04:55 : tripIdList GET call took 0.39 seconds.
+2018-Sep-05 10:04:55 : 
+calendar GET call
+2018-Sep-05 10:04:55 : readTableDB: Loaded calendar, 89 records
+2018-Sep-05 10:04:55 : calendar GET call took 0.03 seconds.
+2018-Sep-05 10:04:55 : 
+allShapesList GET call
+2018-Sep-05 10:04:55 : allShapesList GET call took 0.02 seconds.
+2018-Sep-05 10:04:55 : 
+allStopsKeyed GET call
+2018-Sep-05 10:04:55 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:04:55 : allStopsKeyed GET call took 0.15 seconds.
+2018-Sep-05 10:04:58 : 
+trips GET call
+2018-Sep-05 10:04:58 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Sep-05 10:04:58 : readTableDB: Loaded trips, 674 records
+2018-Sep-05 10:04:58 : Got the sequence from sequence db file.
+2018-Sep-05 10:04:58 : trips GET call took 0.28 seconds.
+2018-Sep-05 10:05:50 : 
+fareAttributes GET call
+2018-Sep-05 10:05:50 : readTableDB: Loaded fare_attributes, 0 records
+2018-Sep-05 10:05:50 : fareAttributes GET call took 0.0 seconds.
+2018-Sep-05 10:05:50 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:05:50 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-05 10:05:50 : fareRulesPivoted GET call took 0.0 seconds.
+2018-Sep-05 10:05:50 : 
+fareRules GET call
+2018-Sep-05 10:05:50 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-05 10:05:50 : fareRules GET call took 0.01 seconds.
+2018-Sep-05 10:05:50 : 
+allStopsKeyed GET call
+2018-Sep-05 10:05:50 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:05:50 : allStopsKeyed GET call took 0.16 seconds.
+2018-Sep-05 10:05:50 : 
+routeIdList GET call
+2018-Sep-05 10:05:50 : readTableDB: Loaded routes, 152 records
+2018-Sep-05 10:05:50 : routeIdList GET call took 0.05 seconds.
+2018-Sep-05 10:05:50 : 
+zoneIdList GET call
+2018-Sep-05 10:05:51 : readTableDB: Loaded stops, 5332 records
+2018-Sep-05 10:05:51 : zoneIdList GET call took 0.15 seconds.
+2018-Sep-05 10:25:37 : 
+stations GET call
+2018-Sep-05 10:25:37 : stations GET call took 0.02 seconds.
+2018-Sep-05 10:26:26 : 
+hydGTFS POST call
+2018-Sep-05 10:26:27 : 
+Preparing stops table.
+2018-Sep-05 10:26:27 : filtered row: {'stop_id': 'AME1', 'stop_name': 'Ameerpet Platform 1', 'stop_lat': '17.435744', 'stop_lon': '78.4444228', 'zone_id': 'AME', 'location_type': 0, 'wheelchair_boarding': 1, 'parent_station': 'AME'}
+2018-Sep-05 10:26:27 : Adding row to stops:  {'stop_id': 'AME4', 'stop_name': 'Ameerpet Platform 4', 'stop_lat': '17.435744', 'stop_lon': '78.4444228', 'zone_id': 'AME', 'location_type': 0, 'wheelchair_boarding': 1, 'parent_station': 'AME'}
+2018-Sep-05 10:26:27 : stops.txt created, 73 entries.
+2018-Sep-05 10:26:27 : 
+Preparing agency table.
+2018-Sep-05 10:26:27 : agency.txt created, 1 entries
+2018-Sep-05 10:26:27 : 
+Preparing calendar table.
+2018-Sep-05 10:26:27 : calendar.txt created, 2 entries
+2018-Sep-05 10:26:27 : 
+Preparing routes table.
+2018-Sep-05 10:26:27 : routes.txt created, 2 entries
+2018-Sep-05 10:26:27 : 
+Preparing shapes table.
+2018-Sep-05 10:26:27 : shapes.txt created, 710 entries
+2018-Sep-05 10:26:27 : 
+Preparing fare_attributes table.
+2018-Sep-05 10:26:27 : fare_attributes.txt created, 10 entries
+2018-Sep-05 10:26:27 : 
+Preparing fare_rules table.
+2018-Sep-05 10:26:27 : priceReplacementJson: {10: 'F1', 15: 'F2', 25: 'F3', 30: 'F4', 35: 'F5', 40: 'F6', 45: 'F7', 50: 'F8', 55: 'F9', 60: 'F10'}
+2018-Sep-05 10:26:27 : fare_rules.txt created, 576 entries
+2018-Sep-05 10:26:27 : 
+Preparing transfers table.
+2018-Sep-05 10:26:27 : transfers.txt created, 1 entries
+2018-Sep-05 10:26:27 : 
+Preparing translations table.
+2018-Sep-05 10:26:27 : translations.txt created, 66 entries
+2018-Sep-05 10:26:27 : 
+Preparing stop_times and trips tables.
+2018-Sep-05 10:26:27 : red-wk.csv
+2018-Sep-05 10:26:27 : red-su.csv
+2018-Sep-05 10:26:27 : blu-wk.csv
+2018-Sep-05 10:26:27 : blu-su.csv
+2018-Sep-05 10:26:27 : i: 0  service_id: WK
+2018-Sep-05 10:26:27 : route_id: RED
+2018-Sep-05 10:26:27 : red-wk.csv
+2018-Sep-05 10:26:27 : Filtered table down to accepted stops values, length: 2700
+2018-Sep-05 10:26:27 : Intial number of trips in file:, 278
+2018-Sep-05 10:26:27 : Min allowed length of a trip: 7
+2018-Sep-05 10:26:27 : After eliminating invalid length trips, total trips in table: 270
+2018-Sep-05 10:26:27 : Watch out for borderline trip 6091
+2018-Sep-05 10:26:27 : Watch out for borderline trip 6093
+2018-Sep-05 10:26:27 : Removing pre-6am trip 6141
+2018-Sep-05 10:26:27 : After eliminating pre-6am trips, total trips in table: 269
+2018-Sep-05 10:26:30 : stopsOverrideJson: {'AME1': 'AME2'}
+2018-Sep-05 10:26:30 : i: 0  service_id: SU
+2018-Sep-05 10:26:30 : route_id: RED
+2018-Sep-05 10:26:30 : red-su.csv
+2018-Sep-05 10:26:30 : Filtered table down to accepted stops values, length: 2620
+2018-Sep-05 10:26:30 : Intial number of trips in file:, 269
+2018-Sep-05 10:26:30 : Min allowed length of a trip: 7
+2018-Sep-05 10:26:30 : After eliminating invalid length trips, total trips in table: 262
+2018-Sep-05 10:26:30 : Removing pre-6am trip 4253
+2018-Sep-05 10:26:30 : Watch out for borderline trip 4255
+2018-Sep-05 10:26:30 : Watch out for borderline trip 4257
+2018-Sep-05 10:26:30 : After eliminating pre-6am trips, total trips in table: 261
+2018-Sep-05 10:26:33 : stopsOverrideJson: {'AME1': 'AME2'}
+2018-Sep-05 10:26:33 : i: 1  service_id: WK
+2018-Sep-05 10:26:33 : route_id: BLU
+2018-Sep-05 10:26:33 : blu-wk.csv
+2018-Sep-05 10:26:33 : Filtered table down to accepted stops values, length: 3216
+2018-Sep-05 10:26:33 : Intial number of trips in file:, 277
+2018-Sep-05 10:26:33 : Min allowed length of a trip: 10
+2018-Sep-05 10:26:34 : After eliminating invalid length trips, total trips in table: 268
+2018-Sep-05 10:26:34 : After eliminating pre-6am trips, total trips in table: 268
+2018-Sep-05 10:26:37 : stopsOverrideJson: {'AME1': 'AME4', 'AME2': 'AME4'}
+2018-Sep-05 10:26:37 : i: 1  service_id: SU
+2018-Sep-05 10:26:37 : route_id: BLU
+2018-Sep-05 10:26:37 : blu-su.csv
+2018-Sep-05 10:26:37 : Filtered table down to accepted stops values, length: 3096
+2018-Sep-05 10:26:37 : Intial number of trips in file:, 260
+2018-Sep-05 10:26:37 : Min allowed length of a trip: 10
+2018-Sep-05 10:26:38 : After eliminating invalid length trips, total trips in table: 258
+2018-Sep-05 10:26:38 : After eliminating pre-6am trips, total trips in table: 258
+2018-Sep-05 10:26:41 : stopsOverrideJson: {'AME1': 'AME4', 'AME2': 'AME4'}
+2018-Sep-05 10:26:41 : stop_times.txt created, 13194 entries
+2018-Sep-05 10:26:41 : trips.txt created, 1056 entries
+2018-Sep-05 10:26:41 : 
+backupDB: Creating backup of DB in export/2018-09-05-backup-1026/.
+2018-Sep-05 10:26:41 : Writing agency to disk and zipping...
+2018-Sep-05 10:26:41 : Added agency in 0.022 seconds.
+2018-Sep-05 10:26:41 : Writing calendar to disk and zipping...
+2018-Sep-05 10:26:41 : Added calendar in 0.023 seconds.
+2018-Sep-05 10:26:41 : Writing calendar_dates to disk and zipping...
+2018-Sep-05 10:26:42 : Added calendar_dates in 0.068 seconds.
+2018-Sep-05 10:26:42 : Writing routes to disk and zipping...
+2018-Sep-05 10:26:42 : Added routes in 0.025 seconds.
+2018-Sep-05 10:26:42 : Writing stops to disk and zipping...
+2018-Sep-05 10:26:42 : Added stops in 0.205 seconds.
+2018-Sep-05 10:26:42 : Writing trips to disk and zipping...
+2018-Sep-05 10:26:42 : Added trips in 0.387 seconds.
+2018-Sep-05 10:26:42 : Columns for stop_times: ['trip_id', 'departure_time', 'stop_id', 'stop_sequence', 'arrival_time', 'drop_off_type', 'timepoint', 'pickup_type']
+2018-Sep-05 10:26:42 : Writing stop_times_1.h5 to csv
+2018-Sep-05 10:26:53 : Writing stop_times_2.h5 to csv
+2018-Sep-05 10:26:56 : CSV stop_times.txt created in 14.335 seconds, now zipping
+2018-Sep-05 10:26:59 : Added stop_times to zip in 2.603 seconds.
+2018-Sep-05 10:26:59 : Added stop_times in 16.938 seconds.
+2018-Sep-05 10:26:59 : Columns for shapes: ['shape_id', 'shape_pt_lat', 'shape_pt_lon', 'shape_pt_sequence']
+2018-Sep-05 10:26:59 : Writing shapes_1.h5 to csv
+2018-Sep-05 10:27:03 : CSV shapes.txt created in 3.785 seconds, now zipping
+2018-Sep-05 10:27:04 : Added shapes to zip in 1.026 seconds.
+2018-Sep-05 10:27:04 : Added shapes in 4.811 seconds.
+2018-Sep-05 10:27:04 : Generated GTFS feed at export/2018-09-05-backup-1026/
+2018-Sep-05 10:27:04 : Backup created.
+
+2018-Sep-05 10:27:04 : Extracting uploaded zip to uploads/unzip-102704/
+2018-Sep-05 10:27:04 : Extracted files: ['agency.txt', 'calendar.txt', 'fare_attributes.txt', 'fare_rules.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2018-Sep-05 10:27:04 : Removed .h5 files from db/
+2018-Sep-05 10:27:04 : Removed .json files from db/
+2018-Sep-05 10:27:04 : db/sequence.json purged.
+2018-Sep-05 10:27:04 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2018-Sep-05 10:27:04 : agency.h5: 1 rows
+2018-Sep-05 10:27:04 : calendar.h5: 2 rows
+2018-Sep-05 10:27:05 : fare_attributes.h5: 10 rows
+2018-Sep-05 10:27:05 : fare_rules.h5: 576 rows
+2018-Sep-05 10:27:05 : routes.h5: 2 rows
+2018-Sep-05 10:27:05 : Storing shapes in chunks.
+2018-Sep-05 10:27:05 : shapes_1.h5: 483 rows
+2018-Sep-05 10:27:05 : Appending the 227 rows of last ID to last chunk shapes_1.h5
+2018-Sep-05 10:27:05 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2018-Sep-05 10:27:05 : stops.h5: 73 rows
+2018-Sep-05 10:27:05 : Storing stop_times in chunks.
+2018-Sep-05 10:27:05 : stop_times_1.h5: 13180 rows
+2018-Sep-05 10:27:05 : Appending the 14 rows of last ID to last chunk stop_times_1.h5
+2018-Sep-05 10:27:05 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2018-Sep-05 10:27:05 : transfers.h5: 1 rows
+2018-Sep-05 10:27:05 : translations.h5: 66 rows
+2018-Sep-05 10:27:05 : trips.h5: 1056 rows
+2018-Sep-05 10:27:05 : Finished importing GTFS feed. You can remove the feed zip hydMetroGTFS.zip and folder uploads/unzip-102704/ from uploads/ if you want.
+2018-Sep-05 10:27:05 : hydGTFS POST call took 39.38 seconds.
+2018-Sep-05 10:27:26 : 
+fareAttributes GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:27:26 : fareAttributes GET call took 0.03 seconds.
+2018-Sep-05 10:27:26 : 
+fareRules GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:27:26 : fareRules GET call took 0.04 seconds.
+2018-Sep-05 10:27:26 : 
+allStopsKeyed GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:27:26 : allStopsKeyed GET call took 0.04 seconds.
+2018-Sep-05 10:27:26 : 
+routeIdList GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:27:26 : routeIdList GET call took 0.06 seconds.
+2018-Sep-05 10:27:26 : 
+zoneIdList GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:27:26 : zoneIdList GET call took 0.07 seconds.
+2018-Sep-05 10:27:26 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:27:26 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:27:26 : fareRulesPivoted GET call took 0.08 seconds.
+2018-Sep-05 10:27:45 : 
+fareAttributes GET call
+2018-Sep-05 10:27:45 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:27:45 : fareAttributes GET call took 0.03 seconds.
+2018-Sep-05 10:27:46 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:27:46 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:27:46 : fareRulesPivoted GET call took 0.05 seconds.
+2018-Sep-05 10:27:46 : 
+fareRules GET call
+2018-Sep-05 10:27:46 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:27:46 : fareRules GET call took 0.04 seconds.
+2018-Sep-05 10:27:46 : 
+allStopsKeyed GET call
+2018-Sep-05 10:27:46 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:27:46 : allStopsKeyed GET call took 0.03 seconds.
+2018-Sep-05 10:27:46 : 
+routeIdList GET call
+2018-Sep-05 10:27:46 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:27:46 : routeIdList GET call took 0.06 seconds.
+2018-Sep-05 10:27:46 : 
+zoneIdList GET call
+2018-Sep-05 10:27:46 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:27:46 : zoneIdList GET call took 0.05 seconds.
+2018-Sep-05 10:34:59 : 
+tripIdList GET call
+2018-Sep-05 10:34:59 : readTableDB: Loaded trips, 1056 records
+2018-Sep-05 10:34:59 : tripIdList GET call took 0.07 seconds.
+2018-Sep-05 10:34:59 : 
+allShapesList GET call
+2018-Sep-05 10:34:59 : allShapesList GET call took 0.32 seconds.
+2018-Sep-05 10:34:59 : 
+allStopsKeyed GET call
+2018-Sep-05 10:34:59 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:34:59 : allStopsKeyed GET call took 0.04 seconds.
+2018-Sep-05 10:34:59 : 
+routes GET call
+2018-Sep-05 10:34:59 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:34:59 : routes GET call took 0.03 seconds.
+2018-Sep-05 10:34:59 : 
+calendar GET call
+2018-Sep-05 10:34:59 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 10:34:59 : calendar GET call took 0.04 seconds.
+2018-Sep-05 10:34:59 : 
+fareAttributes GET call
+2018-Sep-05 10:34:59 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:34:59 : fareAttributes GET call took 0.03 seconds.
+2018-Sep-05 10:35:00 : 
+fareRules GET call
+2018-Sep-05 10:35:00 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:35:00 : fareRules GET call took 0.02 seconds.
+2018-Sep-05 10:35:00 : 
+routeIdList GET call
+2018-Sep-05 10:35:00 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:35:00 : routeIdList GET call took 0.05 seconds.
+2018-Sep-05 10:35:00 : 
+zoneIdList GET call
+2018-Sep-05 10:35:00 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:35:00 : zoneIdList GET call took 0.05 seconds.
+2018-Sep-05 10:35:00 : 
+allStopsKeyed GET call
+2018-Sep-05 10:35:00 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:35:00 : allStopsKeyed GET call took 0.03 seconds.
+2018-Sep-05 10:35:00 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:35:00 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:35:00 : fareRulesPivoted GET call took 0.04 seconds.
+2018-Sep-05 10:35:07 : 
+fareAttributes GET call
+2018-Sep-05 10:35:07 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:35:07 : fareAttributes GET call took 0.03 seconds.
+2018-Sep-05 10:35:07 : 
+fareRules GET call
+2018-Sep-05 10:35:07 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:35:07 : fareRules GET call took 0.04 seconds.
+2018-Sep-05 10:35:07 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:35:07 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:35:07 : fareRulesPivoted GET call took 0.04 seconds.
+2018-Sep-05 10:35:07 : 
+routeIdList GET call
+2018-Sep-05 10:35:07 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:35:07 : routeIdList GET call took 0.05 seconds.
+2018-Sep-05 10:35:07 : 
+zoneIdList GET call
+2018-Sep-05 10:35:07 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:35:07 : zoneIdList GET call took 0.05 seconds.
+2018-Sep-05 10:38:44 : 
+fareAttributes GET call
+2018-Sep-05 10:38:44 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:38:44 : fareAttributes GET call took 0.02 seconds.
+2018-Sep-05 10:38:44 : 
+fareRules GET call
+2018-Sep-05 10:38:44 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:38:44 : fareRules GET call took 0.04 seconds.
+2018-Sep-05 10:38:44 : 
+fareRulesPivoted GET call
+2018-Sep-05 10:38:44 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:38:45 : fareRulesPivoted GET call took 0.05 seconds.
+2018-Sep-05 10:38:45 : 
+routeIdList GET call
+2018-Sep-05 10:38:45 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:38:45 : routeIdList GET call took 0.06 seconds.
+2018-Sep-05 10:38:45 : 
+zoneIdList GET call
+2018-Sep-05 10:38:45 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:38:45 : zoneIdList GET call took 0.07 seconds.
+2018-Sep-05 10:44:05 : 
+calendar GET call
+2018-Sep-05 10:44:05 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 10:44:05 : calendar GET call took 0.03 seconds.
+2018-Sep-05 10:44:06 : 
+agency GET call
+2018-Sep-05 10:44:06 : readTableDB: Loaded agency, 1 records
+2018-Sep-05 10:44:06 : agency GET call took 0.04 seconds.
+2018-Sep-05 10:44:06 : 
+listAll GET call
+2018-Sep-05 10:44:06 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded trips, 1056 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded agency, 1 records
+2018-Sep-05 10:44:06 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 10:44:06 : listAll GET call took 0.48 seconds.
+2018-Sep-05 10:44:06 : 
+translations GET call
+2018-Sep-05 10:44:06 : readTableDB: Loaded translations, 66 records
+2018-Sep-05 10:44:06 : translations GET call took 0.02 seconds.
+2018-Sep-05 10:44:20 : 
+diagnoseID GET call
+2018-Sep-05 10:44:20 : readTableDB: table:stops, column:stop_id, value:"MYP"
+2018-Sep-05 10:44:20 : readTableDB: Loaded stops, 1 records
+2018-Sep-05 10:44:21 : readChunkTableDB: No rows found in chunked table stop_times for stop_id=MYP
+2018-Sep-05 10:44:21 : readTableDB: table:transfers, column:from_stop_id, value:"MYP"
+2018-Sep-05 10:44:21 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:21 : readTableDB: table:transfers, column:to_stop_id, value:"MYP"
+2018-Sep-05 10:44:21 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:21 : diagnoseID GET call took 0.4 seconds.
+2018-Sep-05 10:44:22 : 
+diagnoseID GET call
+2018-Sep-05 10:44:22 : readTableDB: table:stops, column:stop_id, value:"MYP1"
+2018-Sep-05 10:44:22 : readTableDB: Loaded stops, 1 records
+2018-Sep-05 10:44:22 : readChunkTableDB: Collected 264 rows from table stop_times for stop_id=MYP1 
+Chunks having entries: ['stop_times_1.h5']
+2018-Sep-05 10:44:22 : readTableDB: table:transfers, column:from_stop_id, value:"MYP1"
+2018-Sep-05 10:44:22 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:22 : readTableDB: table:transfers, column:to_stop_id, value:"MYP1"
+2018-Sep-05 10:44:22 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:22 : diagnoseID GET call took 0.29 seconds.
+2018-Sep-05 10:44:25 : 
+diagnoseID GET call
+2018-Sep-05 10:44:25 : readTableDB: table:stops, column:stop_id, value:"MYP2"
+2018-Sep-05 10:44:25 : readTableDB: Loaded stops, 1 records
+2018-Sep-05 10:44:25 : readChunkTableDB: Collected 266 rows from table stop_times for stop_id=MYP2 
+Chunks having entries: ['stop_times_1.h5']
+2018-Sep-05 10:44:25 : readTableDB: table:transfers, column:from_stop_id, value:"MYP2"
+2018-Sep-05 10:44:25 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:25 : readTableDB: table:transfers, column:to_stop_id, value:"MYP2"
+2018-Sep-05 10:44:25 : readTableDB: Loaded transfers, 0 records
+2018-Sep-05 10:44:25 : diagnoseID GET call took 0.28 seconds.
+2018-Sep-05 10:44:30 : 
+diagnoseID GET call
+2018-Sep-05 10:44:30 : readTableDB: table:shapes, column:shape_id, value:"RED_0"
+2018-Sep-05 10:44:30 : readTableDB: Loaded shapes, 128 records
+2018-Sep-05 10:44:30 : readTableDB: table:trips, column:shape_id, value:"RED_0"
+2018-Sep-05 10:44:30 : readTableDB: Loaded trips, 266 records
+2018-Sep-05 10:44:30 : diagnoseID GET call took 0.1 seconds.
+2018-Sep-05 10:44:32 : 
+diagnoseID GET call
+2018-Sep-05 10:44:32 : readTableDB: table:calendar, column:service_id, value:"WK"
+2018-Sep-05 10:44:32 : readTableDB: Loaded calendar, 1 records
+2018-Sep-05 10:44:32 : readTableDB: table:trips, column:service_id, value:"WK"
+2018-Sep-05 10:44:32 : readTableDB: Loaded trips, 537 records
+2018-Sep-05 10:44:32 : diagnoseID GET call took 0.1 seconds.
+2018-Sep-05 11:02:20 : 
+routes GET call
+2018-Sep-05 11:02:20 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 11:02:20 : routes GET call took 0.04 seconds.
+2018-Sep-05 11:02:20 : 
+tripIdList GET call
+2018-Sep-05 11:02:20 : readTableDB: Loaded trips, 1056 records
+2018-Sep-05 11:02:20 : tripIdList GET call took 0.08 seconds.
+2018-Sep-05 11:02:20 : 
+calendar GET call
+2018-Sep-05 11:02:20 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 11:02:20 : calendar GET call took 0.04 seconds.
+2018-Sep-05 11:02:20 : 
+allStopsKeyed GET call
+2018-Sep-05 11:02:20 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 11:02:20 : allStopsKeyed GET call took 0.04 seconds.
+2018-Sep-05 11:02:20 : 
+allShapesList GET call
+2018-Sep-05 11:02:20 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 11:02:22 : 
+trips GET call
+2018-Sep-05 11:02:22 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:02:22 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:02:22 : trips GET call took 0.08 seconds.
+2018-Sep-05 11:02:26 : 
+routes GET call
+2018-Sep-05 11:02:26 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 11:02:26 : routes GET call took 0.05 seconds.
+2018-Sep-05 11:02:26 : 
+allStopsKeyed GET call
+2018-Sep-05 11:02:27 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 11:02:27 : allStopsKeyed GET call took 0.03 seconds.
+2018-Sep-05 11:02:27 : 
+agency GET call
+2018-Sep-05 11:02:27 : readTableDB: Loaded agency, 1 records
+2018-Sep-05 11:02:27 : agency GET call took 0.04 seconds.
+2018-Sep-05 11:02:27 : 
+allShapesList GET call
+2018-Sep-05 11:02:27 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 11:02:30 : 
+shapesList GET call
+2018-Sep-05 11:02:30 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:02:30 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:02:30 : shapesList GET call took 0.08 seconds.
+2018-Sep-05 11:02:30 : 
+sequence GET call
+2018-Sep-05 11:02:30 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2018-Sep-05 11:02:30 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:02:30 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:02:30 : readTableDB: table:stop_times, column:trip_id, value:"RED.WK.0.0821"
+2018-Sep-05 11:02:30 : readTableDB: Loaded stop_times, 11 records
+2018-Sep-05 11:02:31 : extractSequencefromGTFS: Loading sequence for route RED, onward direction from trip RED.WK.0.0821:
+['AME2', 'SRN2', 'ESI2', 'ERA2', 'BTN2', 'MSP2', 'BLR2', 'KUK2', 'KPH2', 'JNT2', 'MYP2']
+2018-Sep-05 11:02:31 : readTableDB: table:stop_times, column:trip_id, value:"RED.WK.1.0800"
+2018-Sep-05 11:02:31 : readTableDB: Loaded stop_times, 11 records
+2018-Sep-05 11:02:31 : extractSequencefromGTFS: Loading sequence for route RED, return direction from trip RED.WK.1.0800:
+['MYP1', 'JNT1', 'KPH1', 'KUK1', 'BLR1', 'MSP1', 'BTN1', 'ERA1', 'ESI1', 'SRN1', 'AME2']
+2018-Sep-05 11:02:31 : sequence GET call took 0.48 seconds.
+2018-Sep-05 11:02:33 : 
+shape GET call
+2018-Sep-05 11:02:33 : readTableDB: table:shapes, column:shape_id, value:"RED_0"
+2018-Sep-05 11:02:33 : readTableDB: Loaded shapes, 128 records
+2018-Sep-05 11:02:33 : shape GET call took 0.04 seconds.
+2018-Sep-05 11:02:35 : 
+shape GET call
+2018-Sep-05 11:02:35 : readTableDB: table:shapes, column:shape_id, value:"RED_1"
+2018-Sep-05 11:02:35 : readTableDB: Loaded shapes, 128 records
+2018-Sep-05 11:02:35 : shape GET call took 0.06 seconds.
+2018-Sep-05 11:02:41 : 
+sequence POST call
+2018-Sep-05 11:02:41 : API/sequence POST call took 0.64 seconds.
+2018-Sep-05 11:02:42 : 
+allShapesList GET call
+2018-Sep-05 11:02:42 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 11:02:42 : 
+shapesList GET call
+2018-Sep-05 11:02:42 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:02:42 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:02:42 : shapesList GET call took 0.09 seconds.
+2018-Sep-05 11:02:42 : 
+shape GET call
+2018-Sep-05 11:02:42 : readTableDB: table:shapes, column:shape_id, value:"RED_0"
+2018-Sep-05 11:02:42 : readTableDB: Loaded shapes, 128 records
+2018-Sep-05 11:02:42 : shape GET call took 0.04 seconds.
+2018-Sep-05 11:02:42 : 
+shape GET call
+2018-Sep-05 11:02:42 : readTableDB: table:shapes, column:shape_id, value:"RED_1"
+2018-Sep-05 11:02:42 : readTableDB: Loaded shapes, 128 records
+2018-Sep-05 11:02:42 : shape GET call took 0.04 seconds.
+2018-Sep-05 11:02:59 : 
+routes GET call
+2018-Sep-05 11:02:59 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 11:02:59 : routes GET call took 0.02 seconds.
+2018-Sep-05 11:02:59 : 
+tripIdList GET call
+2018-Sep-05 11:02:59 : readTableDB: Loaded trips, 1056 records
+2018-Sep-05 11:02:59 : tripIdList GET call took 0.07 seconds.
+2018-Sep-05 11:02:59 : 
+calendar GET call
+2018-Sep-05 11:02:59 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 11:02:59 : calendar GET call took 0.03 seconds.
+2018-Sep-05 11:02:59 : 
+allShapesList GET call
+2018-Sep-05 11:02:59 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 11:02:59 : 
+allStopsKeyed GET call
+2018-Sep-05 11:03:00 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 11:03:00 : allStopsKeyed GET call took 0.03 seconds.
+2018-Sep-05 11:03:01 : 
+trips GET call
+2018-Sep-05 11:03:01 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:03:01 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:03:01 : Got the sequence from sequence db file.
+2018-Sep-05 11:03:01 : trips GET call took 0.09 seconds.
+2018-Sep-05 11:19:00 : 
+routes GET call
+2018-Sep-05 11:19:00 : readTableDB: Loaded routes, 2 records
+2018-Sep-05 11:19:00 : routes GET call took 0.03 seconds.
+2018-Sep-05 11:19:00 : 
+calendar GET call
+2018-Sep-05 11:19:00 : readTableDB: Loaded calendar, 2 records
+2018-Sep-05 11:19:00 : calendar GET call took 0.03 seconds.
+2018-Sep-05 11:19:00 : 
+allShapesList GET call
+2018-Sep-05 11:19:00 : allShapesList GET call took 0.03 seconds.
+2018-Sep-05 11:19:00 : 
+allStopsKeyed GET call
+2018-Sep-05 11:19:00 : readTableDB: Loaded stops, 73 records
+2018-Sep-05 11:19:00 : allStopsKeyed GET call took 0.04 seconds.
+2018-Sep-05 11:19:00 : 
+tripIdList GET call
+2018-Sep-05 11:19:00 : readTableDB: Loaded trips, 1056 records
+2018-Sep-05 11:19:00 : tripIdList GET call took 0.07 seconds.
+2018-Sep-05 11:19:02 : 
+trips GET call
+2018-Sep-05 11:19:02 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-05 11:19:02 : readTableDB: Loaded trips, 530 records
+2018-Sep-05 11:19:02 : Got the sequence from sequence db file.
+2018-Sep-05 11:19:02 : trips GET call took 0.08 seconds.
+2018-Sep-06 01:18:05 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-06 01:18:05 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-06 01:18:37 : 
+stats GET call
+2018-Sep-06 01:18:54 : stats GET call took 16.92 seconds.
+2018-Sep-06 01:18:54 : 
+pastCommits GET call
+2018-Sep-06 01:18:54 : pastCommits GET call took 0.08 seconds.
+2018-Sep-06 01:23:20 : 
+allStops GET call
+2018-Sep-06 01:23:21 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:23:21 : allStops GET call took 1.16 seconds.
+2018-Sep-06 01:23:29 : 
+routes GET call
+2018-Sep-06 01:23:29 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:23:29 : routes GET call took 0.08 seconds.
+2018-Sep-06 01:23:30 : 
+allStopsKeyed GET call
+2018-Sep-06 01:23:31 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:23:31 : allStopsKeyed GET call took 0.34 seconds.
+2018-Sep-06 01:23:31 : 
+agency GET call
+2018-Sep-06 01:23:31 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:23:31 : agency GET call took 0.04 seconds.
+2018-Sep-06 01:23:31 : 
+allShapesList GET call
+2018-Sep-06 01:23:31 : allShapesList GET call took 0.05 seconds.
+2018-Sep-06 01:25:27 : 
+routes GET call
+2018-Sep-06 01:25:27 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:25:27 : routes GET call took 0.1 seconds.
+2018-Sep-06 01:25:27 : 
+tripIdList GET call
+2018-Sep-06 01:25:27 : readTableDB: Loaded trips, 1056 records
+2018-Sep-06 01:25:27 : tripIdList GET call took 0.23 seconds.
+2018-Sep-06 01:25:27 : 
+calendar GET call
+2018-Sep-06 01:25:27 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:25:27 : calendar GET call took 0.07 seconds.
+2018-Sep-06 01:25:27 : 
+allShapesList GET call
+2018-Sep-06 01:25:27 : allShapesList GET call took 0.06 seconds.
+2018-Sep-06 01:25:27 : 
+allStopsKeyed GET call
+2018-Sep-06 01:25:27 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:25:27 : allStopsKeyed GET call took 0.05 seconds.
+2018-Sep-06 01:25:33 : 
+trips GET call
+2018-Sep-06 01:25:33 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-06 01:25:34 : readTableDB: Loaded trips, 530 records
+2018-Sep-06 01:25:34 : Got the sequence from sequence db file.
+2018-Sep-06 01:25:34 : trips GET call took 0.48 seconds.
+2018-Sep-06 01:25:37 : 
+fareAttributes GET call
+2018-Sep-06 01:25:37 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-06 01:25:37 : fareAttributes GET call took 0.07 seconds.
+2018-Sep-06 01:25:37 : 
+fareRules GET call
+2018-Sep-06 01:25:37 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:25:37 : fareRules GET call took 0.09 seconds.
+2018-Sep-06 01:25:37 : 
+fareRulesPivoted GET call
+2018-Sep-06 01:25:37 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:25:37 : fareRulesPivoted GET call took 0.14 seconds.
+2018-Sep-06 01:25:37 : 
+routeIdList GET call
+2018-Sep-06 01:25:37 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:25:37 : routeIdList GET call took 0.1 seconds.
+2018-Sep-06 01:25:37 : 
+zoneIdList GET call
+2018-Sep-06 01:25:38 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:25:38 : zoneIdList GET call took 0.09 seconds.
+2018-Sep-06 01:25:44 : 
+stations GET call
+2018-Sep-06 01:25:44 : stations GET call took 0.13 seconds.
+2018-Sep-06 01:25:47 : 
+calendar GET call
+2018-Sep-06 01:25:47 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:25:47 : calendar GET call took 0.08 seconds.
+2018-Sep-06 01:25:47 : 
+agency GET call
+2018-Sep-06 01:25:47 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:25:47 : agency GET call took 0.06 seconds.
+2018-Sep-06 01:25:47 : 
+translations GET call
+2018-Sep-06 01:25:47 : readTableDB: Loaded translations, 66 records
+2018-Sep-06 01:25:47 : translations GET call took 0.09 seconds.
+2018-Sep-06 01:25:47 : 
+listAll GET call
+2018-Sep-06 01:25:47 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:25:47 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded trips, 1056 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:25:48 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:25:48 : listAll GET call took 0.96 seconds.
+2018-Sep-06 01:25:57 : 
+diagnoseID GET call
+2018-Sep-06 01:25:58 : readTableDB: table:stops, column:stop_id, value:"MYP1"
+2018-Sep-06 01:25:58 : readTableDB: Loaded stops, 1 records
+2018-Sep-06 01:25:58 : readChunkTableDB: Collected 264 rows from table stop_times for stop_id=MYP1 
+Chunks having entries: ['stop_times_1.h5']
+2018-Sep-06 01:25:58 : readTableDB: table:transfers, column:from_stop_id, value:"MYP1"
+2018-Sep-06 01:25:58 : readTableDB: Loaded transfers, 0 records
+2018-Sep-06 01:25:58 : readTableDB: table:transfers, column:to_stop_id, value:"MYP1"
+2018-Sep-06 01:25:58 : readTableDB: Loaded transfers, 0 records
+2018-Sep-06 01:25:58 : diagnoseID GET call took 0.57 seconds.
+2018-Sep-06 01:26:02 : 
+diagnoseID GET call
+2018-Sep-06 01:26:02 : readTableDB: table:calendar, column:service_id, value:"WK"
+2018-Sep-06 01:26:02 : readTableDB: Loaded calendar, 1 records
+2018-Sep-06 01:26:02 : readTableDB: table:trips, column:service_id, value:"WK"
+2018-Sep-06 01:26:02 : readTableDB: Loaded trips, 537 records
+2018-Sep-06 01:26:02 : diagnoseID GET call took 0.12 seconds.
+2018-Sep-06 01:26:07 : 
+diagnoseID GET call
+2018-Sep-06 01:26:07 : readTableDB: table:fare_rules, column:origin_id, value:"TAR"
+2018-Sep-06 01:26:07 : readTableDB: Loaded fare_rules, 24 records
+2018-Sep-06 01:26:07 : readTableDB: table:fare_rules, column:destination_id, value:"TAR"
+2018-Sep-06 01:26:07 : readTableDB: Loaded fare_rules, 24 records
+2018-Sep-06 01:26:07 : readTableDB: table:fare_rules, column:contains_id, value:"TAR"
+2018-Sep-06 01:26:07 : readTableDB: Error: column contains_id not found in fare_rules.h5. Skipping it.
+2018-Sep-06 01:26:07 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 01:26:07 : readTableDB: table:stops, column:zone_id, value:"TAR"
+2018-Sep-06 01:26:07 : readTableDB: Loaded stops, 3 records
+2018-Sep-06 01:26:07 : diagnoseID GET call took 0.17 seconds.
+2018-Sep-06 01:26:11 : 
+diagnoseID GET call
+2018-Sep-06 01:26:11 : readTableDB: table:fare_attributes, column:fare_id, value:"F1"
+2018-Sep-06 01:26:11 : readTableDB: Loaded fare_attributes, 1 records
+2018-Sep-06 01:26:11 : readTableDB: table:fare_rules, column:fare_id, value:"F1"
+2018-Sep-06 01:26:11 : readTableDB: Loaded fare_rules, 78 records
+2018-Sep-06 01:26:11 : diagnoseID GET call took 0.12 seconds.
+2018-Sep-06 01:26:18 : 
+diagnoseID GET call
+2018-Sep-06 01:26:18 : readTableDB: table:agency, column:agency_id, value:"HMRL"
+2018-Sep-06 01:26:18 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:26:18 : readTableDB: table:routes, column:agency_id, value:"HMRL"
+2018-Sep-06 01:26:18 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:26:18 : readTableDB: table:fare_attributes, column:agency_id, value:"HMRL"
+2018-Sep-06 01:26:18 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-06 01:26:18 : diagnoseID GET call took 0.14 seconds.
+2018-Sep-06 01:26:45 : 
+diagnoseID GET call
+2018-Sep-06 01:26:45 : readTableDB: table:trips, column:trip_id, value:"RED.WK.1.0800"
+2018-Sep-06 01:26:45 : readTableDB: Loaded trips, 1 records
+2018-Sep-06 01:26:45 : readTableDB: table:stop_times, column:trip_id, value:"RED.WK.1.0800"
+2018-Sep-06 01:26:45 : readTableDB: Loaded stop_times, 11 records
+2018-Sep-06 01:26:45 : diagnoseID GET call took 0.35 seconds.
+2018-Sep-06 01:26:49 : 
+routes GET call
+2018-Sep-06 01:26:49 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:26:49 : routes GET call took 0.06 seconds.
+2018-Sep-06 01:26:49 : 
+tripIdList GET call
+2018-Sep-06 01:26:49 : readTableDB: Loaded trips, 1056 records
+2018-Sep-06 01:26:49 : tripIdList GET call took 0.15 seconds.
+2018-Sep-06 01:26:49 : 
+calendar GET call
+2018-Sep-06 01:26:49 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:26:49 : calendar GET call took 0.07 seconds.
+2018-Sep-06 01:26:49 : 
+allShapesList GET call
+2018-Sep-06 01:26:49 : allShapesList GET call took 0.04 seconds.
+2018-Sep-06 01:26:49 : 
+allStopsKeyed GET call
+2018-Sep-06 01:26:49 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:26:49 : allStopsKeyed GET call took 0.05 seconds.
+2018-Sep-06 01:26:51 : 
+trips GET call
+2018-Sep-06 01:26:51 : readTableDB: table:trips, column:route_id, value:"RED"
+2018-Sep-06 01:26:51 : readTableDB: Loaded trips, 530 records
+2018-Sep-06 01:26:51 : Got the sequence from sequence db file.
+2018-Sep-06 01:26:51 : trips GET call took 0.12 seconds.
+2018-Sep-06 01:27:07 : 
+routes GET call
+2018-Sep-06 01:27:07 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:27:07 : routes GET call took 0.05 seconds.
+2018-Sep-06 01:27:08 : 
+allStopsKeyed GET call
+2018-Sep-06 01:27:08 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:27:08 : allStopsKeyed GET call took 0.06 seconds.
+2018-Sep-06 01:27:08 : 
+agency GET call
+2018-Sep-06 01:27:08 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:27:08 : agency GET call took 0.05 seconds.
+2018-Sep-06 01:27:08 : 
+allShapesList GET call
+2018-Sep-06 01:27:08 : allShapesList GET call took 0.04 seconds.
+2018-Sep-06 01:27:19 : 
+calendar GET call
+2018-Sep-06 01:27:19 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:27:19 : calendar GET call took 0.07 seconds.
+2018-Sep-06 01:27:19 : 
+agency GET call
+2018-Sep-06 01:27:19 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:27:19 : agency GET call took 0.07 seconds.
+2018-Sep-06 01:27:19 : 
+translations GET call
+2018-Sep-06 01:27:19 : readTableDB: Loaded translations, 66 records
+2018-Sep-06 01:27:19 : translations GET call took 0.06 seconds.
+2018-Sep-06 01:27:20 : 
+listAll GET call
+2018-Sep-06 01:27:20 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded trips, 1056 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded fare_rules, 576 records
+2018-Sep-06 01:27:20 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-06 01:27:21 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:27:21 : readTableDB: Loaded calendar, 2 records
+2018-Sep-06 01:27:21 : listAll GET call took 1.01 seconds.
+2018-Sep-06 01:27:25 : 
+diagnoseID GET call
+2018-Sep-06 01:27:25 : readTableDB: table:agency, column:agency_id, value:"HMRL"
+2018-Sep-06 01:27:25 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 01:27:25 : readTableDB: table:routes, column:agency_id, value:"HMRL"
+2018-Sep-06 01:27:25 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 01:27:25 : readTableDB: table:fare_attributes, column:agency_id, value:"HMRL"
+2018-Sep-06 01:27:25 : readTableDB: Loaded fare_attributes, 10 records
+2018-Sep-06 01:27:25 : diagnoseID GET call took 0.15 seconds.
+2018-Sep-06 01:27:32 : 
+stats GET call
+2018-Sep-06 01:27:32 : stats GET call took 0.39 seconds.
+2018-Sep-06 01:27:32 : 
+pastCommits GET call
+2018-Sep-06 01:27:32 : pastCommits GET call took 0.0 seconds.
+2018-Sep-06 02:11:21 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-06 02:11:21 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-06 02:11:22 : 
+stats GET call
+2018-Sep-06 02:11:25 : stats GET call took 2.51 seconds.
+2018-Sep-06 02:11:25 : 
+pastCommits GET call
+2018-Sep-06 02:11:25 : pastCommits GET call took 0.0 seconds.
+2018-Sep-06 02:12:09 : 
+gtfsImportZip GET call
+2018-Sep-06 02:12:09 : Saving filename: Berlin gtfs.zip to uploads/
+2018-Sep-06 02:12:10 : 
+backupDB: Creating backup of DB in export/2018-09-06-backup-0212/.
+2018-Sep-06 02:12:10 : Writing agency to disk and zipping...
+2018-Sep-06 02:12:10 : Added agency in 0.064 seconds.
+2018-Sep-06 02:12:10 : Writing calendar to disk and zipping...
+2018-Sep-06 02:12:10 : Added calendar in 0.029 seconds.
+2018-Sep-06 02:12:10 : Writing fare_attributes to disk and zipping...
+2018-Sep-06 02:12:10 : Added fare_attributes in 0.027 seconds.
+2018-Sep-06 02:12:10 : Writing fare_rules to disk and zipping...
+2018-Sep-06 02:12:10 : Added fare_rules in 0.032 seconds.
+2018-Sep-06 02:12:10 : Writing routes to disk and zipping...
+2018-Sep-06 02:12:10 : Added routes in 0.048 seconds.
+2018-Sep-06 02:12:10 : Writing stops to disk and zipping...
+2018-Sep-06 02:12:10 : Added stops in 0.031 seconds.
+2018-Sep-06 02:12:10 : Writing transfers to disk and zipping...
+2018-Sep-06 02:12:10 : Added transfers in 0.026 seconds.
+2018-Sep-06 02:12:10 : Writing translations to disk and zipping...
+2018-Sep-06 02:12:10 : Added translations in 0.025 seconds.
+2018-Sep-06 02:12:10 : Writing trips to disk and zipping...
+2018-Sep-06 02:12:10 : Added trips in 0.051 seconds.
+2018-Sep-06 02:12:10 : Columns for stop_times: ['trip_id', 'timepoint', 'origtrip', 'stop_sequence', 'stop_id', 'departure_time', 'arrival_time']
+2018-Sep-06 02:12:10 : Writing stop_times_1.h5 to csv
+2018-Sep-06 02:12:10 : CSV stop_times.txt created in 0.406 seconds, now zipping
+2018-Sep-06 02:12:10 : Added stop_times to zip in 0.062 seconds.
+2018-Sep-06 02:12:10 : Added stop_times in 0.467 seconds.
+2018-Sep-06 02:12:11 : Columns for shapes: ['shape_id', 'shape_pt_sequence', 'shape_pt_lat', 'shape_pt_lon', 'shape_dist_traveled']
+2018-Sep-06 02:12:11 : Writing shapes_1.h5 to csv
+2018-Sep-06 02:12:11 : CSV shapes.txt created in 0.155 seconds, now zipping
+2018-Sep-06 02:12:11 : Added shapes to zip in 0.003 seconds.
+2018-Sep-06 02:12:11 : Added shapes in 0.159 seconds.
+2018-Sep-06 02:12:11 : Generated GTFS feed at export/2018-09-06-backup-0212/
+2018-Sep-06 02:12:11 : Backup created.
+
+2018-Sep-06 02:12:11 : Extracting uploaded zip to uploads/unzip-021211/
+2018-Sep-06 02:12:22 : Extracted files: ['agency.txt', 'calendar.txt', 'calendar_dates.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'trips.txt']
+2018-Sep-06 02:12:22 : Removed .h5 files from db/
+2018-Sep-06 02:12:22 : Removed .json files from db/
+2018-Sep-06 02:12:23 : db/sequence.json purged.
+2018-Sep-06 02:12:23 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2018-Sep-06 02:12:23 : agency.h5: 40 rows
+2018-Sep-06 02:12:23 : calendar.h5: 2286 rows
+2018-Sep-06 02:12:24 : calendar_dates.h5: 48055 rows
+2018-Sep-06 02:12:24 : routes.h5: 1253 rows
+2018-Sep-06 02:12:24 : Storing shapes in chunks.
+2018-Sep-06 02:12:26 : shapes_1.h5: 999630 rows
+2018-Sep-06 02:12:34 : shapes_2.h5: 999631 rows
+2018-Sep-06 02:12:41 : shapes_3.h5: 1000474 rows
+2018-Sep-06 02:12:48 : shapes_4.h5: 1000263 rows
+2018-Sep-06 02:12:55 : shapes_5.h5: 644821 rows
+2018-Sep-06 02:12:59 : Appending the 217 rows of last ID to last chunk shapes_5.h5
+2018-Sep-06 02:12:59 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2018-Sep-06 02:12:59 : stops.h5: 41277 rows
+2018-Sep-06 02:13:00 : Storing stop_times in chunks.
+2018-Sep-06 02:13:01 : stop_times_1.h5: 499987 rows
+2018-Sep-06 02:13:10 : stop_times_2.h5: 500004 rows
+2018-Sep-06 02:13:19 : stop_times_3.h5: 499994 rows
+2018-Sep-06 02:13:27 : stop_times_4.h5: 500007 rows
+2018-Sep-06 02:13:35 : stop_times_5.h5: 499993 rows
+2018-Sep-06 02:13:44 : stop_times_6.h5: 500007 rows
+2018-Sep-06 02:13:51 : stop_times_7.h5: 500004 rows
+2018-Sep-06 02:13:59 : stop_times_8.h5: 499970 rows
+2018-Sep-06 02:14:08 : stop_times_9.h5: 500013 rows
+2018-Sep-06 02:14:17 : stop_times_10.h5: 500020 rows
+2018-Sep-06 02:14:23 : stop_times_11.h5: 4333 rows
+2018-Sep-06 02:14:24 : Appending the 22 rows of last ID to last chunk stop_times_11.h5
+2018-Sep-06 02:14:24 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2018-Sep-06 02:14:25 : transfers.h5: 96085 rows
+2018-Sep-06 02:14:26 : trips.h5: 216357 rows
+2018-Sep-06 02:14:30 : Finished importing GTFS feed. You can remove the feed zip Berlin gtfs.zip and folder uploads/unzip-021211/ from uploads/ if you want.
+2018-Sep-06 02:14:30 : gtfsImportZip POST call took 141.64 seconds.
+2018-Sep-06 02:14:30 : 
+stats GET call
+2018-Sep-06 02:14:31 : stats GET call took 0.4 seconds.
+2018-Sep-06 02:14:31 : 
+pastCommits GET call
+2018-Sep-06 02:14:31 : pastCommits GET call took 0.02 seconds.
+2018-Sep-06 02:14:57 : 
+allStops GET call
+2018-Sep-06 02:14:58 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:14:58 : allStops GET call took 1.23 seconds.
+2018-Sep-06 02:15:44 : 
+routes GET call
+2018-Sep-06 02:15:45 : readTableDB: Loaded routes, 1253 records
+2018-Sep-06 02:15:45 : routes GET call took 0.12 seconds.
+2018-Sep-06 02:15:45 : 
+allStopsKeyed GET call
+2018-Sep-06 02:15:46 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:15:46 : allStopsKeyed GET call took 1.27 seconds.
+2018-Sep-06 02:15:46 : 
+agency GET call
+2018-Sep-06 02:15:46 : readTableDB: Loaded agency, 40 records
+2018-Sep-06 02:15:46 : agency GET call took 0.05 seconds.
+2018-Sep-06 02:15:46 : 
+allShapesList GET call
+2018-Sep-06 02:15:46 : allShapesList GET call took 0.14 seconds.
+2018-Sep-06 02:16:18 : 
+sequence GET call
+2018-Sep-06 02:16:18 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2018-Sep-06 02:16:22 : readTableDB: table:trips, column:route_id, value:"4221_700"
+2018-Sep-06 02:16:23 : readTableDB: Loaded trips, 94 records
+2018-Sep-06 02:16:31 : readTableDB: table:stop_times, column:trip_id, value:"88921931"
+2018-Sep-06 02:16:31 : readTableDB: Loaded stop_times, 25 records
+2018-Sep-06 02:16:31 : extractSequencefromGTFS: Loading sequence for route 4221_700, onward direction from trip 88921931:
+['750000100102', '750000101801', '750000100201', '750000100303', '750000104201', '750000104301', '750000104401', '750000104501', '750000104603', '750000109301', '750000104701', '750000104801', '750000104901', '750000100803', '750000105001', '750000105101', '750000105201', '750000105301', '750000105401', '750000105501', '750000105601', '750000116401', '750000105701', '750000105801', '750000105901']
+2018-Sep-06 02:16:39 : readTableDB: table:stop_times, column:trip_id, value:"88921701"
+2018-Sep-06 02:16:39 : readTableDB: Loaded stop_times, 19 records
+2018-Sep-06 02:16:39 : extractSequencefromGTFS: Loading sequence for route 4221_700, return direction from trip 88921701:
+['750000105901', '750000106001', '750000105302', '750000105202', '750000105102', '750000105002', '750000100803', '750000104902', '750000104802', '750000104702', '750000109302', '750000106902', '750000107002', '750000108302', '750000104202', '750000100304', '750000101701', '750000101802', '750000100101']
+2018-Sep-06 02:16:39 : sequence GET call took 21.27 seconds.
+2018-Sep-06 02:16:39 : 
+shapesList GET call
+2018-Sep-06 02:16:44 : readTableDB: table:trips, column:route_id, value:"4221_700"
+2018-Sep-06 02:16:44 : readTableDB: Loaded trips, 94 records
+2018-Sep-06 02:16:44 : shapesList GET call took 4.97 seconds.
+2018-Sep-06 02:17:06 : 
+shape GET call
+2018-Sep-06 02:17:13 : readTableDB: table:shapes, column:shape_id, value:"77"
+2018-Sep-06 02:17:13 : readTableDB: Loaded shapes, 427 records
+2018-Sep-06 02:17:13 : shape GET call took 7.32 seconds.
+2018-Sep-06 02:17:24 : 
+shape GET call
+2018-Sep-06 02:17:33 : readTableDB: table:shapes, column:shape_id, value:"82"
+2018-Sep-06 02:17:33 : readTableDB: Loaded shapes, 376 records
+2018-Sep-06 02:17:33 : shape GET call took 9.07 seconds.
+2018-Sep-06 02:18:07 : 
+routes GET call
+2018-Sep-06 02:18:07 : readTableDB: Loaded routes, 1253 records
+2018-Sep-06 02:18:07 : routes GET call took 0.1 seconds.
+2018-Sep-06 02:18:07 : 
+allShapesList GET call
+2018-Sep-06 02:18:07 : allShapesList GET call took 0.06 seconds.
+2018-Sep-06 02:18:07 : 
+allStopsKeyed GET call
+2018-Sep-06 02:18:08 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:18:09 : allStopsKeyed GET call took 1.21 seconds.
+2018-Sep-06 02:18:09 : 
+calendar GET call
+2018-Sep-06 02:18:09 : readTableDB: Loaded calendar, 2286 records
+2018-Sep-06 02:18:09 : calendar GET call took 0.1 seconds.
+2018-Sep-06 02:18:09 : 
+tripIdList GET call
+2018-Sep-06 02:18:14 : readTableDB: Loaded trips, 216357 records
+2018-Sep-06 02:18:14 : tripIdList GET call took 5.32 seconds.
+2018-Sep-06 02:18:14 : 
+trips GET call
+2018-Sep-06 02:18:19 : readTableDB: table:trips, column:route_id, value:"4221_700"
+2018-Sep-06 02:18:19 : readTableDB: Loaded trips, 94 records
+2018-Sep-06 02:18:19 : trips GET call took 4.66 seconds.
+2018-Sep-06 02:18:30 : 
+fareAttributes GET call
+2018-Sep-06 02:18:30 : readTableDB: Loaded fare_attributes, 0 records
+2018-Sep-06 02:18:30 : fareAttributes GET call took 0.0 seconds.
+2018-Sep-06 02:18:31 : 
+fareRules GET call
+2018-Sep-06 02:18:31 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:18:31 : fareRules GET call took 0.0 seconds.
+2018-Sep-06 02:18:31 : 
+fareRulesPivoted GET call
+2018-Sep-06 02:18:31 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:18:31 : fareRulesPivoted GET call took 0.0 seconds.
+2018-Sep-06 02:18:31 : 
+routeIdList GET call
+2018-Sep-06 02:18:31 : readTableDB: Loaded routes, 1253 records
+2018-Sep-06 02:18:31 : routeIdList GET call took 0.31 seconds.
+2018-Sep-06 02:18:31 : 
+zoneIdList GET call
+2018-Sep-06 02:18:32 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:18:32 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Sep-06 02:18:32 : zoneIdList GET call took 0.92 seconds.
+2018-Sep-06 02:18:50 : 
+calendar GET call
+2018-Sep-06 02:18:50 : readTableDB: Loaded calendar, 2286 records
+2018-Sep-06 02:18:50 : calendar GET call took 0.11 seconds.
+2018-Sep-06 02:18:50 : 
+agency GET call
+2018-Sep-06 02:18:50 : readTableDB: Loaded agency, 40 records
+2018-Sep-06 02:18:50 : agency GET call took 0.04 seconds.
+2018-Sep-06 02:18:50 : 
+translations GET call
+2018-Sep-06 02:18:50 : readTableDB: Loaded translations, 0 records
+2018-Sep-06 02:18:50 : translations GET call took 0.0 seconds.
+2018-Sep-06 02:18:50 : 
+listAll GET call
+2018-Sep-06 02:18:51 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:18:52 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:18:52 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Sep-06 02:18:53 : readTableDB: Loaded routes, 1253 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded trips, 216357 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded fare_attributes, 0 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded agency, 40 records
+2018-Sep-06 02:18:58 : readTableDB: Loaded calendar, 2286 records
+2018-Sep-06 02:18:59 : listAll GET call took 8.05 seconds.
+2018-Sep-06 02:18:59 : 
+stations GET call
+2018-Sep-06 02:18:59 : stations GET call took 0.08 seconds.
+2018-Sep-06 02:19:08 : 
+calendar GET call
+2018-Sep-06 02:19:08 : readTableDB: Loaded calendar, 2286 records
+2018-Sep-06 02:19:08 : calendar GET call took 0.12 seconds.
+2018-Sep-06 02:19:08 : 
+agency GET call
+2018-Sep-06 02:19:08 : readTableDB: Loaded agency, 40 records
+2018-Sep-06 02:19:08 : agency GET call took 0.05 seconds.
+2018-Sep-06 02:19:08 : 
+translations GET call
+2018-Sep-06 02:19:08 : readTableDB: Loaded translations, 0 records
+2018-Sep-06 02:19:08 : translations GET call took 0.01 seconds.
+2018-Sep-06 02:19:09 : 
+listAll GET call
+2018-Sep-06 02:19:10 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:19:11 : readTableDB: Loaded stops, 41277 records
+2018-Sep-06 02:19:11 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Sep-06 02:19:11 : readTableDB: Loaded routes, 1253 records
+2018-Sep-06 02:19:15 : readTableDB: Loaded trips, 216357 records
+2018-Sep-06 02:19:16 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:19:16 : readTableDB: Loaded fare_rules, 0 records
+2018-Sep-06 02:19:16 : readTableDB: Loaded fare_attributes, 0 records
+2018-Sep-06 02:19:16 : readTableDB: Loaded agency, 40 records
+2018-Sep-06 02:19:16 : readTableDB: Loaded calendar, 2286 records
+2018-Sep-06 02:19:16 : listAll GET call took 7.38 seconds.
+2018-Sep-06 02:19:54 : 
+stats GET call
+2018-Sep-06 02:19:55 : stats GET call took 0.59 seconds.
+2018-Sep-06 02:19:55 : 
+pastCommits GET call
+2018-Sep-06 02:19:55 : pastCommits GET call took 0.0 seconds.
+2018-Sep-06 02:20:00 : 
+gtfsBlankSlate GET call
+2018-Sep-06 02:20:00 : Why u no entering password! Top right! Top right!
+2018-Sep-06 02:20:07 : 
+gtfsBlankSlate GET call
+2018-Sep-06 02:20:07 : 
+backupDB: Creating backup of DB in export/2018-09-06-backup-0220/.
+2018-Sep-06 02:20:07 : Writing agency to disk and zipping...
+2018-Sep-06 02:20:07 : Added agency in 0.047 seconds.
+2018-Sep-06 02:20:08 : Writing calendar to disk and zipping...
+2018-Sep-06 02:20:08 : Added calendar in 0.092 seconds.
+2018-Sep-06 02:20:08 : Writing calendar_dates to disk and zipping...
+2018-Sep-06 02:20:08 : Added calendar_dates in 0.543 seconds.
+2018-Sep-06 02:20:08 : Writing routes to disk and zipping...
+2018-Sep-06 02:20:08 : Added routes in 0.05 seconds.
+2018-Sep-06 02:20:09 : Writing stops to disk and zipping...
+2018-Sep-06 02:20:10 : Added stops in 1.394 seconds.
+2018-Sep-06 02:20:11 : Writing transfers to disk and zipping...
+2018-Sep-06 02:20:12 : Added transfers in 1.991 seconds.
+2018-Sep-06 02:20:16 : Writing trips to disk and zipping...
+2018-Sep-06 02:20:18 : Added trips in 6.363 seconds.
+2018-Sep-06 02:20:18 : Columns for stop_times: ['trip_id', 'drop_off_type', 'stop_sequence', 'stop_id', 'pickup_type', 'departure_time', 'arrival_time', 'stop_headsign']
+2018-Sep-06 02:20:18 : Writing stop_times_1.h5 to csv
+2018-Sep-06 02:20:30 : Writing stop_times_10.h5 to csv
+2018-Sep-06 02:20:41 : Writing stop_times_11.h5 to csv
+2018-Sep-06 02:20:41 : Writing stop_times_2.h5 to csv
+2018-Sep-06 02:20:53 : Writing stop_times_3.h5 to csv
+2018-Sep-06 02:21:05 : Writing stop_times_4.h5 to csv
+2018-Sep-06 02:21:17 : Writing stop_times_5.h5 to csv
+2018-Sep-06 02:21:29 : Writing stop_times_6.h5 to csv
+2018-Sep-06 02:21:41 : Writing stop_times_7.h5 to csv
+2018-Sep-06 02:21:52 : Writing stop_times_8.h5 to csv
+2018-Sep-06 02:22:04 : Writing stop_times_9.h5 to csv
+2018-Sep-06 02:22:16 : CSV stop_times.txt created in 118.369 seconds, now zipping
+2018-Sep-06 02:22:37 : Added stop_times to zip in 20.176 seconds.
+2018-Sep-06 02:22:37 : Added stop_times in 138.545 seconds.
+2018-Sep-06 02:22:37 : Columns for shapes: ['shape_id', 'shape_pt_lon', 'shape_pt_lat', 'shape_pt_sequence']
+2018-Sep-06 02:22:37 : Writing shapes_1.h5 to csv
+2018-Sep-06 02:22:49 : Writing shapes_2.h5 to csv
+2018-Sep-06 02:23:02 : Writing shapes_3.h5 to csv
+2018-Sep-06 02:23:16 : Writing shapes_4.h5 to csv
+2018-Sep-06 02:23:29 : Writing shapes_5.h5 to csv
+2018-Sep-06 02:23:37 : CSV shapes.txt created in 60.701 seconds, now zipping
+2018-Sep-06 02:23:49 : Added shapes to zip in 11.391 seconds.
+2018-Sep-06 02:23:49 : Added shapes in 72.093 seconds.
+2018-Sep-06 02:23:49 : Generated GTFS feed at export/2018-09-06-backup-0220/
+2018-Sep-06 02:23:49 : Backup created.
+
+2018-Sep-06 02:23:49 : Removed .h5 files from db/
+2018-Sep-06 02:23:49 : Removed .json files from db/
+2018-Sep-06 02:23:50 : db/sequence.json purged.
+2018-Sep-06 02:23:50 : gtfsBlankSlate GET call took 222.56 seconds.
+2018-Sep-06 02:23:50 : 
+stats GET call
+2018-Sep-06 02:23:50 : stats GET call took 0.04 seconds.
+2018-Sep-06 12:44:55 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-06 12:44:55 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-06 12:44:59 : 
+stats GET call
+2018-Sep-06 12:44:59 : stats GET call took 0.07 seconds.
+2018-Sep-06 12:44:59 : 
+pastCommits GET call
+2018-Sep-06 12:44:59 : pastCommits GET call took 0.18 seconds.
+2018-Sep-06 12:45:10 : 
+gtfsImportZip GET call
+2018-Sep-06 12:45:11 : Saving filename: hydMetroGTFS v2018.07.14.zip to uploads/
+2018-Sep-06 12:45:11 : 
+backupDB: Creating backup of DB in export/2018-09-06-backup-1245/.
+2018-Sep-06 12:45:11 : Generated GTFS feed at export/2018-09-06-backup-1245/
+2018-Sep-06 12:45:11 : Backup created.
+
+2018-Sep-06 12:45:11 : Extracting uploaded zip to uploads/unzip-124511/
+2018-Sep-06 12:45:11 : Extracted files: ['agency.txt', 'calendar.txt', 'fare_attributes.txt', 'fare_rules.txt', 'feed_info.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+2018-Sep-06 12:45:11 : Removed .h5 files from db/
+2018-Sep-06 12:45:11 : Removed .json files from db/
+2018-Sep-06 12:45:11 : db/sequence.json purged.
+2018-Sep-06 12:45:11 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2018-Sep-06 12:45:11 : agency.h5: 1 rows
+2018-Sep-06 12:45:14 : calendar.h5: 2 rows
+2018-Sep-06 12:45:14 : fare_attributes.h5: 10 rows
+2018-Sep-06 12:45:14 : fare_rules.h5: 576 rows
+2018-Sep-06 12:45:14 : feed_info.h5: 1 rows
+2018-Sep-06 12:45:14 : routes.h5: 2 rows
+2018-Sep-06 12:45:14 : Storing shapes in chunks.
+2018-Sep-06 12:45:14 : shapes_1.h5: 488 rows
+2018-Sep-06 12:45:14 : Appending the 232 rows of last ID to last chunk shapes_1.h5
+2018-Sep-06 12:45:15 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2018-Sep-06 12:45:15 : stops.h5: 73 rows
+2018-Sep-06 12:45:15 : Storing stop_times in chunks.
+2018-Sep-06 12:45:15 : stop_times_1.h5: 13180 rows
+2018-Sep-06 12:45:15 : Appending the 14 rows of last ID to last chunk stop_times_1.h5
+2018-Sep-06 12:45:15 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2018-Sep-06 12:45:15 : transfers.h5: 1 rows
+2018-Sep-06 12:45:15 : translations.h5: 72 rows
+2018-Sep-06 12:45:15 : trips.h5: 1056 rows
+2018-Sep-06 12:45:15 : Finished importing GTFS feed. You can remove the feed zip hydMetroGTFS v2018.07.14.zip and folder uploads/unzip-124511/ from uploads/ if you want.
+2018-Sep-06 12:45:15 : gtfsImportZip POST call took 4.92 seconds.
+2018-Sep-06 12:45:15 : 
+stats GET call
+2018-Sep-06 12:45:16 : stats GET call took 0.24 seconds.
+2018-Sep-06 12:45:16 : 
+pastCommits GET call
+2018-Sep-06 12:45:16 : pastCommits GET call took 0.0 seconds.
+2018-Sep-06 12:45:18 : 
+allStops GET call
+2018-Sep-06 12:45:18 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 12:45:18 : allStops GET call took 0.11 seconds.
+2018-Sep-06 12:45:22 : 
+routes GET call
+2018-Sep-06 12:45:22 : readTableDB: Loaded routes, 2 records
+2018-Sep-06 12:45:22 : routes GET call took 0.08 seconds.
+2018-Sep-06 12:45:22 : 
+agency GET call
+2018-Sep-06 12:45:22 : readTableDB: Loaded agency, 1 records
+2018-Sep-06 12:45:22 : agency GET call took 0.07 seconds.
+2018-Sep-06 12:45:22 : 
+allShapesList GET call
+2018-Sep-06 12:45:23 : allShapesList GET call took 0.26 seconds.
+2018-Sep-06 12:45:23 : 
+allStopsKeyed GET call
+2018-Sep-06 12:45:23 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 12:45:23 : allStopsKeyed GET call took 0.13 seconds.
+2018-Sep-06 12:45:24 : 
+allStops GET call
+2018-Sep-06 12:45:24 : readTableDB: Loaded stops, 73 records
+2018-Sep-06 12:45:24 : allStops GET call took 0.11 seconds.
+2018-Sep-06 12:46:20 : Loaded dependencies, starting static GTFS Manager program.
+2018-Sep-06 12:46:20 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Sep-06 12:46:22 : 
+stats GET call
+2018-Sep-06 12:46:23 : stats GET call took 1.03 seconds.
+2018-Sep-06 12:46:23 : 
+pastCommits GET call

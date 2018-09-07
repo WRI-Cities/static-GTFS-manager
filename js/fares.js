@@ -1,6 +1,6 @@
 //#########################
 // Global variables
-var allStopsKeyed = '';
+//var allStopsKeyed = ''; // not sure if this is used anywhere..
 
 // #########################################
 // Function-variables to be used in tabulator
@@ -59,6 +59,11 @@ $("#fare-attributes-table").tabulator({
 		{title:"currency_type", field:"currency_type", headerSort:false, width:120 },
 		{title:"route_id", field:"route_id", headerSort:false, width:120, tooltip:'' }
 	],
+	ajaxURL: APIpath + 'fareAttributes', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to fareAttributes failed.  Returned status of: ' + errorThrown);
+	},
 	cellEdited:function(cell){
 		// on editing a cell, log changes 
 		let fare_id = cell.getRow().getIndex(); //get corresponding stop_id for that cell
@@ -92,13 +97,12 @@ $("#fare-attributes-table").tabulator({
 		logmessage(message);
 	},
 	dataLoaded: function(data){
-		var list = [];
+		// populate Fare id dropdown in simple fare rules tab
+		var dropdown = '';
 		data.forEach(function(row){
-			list.push(row.fare_id);
-		});
-		/* just ditch the autocomplete for now yaar, for just fare ids this is overkill
-		$( "#targetFareid" ).autocomplete({
-		source: list */
+			dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
+		});	
+		$('#fareSelect').html(dropdown);
 	},
 	rowSelected:function(row){
 		$('#targetFareid').val(row.getIndex());
@@ -124,19 +128,24 @@ $("#fare-rules-simple-table").tabulator({
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
 			}}
-	]
+	],
+	ajaxURL: APIpath + 'fareRules', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to API fareRules failed.  Returned status of: ' + errorThrown);
+	}
 });
 //#######################
 // initiating commands
 $(document).ready(function(){
-	//Initiate fare attributes table
-	getPythonFareAttributes();
 	// Initiating Fare Rules table.
 	getPythonFareRules();
-	getPythonSimpleFareRules();
-	getPythonStopsKeyed();
 	getPythonRouteIdList();
 	getPythonZones();
+	// getPythonSimpleFareRules();
+	// getPythonStopsKeyed();
+	//Initiate fare attributes table
+	//getPythonFareAttributes(); // tabulator will self-load by ajax
 });
 
 
@@ -261,51 +270,6 @@ function getPythonFareRules() {
 	xhr.send();
 }
 
-function getPythonSimpleFareRules() {
-	// Here we want to fetch JSON from backend, which will take it from fare_rules.txt 
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}fareRules`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded Simple Fare Rules data from Server API/fareRules .`);
-			var data = JSON.parse(xhr.responseText);
-			if(data.length)	$("#fare-rules-simple-table").tabulator('setData',data);
-			else $("#fare-rules-simple-table").html('No fare rules data found.');
-		}
-		else {
-			console.log('Server request to API/fareRules failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText );
-		}
-	};
-	xhr.send();
-}
-
-function getPythonFareAttributes(){
-	// Here we want to fetch JSON from backend, which will take it from fare_attributes.txt 
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}fareAttributes`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded Fare Attributes data from Server API/fareAttributes .`);
-			var data = JSON.parse(xhr.responseText);
-			$("#fare-attributes-table").tabulator('setData', data);
-
-			// populate Fare id dropdown in simple fare rules tab
-			var dropdown = '';
-			data.forEach(function(row){
-				dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
-			});	
-			$('#fareSelect').html(dropdown);
-
-		}
-		else {
-			console.log('Server request to API/fareAttributes failed.  Returned status of ' + xhr.status );
-		}
-	};
-	xhr.send();
-	
-}
 
 function initiateFareRules(rulesData) {
 	// check if already initialized
@@ -457,22 +421,6 @@ function saveFareRulesSimple() {
 	});	
 }
 
-function getPythonStopsKeyed() {
-	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
-		let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allStopsKeyed`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded data from Server API/allStopsKeyed .`);
-			var data = JSON.parse(xhr.responseText);
-			allStopsKeyed = data;
-		}
-		else {
-			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-		}
-	};
-	xhr.send();
-}
 
 function getPythonZones() {
 	let xhr = new XMLHttpRequest();
@@ -490,7 +438,7 @@ function getPythonZones() {
 				// solves https://github.com/WRI-Cities/static-GTFS-manager/issues/62
 
 			});
-			console.log(dropdown);
+			// console.log(dropdown);
 			$('#originSelect').html(dropdown);
 			$('#destinationSelect').html(dropdown);
 
@@ -503,8 +451,7 @@ function getPythonZones() {
 }
 
 function getPythonRouteIdList() {
-	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
-		let xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `API/routeIdList`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
@@ -533,3 +480,70 @@ function addFareRule() {
 	$("#fare-rules-simple-table").tabulator('addRow', {fare_id:fare_id, origin_id:origin_id, destination_id:destination_id, route_id:route_id}, true );
 
 }
+
+/* retired functions
+
+function getPythonFareAttributes(){
+	// Here we want to fetch JSON from backend, which will take it from fare_attributes.txt 
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}fareAttributes`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded Fare Attributes data from Server API/fareAttributes .`);
+			var data = JSON.parse(xhr.responseText);
+			$("#fare-attributes-table").tabulator('setData', data);
+
+			// populate Fare id dropdown in simple fare rules tab
+			var dropdown = '';
+			data.forEach(function(row){
+				dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
+			});	
+			$('#fareSelect').html(dropdown);
+
+		}
+		else {
+			console.log('Server request to API/fareAttributes failed.  Returned status of ' + xhr.status );
+		}
+	};
+	xhr.send();
+	
+}
+
+function getPythonStopsKeyed() {
+	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
+		let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/allStopsKeyed`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded data from Server API/allStopsKeyed .`);
+			var data = JSON.parse(xhr.responseText);
+			allStopsKeyed = data;
+		}
+		else {
+			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+
+function getPythonSimpleFareRules() {
+	// Here we want to fetch JSON from backend, which will take it from fare_rules.txt 
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}fareRules`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded Simple Fare Rules data from Server API/fareRules .`);
+			var data = JSON.parse(xhr.responseText);
+			if(data.length)	$("#fare-rules-simple-table").tabulator('setData',data);
+			//else $("#fare-rules-simple-table").html('No fare rules data found.');
+			// what're you doing here, let the user create new fare rules!
+		}
+		else {
+			console.log('Server request to API/fareRules failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText );
+		}
+	};
+	xhr.send();
+}
+*/

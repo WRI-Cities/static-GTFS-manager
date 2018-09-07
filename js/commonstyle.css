@@ -84,8 +84,10 @@ width:100%;
 /*Input validation */
 input:required:invalid, input:focus:invalid {
   /* insert your own styles for invalid form input */
-  -moz-box-shadow: none;
-  background-color: lavender;
+  /*-moz-box-shadow: none;*/
+  /*background-color: lavender;*/
+  /*background-color: #ffffc9;*/
+  border: 1px solid #934f27;
 }
 
 /* JQuery UI Autocomplete */
@@ -248,4 +250,9 @@ was interfering with well divs on main page.
 .footer a{
 text-decoration:none;
 color: black;
+}
+
+/* Some buttons */
+.fullwidth {
+	width: 100%;
 }

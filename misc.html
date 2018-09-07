@@ -19,10 +19,10 @@
 <script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
 <style>
 #agency-table {
-	height: 150px;
+	height: 300px;
 }
 #calendar-table {
-	height: 150px;
+	height: 300px;
 }
 #translations-table {
 	height: 400px;
@@ -227,8 +227,14 @@ These are names of stops, routes, agency etc from across the data, with their tr
 <!-- delCalendarDiv Delete Calendar Service -->
 <div id="delCalendarDiv">
 
+
+
+<div class="row"><div class="col-md-5">
 <h4>Delete a Calendar Service</h4>
 <select id="service2Delete"></select>
+</div><div class="col col-md-7 alert alert-warning">
+<small>Note: Deleting a calendar service will result in deleting all the trips under it as well as <i><b>all the timings data</b></i> under each of those trips. Handle with care. Also, this operation is likely to take quite long so please be patient. Another option is to just rename the service_id in the Change UID section.</small>
+</div></div>
 
 </div> <!-- END delCalendarDiv -->
 
@@ -272,7 +278,8 @@ These are names of stops, routes, agency etc from across the data, with their tr
 <textarea id="dryRunResults" rows=10></textarea>
 
 <p><label><input type="checkbox" name="deepActionsConfirm" value="deepActionsConfirm" id="deepActionsConfirm">Check this ON to confirm that you understand the risks to your data and have taken proper precautions before proceeding.</label></p>
-<button class="btn btn-danger btn-bg" id="deepActionsButton">Alright Let's DELETE It</button> <span id="deepActionsStatus"></span></p>
+<button class="btn btn-danger btn-bg" id="deepActionsButton">Alright Let's DELETE It</button><br>
+<span id="deepActionsStatus"></span></p>
 <p>Note: Please reload the page after doing a delete / rename operation to make the updated lists show in the selection menu.</p>
 </div></div>
 

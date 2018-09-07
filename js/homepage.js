@@ -57,13 +57,15 @@ function getPythonPastCommits() {
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server ${APIpath}pastCommits .`);
+			
 			var data = JSON.parse(xhr.responseText);
 			var content = '<ol>';
 			for (i in data.commits) {
 				content += '<li>' + data.commits[i] + ' : <a href="GTFS/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
 			}
 			content += '</ol>';
-			$('#pastCommits').html(content);
+			
+			$('#pastCommits').html('<p>'+content+'</p>');
 		}
 		else {
 			console.log(`Server request to ${APIpath}pastCommits failed.  Returned status of ` + xhr.status + ', message: ' + xhr.responseText);
@@ -90,7 +92,7 @@ function exportGTFS() {
 		shakeIt('password'); return;
 	}
 
-	$("#exportGTFSlog").html('Initated commit.. please wait..');
+	$("#exportGTFSlog").html('Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.');
 	
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name

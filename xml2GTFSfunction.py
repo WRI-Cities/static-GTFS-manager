@@ -30,26 +30,21 @@ exec(open("GTFSserverfunctions.py", encoding='utf8').read())
 
 configdata = {'checkFaresFlag': True, 'checkCalendarFlag': True, 'sundayXML': '8S0845_MACE.xml', 'stations': 'stations.csv', 'agency_id': 'KMRL', 'start_date': '20180404', 'routes': [{'sundaySchedule': '8S0845_MACE', 'route_long_name': 'Route 1', 'route_short_name': 'R1', 'route_id': 'R1', 'weekdaySchedule': '8W0845_MACE'}], 'agency_name': 'Kochi Metro', 'agency_url': 'http://www.kochimetro.org/', 'fareschart': 'fares-chart.csv', 'checkAgencyFlag': True, 'checkRoutesFlag': True, 'fares': {'F1': 10, 'F2': 20, 'F5': 50, 'F4': 40, 'F3': 30}, 'agency_timezone': 'Asia/Kolkata', 'weekdayXML': '8W0845_MACE.xml', 'end_date': '20990101', 'depotstations': 'STA_COD_3512T_BH,STA_COD_3509T_DN'}
 
-print('config params:')
-print(configdata)
+logmessage('config params:')
+logmessage(configdata)
 '''
 def xml2GTFSConvert(configdata):
-	outpath = xmlFolder + 'xml2GTFS/'
-	pathlib.Path(outpath).mkdir(parents=True, exist_ok=True) 
-
+	outputFolder = xmlFolder + 'xml2GTFS/'
+	pathlib.Path(outputFolder).mkdir(parents=True, exist_ok=True) 
+	returnMessage = ''
 	# way to get json value: trip.get('SERVICE_ID')
 
 	##########################################################
 	# Loading stops lookup table from stations.csv
-	# from https://stackoverflow.com/a/38370569/4355695
-	'''
-	with open(xmlFolder + configdata.get('stations','stations.csv'), encoding='utf8') as f: 
-			stations = list(csv.DictReader(f))
-	'''
 	stations = pd.read_csv(xmlFolder + configdata.get('stations','stations.csv'), na_filter=False).to_dict('records')
 		
 	stations_total_distance = float( stations[ (len(stations) -1) ]['distance'] )
-	print( "Loaded stations.csv, total stops :", len(stations) )
+	logmessage( "Loaded stations.csv, total stops :", len(stations) )
 	
 	##########################################################
 	# Loading list of routes
@@ -72,7 +67,7 @@ def xml2GTFSConvert(configdata):
 
 	##########################################################
 	# make loop for cycling thru routes
-	print('Looping thru ' + str(len(configdata.get('routes'))) + ' route(s)')
+	logmessage('Looping thru ' + str(len(configdata.get('routes'))) + ' route(s)')
 	for route in configdata.get('routes'):
 		route_id = route.get('route_id')
 		# Creating row for this route in routes_array which will be stored in GTFS routes.txt
@@ -97,7 +92,7 @@ def xml2GTFSConvert(configdata):
 
 		#route.get('weekdaySchedule')
 		#route.get('sundaySchedule')
-		print('Looping thru weekday and sunday')
+		logmessage('Looping thru weekday and sunday')
 		for day in ['weekday','sunday']:
 			# Loading XML file
 			with open( uploadFolder + configdata.get(day+'XML') , encoding='utf8' ) as fd:
@@ -122,7 +117,7 @@ def xml2GTFSConvert(configdata):
 			
 			##########################################################
 			# Starting trips loop
-			print('Looping thru ' + str(len(trips_from_xml)) + ' trips')
+			logmessage('Looping thru ' + str(len(trips_from_xml)) + ' trips')
 			for trip in trips_from_xml :
 				# cycle through each trip
 				stopsnum = len(trip.get('STOP'))
@@ -168,7 +163,7 @@ def xml2GTFSConvert(configdata):
 
 				##########################################################
 				# Looping through the stops in the trip
-				# print('Looping thru ' + str(stopsnum) + ' stops')
+				# logmessage('Looping thru ' + str(stopsnum) + ' stops')
 				for i in range(stopsnum):
 					# cycle through each stop
 					if i > 0 :
@@ -244,32 +239,28 @@ def xml2GTFSConvert(configdata):
 
 	###############
 	# take backup first
-	print('Taking backup of existing contents of db')
-	backupfolder = '{:GTFS/%Y-%m-%d-backup-%H%M}/'.format(datetime.datetime.now())
-	#if not os.path.exists(backupfolder):
-	#	os.makedirs(backupfolder)
-	returnmsg = exportGTFS (dbfile, backupfolder)
-	# print(returnmsg)
-	print('backup made to folder '+backupfolder)
-	
-	###############
-	# open DB
-	db = TinyDB(dbfile, sort_keys=True, indent=2)
-	db.purge_tables() # wipe out the database, clean slate.
-	print(dbfile + ' purged.')
+	if not debugMode: 
+		logmessage('Taking backup of existing contents of db')
+		backupDB()
 
-	# also purge sequenceDB
-	db2 = TinyDB(sequenceDBfile, sort_keys=True, indent=2)
-	db2.purge_tables() # wipe out the database, clean slate.
-	print(sequenceDBfile + ' purged.')
-	db2.close()
+	###############
+	# purge existing DB
+	purgeDB()
+
+	###############
+	# initiating ZIP file
+	zf = zipfile.ZipFile(uploadFolder + 'KMRL-gtfs.zip', mode='w')
+	
 
 	###############
 	# agency.txt
-	agencyArray = [{ 'agency_id': configdata.get('agency_id','KMRL'), 'agency_name':configdata.get('agency_name','Kochi Metro'), 'agency_url':configdata.get('agency_url','http://www.kochimetro.org/'), 'agency_timezone':configdata.get('agency_timezone','Asia/Kolkata') }]
-	agencyDB = db.table('agency')
-	agencyDB.insert_multiple(agencyArray)
-	print('Inserted agency data into DB')
+	agencyArray = OrderedDict({ 'agency_id': configdata.get('agency_id','KMRL'), 'agency_name':configdata.get('agency_name','Kochi Metro'), 'agency_url':configdata.get('agency_url','http://www.kochimetro.org/'), 'agency_timezone':configdata.get('agency_timezone','Asia/Kolkata') })
+	agencyDF = pd.DataFrame([agencyArray])
+	agencyDF.to_csv(outputFolder+'agency.txt', index=None)
+	zf.write(outputFolder+'agency.txt', arcname='agency.txt', compress_type=zipfile.ZIP_DEFLATED )
+	
+	logmessage('agency.txt created, {} entries'.format(len(agencyDF)) )
+	returnMessage += '<a target="_blank" href="{}agency.txt">agency file</a> created with {} entries.<br>'.format(outputFolder,len(agencyDF))
 
 	###############
 	# calendar
@@ -277,10 +268,15 @@ def xml2GTFSConvert(configdata):
 	calHead = "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date".split(',')
 	calWeek = [ 'WK',1,1,1,1,1,1,0,configdata.get('start_date'),configdata.get('end_date')]
 	calSun = [ 'SU',0,0,0,0,0,0,1,configdata.get('start_date'),configdata.get('end_date')]
-	calendarArray = [ dict(zip(calHead,calWeek)), dict(zip(calHead,calSun)) ]
-	calendarDB = db.table('calendar')
-	calendarDB.insert_multiple(calendarArray)
-	print('Inserted calendar data into DB')
+	calendarArray = [ OrderedDict(zip(calHead,calWeek)), OrderedDict(zip(calHead,calSun)) ]
+	calendarDF = pd.DataFrame(calendarArray)
+
+	calendarDF.to_csv(outputFolder+'calendar.txt', index=None)
+	zf.write(outputFolder+'calendar.txt', arcname='calendar.txt', compress_type=zipfile.ZIP_DEFLATED )
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'calendar.txt">calendar file</a> created with %d entries.<br>'%len(calendarDF)
+	logmessage('calendar.txt created, %d entries'%len(calendarDF))
+	
 	
 	####################
 	# stops
@@ -288,38 +284,65 @@ def xml2GTFSConvert(configdata):
 	# cloning zone_id column, same as stop_id. For use in fares.
 	stops_keys = ['stop_id','stop_name','stop_lat','stop_lon','zone_id','wheelchair_boarding']
 
-	stopsArray = [ { i:row[i] for i in stops_keys } for row in stations ]
+	stopsArray = [ OrderedDict({ i:row[i] for i in stops_keys }) for row in stations ]
 	# holy smokes, it worked!! iterate thru stops_keys to produce a dict, then iterate thru stations to make array
-	stopsDB = db.table('stops')
-	stopsDB.insert_multiple(stopsArray)
-	print('Inserted stops data into DB')
 
+	pd.DataFrame(stopsArray).to_csv(outputFolder+'stops.txt', index=None)
+
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'stops.txt">stops file</a> created with %d entries.<br>'%len(stopsArray)
+	logmessage('stops.txt created, %d entries.'%len(stopsArray) )
+	
+	zf.write(outputFolder+'stops.txt', arcname='stops.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+	
 	##############
 	#routes
-	routesDB = db.table('routes')
-	routesDB.insert_multiple(routes_array)
-	print('Inserted routes data into DB')
+	routesDF = pd.DataFrame(routes_array)
+	routesDF.to_csv(outputFolder+'routes.txt', index=None)
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'routes.txt">routes file</a> created with %d entires.<br>'%len(routesDF)
+	logmessage('routes.txt created, %d entries'%len(routesDF))
+
+	zf.write(outputFolder+'routes.txt', arcname='routes.txt', compress_type=zipfile.ZIP_DEFLATED )
 
 	##############
 	# trips
-	tripsDB = db.table('trips')
-	tripsDB.insert_multiple(trips_array)
-	print('Inserted trips data into DB')
+	tripsDF = pd.DataFrame(trips_array)
+	tripsDF.to_csv(outputFolder+'trips.txt', index=None)
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'trips.txt">trips file</a> created with %d entires.<br>'%len(tripsDF)
+	logmessage('trips.txt created, %d entries'%len(tripsDF))
 
+	zf.write(outputFolder+'trips.txt', arcname='trips.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+
+	##############
 	# stop_times
 	stop_times_keys = ['trip_id', 'arrival_time', 'departure_time', 'stop_id', 'stop_sequence', 'timepoint', 'shape_dist_traveled']
-	stop_times_select = [ { i:row[i] for i in stop_times_keys } for row in stop_times_array ]
-	stop_timesDB = db.table('stop_times')
-	stop_timesDB.insert_multiple(stop_times_select)
-	print('Inserted stop_times data into DB')
+	# stop_times_select = [ OrderedDict({ i:row[i] for i in stop_times_keys }) for row in stop_times_array ]
+	stop_timesDF = pd.DataFrame(stop_times_array)
+	stop_timesDF[stop_times_keys].to_csv(outputFolder+'stop_times.txt', index=None)
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'stop_times.txt">stop_times file</a> created with %d entires.<br>'%len(stop_timesDF)
+	logmessage('stop_times.txt created, %d entries'%len(stop_timesDF))
+	
+	# extra: save out the full-info stop_times tables too
+	stop_timesDF.to_csv(outputFolder+'stop_times_extended.csv', index=None)
+	returnMessage += 'An <a target="_blank" href="'+ outputFolder+'stop_times_extended.csv">extended version</a> of the same with more info created also.<br>'
 
+	zf.write(outputFolder+'stop_times.txt', arcname='stop_times.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+
+
+	##############
 	# fares
-	fares_rules_array = csvunpivot(uploadFolder + configdata.get('fareschart','fares-chart.csv'), ['Stations'], 'destination_id', 'fare_id', ['Stations','destination_id','fare_id'])
+	fares_rulesDF = csvunpivot(filename=uploadFolder + configdata.get('fareschart','fares-chart.csv'), keepcols=['Stations'], var_header='destination_id', value_header='fare_id', sortby=['Stations','destination_id','fare_id'])
 	# update: csvunpivot function now by itself renames "Stations" to "origin_id" and removes all NaN values. And the last argument is for sorting by values!. Pandas dude: you don't need to do shit with dict when you've got freakin pandas.
-	fare_rulesDB = db.table('fare_rules')
-	fare_rulesDB.insert_multiple(fares_rules_array)
-	print('Inserted fare_rules data into DB')
-
+	
+	fares_rulesDF.to_csv(outputFolder+'fares_rules.txt', index=None)
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'fares_rules.txt">fares_rules file</a> created with %d entires.<br>'%len(fares_rulesDF)
+	logmessage('fares_rules.txt created, %d entries'%len(fares_rulesDF))
+	
+	##############
 	# fare attributes
 	# we directly have them in configdata json.
 	# fare_id,price,currency_type,payment_method,transfers
@@ -330,27 +353,42 @@ def xml2GTFSConvert(configdata):
 	faresHolder = configdata.get('fares')
 	fare_attributes_array = [ {'fare_id': x, 'price':faresHolder[x], 'currency_type':currency_type, 'payment_method':payment_method, 'transfers':transfers,  } for x in faresHolder ]
 
-	fare_attributesDB = db.table('fare_attributes')
-	fare_attributesDB.insert_multiple(fare_attributes_array)
-	print('Inserted fare_attributes data into DB')
-
-
+	fare_attributesDF = pd.DataFrame([ OrderedDict({'fare_id': x, 'price':faresHolder[x]})\
+		for x in faresHolder ])
+	fare_attributesDF['currency_type'] = configdata.get('currency_type','INR')
+	fare_attributesDF['payment_method'] = configdata.get('payment_method',0)
+	fare_attributesDF['transfers'] = configdata.get('transfers','')
+	
+	fare_attributesDF.to_csv(outputFolder+'fare_attributes.txt', index=None)
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'fare_attributes.txt">fare_attributes file</a> created with %d entires.<br>'%len(fare_attributesDF)
+	logmessage('fare_attributes.txt created, %d entries'%len(fare_attributesDF))
+	
+	##############
 	# translations
 	# stop names
 	secondlang = configdata.get('secondlang','ml')
-	translations_array = [ {'trans_id': x['stop_name'], 'lang':secondlang, 'translation': x['stop_name_secondlang'] } for x in stations ]
+	translations_array = [ OrderedDict({'trans_id': x['stop_name'], 'lang':secondlang, 'translation': x['stop_name_secondlang'] }) for x in stations ]
 	
 	# adding agency
-	translations_array.append( { 'trans_id': configdata.get('agency_name','Kochi Metro'), 'lang':secondlang, 'translation': configdata.get('agency_name_translation','കൊച്ചി മെട്രോ') } )
-	translationsDB = db.table('translations')
-	translationsDB.insert_multiple(translations_array)
-	print('Inserted translations data into DB')
+	translations_array.append( OrderedDict({ 'trans_id': configdata.get('agency_name','Kochi Metro'), 'lang':secondlang, 'translation': configdata.get('agency_name_translation','കൊച്ചി മെട്രോ') }) )
+	translationsDF = pd.DataFrame(translations_array)
+	translationsDF.to_csv(outputFolder+'translations.txt', index=None)
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'translations.txt">translations file</a> created with %d entires.<br>'%len(translationsDF)
+	logmessage('translations.txt created, %d entries'%len(translationsDF))
 
 
-	# and finally ending it by closing db file
-	db.close()
-	print('\nXML data successfully imported into DB.')
+	##############
+	# end
+	zf.close()
 
+	importGTFS('KMRL-gtfs.zip')
+	returnMessage += '<a target="_blank" href="' + uploadFolder + 'KMRL-gtfs.zip">KMRL-gtfs.zip</a> GTFS zip file created, and imported to DB.<br>'
+	returnMessage += '<a target="_blank" href="' + logFolder + 'log.txt" target="_blank">Click here</a> for detailed logs.<br>'
+	
+	logmessage('\nXML data successfully imported into DB.')
 
+	return returnMessage
 # running it
 # xml2GTFSConvert(configdata)
