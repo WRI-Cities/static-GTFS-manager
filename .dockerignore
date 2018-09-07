@@ -1,2 +1,3 @@
 .git/*
 GTFS/**/*.txt
+logs/*

@@ -1,2 +1,0 @@
-route_id,route_short_name,route_long_name,route_type,route_color,route_text_color
-R001,R1,Aluva to Maharaja College,1,00B7F3,000000
