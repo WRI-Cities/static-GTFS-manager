@@ -5,7 +5,7 @@ services:
             - '5000:5000'
         image: laidig/static-gtfs-manager
         volumes:
-          - GTFS:/app/GTFS/
+          - db:/app/db/
 
 volumes:
-  GTFS:
+  db:

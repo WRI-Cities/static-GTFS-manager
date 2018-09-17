@@ -18,7 +18,13 @@
 </script>
 <script src="lib/papaparse.min.js" type="text/javascript"></script>
 <style>
-
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
 </style></head>
 <body>
 <div id="navBar"></div>
@@ -49,10 +55,10 @@
 <div class="row">
 <div class="col">
 <h3>Current GTFS data</h3>
-<p>Display stats on current data.. and validation options or guidance.</p>
-<div class="card mb-3 card-body bg-light" id="GTFSstats">
+<p>Display stats on current data.</p>
+<pre class="card mb-3 card-body bg-light" id="GTFSstats">
 	Loading stats..
-</div>
+</pre>
 
 </div>
 <div class="col">
@@ -63,7 +69,7 @@
 <div id="tabs">
 <ul>
 <li><a href="#tab1">1. GTFS ZIP</a></li>
-<li><a href="#tab2">2. XML</a></li>
+<li><a href="#tab2">2. Other Formats</a></li>
 <li><a href="#tab3">3. Blank Slate</a></li>
 </ul>
 
@@ -72,7 +78,7 @@
 
 <h6>1. Import an existing GTFS feed. <small>(.zip file)</small></h6>
 <p><input type="file" id="gtfsZipFile" name="gtfsZipFile" class="btn btn-sm btn-outline-secondary" accept=".zip">
-<button id="importGTFSbutton" class="btn btn-outline-primary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Importing GTFS zip" data-content="Note: all files inside the ZIP file must be at top level (no subfolders) and properly named, in lowercase, with .txt extensions as per the accepted static GTFS standards. Improperly named zips will malfunction.<br>Select a gtfs .zip file, and click to Proceed with GTFS feed import.">Upload >></button></p>
+<button id="importGTFSbutton" class="btn btn-outline-primary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Importing GTFS zip" data-content="Note: <br>1. All files inside the ZIP file must be at top level (no subfolders) and properly named, in lowercase, with .txt extensions as per the accepted static GTFS standards.<br>2. <b>stop_times.txt</b> <i>must</i> be sorted by trip_id.<br>3. <b>shapes.txt</b> <i>must</i> be sorted by shape_id.<br>4. Its ok if some tables are absent - import whatever you have and then build remaining tables with this tool.">Upload >></button></p>
 <div id="importGTFSStatus"></div>
 
 </div>
@@ -80,9 +86,11 @@
 <!-- 2 ############################-->
 <div id="tab2">
 
-<h6>2. Import via XML</h6>
-<p>If your data is in KMRL's XML format, <a href="xml2GTFS.html" class="btn btn-outline-warning">click here</a> to go to a special page for that.</p>
-
+<h6>2. Import data in other formats</h6>
+<ul>
+<li>If your data is in Kochi Metro's XML format, <a href="xml2GTFS.html">click here</a> to import that.</li>
+<li>If your data is in Hyderabad Metro's CSV format, <a href="hydcsv.html">click here</a> to import that.</li>
+</ul>
 </div>
 
 <!-- 3 ############################-->
@@ -115,7 +123,7 @@
 
 <div class="col">
 
-<h3>Commit and Export GTFS</h3>
+<h3>Export GTFS Feed</h3>
 <p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
 <p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
 <p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>

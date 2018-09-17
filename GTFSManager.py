@@ -43,7 +43,8 @@ thisURL = ''
 
 debugMode = False # using this flag at various places to do or not do things based on whether we're in development or production
 
-requiredFeeds = ['agency.txt','stops.txt','routes.txt','trips.txt','stop_times.txt','calendar.txt']
+requiredFeeds = ['agency.txt','calendar.txt','stops.txt','routes.txt','trips.txt','stop_times.txt']
+optionalFeeds = ['calendar_dates.txt','fare_attributes.txt','fare_rules.txt','shapes.txt','frequencies.txt','transfers.txt','feed_info.txt']
 # for checking imported ZIP against
 # to do: don't make this a HARD requirement. Simply logmessage about it.
 
@@ -498,7 +499,7 @@ class stopTimes(tornado.web.RequestHandler):
 		else:
 			tablename = chunkFile[:-3]
 			stoptimesDf = readTableDB(tablename, 'trip_id', trip_id)
-			returnMessage = 'This trip has timings data in the db, so loaded that.'
+			returnMessage = 'Loaded timings from stop_times table.'
 			newFlag = False
 
 			if not len(stoptimesDf) : # this shouldn't happen
@@ -576,11 +577,15 @@ class tripIdList(tornado.web.RequestHandler):
 
 class calendar(tornado.web.RequestHandler):
 	def get(self):
-		# API/calendar
+		# API/calendar?current=y
 		start = time.time() # time check
 		logmessage('\ncalendar GET call')
-		calendarJson = readTableDB('calendar').to_json(orient='records', force_ascii=False)
-		
+		current = self.get_argument('current',default='')
+
+		if current.lower() == 'y':
+			calendarJson = calendarCurrent().to_json(orient='records', force_ascii=False)
+		else:
+			calendarJson = readTableDB('calendar').to_json(orient='records', force_ascii=False)
 		self.write(calendarJson)
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
@@ -652,14 +657,9 @@ class gtfsImportZip(tornado.web.RequestHandler):
 
 class commitExport(tornado.web.RequestHandler):
 	def get(self):
-		# API/commitExport?pw=${pw}&commit=${commit}
+		# API/commitExport?commit=${commit}
 		start = time.time()
 		logmessage('\ncommitExport GET call')
-		pw = self.get_argument('pw',default='')
-		if not decrypt(pw):
-			self.set_status(400)
-			self.write("Error: invalid password.")
-			return 
 		commit = self.get_argument('commit', default='')
 		if not len(commit):
 			self.set_status(400)
@@ -1171,8 +1171,8 @@ class deleteByKey(tornado.web.RequestHandler):
 
 
 class replaceID(tornado.web.RequestHandler):
-	def post(self):
-		# ${APIpath}replaceID?pw=pw&valueFrom=valueFrom&valueTo=valueTo
+	def get(self):
+		# ${APIpath}replaceID?pw=pw&key=key&valueFrom=valueFrom&valueTo=valueTo
 		start = time.time()
 		logmessage('\nreplaceID POST call')
 		pw = self.get_argument('pw',default='')
@@ -1181,19 +1181,20 @@ class replaceID(tornado.web.RequestHandler):
 			self.write("Error: invalid password.")
 			return 
 
+		key = self.get_argument('key',default='')
 		valueFrom = self.get_argument('valueFrom', default='')
 		valueTo = self.get_argument('valueTo', default='')
-		tableKeys = json.loads( self.request.body.decode('UTF-8') )
+		# tableKeys = json.loads( self.request.body.decode('UTF-8') )
 		# tablekeys: [ {'table':'stops','key':'stop_id'},{...}]
-
-		if not ( len(valueFrom) and len(valueTo) and len(tableKeys) ):
+		
+		if not ( len(valueFrom) and len(valueTo) and len(key) ):
 			self.set_status(400)
 			self.write("Error: Invalid parameters.")
 			return 
 
 		# main function:
-		returnMessage = replaceIDfunc(valueFrom,valueTo,tableKeys)
-		
+		returnMessage = replaceIDfunc(key,valueFrom,valueTo)
+
 		self.write(returnMessage)
 		
 		end = time.time()

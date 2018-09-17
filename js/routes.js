@@ -153,8 +153,6 @@ var mapOptions0 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic0, scrollWheelZ
 var mapOptions1 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic1, scrollWheelZoom: false };
 //var mapOptionsClone = jQuery.extend(true, {}, mapOptions);
 
-const startLocation = [10.030259357021862, 76.31446838378908];
-
 var map = [];
 map[0] = new L.Map('map0', mapOptions0);
 map[1] = new L.Map('map1', mapOptions1);
@@ -173,21 +171,31 @@ for ( i in [0,1] ) {
 	sequenceLayer[i] = new L.geoJson(null);
 }
 
-// adding buttons to zoom to show all stops
-L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
-	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20], maxZoom:14});
-}).addTo( map[0] );
-
-L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
-	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[20,20], maxZoom:14});
-}).addTo( map[1] );
-
 // initiating layers for carrying shapes
 var shapeLayer = [];
 for ( i in [0,1] ) {
 	shapeLayer[i] = new L.geoJson(null);
 	shapeLayer[i].addTo(map[i]);
 }
+
+// adding buttons to zoom to show all stops
+L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[40,20], maxZoom:14});
+}).addTo( map[0] );
+
+L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+	map.fitBounds(sequenceLayer[1].getBounds(), {padding:[40,20], maxZoom:14});
+}).addTo( map[1] );
+
+// adding buttons to download shape
+L.easyButton('<img src="extra_files/downloadicon.svg" title="download shape">', function(btn, map){
+	download_shapefile(0);
+}).addTo( map[0] );
+
+L.easyButton('<img src="extra_files/downloadicon.svg" title="download shape">', function(btn, map){
+	download_shapefile(1);
+}).addTo( map[1] );
+
 
 // #########################################
 // Run initiating commands
@@ -329,35 +337,7 @@ window.onclick = function(event) {
 // #########################################
 // Functions
 
-/*
-function getPythonRoutes() {
-	//load from python!
-	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allRoutes`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`GET call to Server API/allRoutes succesful.`);
-			var data = JSON.parse(xhr.responseText);
-			$("#routes-table").tabulator('setData',data);
 
-			// populating route select for sequence:
-			var dropdown = '<option value="">Select a route</option>';
-			data.forEach(function(row){
-				dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-			});
-
-			$("#routeSelect").html(dropdown);
-			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
-		}
-		else {
-			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-		}
-	};
-	xhr.send();
-}
-*/
 
 function getPythonStops() {
 	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
@@ -510,7 +490,7 @@ function mapsUpdate(timeflag='normal') {
 			stopmarker.addTo(sequenceLayer[j]);
 		}
 
-		map[j].fitBounds(sequenceLayer[j].getBounds(), {padding:[20,20], maxZoom:14}); 
+		map[j].fitBounds(sequenceLayer[j].getBounds(), {padding:[40,20], maxZoom:14}); 
 		if(timeflag == 'firsttime') {
 			sequenceLayer[j].addTo(map[j]);
 		}
@@ -684,6 +664,9 @@ function flipSequence(overwrite=false) {
 function clearSequences() {
 	$("#sequence-0-table").tabulator('setData',[]);
 	$("#sequence-1-table").tabulator('setData',[]);
+	// ah we have a reset function. let's reset some more things
+	$("#sequenceSaveStatus").html('');
+
 }
 
 function getPythonAllShapesList() {
@@ -938,7 +921,7 @@ function drawShape(shapeArray, whichMap) {
 			latlngs.push([ row['shape_pt_lat'], row['shape_pt_lon'] ]);
 		});
 	var shapeLine = L.polyline.antPath(latlngs, {color: lineColor, weight:5}).addTo(shapeLayer[whichMap]);
-	map[whichMap].fitBounds(shapeLine.getBounds(), {padding:[20,20], maxZoom:14});
+	map[whichMap].fitBounds(shapeLine.getBounds(), {padding:[40,20], maxZoom:14});
 	
 	/* // removing arrows as they were conflicting with the animation antPath that was brought in later.
 	var spacer = Array(5).join(" "); // repeater. from https://stackoverflow.com/a/1877479/4355695
@@ -982,3 +965,61 @@ function getPythonAgency() {
 	};
 	xhr.send();
 }
+
+function download_shapefile(direction=0) {
+	filename = $(`#shapes${direction}List`).val();
+	if(!filename.length) {
+		console.log(`Direction ${direction}: no shape selected.`);
+		return;
+	}
+	filename += '.geojson';
+	var contentString = JSON.stringify(shapeLayer[direction].toGeoJSON(), null, 2);
+	
+	// Adapted from https://stackoverflow.com/a/35251739/4355695
+	var mime_type = "text/plain";
+	var dlink = document.createElement('a');
+	dlink.download = filename;
+	var blob = new Blob([contentString], {type: mime_type});
+	dlink.href = window.URL.createObjectURL(blob);
+	dlink.onclick = function(e) {
+	// revokeObjectURL needs a delay to work properly
+	var that = this;
+	setTimeout(function() {
+		window.URL.revokeObjectURL(that.href);
+	}, 1500);
+	};
+
+	dlink.click();
+	dlink.remove();
+}
+
+/* Discarded functions
+
+function getPythonRoutes() {
+	//load from python!
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/allRoutes`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`GET call to Server API/allRoutes succesful.`);
+			var data = JSON.parse(xhr.responseText);
+			$("#routes-table").tabulator('setData',data);
+
+			// populating route select for sequence:
+			var dropdown = '<option value="">Select a route</option>';
+			data.forEach(function(row){
+				dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
+			});
+
+			$("#routeSelect").html(dropdown);
+			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
+			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
+
+		}
+		else {
+			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+*/

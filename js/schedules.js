@@ -520,7 +520,8 @@ function populateStopTimesFromSequence(trip_id) {
 function getPythonCalendar() {
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}calendar`);
+	xhr.open('GET', `${APIpath}calendar?current=y`);
+	// &current=y : exclude expired calendar entries
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/calendar .`);

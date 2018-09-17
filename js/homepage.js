@@ -86,17 +86,19 @@ function exportGTFS() {
 		$('#exportGTFSlog').html('<div class="alert alert-danger">Please give a valid name for the commit.</div>');
 		shakeIt('commitName'); return;
 	}
+	/*
 	var pw = $("#password").val();
 	if ( ! pw.length ) { 
 		$('#exportGTFSlog').html('<div class="alert alert-danger">Please enter the password.</div>');
 		shakeIt('password'); return;
 	}
+	*/
 
 	$("#exportGTFSlog").html('Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.');
 	
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}commitExport?pw=${pw}&commit=${commit}`);
+	xhr.open('GET', `${APIpath}commitExport?commit=${commit}`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Sent commit message to Server API/commitExport .`);

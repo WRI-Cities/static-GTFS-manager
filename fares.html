@@ -177,22 +177,27 @@ Changes: <button class="btn btn-outline-warning btn-sm" id="attributes-undo">Und
 </p>
 -->
 <br>
-<p><small>Instructions: Each price bracket to have an entry here. See <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank" >GTFS reference</a> for more info.</small></p>
+<p><small>Each price bracket to have an entry here. See <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank" >GTFS reference</a> for more info.<br>
+See Maintenance section for deleting a fare after saving to DB.</small></p>
 
 </div>
 <div class="col" id="rightcontainer">
 
-<h4>Add/Edit a Fare Attribute</h4>
+<h4>Add a Fare Attribute</h4>
 
-<p>Pick or create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare id' size="5"></p>
-<p>Set a price: <input id='price' type="number" style="width:50px;"> INR => <button id="addEditFare" class="btn btn-outline-primary btn-sm">Add or Edit Fare</button></p>
-<!--
-<p>Or, <button id="deleteFare" class="btn btn-outline-danger btn-sm">Delete Fare</button></p>
--->
+<p>Create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5"></p>
+<p>Set a price: <input id='price' type="number" style="width:50px;"></p>
+<p>Currency: <input id='currency' style="width:50px;" value="INR" title="specify currency"> <small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small></p>
+
+<p><button id="addEditFare" class="btn btn-outline-primary btn-sm">Add Fare</button>
+&nbsp; <small><i>if existing fare_id, entry in table will be updated.</i></small></p>
+
 <small id="fareAttrStatus"></small>
 <hr>
-<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes to DB</button> <span id="saveFareAttributesStatus"></span>
-
+<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes to DB</button> 
+<br>
+<span id="saveFareAttributesStatus"></span>
+</p>
 </div>
 </div> <!-- end of columns row -->
 

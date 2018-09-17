@@ -27,7 +27,11 @@ def exportGTFS (folder):
 		start1 = time.time()
 		tablename = h5File[:-3] # remove last 3 chars, .h5
 
-		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		try:
+			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(h5File))
 		
 		if len(df):
 			logmessage('Writing ' + tablename + ' to disk and zipping...')
@@ -53,8 +57,12 @@ def exportGTFS (folder):
 		# first, getting all columns
 		columnsList = set()
 		for count,h5File in enumerate(filenames):
-			df = pd.read_hdf(dbFolder + h5File,'df',stop=0)
-			columnsList.update(df.columns.tolist())
+			try:
+				df = pd.read_hdf(dbFolder + h5File,'df',stop=0)
+			except KeyError as e:
+				df = pd.DataFrame()
+				logmessage('Note: {} does not have any data.'.format(h5File))
+			columnsList.update(df.columns.tolist())	
 			del df
 		gc.collect()
 		columnsList = list(columnsList)
@@ -67,8 +75,11 @@ def exportGTFS (folder):
 
 		for count,h5File in enumerate(filenames):
 			logmessage('Writing {} to csv'.format(h5File))
-			df1 = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
-			
+			try:
+				df1 = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			except KeyError as e:
+				df1 = pd.DataFrame()
+				logmessage('Note: {} does not have any data.'.format(h5File))
 			# in case the final columns list has more columns than df1 does, concatenating an empty df with the full columns list.
 			# from https://stackoverflow.com/a/30926717/4355695
 			columnsetter = pd.DataFrame(columns=columnsList)
@@ -235,28 +246,134 @@ def importGTFS(zipname):
 
 def GTFSstats():
 	'''
-	Gives number of rows in all the tables.
-	To do: give stats properly. Show the main tables first, and then show extra tables.
+	Gives current stats of the GTFS tables held in DB
+	Enlists:
+		- agency name(s).
+		- mandatory GTFS tables
+		- optional GTFS tables
+		- extra tables present in feed but not part of traditional GTFS spec (only mentioned if present)
+	
+	- List number of entries in each
+	- Pad to have tabular like view
+	- Format numbers to have thousands separators
+	- If there are excess agencies, mention only first two and then put number of remaining
 	'''
-	filenames = findFiles(dbFolder, ext='.h5', prefix=None, chunk='all')
-	print(filenames)
 	content = '';
+	
+	agencyList = readTableDB('agency').agency_name.tolist()
+	if len(agencyList)>2 : agencyList[:] = agencyList[:2] + ['and {} more'.format(len(agencyList)-2 )]
+	# if there are excess agencies, mention only first two and then put number of remaining
 
-	for h5File in filenames:
-		tablename = h5File[:-3] # remove last 3 chars, .h5
+	content += 'Agency: {}<br>'.format( ', '.join(agencyList) )
+
+	filenames = findFiles(dbFolder, ext='.h5', prefix=None, chunk='all')
+	
+	coveredFiles = []
+	
+	# first, run through the main GTFS files in proper order
+	content += '<br>1. Main tables: (*)<br>'
+	for feed in requiredFeeds:
+		tablename = feed[:-4] # remove .txt
+		count = 0
+		
+		if tablename not in chunkRules.keys():
+			# normal tables
+			if os.path.exists(dbFolder+tablename+'.h5'):
+				hdf = pd.HDFStore(dbFolder + tablename + '.h5')
+				try:
+					count = hdf.get_storer('df').nrows
+					# gets number of rows, without reading the entire file into memory. From https://stackoverflow.com/a/26466301/4355695
+				except KeyError as e:
+					logmessage('Note: {} does not have any data.'.format(tablename + '.h5'))
+				hdf.close()
+				# have to close this opened file, else will conflict with pd.read_csv later on
+				coveredFiles.append(tablename+'.h5')
+			message = '{}: {:,} entries'.format( tablename.ljust(20),count )
+			# {:,} : does number formattting. from https://stackoverflow.com/q/16670125/4355695
+			# .ljust(20): pads spaces to string so that total len=20. from https://stackoverflow.com/a/5676676/4355695
+			logmessage(message)
+			content += message + '<br>'
+
+		else:
+			# chunked files
+			chunks = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
+			if chunks:
+				for h5File in chunks:
+					hdf = pd.HDFStore(dbFolder + h5File)
+					try:
+						count += hdf.get_storer('df').nrows
+					except KeyError as e:
+						logmessage('Note: {} does not have any data.'.format(h5File))
+					hdf.close()
+					coveredFiles.append(h5File)
+			message = '{}: {:,} entries'.format( tablename.ljust(20),count )
+			logmessage(message)
+			content += message + '<br>'
+		
+		# requiredFeeds loop over
+	
+	
+	# next, cover optional tables in GTFS spec
+	content += '<br>2. Additional tables: (#)<br>'
+	for feed in optionalFeeds:
+		tablename = feed[:-4] # remove .txt
+		count = 0
+		
+		if tablename not in chunkRules.keys():
+			# normal tables
+			if os.path.exists(dbFolder+tablename+'.h5'):
+				hdf = pd.HDFStore(dbFolder + tablename + '.h5')
+				try:
+					count = hdf.get_storer('df').nrows
+				except KeyError as e:
+					logmessage('Note: {} does not have any data.'.format(tablename + '.h5'))
+				hdf.close()
+				coveredFiles.append(tablename+'.h5')
+			message = '{}: {:,} entries'.format( tablename.ljust(20),count )
+			logmessage(message)
+			content += message + '<br>'
+
+		else:
+			# chunked files
+			chunks = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
+			if chunks:
+				for h5File in chunks:
+					hdf = pd.HDFStore(dbFolder + h5File)
+					try:
+						count += hdf.get_storer('df').nrows
+					except KeyError as e:
+						logmessage('Note: {} does not have any data.'.format(h5File))
+					hdf.close()
+					coveredFiles.append(h5File)
+			message = '{}: {:,} entries'.format( tablename.ljust(20),count )
+			logmessage(message)
+			content += message + '<br>'
+		
+		# optionalFeeds loop over
+
+	# now we cover the files that are present in the feed but not part of the GTFS spec
+	remainingFiles = set(filenames) - set(coveredFiles)
+	if(remainingFiles) : content += '<br>3. Other tables: (^)<br>'
+	for h5File in remainingFiles:
 		hdf = pd.HDFStore(dbFolder + h5File)
-		count = hdf.get_storer('df').nrows
-		# gets number of rows, without reading the entire file into memory. From https://stackoverflow.com/a/26466301/4355695
-		# its different for data in table mode:
-		# frame_table  (typ->appendable,nrows->40,ncols->6,indexers->[index])
+		try:
+			count = hdf.get_storer('df').nrows
+		except KeyError as e:
+			logmessage('Note: {} does not have any data.'.format(h5File))
+			count = 0
 		hdf.close()
-		if count:
-			content += tablename + ': ' + str( count ) + ' entries<br>'
-	if len(filenames): 
-		del hdf
-	gc.collect()
-	# to do: last commit mention
+		message = '{}: {:,} entries'.format( h5File[:-3].ljust(20),count )
+		logmessage(message)
+		content += message + '<br>'
+
+	# Footnotes
+	content += '<br>----<br>*: required part of GTFS spec, needed to make valid GTFS'
+	content += '<br>#: part of GTFS spec but not compulsory'
+	if(remainingFiles) : content += '<br>^: not part of traditional GTFS spec, used by operator for additional purposes'
+	
 	return content
+	# end of GTFSstats function
+
 
 def readTableDB(tablename, key=None, value=None):
 	'''
@@ -294,8 +411,12 @@ def readTableDB(tablename, key=None, value=None):
 		if not os.path.exists(dbFolder+h5File):
 			continue
 		
-		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str) 
-		# typecasting as str, keeping NA values blank ''
+		try:
+			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			# typecasting as str, keeping NA values blank ''
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(h5File))
 
 		if(key and value):
 			logmessage('readTableDB: table:{}, column:{}, value:"{}"'.format(tablename,key,value))
@@ -307,7 +428,7 @@ def readTableDB(tablename, key=None, value=None):
 			# note: in case the column (key) has a space, see https://github.com/pandas-dev/pandas/issues/6508. Let's avoid spaces in column headers please!
 			# dilemma: what if the value is a number instead of a string? let's see that happens!
 			# -> solved by typecasting everything as str by default
-		collectDF = collectDF.append(df.copy(), ignore_index=True, sort=True)
+		collectDF = collectDF.append(df.copy(), ignore_index=True, sort=False)
 		del df
 	
 	logmessage('readTableDB: Loaded {}, {} records'.format(tablename,len(collectDF)) )
@@ -352,14 +473,19 @@ def replaceTableDB(tablename, data, key=None, value=None):
 
 	elif ((key is not None) and (value is not None) ):
 		# remove entries matching the key and value
-		df = pd.read_hdf(h5File,'df').fillna('').astype(str)
+		try:
+			df = pd.read_hdf(h5File,'df').fillna('').astype(str)
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(h5File))
+		oldLen = len( df[ df[key] == str(value)])
 		df.query(key + ' != "' + str(value) + '"', inplace=True)
 		
 		df3 = pd.concat([df,xdf], ignore_index=True)
 		df3.to_hdf(h5File, 'df', format='table', mode='w', complevel=1)
 
-		logmessage('Replaced entries for {}={} with {} new entries in {}.'\
-			.format(key,str(value),str(len(xdf)),tablename ) )
+		logmessage('Replaced {} entries for {}={} with {} new entries in {}.'\
+			.format(oldLen,key,str(value),str(len(xdf)),tablename ) )
 		del df3
 		del df
 
@@ -687,8 +813,8 @@ def csvunpivot(filename, keepcols, var_header, value_header, sortby):
 ##############################
 
 def get_sec(time_str):
-    h, m, s = time_str.split(':')
-    return int(h) * 3600 + int(m) * 60 + int(s)
+	h, m, s = time_str.split(':')
+	return int(h) * 3600 + int(m) * 60 + int(s)
 
 def lat_long_dist(lat1,lon1,lat2,lon2):
 	# function for calculating ground distance between two lat-long locations
@@ -812,198 +938,93 @@ def serviceIdsFunc():
 		service_id_list = calendarDF['service_id'].tolist()
 	return service_id_list
 
-'''
-def deletefromDB(dbfile,key,value,tables):
-	
-	# first, delete linked trips if it is a route. INCEPTION! aka recursive function.
-	if key == 'route_id':
-		db = tinyDBopen(dbfile)
-		Item = Query()
-		tableDb = db.table('trips')
-		tripsList = [ x['trip_id'] for x in tableDb.search(Item['route_id'] == value) ]
-		db.close()
-		[ deletefromDB(dbfile,key='trip_id',value=x,tables=['stop_times']) for x in tripsList ]
 
-	db = tinyDBopen(dbfile)
-	Item = Query()
-
-	# Deleting:
-
-	for tablename in tables:
-		tableDb = db.table(tablename)
-		logmessage('removing entries from ' + tablename + ' having '+key+'='+str(value))
-		tableDb.remove(Item[key] == value)
-
-	# Zapping:
-	if key == 'shape_id':
-		# blank its entries in trips table
-		# https://tinydb.readthedocs.io/en/latest/usage.html#replacing-data
-		tableDb = db.table('trips')
-		rows = tableDb.search(Item['shape_id'] == value)
-		if len(rows):
-			for row in rows:
-				row['shape_id'] = ''
-			tableDb.write_back(rows)
-			logmessage('Zapped shape_id: ' + value + ' values in trips table, while keeping those rows.')
-	
-	if key == 'service_id':
-		# blank its entries in trips table
-		tableDb = db.table('trips')
-		rows = tableDb.search(Item['service_id'] == value)
-		# skip if no records. Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/41
-		if len(rows):
-			for row in rows:
-				row['service_id'] = ''
-			tableDb.write_back(rows)
-			logmessage('Zapped service_id: ' + value + ' from ' + len(rows) + ' in trips table, while keeping those rows.')
-
-	# sequence DB
-	if key == 'route_id':
-		# drop it from sequence DB too.
-		sDb = tinyDBopen(sequenceDBfile)
-		sItem = Query()
-		logmessage('Removing entires for route_id: '+value +' in sequenceDB too if any.')
-		sDb.remove(sItem[key] == value)
-		sDb.close();
-
-	if key == 'stop_id':
-		# drop the stop from sequence DB too.
-		sDb = tinyDBopen(sequenceDBfile)
-		sItem = Query()
-		changesFlag = False
-		rows = sDb.all()
-
-		# do this this only if sequenceDBfile is not empty
-		if len(rows):
-			for row in rows:
-				# do zapping only if the stop is present in that sequence
-				if value in row['0']:
-					row['0'][:] = ( x for x in row['0'] if x != value )
-					changesFlag = True
-					logmessage('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
-				if value in row['1']:
-					row['1'][:] = ( x for x in row['1'] if x != value )
-					changesFlag = True
-					logmessage('Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
-			
-			# rows loop over, now run write_back command only if there have been changes.
-			if changesFlag:
-				sDb.write_back(rows)
-		
-		sDb.close();
-
-	if key == 'shape_id':
-		# drop the shape from sequence DB too.
-		sDb = tinyDBopen(sequenceDBfile)
-		sItem = Query()
-		changesFlag = False
-		rows = sDb.all()
-
-		# do this this only if sequenceDBfile is not empty
-		if len(rows):
-			for row in rows:
-				# do zapping only if the stop is present in that sequence
-				if row.get('shape0',False):
-					if row['shape0'] == value:
-						row.pop('shape0', None)
-						changesFlag = True
-						logmessage('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0')
-				if row.get('shape1',False):
-					if row['shape1'] == value:
-						row.pop('shape1', None)
-						changesFlag = True
-						logmessage('Zapped shape0: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1')	
-			
-			# rows loop over, now run write_back command only if there have been changes.
-			if changesFlag:
-				sDb.write_back(rows)
-		
-		sDb.close();
-
-	# Zones
-	if key == 'zone_id':
-		# drop either origin_id or destination_id rows
-		tableDb = db.table('fare_rules')
-		logmessage('removing entries from fare_rules having origin_id or destination_id ='+str(value))
-		tableDb.remove(Item['origin_id'] == value)
-		tableDb.remove(Item['destination_id'] == value)
-		
-		# blank its entries in stops table
-		tableDb = db.table('stops')
-		rows = tableDb.search(Item['zone_id'] == value)
-		# do this only if there are matching entries in stops table.
-		if len(rows):
-			for row in rows:
-				row['zone_id'] = ''
-			tableDb.write_back(rows)
-			logmessage('Zapped zone_id:' + value + ' values in stops table, while keeping those rows.')
-	
-
-	db.close()
-	return True
-'''
 #################################################3
 
-def replaceIDfunc(valueFrom,valueTo,tableKeys):
+def replaceIDfunc(key,valueFrom,valueTo):
 	returnList = []
 	# to do: wean off tableKeys, bring in the deleteRules.csv code blocks from diagnose, delete functions.
 	
-	if debugMode: logmessage('replaceIDfunc: valueFrom:',valueFrom,\
-		'\nvalueTo:',valueTo,'\ntableKeys:',tableKeys)
+	# load the delete config file
+	content = ''
+	deleteRulesDF = pd.read_csv(configFolder + 'deleteRules.csv', dtype=str).fillna('')
+	deleteRulesDF.query('key == "{}"'.format(key), inplace=True)
+	if len(deleteRulesDF):
+		deleteRulesDF.reset_index(drop=True,inplace=True)
+	else:
+		logmessage('No deleteRules found for column',key)
+		content = 'No deleteRules found for this column.'
 
-	for row in tableKeys:
-		tablename = row['table']
-		column = row['key']
-		if tablename in chunkRules.keys():
-			filesLoop = replaceIDChunk(valueFrom,valueTo,tablename,column)
+	if debugMode: logmessage(deleteRulesDF)
+
+	for i,row in deleteRulesDF.iterrows():
+		searchColumn = row.column_name if len(row.column_name) else row.key
+		
+		if row.table in chunkRules.keys():
+			# chunked table
+			filesLoop = replaceIDChunk(valueFrom,valueTo,row.table,searchColumn)
+			# doesn't do actualy replacing yet, but edits the lookup json if needed 
+			# and returns the list of files to be worked on.
 			if not filesLoop: continue
 
 		else:
 			# normal table
-			filesLoop = [ tablename + '.h5' ]
+			filesLoop = [ row.table + '.h5' ]
 
 		for h5File in filesLoop:
-			replacingStatus = replaceTableCell(h5File,column,valueFrom,valueTo)
+			replacingStatus = replaceTableCell(h5File,searchColumn,valueFrom,valueTo)
 			if replacingStatus:
 				returnList.append(replacingStatus)
 
-	# end of tableKeys loop
-
-	# additional: if it's a stop, replace it in sequence DB too.
-	if 'stop_id' in [x['key'] for x in tableKeys]:
-		sDb = tinyDBopen(sequenceDBfile)
-		sItem = Query()
-		rows = sDb.all()
-		for row in rows:
-			row['0'][:] = ( x if (x != valueFrom) else valueTo for x in row['0']  )
-			row['1'][:] = ( x if (x != valueFrom) else valueTo for x in row['1'] )
-			logmessage('Replaced stop_id = ' + valueFrom + ' with ' + valueTo + ' in sequence DB for route '+ row['route_id'])
-			returnList.append('Replaced stop_id = ' + valueFrom + ' with <b>' + valueTo + '</b> in sequence DB for route '+ row['route_id'])
-		sDb.write_back(rows)
-		sDb.close();
-
-	# hey, don't forget shapes!
-	if 'shape_id' in [x['key'] for x in tableKeys]:
+	# hey, don't forget sequence db!
+	if key in ['shape_id', 'stop_id', 'route_id']:
 		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
 		rows = sDb.all()
 		somethingEditedFlag = False
 		for row in rows:
-			editedFlag = False
-			if row.get('shape0') == valueFrom :
-				row['shape0'] = valueTo
-				editedFlag = True
-			if row.get('shape1') == valueFrom :
-				row['shape1'] = valueTo
-				editedFlag = True
-			
-			if editedFlag:
-				a = 'Replaced shape_id = {} with {} in sequence DB for route {}'\
-					.format(valueFrom,valueTo,row.get('route_id') )
-				logmessage(a) 
-				returnList.append(a)
-				somethingEditedFlag = True
 
+			if key == 'shape_id':
+				editedFlag = False
+				if row.get('shape0') == valueFrom :
+					row['shape0'] = valueTo
+					editedFlag = True
+				if row.get('shape1') == valueFrom :
+					row['shape1'] = valueTo
+					editedFlag = True
+				
+				if editedFlag:
+					a = 'Replaced shape_id = {} with {} in sequence DB for route {}'\
+						.format(valueFrom,valueTo,row.get('route_id') )
+					logmessage('replaceIDfunc:',a) 
+					returnList.append(a)
+					somethingEditedFlag = True
+
+			if key == 'stop_id':
+				editedFlag = False
+				if valueFrom in row['0']:
+					row['0'][:] = [ x if (x != valueFrom) else valueTo for x in row['0']  ]
+					editedFlag = True
+				
+				if valueFrom in row['1']:
+					row['1'][:] = [ x if (x != valueFrom) else valueTo for x in row['1'] ]
+					editedFlag = True
+				
+				if editedFlag:
+					a = 'Replaced stop_id = {} with {} in sequence DB for route {}'.format(valueFrom,valueTo,row['route_id'])
+					logmessage('replaceIDfunc:',a)
+					returnList.append(a)
+					somethingEditedFlag = True
+
+			if key == 'route_id':
+				if row.get('route_id') == valueFrom:
+					row['route_id'] = valueTo
+					a = 'Replaced route_id = {} with {} in sequence DB'\
+						.format(valueFrom,valueTo )
+					logmessage('replaceIDfunc:',a) 
+					returnList.append(a)
+					somethingEditedFlag = True
+		
 		if somethingEditedFlag: sDb.write_back(rows) # write updated data back only if you've edited something, else don't bother.
 		sDb.close();
 
@@ -1055,10 +1076,14 @@ def replaceTableCell(h5File,column,valueFrom,valueTo):
 	returnStatus = False
 	# check if file exists.
 	if not os.path.exists(dbFolder + h5File):
-		logmessage('replaceIDChunk: {} not found.'.format(h5File))
+		logmessage('replaceTableCell: {} not found.'.format(h5File))
 		return False
 	
-	df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str) 
+	try:
+		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+	except KeyError as e:
+		df = pd.DataFrame()
+		logmessage('Note: {} does not have any data.'.format(h5File))
 	if column not in df.columns:
 		if debugMode: logmessage('replaceTableCell: column {} not found in {}. Skipping this one.'\
 			.format(column,h5file) )
@@ -1069,14 +1094,15 @@ def replaceTableCell(h5File,column,valueFrom,valueTo):
 		# the replacing:
 		df[column].replace(to_replace=str(valueFrom), value=str(valueTo), inplace=True )
 		# hey lets do this for the ordinary tables too!
-		logmessage('replaceTableCell(): replaced {} instances of "{}" with "{}" in {} column in {}'\
+		logmessage('replaceTableCell: replaced {} instances of "{}" with "{}" in {} column in {}'\
 			.format(count,valueFrom,valueTo,column,h5File) )
 		# write it back
 		df.to_hdf(dbFolder + h5File,'df', format='table', mode='w', complevel=1)
 		returnStatus = 'Replaced {} instances of "{}" with "{}" in {} column in {}'\
 			.format(count,valueFrom,valueTo,column,h5File)
 	else:
-		returnStatus = 'Nothing found in {} for {}="{}"'.format(h5File,column,valueFrom)
+		pass
+		#returnStatus = 'Nothing found in {} for {}="{}"'.format(h5File,column,valueFrom)
 
 	del df
 	return returnStatus
@@ -1134,7 +1160,7 @@ def readColumnDB(tablename, column, key=None, value=None):
 			if key == chunkRules[tablename]['key']:
 				df = readTableDB(tablename, key=key, value=value)
 			else:	
-				if debugMode: logmessage('readColumnDB(): Note: reading a chunked table {} by non-primary key {}. May take time.'\
+				if debugMode: logmessage('readColumnDB: Note: reading a chunked table {} by non-primary key {}. May take time.'\
 					.format(tablename,key))
 				df = readChunkTableDB(tablename, key=key, value=value)
 
@@ -1142,7 +1168,7 @@ def readColumnDB(tablename, column, key=None, value=None):
 				# in a chunked file, give the values as-is, don't do any unique'ing business.
 				returnList = df[column].tolist()
 			else:
-				logmessage('readColumnDB(): Hey, the column {} doesn\'t exist in the chunked table {} for {}={}'\
+				logmessage('readColumnDB: Hey, the column {} doesn\'t exist in the chunked table {} for {}={}'\
 					.format(column,tablename,key,value))
 			del df
 
@@ -1185,7 +1211,11 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 
 	if chunkFile:
 		logmessage('Editing ' + chunkFile)
-		df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+		try:
+			df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(chunkFile))
 		initLen = len(df)
 		
 		df = df[df[key] != str(value)]
@@ -1205,7 +1235,11 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 	else:
 		# if the trip wasn't previously existing, take the smallest chunk and add in there.
 		chunkFile = smallestChunk(tablename)
-		df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+		try:
+			df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(chunkFile))
 
 		newdf = pd.concat([df,xdf],ignore_index=True)
 		logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
@@ -1334,9 +1368,13 @@ def readChunkTableDB(tablename, key, value):
 	collect = []
 	chunksHaving = []
 	for i,h5File in enumerate( findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y') ):
-		df = pd.read_hdf(dbFolder+h5File,'df')\
-			.fillna('').astype(str)\
-			.query( '{}=="{}"'.format(key,value) )
+		try:
+			df = pd.read_hdf(dbFolder+h5File,'df')\
+					.fillna('').astype(str)\
+					.query( '{}=="{}"'.format(key,value) )
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(h5File))
 		if len(df): 
 			collect.append(df.copy())
 			chunksHaving.append(h5File)
@@ -1377,7 +1415,6 @@ def deleteID(column,value):
 	
 	if debugMode: logmessage(deleteRulesDF)
 
-	counter = 1
 	for i,row in deleteRulesDF.iterrows():
 		dbPresent = findFiles(dbFolder, ext='.h5', prefix=row.table, chunk='all')
 		if dbPresent:
@@ -1417,7 +1454,11 @@ def deleteInTable(tablename, key, value, action="delete"):
 	# now in h5Files we have which all files to process.
 	returnMessage = ''
 	for h5File in h5Files:
-		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		try:
+			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		except KeyError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not have any data.'.format(h5File))
 
 		# check if given column is present in table or not
 		if key not in df.columns:
@@ -1435,7 +1476,7 @@ def deleteInTable(tablename, key, value, action="delete"):
 		else: # for zap
 			df[key] = df[key].apply(lambda x: '' if x==value else x)
 			# zap all occurences of value in the column [key] to blank. leave all other values as-is
-			returnMessage += 'Zapped {} occurences of {}="{}", in table: {}<br>'.format(numDel,key,value,tablename)
+			returnMessage += 'Zapped {} occurences of {}="{}" in table: {}<br>'.format(numDel,key,value,tablename)
 		
 		# commenting out while developing
 		df.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
@@ -1444,17 +1485,17 @@ def deleteInTable(tablename, key, value, action="delete"):
 
 
 def sequenceDel(column,value):
-	content = ''
+	content = []
 	if column == 'route_id':
 		# drop it from sequence DB too.
 		sDb = tinyDBopen(sequenceDBfile)
 		sItem = Query()
-		sDb.remove(sItem[column] == value)
+		sDb.remove(sItem['route_id'] == value)
 		sDb.close();
 
 		message = 'Removed entries if any for route_id: '+value +' in sequenceDB.'
 		logmessage(message)
-		content += message + '<br>'
+		content.append(message)
 
 	if column == 'stop_id':
 		# drop the stop from sequence DB too.
@@ -1472,13 +1513,13 @@ def sequenceDel(column,value):
 					changesFlag = True
 					message = 'Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 0'
 					logmessage(message)
-					content += message + '<br>'
+					content.append(message)
 				if value in row['1']:
 					row['1'][:] = ( x for x in row['1'] if x != value )
 					changesFlag = True
 					message = 'Zapped stop_id: ' + value + ' from sequence DB for route: '+ row['route_id'] + ' direction: 1'
 					logmessage(message)
-					content += message + '<br>'
+					content.append(message)
 			
 			# rows loop over, now run write_back command only if there have been changes.
 			if changesFlag:
@@ -1486,4 +1527,38 @@ def sequenceDel(column,value):
 		
 		sDb.close();
 
-	return content
+	if column == 'shape_id':
+		sDb = tinyDBopen(sequenceDBfile)
+		sItem = Query()
+		changesFlag = False
+		rows = sDb.all()
+
+		# do this this only if sequenceDBfile is not empty
+		if len(rows):
+			somethingEditedFlag = False
+			routesAffected = []
+			for row in rows:
+				if row.get('shape0','') == value:
+					row.pop('shape0',None)
+					routesAffected.append(row.get('route_id'))
+					somethingEditedFlag = True
+				if row.get('shape1','') == value:
+					row.pop('shape1s',None)
+					routesAffected.append(row.get('route_id'))
+					somethingEditedFlag = True
+			if somethingEditedFlag:
+				sDb.write_back(rows)
+				message = 'Zapped shape_id: {} in Sequence DB for route(s): {}'\
+					.format(value,','.join(routesAffected) )
+				logmessage(message)
+				content.append(message)
+		sDb.close();
+
+	return '<br>'.join(content)
+
+def calendarCurrent():
+	calendarDF = readTableDB('calendar')
+	today = float( '{:%Y%m%d}'.format(datetime.datetime.now()) )
+	logmessage(today)
+	calendarDF.end_date = calendarDF.end_date.astype(float)
+	return calendarDF[ calendarDF.end_date >= today ]

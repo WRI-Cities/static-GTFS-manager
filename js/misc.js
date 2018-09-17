@@ -219,61 +219,6 @@ $("#agency2add").bind("change keyup", function(){
 // #########################
 // Functions
 
-/*
-function getPythonCalendar() {
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}calendar`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded data from Server API/calendar .`);
-			var data = JSON.parse(xhr.responseText);
-			$("#calendar-table").tabulator('setData', data); 
-		}
-		else {
-			console.log('Server request to API/calendar failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
-			$("#calendar-table").html('Failed to load data from server.');
-		}
-	};
-	xhr.send();
-}
-
-
-function getPythonAgency() {
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}agency`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded agency data from Server API/agency .`);
-			var data = JSON.parse(xhr.responseText);
-			$('#agency-table').tabulator('setData',data);
-		}
-		else {
-			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);
-		}
-	};
-	xhr.send();
-}
-
-function getPythonTranslations() {
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}translations`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded translations data from Server API/translations .`);
-			var data = JSON.parse(xhr.responseText);
-			$('#translations-table').tabulator('setData',data);
-		}
-		else {
-			console.log('Server request to API/translations failed.  Returned status of ' + xhr.status);
-		}
-	};
-	xhr.send();
-}
-*/
-
 function saveCalendar() {
 	$('#calendarSaveStatus').html('Sending data to server.. Please wait..');
 
@@ -734,7 +679,7 @@ function replaceIDDryRun() {
 	$('#renameStatus').html('');
 	
 	// clean text input
-	valueTo = $('#renameDestination').val().replace(/[^A-Za-z0-9-_]/g, ""); // cleanup!
+	valueTo = $('#renameDestination').val().replace(/[^A-Za-z0-9-_.]/g, ""); // cleanup!
 	$('#renameDestination').val(valueTo);
 
 	// validation: test if all selections and inputs are valid
@@ -821,11 +766,13 @@ function replaceID() {
 	}
 	var valueFrom =  globalValueFrom;
 	var valueTo = globalValueTo;
-	var tablekeys = globalTableKeys;
+	//var tablekeys = globalTableKeys;
 	// [{'table':'stops','key':'stop_id'},{...}]
+	sourceJson = JSON.parse( $('#renameSource').val() );
+	key = Object.keys(sourceJson)[0];
 
 	// validation: test if all parameters are valid. Ideally we should never get to this but still.
-	if( valueFrom == '' || valueFrom == 'No Selection' || valueTo.length<2 || tablekeys.length<1 ) {
+	if( valueFrom == '' || valueFrom == 'No Selection' || valueTo.length<2 || key.length<1 ) {
 		resetGlobals();
 		$('#renameTablesInfo').html('Invalid entries.');
 		return;
@@ -833,19 +780,78 @@ function replaceID() {
 	$('#renameStatus').html( 'Processing.. please wait..' );
 
 	$.ajax({
-		url : `${APIpath}replaceID?pw=${pw}&valueFrom=${valueFrom}&valueTo=${valueTo}`,
-		type : 'POST',
-		data : JSON.stringify(tablekeys),
-		cache: false,
-		processData: false,  // tell jQuery not to process the data
+		url : `${APIpath}replaceID?pw=${pw}&key=${key}&valueFrom=${valueFrom}&valueTo=${valueTo}`,
+		type : 'GET',
+		//data : JSON.stringify(tablekeys),
+		//cache: false,
+		//processData: false,  // tell jQuery not to process the data
 		contentType: 'application/json; charset=utf-8', 
 		success : function(returndata) {
-			console.log('API/replaceID POST request successful.');
+			console.log('API/replaceID GET request successful.');
 			$('#renameStatus').html( returndata );
 		},
 		error: function(jqXHR, exception) {
-			console.log('API/replaceID POST request failed.')
+			console.log('API/replaceID GET request failed.')
 			$('#renameStatus').html( jqXHR.responseText );
 		}
 	});
 }	
+
+
+
+
+
+/* RETIRED FUNCTIONS
+function getPythonCalendar() {
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}calendar`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded data from Server API/calendar .`);
+			var data = JSON.parse(xhr.responseText);
+			$("#calendar-table").tabulator('setData', data); 
+		}
+		else {
+			console.log('Server request to API/calendar failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
+			$("#calendar-table").html('Failed to load data from server.');
+		}
+	};
+	xhr.send();
+}
+
+
+function getPythonAgency() {
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}agency`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded agency data from Server API/agency .`);
+			var data = JSON.parse(xhr.responseText);
+			$('#agency-table').tabulator('setData',data);
+		}
+		else {
+			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
+}
+
+function getPythonTranslations() {
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}translations`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded translations data from Server API/translations .`);
+			var data = JSON.parse(xhr.responseText);
+			$('#translations-table').tabulator('setData',data);
+		}
+		else {
+			console.log('Server request to API/translations failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
+}
+*/

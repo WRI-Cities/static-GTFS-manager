@@ -56,7 +56,7 @@ $("#fare-attributes-table").tabulator({
 		{title:"price", field:"price", editor:"input", headerFilter:"input", width:70, validator:["required","numeric"] },
 		{title:"payment_method", field:"payment_method", editor:"select", editorParams:{0:"0 - on boarding", 1:"1 - before boarding"}, headerSort:false, width:100 },
 		{title:"transfers", field:"transfers", editor:"select", editorParams:{'':'blank - Unlimited transfers', 0:"0 - No transfers", 1:"1 - Once allowed"}, headerSort:false, width:80 },
-		{title:"currency_type", field:"currency_type", headerSort:false, width:120 },
+		{title:"currency_type", field:"currency_type", editor:"input", headerSort:false, width:120 },
 		{title:"route_id", field:"route_id", headerSort:false, width:120, tooltip:'' }
 	],
 	ajaxURL: APIpath + 'fareAttributes', //ajax URL
@@ -160,6 +160,7 @@ $("#addEditFare").on("click", function() {
 	
 	var price = $('#price').val().replace(/[^0-9.-]/g, ""); //n1b3rs only
 	$('#price').val(price);
+	var currencyChosen = $('#currency').val() || CURRENCY;
 
 	// validation
 	if( !(fare_id.length > 0 && parseFloat(price)>=0 ) ) {
@@ -173,13 +174,13 @@ $("#addEditFare").on("click", function() {
 	var fare_id_list = data.map(a => a.fare_id);
 	var isPresent = fare_id_list.indexOf(fare_id) > -1;
 	if(isPresent) {
-		$("#fare-attributes-table").tabulator("updateRow",fare_id, { price:price });
+		$("#fare-attributes-table").tabulator("updateRow",fare_id, { 'price':price, 'currency_type':currencyChosen });
 		logmessage('Updated fare_id ' + fare_id);
 		$('#fareAttrStatus').html('<div class="alert alert-success">Updated fare_id ' + fare_id + '</div>');
 		depopulateFields();
 	} 
 	else {
-		$("#fare-attributes-table").tabulator("addRow",{ 'fare_id': fare_id, 'price':price, 'currency_type':CURRENCY, 'payment_method':1, 'transfers':''} );
+		$("#fare-attributes-table").tabulator("addRow",{ 'fare_id': fare_id, 'price':price, 'currency_type':currencyChosen, 'payment_method':1, 'transfers':''} );
 		$('#fareAttrStatus').html('<div class="alert alert-success">Added fare_id ' + fare_id + '</div>');
 	}
 });
