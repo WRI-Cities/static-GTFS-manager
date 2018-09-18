@@ -1,7 +1,3 @@
-//const stopsfile = 'GTFS/stops.txt';
-const UID_leastchars = 2;
-const UID_maxchars = 20;
-
 // #########################################
 // Function-variables to be used in tabulator
 
@@ -388,7 +384,7 @@ function reloadMap(timeflag='normal',filterFlag=false) {
 }
 
 function loadonmap(stopsjson,stopsLayer) {
-	var renderFlag = ( stopsjson.length > 1000 ? true : false );
+	var renderFlag = ( stopsjson.length > MARKERSLIMIT ? true : false );
 	console.log('total stops: ' + stopsjson.length);
 	// if there's too many stops, then use the SVG renderer way. Else if not too many stops, then use the divIcon way.
 	

@@ -1,11 +1,7 @@
 // #########################################
 // Initial things to execute on page load
-const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:true, width:100};
-
-const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
-
-var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[], selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
-
+var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[];
+var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 
 // #########################################
 // Function-variables to be used in tabulator
@@ -675,7 +671,7 @@ function getPythonAllShapesList() {
 	var jqxhr = $.get( `${APIpath}allShapesList`, function( data ) {
 		globalShapesList =  JSON.parse(data) ;
 		console.log('GET request to API/allShapesList succesful.');
-		console.log('globalShapesList: ' + JSON.stringify(globalShapesList) );
+		// console.log('globalShapesList: ' + JSON.stringify(globalShapesList) );
 		if(selected_route_id) {
 			// if a particular route is selected and global variable is holding a value
 			// this block is skipped at page load time as no route has been selected at the time.
