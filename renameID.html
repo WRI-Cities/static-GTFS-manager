@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Miscellaneous Parameters</title>
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#agency-table {
+	height: 300px;
+}
+#calendar-table {
+	height: 300px;
+}
+#translations-table {
+	height: 400px;
+}
+.translationBig {
+	font-size: 2em;
+}
+input[type=checkbox]#deepActionsConfirm {
+ width: 20px; height: 20px;
+ -webkit-border-radius: 22px; -moz-border-radius: 22px; border-radius: 22px;
+  border: 1px solid #bbb;
+  vertical-align: middle; 
+}
+#dryRunResults {
+width:100%;
+font-family: "Lucida Console", Monaco, monospace;
+font-size: 0.8em;
+}
+
+</style></head>
+<body>
+<div id="navBar"></div>
+
+<div class="container">
+<h2>Rename ID</h2>
+<br>
+<div class="row">
+<div class="col-md-6">
+<p><select id="renameSource"></select> to <input id="renameDestination" placeholder="new Unique ID"></p>
+<p id="renameTablesInfo"></p>
+<br>
+</div>
+<div class="col-md-6">
+<p>
+<button class="btn btn-warning" id="replaceDryRunButton">Test It First</button> &nbsp;
+<button class="btn" id="replaceIDButton" disabled="true">Rename across the DB</button></p>
+<p id="renameStatus"></p>
+
+</div>
+</div>
+<br>
+<small><p class="alert alert-info">Note: Please Reload this page after doing one change, to repopulate the dropdown lists here and elsewhere with the new ID.</p></small>
+
+<br>
+<hr>
+
+</div>
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/renameID.js"></script>
+
+</body>
+</html>

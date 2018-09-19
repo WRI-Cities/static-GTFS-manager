@@ -1,0 +1,144 @@
+hydGTFS POST call
+
+Preparing stops table.
+filtered row: {'stop_id': 'AME1', 'stop_name': 'Ameerpet Platform 1', 'stop_lat': '17.435744', 'stop_lon': '78.4444228', 'zone_id': 'AME', 'location_type': 0, 'wheelchair_boarding': 1, 'parent_station': 'AME'}
+Adding row to stops:  {'stop_id': 'AME4', 'stop_name': 'Ameerpet Platform 4', 'stop_lat': '17.435744', 'stop_lon': '78.4444228', 'zone_id': 'AME', 'location_type': 0, 'wheelchair_boarding': 1, 'parent_station': 'AME'}
+stops.txt created, 73 entries.
+
+Preparing agency table.
+agency.txt created, 1 entries
+
+Preparing calendar table.
+calendar.txt created, 2 entries
+
+Preparing routes table.
+routes.txt created, 2 entries
+
+Preparing shapes table.
+shapes.txt created, 710 entries
+
+Preparing fare_attributes table.
+fare_attributes.txt created, 10 entries
+
+Preparing fare_rules table.
+priceReplacementJson: {10: 'F1', 15: 'F2', 25: 'F3', 30: 'F4', 35: 'F5', 40: 'F6', 45: 'F7', 50: 'F8', 55: 'F9', 60: 'F10'}
+fare_rules.txt created, 576 entries
+
+Preparing transfers table.
+transfers.txt created, 1 entries
+
+Preparing translations table.
+translations.txt created, 66 entries
+
+Preparing stop_times and trips tables.
+red-wk.csv
+red-su.csv
+blu-wk.csv
+blu-su.csv
+i: 0  service_id: WK
+route_id: RED
+red-wk.csv
+Filtered table down to accepted stops values, length: 2700
+Intial number of trips in file:, 278
+Min allowed length of a trip: 7
+After eliminating invalid length trips, total trips in table: 270
+Watch out for borderline trip 6091
+Watch out for borderline trip 6093
+Removing pre-6am trip 6141
+After eliminating pre-6am trips, total trips in table: 269
+stopsOverrideJson: {'AME1': 'AME2'}
+i: 0  service_id: SU
+route_id: RED
+red-su.csv
+Filtered table down to accepted stops values, length: 2620
+Intial number of trips in file:, 269
+Min allowed length of a trip: 7
+After eliminating invalid length trips, total trips in table: 262
+Removing pre-6am trip 4253
+Watch out for borderline trip 4255
+Watch out for borderline trip 4257
+After eliminating pre-6am trips, total trips in table: 261
+stopsOverrideJson: {'AME1': 'AME2'}
+i: 1  service_id: WK
+route_id: BLU
+blu-wk.csv
+Filtered table down to accepted stops values, length: 3216
+Intial number of trips in file:, 277
+Min allowed length of a trip: 10
+After eliminating invalid length trips, total trips in table: 268
+After eliminating pre-6am trips, total trips in table: 268
+stopsOverrideJson: {'AME1': 'AME4', 'AME2': 'AME4'}
+i: 1  service_id: SU
+route_id: BLU
+blu-su.csv
+Filtered table down to accepted stops values, length: 3096
+Intial number of trips in file:, 260
+Min allowed length of a trip: 10
+After eliminating invalid length trips, total trips in table: 258
+After eliminating pre-6am trips, total trips in table: 258
+stopsOverrideJson: {'AME1': 'AME4', 'AME2': 'AME4'}
+stop_times.txt created, 13194 entries
+trips.txt created, 1056 entries
+
+backupDB: Creating backup of DB in export/2018-09-19-backup-1042/.
+['agency.h5', 'calendar.h5', 'calendar_dates.h5', 'routes.h5', 'stops.h5', 'trips.h5']
+Writing agency to disk and zipping...
+Added agency in 0.045 seconds.
+Writing calendar to disk and zipping...
+Added calendar in 0.045 seconds.
+Writing calendar_dates to disk and zipping...
+Added calendar_dates in 0.113 seconds.
+Writing routes to disk and zipping...
+Added routes in 0.074 seconds.
+Writing stops to disk and zipping...
+Added stops in 0.289 seconds.
+Writing trips to disk and zipping...
+Added trips in 0.41 seconds.
+Processing chunks for stop_times: ['stop_times_1.h5', 'stop_times_2.h5', 'stop_times_3.h5', 'stop_times_4.h5', 'stop_times_5.h5', 'stop_times_6.h5', 'stop_times_7.h5']
+Columns for stop_times: ['trip_id', 'departure_time', 'drop_off_type', 'pickup_type', 'arrival_time', 'timepoint', 'stop_sequence', 'stop_id']
+Writing stop_times_1.h5 to csv
+Writing stop_times_2.h5 to csv
+Writing stop_times_3.h5 to csv
+Writing stop_times_4.h5 to csv
+Writing stop_times_5.h5 to csv
+Writing stop_times_6.h5 to csv
+Writing stop_times_7.h5 to csv
+CSV stop_times.txt created in 16.413 seconds, now zipping
+Added stop_times to zip in 2.134 seconds.
+Added stop_times in 18.546 seconds.
+Processing chunks for shapes: ['shapes_1.h5', 'shapes_2.h5', 'shapes_3.h5']
+Columns for shapes: ['shape_id', 'shape_pt_lon', 'shape_pt_lat', 'shape_pt_sequence']
+Writing shapes_1.h5 to csv
+Writing shapes_2.h5 to csv
+Writing shapes_3.h5 to csv
+CSV shapes.txt created in 4.029 seconds, now zipping
+Added shapes to zip in 1.238 seconds.
+Added shapes in 5.267 seconds.
+Generated GTFS feed at export/2018-09-19-backup-1042/
+Backup created.
+
+Extracting uploaded zip to uploads/unzip-104250/
+Extracted files: ['agency.txt', 'calendar.txt', 'fare_attributes.txt', 'fare_rules.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'transfers.txt', 'translations.txt', 'trips.txt']
+Removed .h5 files from db/
+Removed .json files from db/
+db/sequence.json purged.
+Commencing conversion of gtfs feed files into the DB's .h5 files
+agency.h5: 1 rows
+calendar.h5: 2 rows
+fare_attributes.h5: 10 rows
+fare_rules.h5: 576 rows
+routes.h5: 2 rows
+Storing shapes in chunks.
+shapes_1.h5: 483 rows
+Appending the 227 rows of last ID to last chunk shapes_1.h5
+Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+stops.h5: 73 rows
+Storing stop_times in chunks.
+stop_times_1.h5: 13180 rows
+Appending the 14 rows of last ID to last chunk stop_times_1.h5
+Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+transfers.h5: 1 rows
+translations.h5: 66 rows
+trips.h5: 1056 rows
+Finished importing GTFS feed. You can remove the feed zip hydMetroGTFS.zip and folder uploads/unzip-104250/ from uploads/ if you want.
+hydGTFS POST call took 57.54 seconds.

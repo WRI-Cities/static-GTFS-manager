@@ -1,70 +1,11 @@
 // #########################################
-// Initial things to execute on page load
-var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[];
+// Global variables
+var allStops = [];
 var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 
-// #########################################
-// Function-variables to be used in tabulator
-
-var agencyListGlobal = {}; // global variable
-var agencyLister = function(cell) {
-	return agencyListGlobal;
-	// needs to be declared earlier but the variable referenced in it is a global one that will change later
-	// this function will get called every time user clicks the dropdown
-	//	getPythonAgency() function will make API call and load agencies listin into this global variable.
-}
-
-var routesTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' routes total';
-}
 
 // #########################################
 // Construct tables
-$("#routes-table").tabulator({
-	selectable:0,
-	index: 'route_id',
-	movableRows: true,
-	//history:true,
-	addRowPos: "top",
-	movableColumns: true,
-	layout:"fitDataFill",
-	columns:[
-		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
-		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:["string", "minLength:2"] },
-		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", validator:["required","string", "minLength:2"] },
-		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
-		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
-		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
-		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
-	],
-	ajaxURL: APIpath + 'routes', //ajax URL
-	ajaxLoaderLoading: loaderHTML,
-	dataLoaded:function(data) {
-		// this fires after the ajax response and after table has loaded the data. 
-		console.log(`routes GET request successful.`);
-		
-		var dropdown = '<option value="">Select a route</option>';
-		data.forEach(function(row){
-			dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-		});
-
-		$("#routeSelect").html(dropdown);
-		$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-		$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
-	},
-	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to routes failed.  Returned status of: ' + errorThrown);
-	}
-	
-});
-
-// #####################
-/*
-// SEQUENCE TABLES
 
 $("#sequence-0-table").tabulator({
 	selectable:1,
@@ -131,10 +72,10 @@ $("#sequence-1-table").tabulator({
 		map[1].closePopup();
 	}
 });
-*/
+
 
 // #################################
-/* Initiate map 
+/* Initiate map */
 var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
 var mapboxUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
@@ -143,8 +84,6 @@ var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9
 var MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib });
 var scenic0 = L.tileLayer(scenicUrl, { attribution: MBAttrib });
 var scenic1 = L.tileLayer(scenicUrl, { attribution: MBAttrib });
-
-//var scenicClone = jQuery.extend(true, {}, scenic);
 
 var mapOptions0 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic0, scrollWheelZoom: false };
 var mapOptions1 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic1, scrollWheelZoom: false };
@@ -193,21 +132,21 @@ L.easyButton('<img src="extra_files/downloadicon.svg" title="download shape">', 
 	download_shapefile(1);
 }).addTo( map[1] );
 
-*/
+
 // #########################################
 // Run initiating commands
 $(document).ready(function() {
-	//getPythonStops(); //load allStops array
-	getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
-	//getPythonRoutes(); // load routes.. for routes management.
-	//getPythonAllShapesList();
+	getPythonStops(); //load allStops array
+	//getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
+	getPythonRoutes(); // load routes.. for routes management.
+	getPythonAllShapesList();
 
 });
 
 
 // #########################################
 // Listeners for button presses etc
-/*
+
 $("#add-0").on("click", function(){
 	add2sequence($('#stopChooser0').val(),0);
 	//$('#stop2add-0').val('');
@@ -217,39 +156,7 @@ $("#add-1").on("click", function(){
 	add2sequence($('#stopChooser1').val(),1);
 	//$('#stop2add-1').val('');
 });
-*/
 
-$("#addRoute").on("click", function(){
-	var agency_id = $('#agencySelect').val().replace(/[^A-Za-z0-9-_.]/g, "");
-	if(! agency_id.length) return;
-	let data = $("#routes-table").tabulator("getData");
-	route_id_list = data.map(a => a.route_id); 
-
-	var counter = 1;
-	while ( route_id_list.indexOf(agency_id + pad(counter) ) > -1 ) counter++;
-
-	var route_id = agency_id + pad(counter);
-	
-	console.log(route_id);
-
-	$("#routes-table").tabulator('addRow',{route_id: route_id, agency_id:agency_id, route_short_name:route_id},true);
-	$('#route2add').val('');
-	$('#routeAddStatus').html('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
-});
-/*
-$("#route-undo").on("click", function(){
-	$("#routes-table").tabulator('undo');
-	
-});
-$("#route-redo").on("click", function(){
-	$("#routes-table").tabulator('redo');
-	
-});
-*/
-$("#saveRoutes").on("click", function(){
-	saveRoutes();
-});
-/*
 $("#saveSequence").on("click", function(){
 	saveSequence();
 });
@@ -357,35 +264,7 @@ function getPythonStops() {
 }
 
 function stopidAutocomplete() {
-	/*
-	stop_id_list = Object.keys(allStops); //get all keys, in this case, stop_id's. from https://stackoverflow.com/a/3068720/4355695
-
-	if ($('.stop_id').data('uiAutocomplete')) {
-		$( ".stop_id" ).autocomplete( "destroy" );
-	}
-	$( ".stop_id" ).autocomplete({
-		minLength: 0, delay: 500,
-		// source: stop_id_list
-		source: function(request, response) {
-		// limit results, to prevent browser hangups in large db situations
-		// from https://stackoverflow.com/a/7617637/4355695
-		var results = $.ui.autocomplete.filter(stop_id_list, request.term);
-		response(results.slice(0, 5));
-		}
-	});
-
-	$( ".stop_id" ).on( "autocompletechange", function( event, ui ) {
-		preventOtherInputs(ui, '.stop_id');
-	});
-
-	//making list appear without having to start typing
-	$( ".stop_id" ).on( "focus", function( event, ui ) {
-		$(this).autocomplete("search", $(this).val());
-	});	
-	*/
-	//############################
-	// Trying chosen.js autocomplete.
-	/*
+	// chosen.js autocomplete.
 	var content = '<option></option>';
 	for(key in allStops) {
 		content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
@@ -502,7 +381,7 @@ function mapsUpdate(timeflag='normal') {
 	
 
 // ##############################
-/* Interlinking between table and map 
+/* Interlinking between table and map */
 
 function mapPop(stop_id, i=0) {
 	sequenceLayer[i].eachLayer( function(layer) {
@@ -524,12 +403,12 @@ function markerOnClick(e) {
 	var row = $('#sequence-'+seq+'-table').tabulator("getRow", stop_id);
 	row.scrollTo();
 	row.toggleSelect();
-	
+	/*
 	// load editing and deleting panes too
-	//$( "#targetStopid" ).val(stop_id);
-	//populateFields(stop_id);
-	//$( "#stop2delete" ).val(stop_id);
-	
+	$( "#targetStopid" ).val(stop_id);
+	populateFields(stop_id);
+	$( "#stop2delete" ).val(stop_id);
+	*/
 }
 
 
@@ -552,42 +431,9 @@ function add2sequence(stop_id, direction_id=0) {
 		mapsUpdate('firsttime');
 	}
 }
-*/
+
 // ####################
 // Save, send data to python server
-
-function saveRoutes() {
-	$('#routeSaveStatus').html('');
-
-	var data=$('#routes-table').tabulator('getData');
-
-	var pw = $("#password").val();
-	if ( ! pw ) { 
-		$('#routeSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
-		shakeIt('password'); return;
-	}
-
-	console.log('sending routes table data to server API/saveRoutes via POST.');
-	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}routes?pw=${pw}`);
-	xhr.withCredentials = true;
-	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-	xhr.onload = function () {
-		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server API routes, resonse received: ' + xhr.responseText);
-			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes DB.</span>');
-			// reload routes data from DB, and repopulate route selector for sequence
-			$("#routes-table").tabulator("setData");
-		} else {
-			console.log('Server POST request to routes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
-		}
-	}
-	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
-
-}
-/*
 function saveSequence() {
 	$('#sequenceSaveStatus').html('<span class="alert alert-info">Saving sequence to DB, please wait...</span>');
 
@@ -680,10 +526,10 @@ function getPythonAllShapesList() {
 			// this block is skipped at page load time as no route has been selected at the time.
 			
 			// no, let's not re-fire route selection as that is erasing all the fresh sequence data created and not saved!
-			
-			//console.log('Re-firing selection of route ' + selected_route_id + ' from getPythonAllShapesList function to update shape dropdowns.')
-			//$("#routes-table").tabulator("selectRow",selected_route_id);
-			
+			/*
+			console.log('Re-firing selection of route ' + selected_route_id + ' from getPythonAllShapesList function to update shape dropdowns.')
+			$("#routes-table").tabulator("selectRow",selected_route_id);
+			*/
 			// should solve https://github.com/WRI-Cities/static-GTFS-manager/issues/34
 			getPythonShapesList(selected_route_id);
 		}
@@ -922,7 +768,103 @@ function drawShape(shapeArray, whichMap) {
 	var shapeLine = L.polyline.antPath(latlngs, {color: lineColor, weight:5}).addTo(shapeLayer[whichMap]);
 	map[whichMap].fitBounds(shapeLine.getBounds(), {padding:[40,20], maxZoom:14});
 	
-	/* // removing arrows as they were conflicting with the animation antPath that was brought in later.
+
+}
+
+function download_shapefile(direction=0) {
+	filename = $(`#shapes${direction}List`).val();
+	if(!filename.length) {
+		console.log(`Direction ${direction}: no shape selected.`);
+		return;
+	}
+	filename += '.geojson';
+	var contentString = JSON.stringify(shapeLayer[direction].toGeoJSON(), null, 2);
+	
+	// Adapted from https://stackoverflow.com/a/35251739/4355695
+	var mime_type = "text/plain";
+	var dlink = document.createElement('a');
+	dlink.download = filename;
+	var blob = new Blob([contentString], {type: mime_type});
+	dlink.href = window.URL.createObjectURL(blob);
+	dlink.onclick = function(e) {
+	// revokeObjectURL needs a delay to work properly
+	var that = this;
+	setTimeout(function() {
+		window.URL.revokeObjectURL(that.href);
+	}, 1500);
+	};
+
+	dlink.click();
+	dlink.remove();
+}
+
+
+function getPythonRoutes() {
+	//load from python!
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `API/routes`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`GET call to Server API/routes succesful.`);
+			var data = JSON.parse(xhr.responseText);
+			//$("#routes-table").tabulator('setData',data);
+			
+			// populating route select for sequence:
+			var dropdown = '<option value="">Select a route</option>';
+			dropdown += '<option value="">{id}: {short name}: {long name}</option>';
+			data.forEach(function(row){
+				let title = `${row['route_id'] || ''}: ${row['route_short_name'] || ''}: ${row['route_long_name'] || ''}`;
+				dropdown += '<option value="' + row['route_id'] + '">' + title + '</option>';
+			});
+
+			$("#routeSelect").html(dropdown);
+			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
+			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
+
+		}
+		else {
+			console.log('Server request to API/routes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+		}
+	};
+	xhr.send();
+}
+
+/* Discarded functions 
+
+$("#addRoute").on("click", function(){
+	var agency_id = $('#agencySelect').val().replace(/[^A-Za-z0-9-_.]/g, "");
+	if(! agency_id.length) return;
+	let data = $("#routes-table").tabulator("getData");
+	route_id_list = data.map(a => a.route_id); 
+
+	var counter = 1;
+	while ( route_id_list.indexOf(agency_id + pad(counter) ) > -1 ) counter++;
+
+	var route_id = agency_id + pad(counter);
+	
+	console.log(route_id);
+
+	$("#routes-table").tabulator('addRow',{route_id: route_id, agency_id:agency_id, route_short_name:route_id},true);
+	$('#route2add').val('');
+	$('#routeAddStatus').html('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
+});
+
+$("#route-undo").on("click", function(){
+	$("#routes-table").tabulator('undo');
+	
+});
+$("#route-redo").on("click", function(){
+	$("#routes-table").tabulator('redo');
+	
+});
+
+$("#saveRoutes").on("click", function(){
+	saveRoutes();
+});
+
+###############
+map line arrows:
+// removing arrows as they were conflicting with the animation antPath that was brought in later.
 	var spacer = Array(5).join(" "); // repeater. from https://stackoverflow.com/a/1877479/4355695
 	shapeLine.setText(spacer+'►'+spacer, {repeat: true,
 		offset: 5,
@@ -930,9 +872,7 @@ function drawShape(shapeArray, whichMap) {
 			'font-size': '14', 'fill':lineColor}
 		}
 	); // arrows! https://github.com/makinacorpus/Leaflet.TextPath/tree/gh-pages
-	*//*
-}
-*/
+
 function getPythonAgency() {
 	//to do: load agencies info, and store it in a global variable.
 	// for routes table, set a function for picking agency.
@@ -965,61 +905,36 @@ function getPythonAgency() {
 	};
 	xhr.send();
 }
-/*
-function download_shapefile(direction=0) {
-	filename = $(`#shapes${direction}List`).val();
-	if(!filename.length) {
-		console.log(`Direction ${direction}: no shape selected.`);
-		return;
+
+function saveRoutes() {
+	$('#routeSaveStatus').html('');
+
+	var data=$('#routes-table').tabulator('getData');
+
+	var pw = $("#password").val();
+	if ( ! pw ) { 
+		$('#routeSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
 	}
-	filename += '.geojson';
-	var contentString = JSON.stringify(shapeLayer[direction].toGeoJSON(), null, 2);
-	
-	// Adapted from https://stackoverflow.com/a/35251739/4355695
-	var mime_type = "text/plain";
-	var dlink = document.createElement('a');
-	dlink.download = filename;
-	var blob = new Blob([contentString], {type: mime_type});
-	dlink.href = window.URL.createObjectURL(blob);
-	dlink.onclick = function(e) {
-	// revokeObjectURL needs a delay to work properly
-	var that = this;
-	setTimeout(function() {
-		window.URL.revokeObjectURL(that.href);
-	}, 1500);
-	};
 
-	dlink.click();
-	dlink.remove();
-}
-*/
-/* Discarded functions
-
-function getPythonRoutes() {
-	//load from python!
-	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allRoutes`);
+	console.log('sending routes table data to server API/saveRoutes via POST.');
+	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', `${APIpath}routes?pw=${pw}`);
+	xhr.withCredentials = true;
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`GET call to Server API/allRoutes succesful.`);
-			var data = JSON.parse(xhr.responseText);
-			$("#routes-table").tabulator('setData',data);
-
-			// populating route select for sequence:
-			var dropdown = '<option value="">Select a route</option>';
-			data.forEach(function(row){
-				dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-			});
-
-			$("#routeSelect").html(dropdown);
-			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
+		if (xhr.status === 200) {
+			console.log('Successfully sent data via POST to server API routes, resonse received: ' + xhr.responseText);
+			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes DB.</span>');
+			// reload routes data from DB, and repopulate route selector for sequence
+			$("#routes-table").tabulator("setData");
+		} else {
+			console.log('Server POST request to routes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
-		else {
-			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-		}
-	};
-	xhr.send();
+	}
+	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
+
 }
 */

@@ -40,14 +40,14 @@ $("#trips-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-	pagination:"local", //enable local pagination.
+	//pagination:"local", //enable local pagination.
 	//groupBy: ['service_id','direction_id'],
 	columns: [
 		// route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id,wheelchair_accessible
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"Num", width:40, formatter: "rownum", headerSort:false}, // row numbering
-		{title:"route_id", field:"route_id",headerSort:false, visible:true },
-		{title:"trip_id", field:"trip_id", headerFilter:"input", headerSort:false },
+		{title:"Num", width:40, formatter: "rownum", headerSort:false, frozen:true }, // row numbering
+		{title:"route_id", field:"route_id",headerSort:false, visible:true, frozen:true },
+		{title:"trip_id", field:"trip_id", headerFilter:"input", headerSort:false, frozen:true },
 		{title:"Calendar service", field:"service_id", editor:"select", editorParams:serviceLister, headerFilter:"input", validator:"required", headerSort:false },
 		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{0:"Onward(0)", 1:"Return(1)", '':"None(blank)"}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return','':''} },
 		{title:"trip_headsign", field:"trip_headsign", editor:"input", headerFilter:"input", headerSort:false },
@@ -55,18 +55,20 @@ $("#trips-table").tabulator({
 		{title:"block_id", field:"block_id", editor:"input", headerFilter:"input", tooltip:"Vehicle identifier", headerSort:false },
 		{title:"shape_id", field:"shape_id", editor:"select", editorParams:shapeLister, headerFilter:"input", headerSort:false },
 		{title:"wheelchair_accessible", field:"wheelchair_accessible", headerSort:false, 
-			editor:"select", editorParams:{0:"0-No info", 1:"1-Yes", 2:"2-No"}, 
-			formatter:"lookup", formatterParams:{0:'No info',1:'Yes', 2:'No' } },
+			editor:"select", editorParams:wheelchairOptions, 
+			formatter:"lookup", formatterParams:wheelchairOptionsFormat },
 		{title:"bikes_allowed", field:"bikes_allowed", headerSort:false,
-			editor:"select", editorParams:{0:"0-No info", 1:"1-Yes", 2:"2-No"}, 
-			formatter:"lookup", formatterParams:{0:'No info',1:'Yes', 2:'No' } }
+			editor:"select", editorParams:bikesAllowedOptions, 
+			formatter:"lookup", formatterParams:bikesAllowedOptionsFormat }
 	],
 	rowSelected:function(row){
-		chosenTrip = row.getIndex();;
+		chosenTrip = row.getIndex();
 		chosenDirection = row.getData()['direction_id'];
 		if(!chosenDirection) chosenDirection = 0;
-		tripname = row.getData()['trip_short_name'];
-		$('#chosenTrip').html('<big><span class="badge label-green">' + tripname + ' <small>(' + chosenTrip + ')</small></span></big>');
+		tripname = row.getData()['trip_short_name'] || row.getData()['trip_headsign'] || '';
+		if(tripname) tripname = chosenTrip + ': ' + tripname;
+		else tripname = chosenTrip;
+		$('#chosenTrip').html('<big><big><span class="badge label-green">' + tripname + '</span></big></big>');
 		$("#stop-times-table").tabulator('clearData'); // on changing selection, clear the stop_times table in Timings tab.
 		$('#loadTimingsStatus').html('');
 

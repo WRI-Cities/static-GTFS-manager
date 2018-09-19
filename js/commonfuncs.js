@@ -14,7 +14,7 @@ $(document).ready(function() {
 	
 	var navBarContentStart = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
 	 <!-- Brand --> \
-	<div class="navbar-brand"><a class="navbar-brand" href="index.html"><img src="extra_files/GTFS.png" height="44" width="auto">GTFS Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + VERSION + '</span></a></div> \
+	<div class="navbar-brand"><a class="navbar-brand" href="index.html"><small>static</small> <img src="extra_files/GTFS.png" height="44" width="auto" aria-label="GTFS" alt="GTFS"> Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + VERSION + '</span></a></div> \
 	<!-- Links --> \
 	<ul class="navbar-nav">';
 	
@@ -23,11 +23,37 @@ $(document).ready(function() {
 	</nav>';
 	
 	var navBarContent = navBarContentStart;
+	
 	for(key in menu) {
-		if(key == pageName)
-			navBarContent+= '<li class="nav-item"><a class="nav-link currentpage" href="'+key+'">'+menu[key]+'</a></li>';
-		else
-			navBarContent+= '<li class="nav-item"><a class="nav-link" href="'+key+'">'+menu[key]+'</a></li>';
+		if (typeof menu[key] != "object") {
+			if(menu[key] == pageName)
+				navBarContent+= `<li class="nav-item"><a class="nav-link currentpage" href="${menu[key]}">
+				${key}</a></li>`;
+			else
+				navBarContent+= `<li class="nav-item"><a class="nav-link" href="${menu[key]}">
+				${key}</a></li>`;
+
+		}
+		else { // if its a sub-menu
+			// from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
+			sectionStart = `
+			<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			${key}</a>
+			<div class="dropdown-menu bg-dark">`;
+			sectionEnd = `</div></li>`;
+
+			navBarContent+= sectionStart;
+			for(subItem in menu[key]) {
+				if(menu[key][subItem] == pageName)
+					navBarContent+= `<a class="dropdown-item currentpage" href="${menu[key][subItem]}">
+					${subItem}</a>`;
+				else
+					navBarContent+= `<a class="dropdown-item" href="${menu[key][subItem]}">
+					${subItem}</a>`;
+			}
+			navBarContent += sectionEnd;
+		}
 	}
 
 	navBarContent+=navBarContentEnd;
@@ -55,7 +81,10 @@ $(document).ready(function() {
 	});
 	
 	// Footer
-	$("body").append('<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">GTFS Manager ' + VERSION + '</a></div>');
+	$("body").append(`<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a></div>`);
+	$("body").append(`<!-- Matomo Image Tracker-->
+	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
+	<!-- End Matomo -->`);
 
 });
 // ############################

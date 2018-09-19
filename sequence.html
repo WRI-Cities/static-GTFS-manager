@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Routes Management</title>
+<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+
+<!-- Put the CSSs first and JSs next -->
+
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/leaflet.js"></script>
+<script src="lib/leaflet.textpath.js"></script>
+<script src="lib/leaflet-ant-path.js"></script>
+<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+<script src="lib/tabulator.min.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#map0, #map1 {
+	height: 400px;
+	z-index: 0;
+}
+
+#sequence-0-table, #sequence-1-table {
+	height: 350px;
+}
+
+ #routes-table {
+	height: 400px;
+}
+
+input[type=checkbox]#reverseCheck {
+ width: 20px; height: 20px;
+ -webkit-border-radius: 22px; -moz-border-radius: 22px; border-radius: 22px;
+  border: 1px solid #bbb;
+  vertical-align: middle; 
+}
+
+
+/* Leaflet Map Overlay */
+.overlaycontainer {
+	position: relative;
+	width:100%;
+	height: 400px;
+}
+
+#map0 {
+	position:absolute;
+	width: 100%;
+}
+.shapeOverlay {
+	position:absolute;
+	background-color: rgba(255,255,255,.5);
+	height:auto;
+	width: auto;
+	top:10px;
+	right:10px;
+	border-radius: 5px;
+	padding: 5px;
+	box-shadow:0px 0px 20px black; 
+}
+
+#shapes0List .chosen-container .chosen-drop {
+	background-color: rgba(255,255,255,.7)!important;
+}
+/* for map, custom markers */
+
+.sequence-0-divicon, .sequence-1-divicon {
+	border-radius: 50%;
+	color: white;
+	padding-top: 2px;
+	position: absolute;
+	text-align: center;
+	overflow: hidden;
+	box-shadow:0px 0px 10px black; /*looks 3D! no need of a border*/
+}
+
+.sequence-0-divicon {
+	background-color: rgba(0, 0, 255, 0.7);
+}
+.sequence-1-divicon {
+	background-color: rgba(128, 0,128,0.7);
+}
+
+/* Chosen JS autocomplete */
+.chosen-search-input {
+	font-size: 14px;
+}
+/*
+.notinSequence .leaflet-popup-content-wrapper {
+	background: #666;
+	color: #fff;
+	
+}
+.notinSequence .leaflet-popup-tip {
+	background: #666;
+}
+.notinSequence {
+	background: #666;
+	color: #fff;
+}
+*/
+
+</style>
+	   
+</head>
+<body>
+<!--<script src="js/navbar.js"></script>-->
+<div id="navBar"></div>
+<div class="container">
+<h2>Default Route Sequence, Shape</h2>
+
+<div id="instructions">
+<h3>Instructions</h3>
+<div>
+<p><br>
+1. Pick a route from the dropdown.<br>
+2. This will make the program populate the tables and maps. Scroll down to see your route's onward and return journey laid out in map and tabular form<br>
+3. You can alter a route's sequence by dragging stops in the sequence table up or down by clicking on and holding the handlebars on their left edge. Add more stops to your route with the small selector below each table. <br>
+4. Every time you move stops, the map on the right will update to reflect the new order. Zoom in to the map by using the zoom controls on the map's top left corner.<br>
+5. Clicking on a stop on either map or table will highlight it in both map and table.<br>
+6. There is a Shape menu floating on the map on top right corner. Click on the dropdown to change the shape. If loaded, you will see the shape on the map as a line connecting the stops. See the arrow to know the direction (may need to zoom in a bit to see it clearly).<br>
+7. If you have drawn out the route in a shapefile (having a chain of co-ordinates, called PolyLine), then you can upload it with the "Upload Shapefile" button that appears just below the first (onward) map and above the second (return) map.<br>
+8. If you are designing a new route and have finished laying out the onwards journey by adding stops in sequence, then clicking one of the buttons under "Mirror onward journey" will make an opposite sequence of it in the Return journey table.<br>
+7. Save the Sequence with the big green button at the bottom when done.<br>
+</p>
+
+<p>
+Note: Changing the default sequence for a route will not change all the trips already existing under this route. The new sequence will reflect only when you create new trips. GTFS standard doesn't store a default stops sequence for a route, so this program is storing it in a separate database file called sequences.json.</p>
+</div>
+</div><!-- Accordion over -->
+<hr>
+
+<h5>Select a route: 
+<select id="routeSelect"></select> &nbsp;&nbsp;&nbsp;&nbsp;
+<small><small id="sequenceLoadStatus"></small></small>
+</h5>
+
+<br><hr>
+
+<h5>1. Onward Journey (Direction 0)</h5>
+<div class="row direction0">
+<div class="col-md-4">
+
+<div id="sequence-0-table"></div>
+<p style="padding-top: 5px;">
+<select id="stopChooser0" class="stopChooser"></select>
+	<button class="btn-primary btn-xs" id="add-0" type="button">Add</button></p>
+
+</div>
+
+<div class="col-md-8">
+
+<div class="overlaycontainer">
+<div id="map0"></div>
+
+<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
+<h6>Shape</h6>
+<select id="shapes0List" class="chooser"></select>
+</div>
+</div>
+
+</div>
+</div>
+
+<br>
+<div class="row" style="padding-top: 10px; border: 1px solid;" >
+<div class="col-md-5">
+<p>Mirror onward journey: <button id="flipSequenceReplace" class="btn btn-outline-danger" title="Will turn the return journey (the table below) into a mirror image of the onward journey (the table above)" data-toggle="tooltip" data-placement="top">replace</button>
+	/ <button id="flipSequenceInsert" class="btn btn-outline-info" title="will NOT erase present return journey sequence; a mirror image of onward journey will be inserted at the top of the table below." data-toggle="tooltip" data-placement="top">insert</button>
+</p>
+</div><div class="col-md-7">
+<p>Want to set a new shape for this route? <button class="btn btn-outline-primary" id="openShapeModal">Upload Shapefile</button></p> 
+<p><small><div id="openShapeModalStatus"></div></small></p>
+
+</div></div>
+
+
+<br>
+<h5>2. Return Journey (Direction 1)</h5>
+
+<div class="row direction1">
+<div class="col-md-4">
+<div id="sequence-1-table"></div>
+<p style="padding-top: 5px;"><select id="stopChooser1" class="stopChooser"></select> <button class="btn-primary btn-xs" id="add-1">Add</button></p>
+</div>
+
+
+<div class="col-md-8">
+
+<div class="overlaycontainer">
+
+<div id="map1"></div>
+<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
+<h6>Shape</h6>
+<select id="shapes1List" class="chooser"></select>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<br>
+<p><button id="saveSequence" class="btn btn-success btn-lg">Save Sequence to DB</button> &nbsp; <span id="sequenceSaveStatus"></span></p>
+<br>
+<small>
+<div class="col-md-8 alert alert-secondary" style="padding-right: 20px;">
+<ul><li>
+Be sure to finalize the sequence of your route and save changes to DB before proceeding to the Schedules section.
+</li><li>
+After saving, please reload the page to see all changes take effect.
+</li><li>Note: Shapes chosen here will be saved for future trips to be created; they will not be assigned to all pre-existing trips under this route. To do that, please visit the Maintenance section.
+</li></ul>
+</div>
+</small>
+
+</div>
+
+<br>
+<hr>
+<br>
+
+<div style="clear:both"></div>
+
+
+</div>
+<br><br><br>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+<!-- Modal content -->
+<div class="modal-content">
+
+<span align="right" class="close" id="modalClose"><font size=12>&times;</font></span>
+<div class="row">
+<div class="col-md-7">
+<h4>Upload a shape</h4>
+<b>Onward Journey:</b>
+<p>Upload a shapefile (.geojson format): <small><a href="xml_related/R001.geojson" target="_blank">see sample</a></small></p>
+<p><input type="file" id="uploadShape0" name="uploadShape0" class="btn btn-sm btn-outline-secondary" accept=".geojson">
+</p>
+
+<p><label>Pick a Shape id prefix: <input size=4 id="uploadShapeId" placeholder="shape_id"></label></p>
+</div><div class="col-md-5">
+<p class="alert alert-info">
+Don't have a shapefile in .geojson format? You can convert or create one here: <a href="http://geojson.io" target="_blank">geojson.io</a><br><br>
+<small>Shape id prefix must be unique, unless you want to overwrite an existing shape. Directions will be added.
+<br>Example: R001: <i>R001_0, R001_1</i>
+</small></p>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<p><b>Return Direction:</b><br>
+<label><input type="checkbox" name="reverseCheck" value="reverseCheck" id="reverseCheck" checked> Check ON if you are uploading another shapefile for the route's return journey.</label><br><small>If it's checked off, then we'll assume the return journey's shape is a mirror copy of the onward journey.</small></p>
+
+</div><div class="col-md-6">
+
+<p align="right"><input type="file" id="uploadShape1" name="uploadShape1" class="btn btn-sm btn-outline-secondary" accept=".geojson">
+<br><small>This is for cases where the return journey's path diverges from the onward journey.</small>
+</p>
+</div></div>
+<p align="center"><button id="uploadShapeButton" class="btn btn-outline-primary btn-md">Upload >></button></p>
+<p align="center" id="uploadShapeStatus"></p>
+
+
+</div>
+</div>
+<!-- End The Modal -->
+
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/sequence.js" type="text/javascript"></script>
+
+</body>
+</html>

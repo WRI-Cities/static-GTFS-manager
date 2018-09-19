@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Calendar</title>
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#calendar-table {
+	height: 300px;
+}
+</style></head>
+<body>
+<div id="navBar"></div>
+
+<div class="container">
+<h2>Calendar</h2>
+<div id="instructions" class="container">
+	<h3>Instructions</h3>
+	<div>
+		<p>The service_id is referred to when defining trips. Typically there are different schedules followed on working days and holidays.</p>
+		<p>The service_id's get used in TRIPS table to define which days of the week a trip operates on. This allows for different timings on weekends.</p>
+		<p>Use the Tools > Delete ID section to delete a calendar service. Note that because the service_id field is required in trips table, deleting a calendar service will need cascading deleting of all trips and timings data associated with it. It would be a better option to change the service_id instead.</p>
+		<p>If you have made any additions or changes that you wish to revert and you haven't pressed the big "Save" button below, you may simply reload this page, and all changes will be dropped. Conversely, make sure to Save to preserve any changes you make.</p>
+</div></div><!-- Accordion over -->
+<br>
+
+
+<div id="calendar-table"></div>
+<br>
+<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="6"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
+
+<p><button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small></p>
+
+
+</div>
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/calendar.js"></script>
+
+</body>
+</html>

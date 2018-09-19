@@ -260,12 +260,16 @@ def GTFSstats():
 	'''
 	content = '';
 	
-	agencyList = readTableDB('agency').agency_name.tolist()
-	if len(agencyList)>2 : agencyList[:] = agencyList[:2] + ['and {} more'.format(len(agencyList)-2 )]
-	# if there are excess agencies, mention only first two and then put number of remaining
+	agencyDF = readTableDB('agency')
+	if len(agencyDF):
+		agencyList = agencyDF.agency_name.tolist()
+		if len(agencyList)>2 : agencyList[:] = agencyList[:2] + ['and {} more'.format(len(agencyList)-2 )]
+		# if there are excess agencies, mention only first two and then put number of remaining
 
-	content += 'Agency: {}<br>'.format( ', '.join(agencyList) )
-
+		content += 'Agency: {}<br>'.format( ', '.join(agencyList) )
+	else:
+		content += 'Agency: none found.<br>'
+	
 	filenames = findFiles(dbFolder, ext='.h5', prefix=None, chunk='all')
 	
 	coveredFiles = []

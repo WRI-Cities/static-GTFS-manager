@@ -29,6 +29,41 @@ li.nav-item > a:hover {
 	background-color: yellow;
 	color: black!important;
 }
+
+/* menu dropdown / secondary menu items */
+a.dropdown-item {
+	height: 100%;
+	vertical-align: middle;
+	/*display: table-cell;*/
+	color: #ddd!important;
+	font-weight: 200;
+	transition: .3s;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+    /*color: #16181b;
+    text-decoration: none;
+	background-color: #f8f9fa;*/
+	background-color: #555;
+	background-color: yellow;
+	color: black!important;
+}
+
+/* make dropdown menus work on hover instead of click. From https://codepen.io/KillerJK/pen/braqMJ */
+.dropdown:hover>.dropdown-menu {
+	display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+	/*Without this, clicking will make it sticky*/
+	pointer-events: none;
+}
+
+.dropdown-menu {
+	margin-top: -1px;
+	border: 0px;
+    border-radius: 0rem;
+}
+
 .navbar {
 	padding: 0 1rem;
 }
@@ -37,8 +72,10 @@ li.nav-item > a:hover {
 .navbar-brand {
 	margin-right: 0em;
 }
+/* current page in menu */
 a.currentpage {
 	background-color: #000;
+	color: white;
 	font-weight: 200;
 	font-size: 1.5em;
 }

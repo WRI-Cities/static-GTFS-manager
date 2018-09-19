@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Schedules Management</title>
+<title>Trips and Timings Management</title>
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
 <link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
@@ -48,7 +48,7 @@
 <body>
 <div id="navBar"></div>
 <div class="container">
-<h2>Schedules</h2>
+<h2>Trips and Timings</h2>
 
 <div id="accordion">
 <h4>Instructions</h4>
@@ -108,7 +108,7 @@
 
 <p>Calendar service: <select id="trip_calendar"></select></p>
 <p>
-Time:<input id="trip_time" type="time" name="time">
+Start time:<input id="trip_time" type="time" name="time">
 &nbsp;&nbsp;
 Direction: <select id="trip_direction">
 	<option value="0" selected="selected">Onward</option>
@@ -161,7 +161,7 @@ To delete an existing trip that has already been saved in the db, please go to t
 Select a Trip from the trips table in the previous tab, then click the load button here to edit its timings in the table below. You can select a row by clicking on the left side handle.</small>
 </div>
 <div class="col-md-8">
-<p>For the trip <span id="chosenTrip">[select in Trips tab]</span> chosen, 
+<p>For the trip_id <span id="chosenTrip">[select in Trips tab]</span> chosen, 
 <button id="loadTimingsButton" class="btn btn-sm btn-outline-apple"><font size=4><b>&#8986;</b></font> click to load timings</button> <br><br>
 <small><span id="loadTimingsStatus"></span></small></p>
 </div>
@@ -181,11 +181,7 @@ Select a Trip from the trips table in the previous tab, then click the load butt
 <br><br><br>
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js"></script>
-<script src="js/schedules.js"></script>
-
-<!-- Matomo Image Tracker-->
-<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=schedules" style="border:0" alt="" />
-<!-- End Matomo -->
+<script src="js/tripstimings.js"></script>
 
 </body>
 </html>

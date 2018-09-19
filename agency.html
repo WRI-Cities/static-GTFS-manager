@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Agency</title>
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#agency-table {
+	height: 300px;
+}
+</style></head>
+<body>
+<div id="navBar"></div>
+
+<div class="container">
+<h2>Agency</h2>
+<br>
+<div class="row">
+<div class="col-md-8">
+
+<div id="agency-table"></div>
+<br>
+<p>Create a new agency: 
+<input placeholder="agency_id" id="agency2add" size="7"><button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; <small><span id="agencyAddStatus"></span></small></p>
+
+<p><button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> &nbsp; <small id="agencySaveStatus"></small></p>
+
+</div><div class="col-md-4">
+
+<div class="alert alert-info"><small>
+Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
+<br><br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
+</small></div>
+
+</div></div>
+
+
+
+</div>
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
+<script src="js/agency.js"></script>
+
+</body>
+</html>

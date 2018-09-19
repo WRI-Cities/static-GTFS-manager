@@ -1,6 +1,6 @@
 // from commonfuncs.js
 
-const VERSION = 'v2.1.2';
+const VERSION = 'v3.0.0';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
 const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };
@@ -8,7 +8,29 @@ const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metr
 const route_type_lookup = route_type_options;
 
 // this json holds the different pages. If you want to add/remove/rename a page, do so here.
-const menu = { 'index.html':'Main', 'stops.html':'Stops', 'routes.html':'Routes', 'schedules.html':'Schedules', 'fares.html':'Fares', 'misc.html':'Misc','kmrl.html':'KMRL', 'hmrl.html':'HMRL'};
+const menu = {
+	"Home": "index.html",
+	"GTFS": {
+		"Agency": "agency.html",
+		"Stops": "stops.html",
+		"Routes": "routes.html",
+		"Calendar": "calendar.html",
+		"Trips and Timings": "tripstimings.html",
+		"Fares": "fares.html",
+		"Translations": "translations.html"
+	},
+	"Tools": {
+		// to do: bulk action pages, diagnostic pages etc
+		"Default Route Sequence": "sequence.html",
+		"Rename ID": "renameID.html",
+		"Delete ID": "deleteID.html"
+	},
+	"Data": {
+		//"Import / Export GTFS": "gtfs.html",
+		"Import KMRL format": "kmrl.html",
+		"Import HMRL format": "hmrl.html"
+	}
+}
 
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = true;
@@ -30,3 +52,9 @@ const MARKERSLIMIT = 100;
 const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:true, width:100};
 
 const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
+
+// from tripstimings.js , formerly schedules.js
+const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
+const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
+const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
