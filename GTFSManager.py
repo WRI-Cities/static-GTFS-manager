@@ -39,6 +39,7 @@ exportFolder = 'export/' # 4.9.18 putting exports here now
 sequenceDBfile = 'db/sequence.json'
 passwordFile = 'pw/rsa_key.bin'
 chunkRulesFile = 'chunkRules.json'
+configFile = 'config.json'
 thisURL = ''
 
 debugMode = False # using this flag at various places to do or not do things based on whether we're in development or production
@@ -48,8 +49,11 @@ optionalFeeds = ['calendar_dates.txt','fare_attributes.txt','fare_rules.txt','sh
 # for checking imported ZIP against
 # to do: don't make this a HARD requirement. Simply logmessage about it.
 
+# load parameters from config folder
 with open(configFolder + chunkRulesFile) as f:
 	chunkRules = json.load(f)
+with open(configFolder + configFile) as f:
+	configRules = json.load(f)
 
 # create folders if they don't exist
 for folder in [uploadFolder, xmlFolder, logFolder, configFolder, dbFolder, exportFolder]:

@@ -82,6 +82,8 @@ $(document).ready(function() {
 	
 	// Footer
 	$("body").append(`<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a></div>`);
+	
+	// Usage tracker
 	$("body").append(`<!-- Matomo Image Tracker-->
 	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
 	<!-- End Matomo -->`);
@@ -149,3 +151,18 @@ function writeProperties(data) {
 	var returnHTML = lines.join('<br>');
 	return returnHTML;
 }
+
+function formatDate(sep='.',date=false ) {
+	var d;
+	if(date) d = new Date(date);
+	else d = new Date();
+	var month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join(sep);
+}
+

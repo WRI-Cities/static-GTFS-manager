@@ -20,6 +20,9 @@ $("#stops-table").tabulator({
 	addRowPos: "top",
 	ajaxURL: APIpath + 'allStops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	clipboard: true,
+	//clipboardCopySelector:"table",
+	clipboardPasteAction:"replace",
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
@@ -234,6 +237,10 @@ $("#savetable").on("click", function(){
 	saveStops();
 });
 
+$("#copytable").on("click", function(){
+	$("#stops-table").tabulator("copyToClipboard");
+});
+
 // Clone zone_id
 $("#targetStopid").bind("change keyup", function(){
 	if(CAPSLOCK) this.value=this.value.toUpperCase();
@@ -245,8 +252,9 @@ $("#stop2delete").bind("change keyup", function(){
 });
 
 
-// onkeyup="this.value=this.value.toUpperCase()"
 
+// onkeyup="this.value=this.value.toUpperCase()"
+/*
 //Delete stop
 $("#removeStop").on("click", function(){
 	var stop_id = $("#stop2delete").val();
@@ -259,6 +267,7 @@ $("#removeStop").on("click", function(){
 	// reload stop ids list for autocomplete
 	reloadData();
 });
+*/
 
 // ##############################
 /* Functions */

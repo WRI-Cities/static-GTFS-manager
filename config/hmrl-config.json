@@ -35,6 +35,12 @@
 
 	"fares": [10,15,25,30,35,40,45,50,55,60],
 
-	"transfers": [["AME2","AME4"]]
+	"transfers": [["AME2","AME4"]],
+
+	"feed_info": {
+		"feed_publisher_name": "Telangana Open Data Portal",
+		"feed_publisher_url": "http://www.data.telangana.gov.in/",
+		"feed_lang": "en"
+	}
 
 }

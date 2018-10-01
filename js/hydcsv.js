@@ -164,9 +164,9 @@ $(document).ready(function(){
 	ydm = rightNow.toISOString().slice(0,10).replace(/-/g,'');
 	$( "#start_date").val(ydm);
 
-	$.getJSON( "js/hyd-config.json", function( data ) {
+	$.getJSON( "config/hmrl-config.json", function( data ) {
 		config = data;
-		console.log('Loaded js/hyd-config.json:');
+		console.log('Loaded config/hmrl-config.json:');
 		console.log(config);
 		loadAgency();
 
@@ -675,6 +675,10 @@ function diagnoseConvertHYD() {
 	// first, gather up the data into a json
 	var payload = {};
 
+	// feed_info
+	payload['feed_info'] = config['feed_info'];
+	payload['feed_info']['feed_version'] = formatDate();
+	
 	// tabulator tables data:
 	payload['stopsData'] = $("#stops-table").tabulator('getData');
 	payload['missingStops'] = $("#missing-stops-table").tabulator('getData');

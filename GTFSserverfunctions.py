@@ -28,7 +28,7 @@ def exportGTFS (folder):
 		tablename = h5File[:-3] # remove last 3 chars, .h5
 
 		try:
-			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 		except KeyError as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
@@ -58,7 +58,7 @@ def exportGTFS (folder):
 		columnsList = set()
 		for count,h5File in enumerate(filenames):
 			try:
-				df = pd.read_hdf(dbFolder + h5File,'df',stop=0)
+				df = pd.read_hdf(dbFolder + h5File,stop=0)
 			except KeyError as e:
 				df = pd.DataFrame()
 				logmessage('Note: {} does not have any data.'.format(h5File))
@@ -76,7 +76,7 @@ def exportGTFS (folder):
 		for count,h5File in enumerate(filenames):
 			logmessage('Writing {} to csv'.format(h5File))
 			try:
-				df1 = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+				df1 = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 			except KeyError as e:
 				df1 = pd.DataFrame()
 				logmessage('Note: {} does not have any data.'.format(h5File))
@@ -416,7 +416,7 @@ def readTableDB(tablename, key=None, value=None):
 			continue
 		
 		try:
-			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 			# typecasting as str, keeping NA values blank ''
 		except KeyError as e:
 			df = pd.DataFrame()
@@ -478,7 +478,7 @@ def replaceTableDB(tablename, data, key=None, value=None):
 	elif ((key is not None) and (value is not None) ):
 		# remove entries matching the key and value
 		try:
-			df = pd.read_hdf(h5File,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder+h5File).fillna('').astype(str)
 		except KeyError as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
@@ -486,7 +486,7 @@ def replaceTableDB(tablename, data, key=None, value=None):
 		df.query(key + ' != "' + str(value) + '"', inplace=True)
 		
 		df3 = pd.concat([df,xdf], ignore_index=True)
-		df3.to_hdf(h5File, 'df', format='table', mode='w', complevel=1)
+		df3.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
 
 		logmessage('Replaced {} entries for {}={} with {} new entries in {}.'\
 			.format(oldLen,key,str(value),str(len(xdf)),tablename ) )
@@ -1084,7 +1084,7 @@ def replaceTableCell(h5File,column,valueFrom,valueTo):
 		return False
 	
 	try:
-		df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+		df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 	except KeyError as e:
 		df = pd.DataFrame()
 		logmessage('Note: {} does not have any data.'.format(h5File))
@@ -1216,7 +1216,7 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 	if chunkFile:
 		logmessage('Editing ' + chunkFile)
 		try:
-			df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder + chunkFile).fillna('').astype(str)
 		except KeyError as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(chunkFile))
@@ -1232,23 +1232,23 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 		else:
 			logmessage('{} older entries for id {} removed.'.format( str( initLen - reducedLen ),value ))
 
-		newdf = pd.concat([df,xdf],ignore_index=True)
-		logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
-		newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
-
+		
 	else:
 		# if the trip wasn't previously existing, take the smallest chunk and add in there.
 		chunkFile = smallestChunk(tablename)
 		try:
-			df = pd.read_hdf(dbFolder + chunkFile,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder + chunkFile).fillna('').astype(str)
 		except KeyError as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(chunkFile))
-
-		newdf = pd.concat([df,xdf],ignore_index=True)
-		logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
-
-		newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
+		except FileNotFoundError as e:
+			df = pd.DataFrame()
+			logmessage('Note: {} does not exist yet, so we will likely create it.'.format(chunkFile))
+	
+	# next 3 lines to be done in either case
+	newdf = pd.concat([df,xdf],ignore_index=True)
+	logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
+	newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
 
 	
 	# add entry for new trip in stop_times_lookup.json
@@ -1277,19 +1277,43 @@ def findChunk(value, tablename="stop_times"):
 	lookupJSONFile = chunkRules[tablename]['lookup']
 	print('lookup for {}: {}'.format(tablename,lookupJSONFile))
 
-	with open(dbFolder + lookupJSONFile) as f:
-		table_lookup = json.load(f)
+	try:
+		with open(dbFolder + lookupJSONFile) as f:
+			table_lookup = json.load(f)
+	except FileNotFoundError:
+		logmessage(dbFolder + lookupJSONFile,'not found so creating it as empty json.')
+		with open(dbFolder + lookupJSONFile, 'a') as f:
+			f.write('{}')
+		table_lookup = {}
+	
 	chunkFile = table_lookup.get(value,None)
 	print('Found chunk for id {}: {}'.format(value,chunkFile) )
 	return chunkFile
 
 
-def smallestChunk(prefix):
-	filenames = [f for f in os.listdir(dbFolder) if f.lower().endswith('.h5') and ( f.lower().startswith(prefix) ) and os.path.isfile(os.path.join(dbFolder, f))]
+def smallestChunk(prefix, maxSizeMB=configRules.get('MAX_CHUNK_SIZE',1) ):
+	'''
+	Find the smallest chunk of a chunked table, by size, as the place to put a new set of records in.
+	This helps to balance the sizes out over time.
+	In case ALL the chunks are too heavy (set some limit), then christen the next chunk.
+	'''
+	# filenames = [f for f in os.listdir(dbFolder) if f.lower().endswith('.h5') and ( f.lower().startswith(prefix) ) and os.path.isfile(os.path.join(dbFolder, f))]
+	filenames = findFiles(dbFolder, prefix=prefix, chunk='y')
 
-	chunkFile = sorted(filenames, key=lambda filename: os.path.getsize(os.path.join(dbFolder, filename)))[0]
+	if not len(filenames):
+		# no chunks present, return tablename_1
+		return prefix + '_1.h5'
+	
+	# chunkFile = sorted(filenames, key=lambda filename: os.path.getsize(os.path.join(dbFolder, filename)))[0]
 	# sort the list of files by size and pick first one. From https://stackoverflow.com/a/44215088/4355695
-
+	sizeList = [ os.path.getsize(os.path.join(dbFolder, filename))/(2**20) for filename in filenames ]
+	# get sizes in MB
+	if min(sizeList) < maxSizeMB:
+		chunkFile = filenames[ sizeList.index(min(sizeList)) ]
+	else:
+		nextChunkNum = len(filenames) + 1
+		chunkFile = '{}_{}.h5'.format(prefix, nextChunkNum)
+		logmessage('smallestChunk: All chunks for {} too big, lets create a new one, {}'.format(prefix,chunkFile))
 	return chunkFile
 
 
@@ -1373,8 +1397,7 @@ def readChunkTableDB(tablename, key, value):
 	chunksHaving = []
 	for i,h5File in enumerate( findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y') ):
 		try:
-			df = pd.read_hdf(dbFolder+h5File,'df')\
-					.fillna('').astype(str)\
+			df = pd.read_hdf(dbFolder+h5File).fillna('').astype(str)\
 					.query( '{}=="{}"'.format(key,value) )
 		except KeyError as e:
 			df = pd.DataFrame()
@@ -1459,7 +1482,7 @@ def deleteInTable(tablename, key, value, action="delete"):
 	returnMessage = ''
 	for h5File in h5Files:
 		try:
-			df = pd.read_hdf(dbFolder + h5File,'df').fillna('').astype(str)
+			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 		except KeyError as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
@@ -1487,6 +1510,11 @@ def deleteInTable(tablename, key, value, action="delete"):
 	logmessage(returnMessage)
 	return returnMessage
 
+##########################
+# Redo the delete functions to accommodate multiple values. 
+# For pandas it doesn't make any difference whether its one value or multiple
+
+##########################
 
 def sequenceDel(column,value):
 	content = []

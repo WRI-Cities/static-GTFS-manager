@@ -15,6 +15,20 @@ def hydGTFSfunc(files, payload):
 	zf = zipfile.ZipFile(uploadFolder + 'hydMetroGTFS.zip', mode='w')
 	
 	##################
+	# feed_info
+	logmessage('\nPreparing feed_info table.')
+	feedInfoDF = pd.DataFrame( [payload.get('feed_info',{})])
+
+	feedInfoCols = ['feed_publisher_name','feed_publisher_url','feed_lang','feed_version']
+	feedInfoDF.to_csv(outputFolder+'feed_info.txt', index=None,\
+		columns=feedInfoCols)
+
+	returnJson['message'] += '<a target="_blank" href="'+ outputFolder+'feed_info.txt">feed_info file</a> created with %d entries.<br>'%len(feedInfoDF)
+	logmessage('feed_info.txt created, %d entries'%len(feedInfoDF))
+
+	zf.write(outputFolder+'feed_info.txt', arcname='feed_info.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+	##################
 	# Stops
 	logmessage('\nPreparing stops table.')
 	stopsArray = []
