@@ -1,6 +1,6 @@
 // from commonfuncs.js
 
-const VERSION = 'v3.0.1';
+const VERSION = 'v3.1.0';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
 const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };

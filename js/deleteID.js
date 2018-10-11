@@ -394,7 +394,7 @@ function getPythonAllIDs() {
 	var jqxhr = $.get( `${APIpath}listAll`, function( data ) {
 		globalIDs =  JSON.parse(data) ;
 		console.log('listAll API GET request successful. Loaded lists of all ids.');
-		populateMaintenanceLists();
+		populateLists();
 	})
 	.fail( function() {
 		console.log('GET request to API/tripIdList failed.')
@@ -403,14 +403,14 @@ function getPythonAllIDs() {
 }
 
 // #################################
-function populateMaintenanceLists() {
+function populateLists() {
 	//globalIDs
-	var renameContent = '<option>No Selection</option>';
+	//var renameContent = '<option>No Selection</option>';
 	// stop2Delete
 	var content = '<option>No Selection</option>';
 	globalIDs['stop_id_list'].forEach(function(row){
 		content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
+		//renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
 	});
 
 	// stop2Delete
@@ -430,7 +430,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['route_id_list'].forEach(function(row){
 		content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
+		//renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
 	});
 
 	$('#route2Delete').html(content);
@@ -449,7 +449,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['trip_id_list'].forEach(function(row){
 		content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
+		//renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
 	});
 
 	$('#trip2Delete').html(content);
@@ -468,7 +468,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['shapeIDsJson']['all'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
+			//renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
 	});
 	$('#shape2Delete').html(content);
 	$('#shape2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Shape'});
@@ -486,7 +486,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['service_id_list'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
+			//renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
 	});
 	$('#service2Delete').html(content);
 	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
@@ -505,7 +505,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['zone_id_list'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
+			//renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
 	});
 	$('#zone2Delete').html(content);
 	$('#zone2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare Zone'});
@@ -524,7 +524,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['fare_id_list'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
+			//renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
 	});
 	$('#fareID2Delete').html(content);
 	$('#fareID2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare ID'});
@@ -543,7 +543,7 @@ function populateMaintenanceLists() {
 	var content = '<option>No Selection</option>';
 	globalIDs['agency_id_list'].forEach(function(row){
 			content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
+			//renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
 	});
 	$('#agency2Delete').html(content);
 	$('#agency2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick an Agency ID'});

@@ -123,6 +123,40 @@
       "route_id": "218D",
       "shape0": "218D_1",
       "shape1": "218D_0"
+    },
+    "2": {
+      "0": [
+        "NARSI1",
+        "HANUM1",
+        "TARAM1",
+        "IBRAH1",
+        "RAMDE1",
+        "TIPPU1",
+        "BAPUG1",
+        "LANGA1",
+        "FLOUR1",
+        "SALAR1",
+        "NALAN1",
+        "RETHI1",
+        "MEHDI1"
+      ],
+      "1": [
+        "MEHDI2",
+        "RETHI2",
+        "NANAL1",
+        "SALAR2",
+        "FLOUR1",
+        "LANGE1",
+        "BAPUN1",
+        "BAPUG2",
+        "CHAVE1",
+        "RAMDE2",
+        "IBRAH2",
+        "TARAM1",
+        "HANUM2",
+        "NARSI2"
+      ],
+      "route_id": "120M"
     }
   }
 }

@@ -5,8 +5,8 @@
 
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 3.0.1   
-~And Windows binary is available too now.~ Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
+**Development Status** : V 3.1.0   
+Windows binary is available too now. Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
 
 ## Intro
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
@@ -34,17 +34,14 @@ See this and many more GTFS related resources listed on **[Awesome Transit](http
 Psst! Password is `program`.
 
 ### Windows standalone executable, Double-click and Go!
-***Alert: not made for v2.x yet. Hang on!***
 
-1. Download the latest `GTFS-Manager-Windows-vxxx.zip` from [Releases section](https://github.com/WRI-Cities/static-GTFS-manager/releases/) and unzip it on your system. Get into the folder created.
+1. (Updated, Oct 2018) Download the repo, unzip, and double-click GTFSManager.exe in the main program folder. It'll have an icon.
 
-2. Double-click on the shortcut "GTFS-Manager".
+2. That's it, that should start the program! A dos box should open up giving console messages, and in a few seconds a new tab should open in your system's default web browser with the program loaded.
 
-3. That's it, that should start the program! A dos box should open up giving status messages, and in a few seconds a new tab should open in your system's default web browser with the program loaded.
+3. There will probably be a Windows Firewall popup. Click OK or cancel.. this program doesn't do any to-and-fro communication over internet, that's just a default question that comes up when a server is activated. (In our case we're creating a portable web server for the front-end and back-end partd of the program to communicate). It does need internet for loading the background tiles on web maps, but other than that the program can run without internet connection.
 
-4. There will probably be a Windows Firewall popup. Just click cancel.. this program doesn't intend to do anything over the internet apart from loading the web map background tiles.
-
-5. More notes on this, including some troubleshooting and watchouts, **[on the wiki](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Standalone-Windows-Executable)**.
+4. More notes on this, including some troubleshooting and watchouts, **[on the wiki](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Standalone-Windows-Executable)**.
 
 
 ### On Ubuntu / Linux OS
@@ -81,10 +78,10 @@ gtfs.zip
 Some requirements, *s'il vous plait !*  
 1. Keep all your files with lowercase `.txt` extension
 2. Keep them up at root level in the zip archive, not inside any folders.
-3. The table in `stop_times.txt` **must be sorted by `trip_id`** (you can open it in LibreOffice, or rename as .csv and open in Excel).
-4. Similarly, the table in `shapes.txt` **must be sorted by `shape_id`**.
+3. The table in `stop_times.txt` **must be sorted by `trip_id`** (you can open it in LibreOffice, or rename as .csv and open in Excel) before importing.
+4. Similarly, the table in `shapes.txt` **must be sorted by `shape_id`** before importing.
 
-Kindly [validate](http://gtfsfeedvalidator.transitscreen.com) your GTFS zip prior to importing so you know in advance if there are any issues with the feed. And no worries, this tool is made FOR fixing bad feeds, the system will import whatever you give it. If you need to delete a lot of junk data in the feed, the Misc > Maintenance section will be your favorite place to be.
+Kindly [validate](http://gtfsfeedvalidator.transitscreen.com) your GTFS zip prior to importing so you know in advance if there are any issues with the feed. And no worries, this tool is made FOR fixing bad feeds, the system will import whatever you give it. If you need to delete a lot of junk data in the feed, the Tools > Delete ID section will be your favorite place to be.
 
 In the import process, the program creates a backup ZIP of the current data and then imports your data into its database. You can see the backup listed later on under Past Commits section on the home page.
 

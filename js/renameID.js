@@ -408,14 +408,14 @@ function getPythonAllIDs() {
 function populateMaintenanceLists() {
 	//globalIDs
 	var renameContent = '<option>No Selection</option>';
-	// stop2Delete
-	var content = '<option>No Selection</option>';
-	globalIDs['stop_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
-	});
 
 	// stop2Delete
+	//var content = '<option>No Selection</option>';
+	globalIDs['stop_id_list'].forEach(function(row){
+		//content += `<option value="${row}">${row}</option>`;
+		renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
+	});
+	/*
 	$('#stop2Delete').html(content);
 	$('#stop2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Stop'});
 	$('#stop2Delete').trigger('chosen:updated'); // if the function is called again, then update it
@@ -427,14 +427,15 @@ function populateMaintenanceLists() {
 		globalValue = stop_id;
 		diagnoseID(globalKey,globalValue);
 	});
+	*/
 
 	// route2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['route_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
 		renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
 	});
-
+	/*
 	$('#route2Delete').html(content);
 	$('#route2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Route' });
 	$('#route2Delete').trigger('chosen:updated');
@@ -445,15 +446,15 @@ function populateMaintenanceLists() {
 		globalKey = 'route_id';
 		globalValue = route;
 		diagnoseID(globalKey,globalValue);
-	});
+	});*/
 
 	// trip2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['trip_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
 		renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
 	});
-
+	/*
 	$('#trip2Delete').html(content);
 	$('#trip2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Trip'});
 	$('#trip2Delete').trigger('chosen:updated');
@@ -464,14 +465,15 @@ function populateMaintenanceLists() {
 		globalKey = 'trip_id';
 		globalValue = trip;
 		diagnoseID(globalKey,globalValue);
-	});
+	});*/
 
 	// shape2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['shapeIDsJson']['all'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
+			//content += `<option value="${row}">${row}</option>`;
 			renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
 	});
+	/*
 	$('#shape2Delete').html(content);
 	$('#shape2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Shape'});
 	$('#shape2Delete').trigger('chosen:updated');
@@ -482,14 +484,15 @@ function populateMaintenanceLists() {
 		globalKey = 'shape_id';
 		globalValue = shape;
 		diagnoseID(globalKey,globalValue);
-	});
+	});*/
 
 	// service2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['service_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
+			//content += `<option value="${row}">${row}</option>`;
 			renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
 	});
+	/*
 	$('#service2Delete').html(content);
 	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
 	$('#service2Delete').trigger('chosen:updated');
@@ -500,15 +503,16 @@ function populateMaintenanceLists() {
 		globalKey = 'service_id';
 		globalValue = service;
 		diagnoseID(globalKey,globalValue);
-	});
+	});*/
 
 
 	// zone2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['zone_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
+			//content += `<option value="${row}">${row}</option>`;
 			renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
 	});
+	/*
 	$('#zone2Delete').html(content);
 	$('#zone2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare Zone'});
 	$('#zone2Delete').trigger('chosen:updated');
@@ -520,14 +524,15 @@ function populateMaintenanceLists() {
 		globalValue = zone;
 		diagnoseID(globalKey,globalValue);
 
-	});
+	});*/
 
 	// fareID2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['fare_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
+			//content += `<option value="${row}">${row}</option>`;
 			renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
 	});
+	/*
 	$('#fareID2Delete').html(content);
 	$('#fareID2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare ID'});
 	$('#fareID2Delete').trigger('chosen:updated');
@@ -539,14 +544,15 @@ function populateMaintenanceLists() {
 		globalValue = fare;
 		diagnoseID(globalKey,globalValue);
 
-	});
+	});*/
 
 	// agency2Delete
-	var content = '<option>No Selection</option>';
+	//var content = '<option>No Selection</option>';
 	globalIDs['agency_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
+			//content += `<option value="${row}">${row}</option>`;
 			renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
 	});
+	/*
 	$('#agency2Delete').html(content);
 	$('#agency2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick an Agency ID'});
 	$('#agency2Delete').trigger('chosen:updated');
@@ -558,7 +564,7 @@ function populateMaintenanceLists() {
 		globalValue = agency;
 		diagnoseID(globalKey,globalValue);
 
-	});
+	});*/
 
 
 	$('#renameSource').html(renameContent);
@@ -698,6 +704,7 @@ function replaceIDDryRun() {
 		'shape_id': globalIDs['shapeIDsJson']['all'],
 		'zone_id': globalIDs['zone_id_list'],
 		'service_id': globalIDs['service_id_list'],
+		'agency_id': globalIDs['agency_id_list'],
 		'fare_id': ['fare_attributes','fare_rules']	
 		//'origin_id': ['fare_rules'],	
 		//'destination_id': ['fare_rules'],
@@ -718,25 +725,26 @@ function replaceIDDryRun() {
 		'service_id': ['calendar','trips'],
 		'origin_id': ['fare_rules'],	
 		'destination_id': ['fare_rules'],
-		'fare_id': ['fare_attributes','fare_rules']	
+		'fare_id': ['fare_attributes','fare_rules']	,
+		'agency_id': ['agency']	
 	};
 	// [{'table':'stops','key':'stop_id'},{...}]
 	//tablekeys = [{'table': keyTablesMap[key],'key':key}];
-	var tablekeys = [];
+	//var tablekeys = [];
 	var changeTablesList = [];
 
 	for ( i in keyTablesMap[key]) {
-		tablekeys.push( { 'table': keyTablesMap[key][i],'key':key } );
+		//tablekeys.push( { 'table': keyTablesMap[key][i],'key':key } );
 		changeTablesList.push(keyTablesMap[key][i]);
 	}
 	if(key == 'zone_id') {
-		tablekeys.push( { 'table': 'fare_rules','key':'origin_id' } );
-		tablekeys.push( { 'table': 'fare_rules','key':'destination_id' } );
+		//tablekeys.push( { 'table': 'fare_rules','key':'origin_id' } );
+		//tablekeys.push( { 'table': 'fare_rules','key':'destination_id' } );
 		changeTablesList.push('fare_rules');
 	}
-	console.log(tablekeys);
+	//console.log(tablekeys);
 	// assign global variable values that can be picked up by final function
-	globalTableKeys = tablekeys;
+	//globalTableKeys = tablekeys;
 	globalValueTo = valueTo;
 	globalValueFrom = valueFrom;
 

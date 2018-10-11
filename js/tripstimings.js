@@ -219,10 +219,6 @@ function getPythonTrips(route_id) {
 	xhr.send();
 }
 
-function initiateTrips(tripsData) {
-	$("#trips-table").tabulator('setData',tripsData);
-}
-
 function getPythonStopTimes(trip_id){
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name

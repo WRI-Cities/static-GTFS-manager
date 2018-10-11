@@ -496,30 +496,27 @@ class stopTimes(tornado.web.RequestHandler):
 			self.write("Error: Please save this trip to DB in the Trips tab first.")
 			return
 
-		chunkFile = findChunk(trip_id)
-		if chunkFile is None:
-			returnMessage = 'This trip is new. Loading default sequence, please fill in timings and save to DB.'
-			newFlag = True
-		else:
-			tablename = chunkFile[:-3]
-			stoptimesDf = readTableDB(tablename, 'trip_id', trip_id)
-			returnMessage = 'Loaded timings from stop_times table.'
-			newFlag = False
-
-			if not len(stoptimesDf) : # this shouldn't happen
-				self.set_status(400)
-				self.write('Error: trip {} is supposed to be in {} but couldn\'t find it there.'.format(trip_id,chunkFile))
-				return
+		stoptimesDf = readTableDB('stop_times', 'trip_id', trip_id)
+		# this will simply be empty if the trip doesn't exist yet
 
 		stoptimesArray = stoptimesDf.to_dict(orient='records')
-		# let's send back not just the array but even the message to display.
+
+		if len(stoptimesArray):
+			returnMessage = 'Loaded timings from stop_times table.'
+			newFlag = False
+		else:
+			returnMessage = 'This trip is new. Loading default sequence, please fill in timings and save to DB.'
+			newFlag = True
+
 		returnJson = {'data':stoptimesArray, 'message':returnMessage, 'newFlag':newFlag }
-		logmessage(returnJson['message'])
+		# let's send back not just the array but even the message to display.
+		logmessage('returnJson.message:',returnJson['message'])
 
 		self.write(json.dumps(returnJson))
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("stopTimes GET call took {} seconds.".format(round(end-start,2)))
+
 
 	def post(self):
 		# ${APIpath}stopTimes?pw=${pw}&trip=${trip_id}
