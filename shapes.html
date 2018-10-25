@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Shapes</title>
+<link href="lib/jquery-ui.min.css" rel="stylesheet">
+<link href="lib/tabulator.min.css" rel="stylesheet">
+<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+<link rel="stylesheet" href="lib/chosen/chosen.min.css">
+<link href="js/commonstyle.css" rel="stylesheet">
+<!-- Put the CSSs first and JSs next -->
+
+<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+<script src="lib/tabulator.js" type="text/javascript"></script>
+<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+</script>
+<script src="lib/papaparse.min.js" type="text/javascript"></script>
+<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<style>
+#shapes-table{
+	height: 350px;
+}
+
+#stop-times-table {
+	height: 300px;
+}
+
+.ui-autocomplete {
+	font-size: 1em;
+}
+
+#newTripHTML {
+	border-radius: 5px;
+	padding: 15px;
+	border: 1px black solid;
+	/*box-shadow:0px 0px 20px black; */
+}
+
+#shapeApplyHTML {
+	border-radius: 5px;
+	padding: 15px;
+	border: 1px black solid;
+	/*box-shadow:0px 0px 20px black; */
+}
+</style></head>
+<body>
+<div id="navBar"></div>
+<div class="container">
+<h2>Shapes</h2>
+
+<div id="accordion">
+<h4>Instructions</h4>
+<div>
+<b>Shapes tab</b>
+<ul>
+<li>Do Instructions here.</li>
+</ul>
+<b>Draw tab</b>
+<ul>
+<li>Steps.</li>
+</ul>	
+<p>See the <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#shapestxt" target="_blank">shapes.txt specs here</a> for learning more about shapes in GTFS.</p>
+<p>Note: </p>
+
+</div>
+</div><!-- Accordion over -->
+<br>
+<h1>UNDER CONSTRUCTION</h1>
+<!-- Tabs Menu -->
+<div id="tabs">
+<ul>
+<li><a href="#tab1">Shapes</a></li>
+<li><a href="#tab2">Upload a Shape</a></li>
+<li><a href="#tab3">Draw a Shape</a></li>
+</ul>
+
+
+<!-- SHAPES -->
+<div id="tab1">
+
+<h5>Pick a shape_id: <select id="shapeSelect"></select> &nbsp;&nbsp;&nbsp;<small><span id="shapeSelectStatus"></span></small></h5>
+
+
+<h5>Shapes</h5>
+
+<div id="shapes-table"></div>
+<br>
+
+
+</div> <!-- SHAPES tab end -->
+
+<!-- UPLOAD SHAPE -->
+<div id="tab2">
+
+<h5>Upload a Shape</h5>
+<div class="row">
+	<div class="col-md-4 alert alert-info">
+</div>
+<div class="col-md-8">
+
+</div>
+</div>
+
+
+</div>
+</div><!-- tabs over-->
+
+</div>
+<br><br><br>
+<script src="config/settings.js" type="text/javascript"></script>
+<script src="js/commonfuncs.js"></script>
+<script src="js/shapes.js"></script>
+
+</body>
+</html>

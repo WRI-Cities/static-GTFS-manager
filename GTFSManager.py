@@ -1228,6 +1228,95 @@ class hydGTFS(tornado.web.RequestHandler):
 		end = time.time()
 		logmessage("hydGTFS POST call took {} seconds.".format(round(end-start,2)))
 
+class frequencies(tornado.web.RequestHandler):
+	def get(self):
+		# ${APIpath}frequencies
+		start = time.time()
+		logmessage('\nfrequencies GET call')
+		
+		freqJson = readTableDB('frequencies').to_json(orient='records', force_ascii=False)
+		self.write(freqJson)
+		end = time.time()
+		logmessage("frequences GET call took {} seconds.".format(round(end-start,2)))
+		
+	def post(self):
+		# ${APIpath}frequencies
+		start = time.time()
+		logmessage('\nfrequencies POST call')
+		pw=self.get_argument('pw',default='')
+		if not decrypt(pw):
+			self.set_status(400)
+			self.write("Error: invalid password.")
+			return 
+		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
+		data = json.loads( self.request.body.decode('UTF-8') )
+
+		if replaceTableDB('frequencies', data): #replaceTableDB(tablename, data)
+			self.write('Saved frequencies data to DB.')
+		else:
+			self.set_status(400)
+			self.write("Error: Could not save to DB.")
+		end = time.time()
+		logmessage("frequencies POST call took {} seconds.".format(round(end-start,2)))
+
+class tableReadSave(tornado.web.RequestHandler):
+	def get(self):
+		# ${APIpath}tableReadSave?table=table&key=key&value=value
+		start = time.time()
+		
+		table=self.get_argument('table',default='')
+		logmessage('\ntableReadSave GET call for table={}'.format(table))
+		
+		if not table:
+			self.set_status(400)
+			self.write("Error: invalid table.")
+			return 
+
+		key=self.get_argument('key',default=None)
+		value=self.get_argument('value',default=None)
+		if key and value:
+			dataJson = readTableDB(table, key=key, value=value).to_json(orient='records', force_ascii=False)
+		else:
+			dataJson = readTableDB(table).to_json(orient='records', force_ascii=False)
+		
+		self.write(dataJson)
+		end = time.time()
+		logmessage("tableReadSave GET call for table={} took {} seconds.".format(table,round(end-start,2)))
+
+	def post(self):
+		# ${APIpath}tableReadSave?pw=pw&table=table&key=key&value=value
+		start = time.time()
+		pw=self.get_argument('pw',default='')
+		if not decrypt(pw):
+			self.set_status(400)
+			self.write("Error: invalid password.")
+			return 
+		
+		table=self.get_argument('table',default='')
+		if not table:
+			self.set_status(400)
+			self.write("Error: invalid table.")
+			return 
+		
+		logmessage('\ntableReadSave POST call for table={}'.format(table))
+		
+		# received text comes as bytestring. Convert to unicode using .decode('UTF-8') from https://stackoverflow.com/a/6273618/4355695
+		data = json.loads( self.request.body.decode('UTF-8') )
+
+		key = self.get_argument('key',default=None)
+		value = self.get_argument('value',default=None)
+		if key and value:
+			status = replaceTableDB(table, data, key, value)
+		else:
+			status = replaceTableDB(table, data)
+
+		if status:
+			self.write('Saved {} data to DB.'.format(table) )
+		else:
+			self.set_status(400)
+			self.write("Error: Could not save to DB.")
+		end = time.time()
+		logmessage("tableReadSave POST call for table={} took {} seconds.".format(table,round(end-start,2)))
 
 def make_app():
 	return tornado.web.Application([
@@ -1266,6 +1355,9 @@ def make_app():
 		(r"/API/deleteByKey", deleteByKey),
 		(r"/API/replaceID", replaceID),
 		(r"/API/hydGTFS", hydGTFS),
+		(r"/API/frequencies", frequencies),
+		(r"/API/tableReadSave", tableReadSave),
+		#(r"/API/idList", idList),
 		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
 	])
 

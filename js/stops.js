@@ -18,7 +18,7 @@ $("#stops-table").tabulator({
 	history:true,
 	layout:"fitDataFill",
 	addRowPos: "top",
-	ajaxURL: APIpath + 'allStops', //ajax URL
+	ajaxURL: APIpath + 'tableReadSave?table=stops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	clipboard: true,
 	//clipboardCopySelector:"table",
@@ -26,11 +26,11 @@ $("#stops-table").tabulator({
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"stop_id", field:"stop_id", frozen:true, headerFilter:"input", validator:["string", "minLength:3"] },
-		{title:"stop_name", field:"stop_name", editor:"input", headerFilter:"input", validator:["required","string", "minLength:3"], bottomCalc:stopsTotal },
-		{title:"stop_lat", field:"stop_lat", headerSort:false },
-		{title:"stop_lon", field:"stop_lon", headerSort:false },
-		{title:"zone_id", field:"zone_id", editor:"input", validator:["string", "minLength:3"] },
+		{title:"stop_id", field:"stop_id", frozen:true, headerFilter:"input", validator:["string", tabulator_UID_leastchars] },
+		{title:"stop_name", field:"stop_name", editor:"input", headerFilter:"input", validator:["required","string", tabulator_UID_leastchars], bottomCalc:stopsTotal },
+		{title:"stop_lat", field:"stop_lat", headerSort:false, validator:"float" },
+		{title:"stop_lon", field:"stop_lon", headerSort:false, validator:"float" },
+		{title:"zone_id", field:"zone_id", editor:"input" },
 		{title:"wheelchair_boarding", field:"wheelchair_boarding", editor:"select", editorParams:{0:"No (0)", 1:"Yes (1)"}, headerSort:false }
 	],
 	
@@ -88,11 +88,11 @@ $("#stops-table").tabulator({
 	},
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
-		console.log(`Loaded all stops data from Server API/allStops .`);
+		console.log(`Loaded all stops data from Server API/tableReadSave table=stops .`);
 		reloadData('firstTime');
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to allStops failed.  Returned status of: ' + errorThrown);
+		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
 	}
 });
 
@@ -322,25 +322,6 @@ function updateTable() {
   }, 1000);		
 }
 
-/*
-function getPythonStops() {
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}allStops`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded all stops data from Server API/allStops .`);
-			var data = JSON.parse(xhr.responseText);
-			$("#stops-table").tabulator('setData',data); 
-			reloadData('firstTime');
-		}
-		else {
-			console.log('Server request to API/allStops for all stops failed.  Returned status of ' + xhr.status);
-		}
-	};
-	xhr.send();
-}
-*/
 
 function reloadData(timeflag='normal') {
 	var data = $("#stops-table").tabulator("getData");
@@ -537,15 +518,15 @@ function saveStops(){
 	console.log('sending stops table data to server via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}allStops?pw=${pw}`);
+	xhr.open('POST', `${APIpath}tableReadSave?table=stops&pw=${pw}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server /API/allStops, resonse received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server /API/tableReadSave table=stops, resonse received: ' + xhr.responseText);
 			$('#stopSaveStatus').html('<span class="alert alert-success">' + xhr.responseText + '</span>');
 		} else {
-			console.log('Server POST request to API/allStops failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			console.log('Server POST request to API/tableReadSave table=stops failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#stopSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}

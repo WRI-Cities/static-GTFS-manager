@@ -49,6 +49,8 @@ $("#fare-attributes-table").tabulator({
 	index: "fare_id", 
 	history:true,
 	addRowPos: "top",
+	ajaxURL: APIpath + 'tableReadSave?table=fare_attributes', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
@@ -59,11 +61,7 @@ $("#fare-attributes-table").tabulator({
 		{title:"currency_type", field:"currency_type", editor:"input", headerSort:false, width:120 },
 		{title:"route_id", field:"route_id", headerSort:false, width:120, tooltip:'' }
 	],
-	ajaxURL: APIpath + 'fareAttributes', //ajax URL
-	ajaxLoaderLoading: loaderHTML,
-	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to fareAttributes failed.  Returned status of: ' + errorThrown);
-	},
+	
 	cellEdited:function(cell){
 		// on editing a cell, log changes 
 		let fare_id = cell.getRow().getIndex(); //get corresponding stop_id for that cell
@@ -71,6 +69,22 @@ $("#fare-attributes-table").tabulator({
 
 		logmessage('Changed fare attribute for ' + fare_id + ', ' + field + ': ' + cell.getOldValue() + ' to ' + cell.getValue() );
 	},
+	ajaxError:function(xhr, textStatus, errorThrown){
+		console.log('GET request to tableReadSave?table=fare_attributes failed.  Returned status of: ' + errorThrown);
+	},
+	dataLoaded: function(data){
+		console.log('GET request to tableReadSave?table=fare_attributes successful.');
+		// populate Fare id dropdown in simple fare rules tab
+		var dropdown = '';
+		data.forEach(function(row){
+			dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
+		});	
+		$('#fareSelect').html(dropdown);
+	},
+	rowSelected:function(row){
+		$('#targetFareid').val(row.getIndex());
+	}
+	/*
 	historyUndo:function(action, component, data){
 		var message = '';
 		if(action == 'cellEdit') {
@@ -95,19 +109,8 @@ $("#fare-attributes-table").tabulator({
 			message = 'Redid rowDelete for ' + data.data.fare_id;
 		}
 		logmessage(message);
-	},
-	dataLoaded: function(data){
-		// populate Fare id dropdown in simple fare rules tab
-		var dropdown = '';
-		data.forEach(function(row){
-			dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
-		});	
-		$('#fareSelect').html(dropdown);
-	},
-	rowSelected:function(row){
-		$('#targetFareid').val(row.getIndex());
-	}
-
+	},*/
+	
 }); // end fare attributes table definition
 
 $("#fare-rules-simple-table").tabulator({
@@ -117,6 +120,8 @@ $("#fare-rules-simple-table").tabulator({
 	//index: "fare_id", // no index on this one
 	history:true,
 	addRowPos: "top",
+	ajaxURL: APIpath + 'tableReadSave?table=fare_rules', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
@@ -129,10 +134,12 @@ $("#fare-rules-simple-table").tabulator({
 				cell.getRow().delete();
 			}}
 	],
-	ajaxURL: APIpath + 'fareRules', //ajax URL
-	ajaxLoaderLoading: loaderHTML,
+	
 	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to API fareRules failed.  Returned status of: ' + errorThrown);
+		console.log('GET request to API tableReadSave?table=fare_rules failed.  Returned status of: ' + errorThrown);
+	},
+	dataLoaded: function(data){
+		console.log('GET request to API tableReadSave?table=fare_rules successful.');
 	}
 });
 //#######################
@@ -402,21 +409,21 @@ function saveFareRulesSimple() {
 	var data = JSON.stringify( $("#fare-rules-simple-table").tabulator("getData") );
 	
 	$.ajax({
-		url : `${APIpath}fareRules?pw=${pw}`,
+		url : `${APIpath}tableReadSave?table=fare_rules&pw=${pw}`,
 		type : 'POST',
 		data : data,
 		cache: false,
 		processData: false,  // tell jQuery not to process the data
 		contentType: 'application/json; charset=utf-8', 
 		success : function(returndata) {
-			console.log('API/fareRulesPivoted POST request successfully done.');
+			console.log('API/tableReadSave?table=fare_rules POST request successfully done.');
 			$('#saveFareRulesSimpleStatus').html('<span class="alert alert-success">' + returndata + '</span>' );
 			logmessage( 'Simple Fare Rules saved to DB.' );
 			getPythonFareRules();
-			getPythonSimpleFareRules();
+			//getPythonSimpleFareRules();
 		},
 		error: function(jqXHR, exception) {
-			console.log('API/fareRules POST request failed.')
+			console.log('API/tableReadSave?table=fare_rules POST request failed.')
 			$('#saveFareRulesSimpleStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
 		}
 	});	

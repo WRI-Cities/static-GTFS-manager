@@ -102,10 +102,8 @@ function preventOtherInputs(ui, id) {
 }
 
 function checklatlng(lat,lon) {
-	if ( typeof lat == 'number' && 
-		typeof lon == 'number' &&
-		lat != NaN &&
-		lon != NaN ) {
+	if ( typeof lat == 'number' && typeof lon == 'number' &&
+		!isNaN(lat) && !isNaN(lon) ) {
 		//console.log(lat,lon,'is valid');
 		return true;
 	}

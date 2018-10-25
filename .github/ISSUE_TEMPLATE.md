@@ -33,7 +33,7 @@ A: <!--- enter answer here --->
 Q: What is the size of the dataset : how many lines in stops.txt, routes.txt and stop_times.txt?  
 A: <!--- enter answer here --->
 
-Are you starting a new feed from scratch and haven't filled in any of the other files like calendar.txt?  
+Q: Are you starting a new feed from scratch and haven't filled in any of the other files like calendar.txt?  
 A: <!--- enter answer here --->
 
 #### Anything else

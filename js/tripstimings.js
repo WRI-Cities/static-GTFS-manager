@@ -250,16 +250,16 @@ function getPythonStopTimes(trip_id){
 
 function getPythonRoutes() {
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', APIpath + `routes`);
+	xhr.open('GET', APIpath + `tableReadSave?table=routes`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`GET call to Server API/routes succesful.`);
+			console.log(`GET call to Server API/tableReadSave table=routes succesful.`);
 			var data = JSON.parse(xhr.responseText);
 			populateRouteSelect(data);
 			globalRoutes = data; // save to global variable; needed for trip addtion
 		}
 		else {
-			console.log('Server request to API/allRoutes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+			console.log('Server request to API/tableReadSave table=routes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
@@ -317,17 +317,17 @@ function saveTimings() {
 
 	var timingsData = $("#stop-times-table").tabulator("getData");
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}stopTimes?pw=${pw}&trip=${trip_id}`);
+	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=stop_times&key=trip_id&value=${trip_id}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server /API/stopTimes, resonse received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server API/tableReadSave table=stop_times, resonse received: ' + xhr.responseText);
 			$('#timingsSaveStatus').html('<span class="alert alert-success">Saved changes to stop_times table. Message: '+ xhr.responseText + '</span>');
 			setSaveTimings(false);
 			
 		} else {
-			console.log('Server POST request to API/stopTimes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			console.log('Server POST request to API/tableReadSave table=stop_times failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#timingsSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
@@ -348,16 +348,16 @@ function saveTrips() {
 	$('#tripsSaveStatus').html('<span class="alert alert-info">Sending modified trips data to server, please wait..</span>');
 
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}trips?pw=${pw}&route=${route_id}`);
+	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=trips&key=route_id&value=${route_id}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server /API/trips, resonse received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server API/tableReadSave, resonse received: ' + xhr.responseText);
 			$('#tripsSaveStatus').html('<span class="alert alert-success">'+ xhr.responseText + '</span>');
 			setSaveTrips(false);
 		} else {
-			console.log('Server POST request to API/trips failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			console.log('Server POST request to API/tableReadSave failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#tripsSaveStatus').html('<span class="alert alert-danger">' + xhr.responseText + '</span>');
 		}
 	}
@@ -492,7 +492,7 @@ function getPythonIDs() {
 
 function populateStopTimesFromSequence(trip_id) {
 	if(!sequenceHolder) {
-		$('#loadTimingsStatus').html('<div class="alert alert-danger">Error: Sequence for this route is missing. Please go to Routes page and finalize the sequence first.</div>');
+		$('#loadTimingsStatus').html('<div class="alert alert-danger">Error: Sequence for this route is missing. Please go to <a href="sequence.html">Default Sequence</a> page and finalize the sequence first.</div>');
 		return;
 	}
 		var timesArray = [];

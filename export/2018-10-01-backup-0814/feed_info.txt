@@ -1,2 +1,0 @@
-feed_publisher_name,feed_publisher_url,feed_lang,feed_version
-Telangana Open Data Portal,http://www.data.telangana.gov.in/,en,2018.09.21

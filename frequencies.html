@@ -18,7 +18,7 @@
 <script src="lib/papaparse.min.js" type="text/javascript"></script>
 <script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
 <style>
-#calendar-table {
+#frequencies-table {
 	height: 300px;
 }
 </style></head>
@@ -26,25 +26,28 @@
 <div id="navBar"></div>
 
 <div class="container">
-<h2>Calendar</h2>
+<h2>Frequencies</h2>
 <div id="instructions" class="container">
 	<h3>Instructions</h3>
 	<div>
-		<p>Frequencies table serves as an alternative to the default route > trip > stop_timings system in GTFS.<br>
-		Normally, we have to lay out each trip in the day that a route takes in trips table, and then expand each trip in stop_times table with the specific timings.<br>
-		But for some transit systems, the route may be plying at a certain frequency, for example every 30 mins between 5am and 11pm. And even the journey may be the same throughout. (ie, trip sequences or time between stops don't change)<br>
-		Instead of having to define each trip (72 times in the example case), the GTFS spec enables setting up a special "frequency" trip in the frequencies table.<br>
-		In stop_times table, the exact timings in arrival_time and departure_time become irrelevant, instead </p>
+	<p>Frequencies table serves as an alternative to the default route > trip > stop_timings system in GTFS. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#frequenciestxt" target="_blank">Read the specs here.</a></p>
+	<ul>
+	<li>Normally, we have to lay out each trip in the day that a route takes in trips table, and then expand each trip in stop_times table with the specific timings.</li>
+	<li>But for some transit systems, the route may be plying at a certain frequency, for example every 30 mins between 5am and 11pm. And even the journey may be the same throughout. (ie, trip sequences or time between stops don't change)</li>
+	<li>Instead of having to define each trip (72 times in the example case), the GTFS spec enables setting up a special "frequency" trip in the frequencies table.</li>
+	<li>The stop_times table defines the sequence of stops and the time difference between each stop.</li>
+	</ul>
 </div></div><!-- Accordion over -->
 <br>
 
 
-<div id="calendar-table"></div>
+<div id="frequencies-table"></div>
 <br>
-<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="6"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
+<p>Create a new frequency: <input placeholder="trip_id" id="freq2add" size="6"><button class="btn-primary btn-xs" id="addFreqButton" type="button">Add</button> &nbsp; <small id="freqAddStatus"></small></p>
 
-<p><button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small></p>
+<p><button id="saveFreqButton" class="btn btn-outline-success btn-md">Save Frequencies Changes</button> &nbsp; <small id="freqSaveStatus"></small></p>
 
+<p>Note: A frequency-based trip_id defined here needs to have an entry in trips table too, and the sequence of stops in this trip needs to be defined in stop_times table.</p>
 
 </div>
 <script src="config/settings.js" type="text/javascript"></script>

@@ -1,607 +1,343 @@
-2018-Oct-04 10:57:15 : Loaded dependencies, starting static GTFS Manager program.
-2018-Oct-04 10:57:15 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
-2018-Oct-04 10:57:17 : 
+2018-Oct-25 16:43:35 : 
 stats GET call
-2018-Oct-04 10:57:22 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 10:57:22 : agency              : 1 entries
-2018-Oct-04 10:57:22 : calendar            : 1 entries
-2018-Oct-04 10:57:22 : stops               : 592 entries
-2018-Oct-04 10:57:22 : routes              : 9 entries
-2018-Oct-04 10:57:22 : trips               : 839 entries
-2018-Oct-04 10:57:22 : stop_times          : 41,068 entries
-2018-Oct-04 10:57:22 : calendar_dates      : 0 entries
-2018-Oct-04 10:57:22 : fare_attributes     : 0 entries
-2018-Oct-04 10:57:22 : fare_rules          : 0 entries
-2018-Oct-04 10:57:22 : shapes              : 13,202 entries
-2018-Oct-04 10:57:22 : frequencies         : 0 entries
-2018-Oct-04 10:57:22 : transfers           : 0 entries
-2018-Oct-04 10:57:22 : feed_info           : 1 entries
-2018-Oct-04 10:57:22 : stats GET call took 5.01 seconds.
-2018-Oct-04 10:57:22 : 
+2018-Oct-25 16:43:35 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 16:43:35 : agency              : 1 entries
+2018-Oct-25 16:43:35 : calendar            : 1 entries
+2018-Oct-25 16:43:35 : stops               : 592 entries
+2018-Oct-25 16:43:35 : routes              : 9 entries
+2018-Oct-25 16:43:35 : trips               : 839 entries
+2018-Oct-25 16:43:35 : stop_times          : 40,840 entries
+2018-Oct-25 16:43:35 : calendar_dates      : 0 entries
+2018-Oct-25 16:43:35 : fare_attributes     : 0 entries
+2018-Oct-25 16:43:35 : fare_rules          : 0 entries
+2018-Oct-25 16:43:35 : shapes              : 0 entries
+2018-Oct-25 16:43:35 : frequencies         : 0 entries
+2018-Oct-25 16:43:35 : transfers           : 0 entries
+2018-Oct-25 16:43:35 : feed_info           : 1 entries
+2018-Oct-25 16:43:35 : stats GET call took 0.44 seconds.
+2018-Oct-25 16:43:35 : 
 pastCommits GET call
-2018-Oct-04 10:57:22 : pastCommits GET call took 0.04 seconds.
-2018-Oct-04 11:01:13 : 
-allStops GET call
-2018-Oct-04 11:01:13 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:01:13 : allStops GET call took 0.17 seconds.
-2018-Oct-04 11:01:17 : 
+2018-Oct-25 16:48:45 : 
+pastCommits GET call
+2018-Oct-25 16:48:46 : 
 stats GET call
-2018-Oct-04 11:01:17 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:01:17 : agency              : 1 entries
-2018-Oct-04 11:01:18 : calendar            : 1 entries
-2018-Oct-04 11:01:18 : stops               : 592 entries
-2018-Oct-04 11:01:18 : routes              : 9 entries
-2018-Oct-04 11:01:18 : trips               : 839 entries
-2018-Oct-04 11:01:18 : stop_times          : 41,068 entries
-2018-Oct-04 11:01:18 : calendar_dates      : 0 entries
-2018-Oct-04 11:01:18 : fare_attributes     : 0 entries
-2018-Oct-04 11:01:18 : fare_rules          : 0 entries
-2018-Oct-04 11:01:18 : shapes              : 13,202 entries
-2018-Oct-04 11:01:18 : frequencies         : 0 entries
-2018-Oct-04 11:01:18 : transfers           : 0 entries
-2018-Oct-04 11:01:18 : feed_info           : 1 entries
-2018-Oct-04 11:01:18 : stats GET call took 0.32 seconds.
-2018-Oct-04 11:01:18 : 
-pastCommits GET call
-2018-Oct-04 11:01:18 : pastCommits GET call took 0.01 seconds.
-2018-Oct-04 11:03:04 : 
+2018-Oct-25 16:48:47 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 16:48:47 : agency              : 1 entries
+2018-Oct-25 16:48:47 : calendar            : 1 entries
+2018-Oct-25 16:48:47 : stops               : 592 entries
+2018-Oct-25 16:48:47 : routes              : 9 entries
+2018-Oct-25 16:48:47 : trips               : 839 entries
+2018-Oct-25 16:48:47 : stop_times          : 40,840 entries
+2018-Oct-25 16:48:47 : calendar_dates      : 0 entries
+2018-Oct-25 16:48:47 : fare_attributes     : 0 entries
+2018-Oct-25 16:48:47 : fare_rules          : 0 entries
+2018-Oct-25 16:48:47 : shapes              : 0 entries
+2018-Oct-25 16:48:47 : frequencies         : 0 entries
+2018-Oct-25 16:48:47 : transfers           : 0 entries
+2018-Oct-25 16:48:47 : feed_info           : 1 entries
+2018-Oct-25 16:48:47 : stats GET call took 1.94 seconds.
+2018-Oct-25 17:19:32 : 
 stats GET call
-2018-Oct-04 11:03:04 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:03:04 : agency              : 1 entries
-2018-Oct-04 11:03:04 : calendar            : 1 entries
-2018-Oct-04 11:03:04 : stops               : 592 entries
-2018-Oct-04 11:03:04 : routes              : 9 entries
-2018-Oct-04 11:03:04 : trips               : 839 entries
-2018-Oct-04 11:03:04 : stop_times          : 41,068 entries
-2018-Oct-04 11:03:04 : calendar_dates      : 0 entries
-2018-Oct-04 11:03:04 : fare_attributes     : 0 entries
-2018-Oct-04 11:03:04 : fare_rules          : 0 entries
-2018-Oct-04 11:03:04 : shapes              : 13,202 entries
-2018-Oct-04 11:03:04 : frequencies         : 0 entries
-2018-Oct-04 11:03:04 : transfers           : 0 entries
-2018-Oct-04 11:03:04 : feed_info           : 1 entries
-2018-Oct-04 11:03:04 : stats GET call took 0.28 seconds.
-2018-Oct-04 11:03:04 : 
+2018-Oct-25 17:19:33 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:19:33 : agency              : 1 entries
+2018-Oct-25 17:19:33 : calendar            : 1 entries
+2018-Oct-25 17:19:33 : stops               : 592 entries
+2018-Oct-25 17:19:33 : routes              : 9 entries
+2018-Oct-25 17:19:33 : trips               : 839 entries
+2018-Oct-25 17:19:33 : stop_times          : 40,840 entries
+2018-Oct-25 17:19:33 : calendar_dates      : 0 entries
+2018-Oct-25 17:19:33 : fare_attributes     : 0 entries
+2018-Oct-25 17:19:33 : fare_rules          : 0 entries
+2018-Oct-25 17:19:34 : shapes              : 0 entries
+2018-Oct-25 17:19:34 : frequencies         : 0 entries
+2018-Oct-25 17:19:34 : transfers           : 0 entries
+2018-Oct-25 17:19:34 : feed_info           : 1 entries
+2018-Oct-25 17:19:34 : stats GET call took 1.68 seconds.
+2018-Oct-25 17:19:34 : 
 pastCommits GET call
-2018-Oct-04 11:03:04 : pastCommits GET call took 0.01 seconds.
-2018-Oct-04 11:03:48 : 
-translations GET call
-2018-Oct-04 11:03:48 : readTableDB: Loaded translations, 0 records
-2018-Oct-04 11:03:48 : translations GET call took 0.01 seconds.
-2018-Oct-04 11:03:51 : 
-fareAttributes GET call
-2018-Oct-04 11:03:51 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-04 11:03:51 : fareAttributes GET call took 0.0 seconds.
-2018-Oct-04 11:03:51 : 
-fareRules GET call
-2018-Oct-04 11:03:51 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:03:51 : fareRules GET call took 0.01 seconds.
-2018-Oct-04 11:03:51 : 
-fareRulesPivoted GET call
-2018-Oct-04 11:03:51 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:03:51 : fareRulesPivoted GET call took 0.0 seconds.
-2018-Oct-04 11:03:51 : 
-routeIdList GET call
-2018-Oct-04 11:03:51 : readTableDB: Loaded routes, 9 records
-2018-Oct-04 11:03:52 : routeIdList GET call took 0.12 seconds.
-2018-Oct-04 11:03:52 : 
-zoneIdList GET call
-2018-Oct-04 11:03:52 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:03:52 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-04 11:03:52 : zoneIdList GET call took 0.15 seconds.
-2018-Oct-04 11:04:00 : 
-tripIdList GET call
-2018-Oct-04 11:04:00 : readTableDB: Loaded trips, 839 records
-2018-Oct-04 11:04:00 : tripIdList GET call took 0.12 seconds.
-2018-Oct-04 11:04:00 : 
-routes GET call
-2018-Oct-04 11:04:00 : readTableDB: Loaded routes, 9 records
-2018-Oct-04 11:04:00 : routes GET call took 0.04 seconds.
-2018-Oct-04 11:04:00 : 
-calendar GET call
-2018-Oct-04 11:04:00 : readTableDB: Loaded calendar, 1 records
-2018-Oct-04 11:04:00 : 20181004.0
-2018-Oct-04 11:04:00 : calendar GET call took 0.11 seconds.
-2018-Oct-04 11:04:00 : 
-allStopsKeyed GET call
-2018-Oct-04 11:04:00 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:04:00 : allStopsKeyed GET call took 0.1 seconds.
-2018-Oct-04 11:04:00 : 
-allShapesList GET call
-2018-Oct-04 11:04:00 : allShapesList GET call took 0.08 seconds.
-2018-Oct-04 11:04:05 : 
-routes GET call
-2018-Oct-04 11:04:05 : readTableDB: Loaded routes, 9 records
-2018-Oct-04 11:04:05 : routes GET call took 0.06 seconds.
-2018-Oct-04 11:04:05 : 
+2018-Oct-25 17:20:14 : 
+tableReadSave GET call for table=agency
+2018-Oct-25 17:20:15 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:20:15 : tableReadSave GET call for table=agency took 0.13 seconds.
+2018-Oct-25 17:20:15 : 
+tableReadSave GET call for table=feed_info
+2018-Oct-25 17:20:15 : readTableDB: Loaded feed_info, 1 records
+2018-Oct-25 17:20:15 : tableReadSave GET call for table=feed_info took 0.08 seconds.
+2018-Oct-25 17:20:20 : 
+stats GET call
+2018-Oct-25 17:20:20 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:20:20 : agency              : 1 entries
+2018-Oct-25 17:20:20 : calendar            : 1 entries
+2018-Oct-25 17:20:20 : stops               : 592 entries
+2018-Oct-25 17:20:21 : routes              : 9 entries
+2018-Oct-25 17:20:21 : trips               : 839 entries
+2018-Oct-25 17:20:21 : stop_times          : 40,840 entries
+2018-Oct-25 17:20:21 : calendar_dates      : 0 entries
+2018-Oct-25 17:20:21 : fare_attributes     : 0 entries
+2018-Oct-25 17:20:21 : fare_rules          : 0 entries
+2018-Oct-25 17:20:21 : shapes              : 0 entries
+2018-Oct-25 17:20:21 : frequencies         : 0 entries
+2018-Oct-25 17:20:21 : transfers           : 0 entries
+2018-Oct-25 17:20:21 : feed_info           : 1 entries
+2018-Oct-25 17:20:21 : stats GET call took 0.68 seconds.
+2018-Oct-25 17:20:21 : 
+pastCommits GET call
+2018-Oct-25 17:20:39 : 
+stats GET call
+2018-Oct-25 17:20:39 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:20:39 : agency              : 1 entries
+2018-Oct-25 17:20:39 : calendar            : 1 entries
+2018-Oct-25 17:20:39 : stops               : 592 entries
+2018-Oct-25 17:20:39 : routes              : 9 entries
+2018-Oct-25 17:20:39 : trips               : 839 entries
+2018-Oct-25 17:20:39 : stop_times          : 40,840 entries
+2018-Oct-25 17:20:39 : calendar_dates      : 0 entries
+2018-Oct-25 17:20:39 : fare_attributes     : 0 entries
+2018-Oct-25 17:20:39 : fare_rules          : 0 entries
+2018-Oct-25 17:20:39 : shapes              : 0 entries
+2018-Oct-25 17:20:39 : frequencies         : 0 entries
+2018-Oct-25 17:20:39 : transfers           : 0 entries
+2018-Oct-25 17:20:39 : feed_info           : 1 entries
+2018-Oct-25 17:20:39 : stats GET call took 0.59 seconds.
+2018-Oct-25 17:20:39 : 
+pastCommits GET call
+2018-Oct-25 17:20:57 : 
+stats GET call
+2018-Oct-25 17:20:57 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:20:57 : agency              : 1 entries
+2018-Oct-25 17:20:57 : calendar            : 1 entries
+2018-Oct-25 17:20:57 : stops               : 592 entries
+2018-Oct-25 17:20:57 : routes              : 9 entries
+2018-Oct-25 17:20:57 : trips               : 839 entries
+2018-Oct-25 17:20:57 : stop_times          : 40,840 entries
+2018-Oct-25 17:20:57 : calendar_dates      : 0 entries
+2018-Oct-25 17:20:57 : fare_attributes     : 0 entries
+2018-Oct-25 17:20:57 : fare_rules          : 0 entries
+2018-Oct-25 17:20:57 : shapes              : 0 entries
+2018-Oct-25 17:20:57 : frequencies         : 0 entries
+2018-Oct-25 17:20:57 : transfers           : 0 entries
+2018-Oct-25 17:20:57 : feed_info           : 1 entries
+2018-Oct-25 17:20:57 : stats GET call took 0.41 seconds.
+2018-Oct-25 17:20:57 : 
+pastCommits GET call
+2018-Oct-25 17:21:11 : 
+stats GET call
+2018-Oct-25 17:21:11 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:21:11 : agency              : 1 entries
+2018-Oct-25 17:21:11 : calendar            : 1 entries
+2018-Oct-25 17:21:11 : stops               : 592 entries
+2018-Oct-25 17:21:11 : routes              : 9 entries
+2018-Oct-25 17:21:12 : trips               : 839 entries
+2018-Oct-25 17:21:12 : stop_times          : 40,840 entries
+2018-Oct-25 17:21:12 : calendar_dates      : 0 entries
+2018-Oct-25 17:21:12 : fare_attributes     : 0 entries
+2018-Oct-25 17:21:12 : fare_rules          : 0 entries
+2018-Oct-25 17:21:12 : shapes              : 0 entries
+2018-Oct-25 17:21:12 : frequencies         : 0 entries
+2018-Oct-25 17:21:12 : transfers           : 0 entries
+2018-Oct-25 17:21:12 : feed_info           : 1 entries
+2018-Oct-25 17:21:12 : stats GET call took 0.87 seconds.
+2018-Oct-25 17:21:12 : 
+pastCommits GET call
+2018-Oct-25 17:21:31 : 
+stats GET call
+2018-Oct-25 17:21:31 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:21:31 : agency              : 1 entries
+2018-Oct-25 17:21:32 : calendar            : 1 entries
+2018-Oct-25 17:21:32 : stops               : 592 entries
+2018-Oct-25 17:21:32 : routes              : 9 entries
+2018-Oct-25 17:21:32 : trips               : 839 entries
+2018-Oct-25 17:21:32 : stop_times          : 40,840 entries
+2018-Oct-25 17:21:32 : calendar_dates      : 0 entries
+2018-Oct-25 17:21:32 : fare_attributes     : 0 entries
+2018-Oct-25 17:21:32 : fare_rules          : 0 entries
+2018-Oct-25 17:21:32 : shapes              : 0 entries
+2018-Oct-25 17:21:32 : frequencies         : 0 entries
+2018-Oct-25 17:21:32 : transfers           : 0 entries
+2018-Oct-25 17:21:32 : feed_info           : 1 entries
+2018-Oct-25 17:21:32 : stats GET call took 0.61 seconds.
+2018-Oct-25 17:21:32 : 
+pastCommits GET call
+2018-Oct-25 17:21:48 : 
+stats GET call
+2018-Oct-25 17:21:48 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:21:48 : agency              : 1 entries
+2018-Oct-25 17:21:48 : calendar            : 1 entries
+2018-Oct-25 17:21:48 : stops               : 592 entries
+2018-Oct-25 17:21:48 : routes              : 9 entries
+2018-Oct-25 17:21:48 : trips               : 839 entries
+2018-Oct-25 17:21:48 : stop_times          : 40,840 entries
+2018-Oct-25 17:21:48 : calendar_dates      : 0 entries
+2018-Oct-25 17:21:48 : fare_attributes     : 0 entries
+2018-Oct-25 17:21:48 : fare_rules          : 0 entries
+2018-Oct-25 17:21:48 : shapes              : 0 entries
+2018-Oct-25 17:21:48 : frequencies         : 0 entries
+2018-Oct-25 17:21:48 : transfers           : 0 entries
+2018-Oct-25 17:21:48 : feed_info           : 1 entries
+2018-Oct-25 17:21:48 : stats GET call took 0.24 seconds.
+2018-Oct-25 17:21:48 : 
+pastCommits GET call
+2018-Oct-25 17:22:14 : 
+stats GET call
+2018-Oct-25 17:22:14 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:22:14 : agency              : 1 entries
+2018-Oct-25 17:22:14 : calendar            : 1 entries
+2018-Oct-25 17:22:14 : stops               : 592 entries
+2018-Oct-25 17:22:14 : routes              : 9 entries
+2018-Oct-25 17:22:14 : trips               : 839 entries
+2018-Oct-25 17:22:14 : stop_times          : 40,840 entries
+2018-Oct-25 17:22:14 : calendar_dates      : 0 entries
+2018-Oct-25 17:22:14 : fare_attributes     : 0 entries
+2018-Oct-25 17:22:14 : fare_rules          : 0 entries
+2018-Oct-25 17:22:14 : shapes              : 0 entries
+2018-Oct-25 17:22:14 : frequencies         : 0 entries
+2018-Oct-25 17:22:14 : transfers           : 0 entries
+2018-Oct-25 17:22:14 : feed_info           : 1 entries
+2018-Oct-25 17:22:14 : stats GET call took 0.29 seconds.
+2018-Oct-25 17:22:14 : 
+pastCommits GET call
+2018-Oct-25 17:22:57 : 
+stats GET call
+2018-Oct-25 17:22:57 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:22:57 : agency              : 1 entries
+2018-Oct-25 17:22:57 : calendar            : 1 entries
+2018-Oct-25 17:22:57 : stops               : 592 entries
+2018-Oct-25 17:22:57 : routes              : 9 entries
+2018-Oct-25 17:22:57 : trips               : 839 entries
+2018-Oct-25 17:22:57 : stop_times          : 40,840 entries
+2018-Oct-25 17:22:57 : calendar_dates      : 0 entries
+2018-Oct-25 17:22:57 : fare_attributes     : 0 entries
+2018-Oct-25 17:22:57 : fare_rules          : 0 entries
+2018-Oct-25 17:22:57 : shapes              : 0 entries
+2018-Oct-25 17:22:57 : frequencies         : 0 entries
+2018-Oct-25 17:22:57 : transfers           : 0 entries
+2018-Oct-25 17:22:57 : feed_info           : 1 entries
+2018-Oct-25 17:22:57 : stats GET call took 0.38 seconds.
+2018-Oct-25 17:22:57 : 
+pastCommits GET call
+2018-Oct-25 17:23:16 : 
+stats GET call
+2018-Oct-25 17:23:17 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:23:17 : agency              : 1 entries
+2018-Oct-25 17:23:17 : calendar            : 1 entries
+2018-Oct-25 17:23:17 : stops               : 592 entries
+2018-Oct-25 17:23:17 : routes              : 9 entries
+2018-Oct-25 17:23:17 : trips               : 839 entries
+2018-Oct-25 17:23:17 : stop_times          : 40,840 entries
+2018-Oct-25 17:23:17 : calendar_dates      : 0 entries
+2018-Oct-25 17:23:17 : fare_attributes     : 0 entries
+2018-Oct-25 17:23:17 : fare_rules          : 0 entries
+2018-Oct-25 17:23:17 : shapes              : 0 entries
+2018-Oct-25 17:23:17 : frequencies         : 0 entries
+2018-Oct-25 17:23:17 : transfers           : 0 entries
+2018-Oct-25 17:23:17 : feed_info           : 1 entries
+2018-Oct-25 17:23:17 : stats GET call took 0.42 seconds.
+2018-Oct-25 17:23:17 : 
+pastCommits GET call
+2018-Oct-25 17:44:27 : 
+tableReadSave GET call for table=routes
+2018-Oct-25 17:44:30 : readTableDB: Loaded routes, 9 records
+2018-Oct-25 17:44:30 : tableReadSave GET call for table=routes took 3.05 seconds.
+2018-Oct-25 17:44:30 : 
 agency GET call
-2018-Oct-04 11:04:05 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:04:05 : agency GET call took 0.04 seconds.
-2018-Oct-04 11:05:48 : 
-listAll GET call
-2018-Oct-04 11:05:48 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:05:48 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:05:48 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-04 11:05:48 : readTableDB: Loaded routes, 9 records
-2018-Oct-04 11:05:48 : readTableDB: Loaded trips, 839 records
-2018-Oct-04 11:05:48 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:05:48 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:05:49 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-04 11:05:49 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:05:49 : readTableDB: Loaded calendar, 1 records
-2018-Oct-04 11:05:49 : listAll GET call took 0.78 seconds.
-2018-Oct-04 11:08:45 : 
-listAll GET call
-2018-Oct-04 11:08:45 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:08:45 : readTableDB: Loaded stops, 592 records
-2018-Oct-04 11:08:45 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-04 11:08:45 : readTableDB: Loaded routes, 9 records
-2018-Oct-04 11:08:45 : readTableDB: Loaded trips, 839 records
-2018-Oct-04 11:08:45 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:08:45 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-04 11:08:45 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-04 11:08:46 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:08:46 : readTableDB: Loaded calendar, 1 records
-2018-Oct-04 11:08:46 : listAll GET call took 1.09 seconds.
-2018-Oct-04 11:08:49 : 
-diagnoseID GET call
-2018-Oct-04 11:08:49 : readTableDB: table:agency, column:agency_id, value:"TSRTC_HYD"
-2018-Oct-04 11:08:49 : readTableDB: Loaded agency, 1 records
-2018-Oct-04 11:08:49 : readTableDB: table:routes, column:agency_id, value:"TSRTC_HYD"
-2018-Oct-04 11:08:49 : readTableDB: Error: column agency_id not found in routes.h5. Skipping it.
-2018-Oct-04 11:08:49 : readTableDB: Loaded routes, 0 records
-2018-Oct-04 11:08:49 : diagnoseID GET call took 0.16 seconds.
-2018-Oct-04 11:09:51 : 
-diagnoseID GET call
-2018-Oct-04 11:09:51 : readTableDB: table:trips, column:trip_id, value:"120M_0710_0"
-2018-Oct-04 11:09:51 : readTableDB: Loaded trips, 1 records
-2018-Oct-04 11:09:52 : readTableDB: table:stop_times, column:trip_id, value:"120M_0710_0"
-2018-Oct-04 11:09:52 : readTableDB: Loaded stop_times, 13 records
-2018-Oct-04 11:09:52 : diagnoseID GET call took 0.63 seconds.
-2018-Oct-04 11:10:00 : 
-diagnoseID GET call
-2018-Oct-04 11:10:00 : readTableDB: table:trips, column:trip_id, value:"218D_1225_0"
-2018-Oct-04 11:10:00 : readTableDB: Loaded trips, 1 records
-2018-Oct-04 11:10:00 : readTableDB: table:stop_times, column:trip_id, value:"218D_1225_0"
-2018-Oct-04 11:10:01 : readTableDB: Loaded stop_times, 53 records
-2018-Oct-04 11:10:01 : diagnoseID GET call took 0.62 seconds.
-2018-Oct-04 11:10:27 : 
-diagnoseID GET call
-2018-Oct-04 11:10:27 : readTableDB: table:shapes, column:shape_id, value:"218D_0"
-2018-Oct-04 11:10:27 : readTableDB: Loaded shapes, 6601 records
-2018-Oct-04 11:10:27 : readTableDB: table:trips, column:shape_id, value:"218D_0"
-2018-Oct-04 11:10:27 : readTableDB: Error: column shape_id not found in trips.h5. Skipping it.
-2018-Oct-04 11:10:27 : readTableDB: Loaded trips, 0 records
-2018-Oct-04 11:10:27 : diagnoseID GET call took 0.29 seconds.
-2018-Oct-07 19:48:30 : Loaded dependencies, starting static GTFS Manager program.
-2018-Oct-07 19:48:30 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
-2018-Oct-07 19:48:34 : 
-stats GET call
-2018-Oct-07 19:48:38 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 19:48:38 : agency              : 1 entries
-2018-Oct-07 19:48:39 : calendar            : 1 entries
-2018-Oct-07 19:48:39 : stops               : 592 entries
-2018-Oct-07 19:48:39 : routes              : 9 entries
-2018-Oct-07 19:48:39 : trips               : 839 entries
-2018-Oct-07 19:48:39 : stop_times          : 41,068 entries
-2018-Oct-07 19:48:39 : calendar_dates      : 0 entries
-2018-Oct-07 19:48:39 : fare_attributes     : 0 entries
-2018-Oct-07 19:48:39 : fare_rules          : 0 entries
-2018-Oct-07 19:48:39 : shapes              : 13,202 entries
-2018-Oct-07 19:48:39 : frequencies         : 0 entries
-2018-Oct-07 19:48:39 : transfers           : 0 entries
-2018-Oct-07 19:48:39 : feed_info           : 1 entries
-2018-Oct-07 19:48:39 : stats GET call took 5.19 seconds.
-2018-Oct-07 19:48:39 : 
-pastCommits GET call
-2018-Oct-07 19:48:39 : pastCommits GET call took 0.03 seconds.
-2018-Oct-07 19:53:41 : 
-listAll GET call
-2018-Oct-07 19:53:41 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 19:53:41 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 19:53:41 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 19:53:41 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 19:53:42 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 19:53:42 : listAll GET call took 1.07 seconds.
-2018-Oct-07 20:02:08 : 
-listAll GET call
-2018-Oct-07 20:02:08 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:02:08 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:02:08 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:02:09 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:02:09 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:02:09 : listAll GET call took 0.9 seconds.
-2018-Oct-07 20:02:27 : 
-diagnoseID GET call
-2018-Oct-07 20:02:27 : readTableDB: table:calendar, column:service_id, value:"ALL"
-2018-Oct-07 20:02:27 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:02:27 : readTableDB: table:trips, column:service_id, value:"ALL"
-2018-Oct-07 20:02:27 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:02:27 : diagnoseID GET call took 0.28 seconds.
-2018-Oct-07 20:02:42 : 
-diagnoseID GET call
-2018-Oct-07 20:02:42 : readTableDB: table:stops, column:stop_id, value:"ABIDS2"
-2018-Oct-07 20:02:42 : readTableDB: Loaded stops, 1 records
-2018-Oct-07 20:02:43 : readChunkTableDB: Collected 328 rows from table stop_times for stop_id=ABIDS2 
-Chunks having entries: ['stop_times_1.h5']
-2018-Oct-07 20:02:43 : diagnoseID GET call took 0.67 seconds.
-2018-Oct-07 20:02:48 : 
-diagnoseID GET call
-2018-Oct-07 20:02:48 : readTableDB: table:stops, column:stop_id, value:"ABIDS1"
-2018-Oct-07 20:02:48 : readTableDB: Loaded stops, 1 records
-2018-Oct-07 20:02:49 : readChunkTableDB: Collected 288 rows from table stop_times for stop_id=ABIDS1 
-Chunks having entries: ['stop_times_1.h5']
-2018-Oct-07 20:02:49 : diagnoseID GET call took 0.63 seconds.
-2018-Oct-07 20:02:50 : 
-diagnoseID GET call
-2018-Oct-07 20:02:50 : readTableDB: table:stops, column:stop_id, value:"ABIDS2"
-2018-Oct-07 20:02:50 : readTableDB: Loaded stops, 1 records
-2018-Oct-07 20:02:51 : readChunkTableDB: Collected 328 rows from table stop_times for stop_id=ABIDS2 
-Chunks having entries: ['stop_times_1.h5']
-2018-Oct-07 20:02:51 : diagnoseID GET call took 0.64 seconds.
-2018-Oct-07 20:03:09 : 
-diagnoseID GET call
-2018-Oct-07 20:03:09 : readTableDB: table:stops, column:stop_id, value:"ABIDS1"
-2018-Oct-07 20:03:09 : readTableDB: Loaded stops, 1 records
-2018-Oct-07 20:03:09 : readChunkTableDB: Collected 288 rows from table stop_times for stop_id=ABIDS1 
-Chunks having entries: ['stop_times_1.h5']
-2018-Oct-07 20:03:09 : diagnoseID GET call took 0.62 seconds.
-2018-Oct-07 20:03:21 : 
-listAll GET call
-2018-Oct-07 20:03:21 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:03:21 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:03:21 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:03:21 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:03:22 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:03:22 : listAll GET call took 1.0 seconds.
-2018-Oct-07 20:25:22 : 
-listAll GET call
-2018-Oct-07 20:25:22 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:25:22 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:25:22 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:25:22 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:25:22 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:25:23 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:25:23 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:25:23 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:25:23 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:25:23 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:25:23 : listAll GET call took 0.99 seconds.
-2018-Oct-07 20:30:01 : 
-listAll GET call
-2018-Oct-07 20:30:01 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:30:01 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:30:01 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:30:02 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:30:02 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:30:02 : listAll GET call took 1.0 seconds.
-2018-Oct-07 20:31:31 : 
-listAll GET call
-2018-Oct-07 20:31:31 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:31:31 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:31:31 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:31:32 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:31:32 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:31:32 : listAll GET call took 0.87 seconds.
-2018-Oct-07 20:31:39 : 
-listAll GET call
-2018-Oct-07 20:31:39 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:31:39 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 20:31:39 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 20:31:39 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 20:31:39 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 20:31:39 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:31:40 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 20:31:40 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 20:31:40 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 20:31:40 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 20:31:40 : listAll GET call took 0.77 seconds.
-2018-Oct-07 21:37:17 : 
-listAll GET call
-2018-Oct-07 21:37:17 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 21:37:18 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-07 21:37:18 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 21:37:18 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 21:37:18 : listAll GET call took 0.98 seconds.
-2018-Oct-07 21:37:21 : 
-diagnoseID GET call
-2018-Oct-07 21:37:21 : readTableDB: table:agency, column:agency_id, value:"TSRTC_HYD"
-2018-Oct-07 21:37:21 : readTableDB: Loaded agency, 1 records
-2018-Oct-07 21:37:21 : readTableDB: table:routes, column:agency_id, value:"TSRTC_HYD"
-2018-Oct-07 21:37:21 : readTableDB: Error: column agency_id not found in routes.h5. Skipping it.
-2018-Oct-07 21:37:21 : readTableDB: Loaded routes, 0 records
-2018-Oct-07 21:37:21 : diagnoseID GET call took 0.08 seconds.
-2018-Oct-07 21:37:26 : 
-diagnoseID GET call
-2018-Oct-07 21:37:26 : readTableDB: table:trips, column:trip_id, value:"120M_0710_0"
-2018-Oct-07 21:37:26 : readTableDB: Loaded trips, 1 records
-2018-Oct-07 21:37:27 : readTableDB: table:stop_times, column:trip_id, value:"120M_0710_0"
-2018-Oct-07 21:37:27 : readTableDB: Loaded stop_times, 13 records
-2018-Oct-07 21:37:27 : diagnoseID GET call took 0.58 seconds.
-2018-Oct-07 21:37:31 : 
-diagnoseID GET call
-2018-Oct-07 21:37:31 : readTableDB: table:routes, column:route_id, value:"18B"
-2018-Oct-07 21:37:31 : readTableDB: Loaded routes, 1 records
-2018-Oct-07 21:37:31 : readTableDB: table:trips, column:route_id, value:"18B"
-2018-Oct-07 21:37:31 : readTableDB: Loaded trips, 40 records
-2018-Oct-07 21:37:31 : diagnoseID GET call took 0.1 seconds.
-2018-Oct-07 21:38:06 : 
-diagnoseID GET call
-2018-Oct-07 21:38:06 : readTableDB: table:trips, column:trip_id, value:"120M_0817_0"
-2018-Oct-07 21:38:06 : readTableDB: Loaded trips, 1 records
-2018-Oct-07 21:38:06 : readTableDB: table:stop_times, column:trip_id, value:"120M_0817_0"
-2018-Oct-07 21:38:07 : readTableDB: Loaded stop_times, 13 records
-2018-Oct-07 21:38:07 : diagnoseID GET call took 0.59 seconds.
-2018-Oct-07 21:38:08 : 
-diagnoseID GET call
-2018-Oct-07 21:38:08 : readTableDB: table:trips, column:trip_id, value:"120M_0710_0"
-2018-Oct-07 21:38:08 : readTableDB: Loaded trips, 1 records
-2018-Oct-07 21:38:09 : readTableDB: table:stop_times, column:trip_id, value:"120M_0710_0"
-2018-Oct-07 21:38:09 : readTableDB: Loaded stop_times, 13 records
-2018-Oct-07 21:38:09 : diagnoseID GET call took 0.57 seconds.
-2018-Oct-07 21:38:18 : 
-tripIdList GET call
-2018-Oct-07 21:38:18 : readTableDB: Loaded trips, 839 records
-2018-Oct-07 21:38:18 : tripIdList GET call took 0.15 seconds.
-2018-Oct-07 21:38:18 : 
-routes GET call
-2018-Oct-07 21:38:18 : readTableDB: Loaded routes, 9 records
-2018-Oct-07 21:38:18 : routes GET call took 0.04 seconds.
-2018-Oct-07 21:38:18 : 
-calendar GET call
-2018-Oct-07 21:38:18 : readTableDB: Loaded calendar, 1 records
-2018-Oct-07 21:38:18 : 20181007.0
-2018-Oct-07 21:38:18 : calendar GET call took 0.05 seconds.
-2018-Oct-07 21:38:18 : 
-allShapesList GET call
-2018-Oct-07 21:38:18 : allShapesList GET call took 0.05 seconds.
-2018-Oct-07 21:38:18 : 
-allStopsKeyed GET call
-2018-Oct-07 21:38:18 : readTableDB: Loaded stops, 592 records
-2018-Oct-07 21:38:18 : allStopsKeyed GET call took 0.06 seconds.
-2018-Oct-10 17:20:55 : Loaded dependencies, starting static GTFS Manager program.
-2018-Oct-10 17:20:55 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
-2018-Oct-10 17:21:04 : 
-stats GET call
-2018-Oct-10 17:21:09 : readTableDB: Loaded agency, 1 records
-2018-Oct-10 17:21:09 : agency              : 1 entries
-2018-Oct-10 17:21:09 : calendar            : 1 entries
-2018-Oct-10 17:21:10 : stops               : 592 entries
-2018-Oct-10 17:21:10 : routes              : 9 entries
-2018-Oct-10 17:21:10 : trips               : 839 entries
-2018-Oct-10 17:21:10 : stop_times          : 41,068 entries
-2018-Oct-10 17:21:10 : calendar_dates      : 0 entries
-2018-Oct-10 17:21:10 : fare_attributes     : 0 entries
-2018-Oct-10 17:21:10 : fare_rules          : 0 entries
-2018-Oct-10 17:21:10 : shapes              : 13,202 entries
-2018-Oct-10 17:21:10 : frequencies         : 0 entries
-2018-Oct-10 17:21:10 : transfers           : 0 entries
-2018-Oct-10 17:21:10 : feed_info           : 1 entries
-2018-Oct-10 17:21:10 : stats GET call took 5.85 seconds.
-2018-Oct-10 17:21:10 : 
-pastCommits GET call
-2018-Oct-10 17:21:10 : pastCommits GET call took 0.03 seconds.
-2018-Oct-10 17:21:55 : 
-allStopsKeyed GET call
-2018-Oct-10 17:21:55 : readTableDB: Loaded stops, 592 records
-2018-Oct-10 17:21:56 : allStopsKeyed GET call took 0.17 seconds.
-2018-Oct-10 17:21:56 : 
-routes GET call
-2018-Oct-10 17:21:56 : readTableDB: Loaded routes, 9 records
-2018-Oct-10 17:21:56 : routes GET call took 0.07 seconds.
-2018-Oct-10 17:21:56 : 
-allShapesList GET call
-2018-Oct-10 17:21:56 : allShapesList GET call took 0.19 seconds.
-2018-Oct-10 17:21:58 : 
-sequence GET call
-2018-Oct-10 17:21:58 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
-2018-Oct-10 17:21:58 : readTableDB: table:trips, column:route_id, value:"120M"
-2018-Oct-10 17:21:58 : readTableDB: Loaded trips, 29 records
-2018-Oct-10 17:21:59 : readTableDB: table:stop_times, column:trip_id, value:"120M_0710_0"
-2018-Oct-10 17:21:59 : readTableDB: Loaded stop_times, 13 records
-2018-Oct-10 17:21:59 : extractSequencefromGTFS: Loading sequence for route 120M, onward direction from trip 120M_0710_0:
-['NARSI1', 'HANUM1', 'TARAM1', 'IBRAH1', 'RAMDE1', 'TIPPU1', 'BAPUG1', 'LANGA1', 'FLOUR1', 'SALAR1', 'NALAN1', 'RETHI1', 'MEHDI1']
-2018-Oct-10 17:21:59 : readTableDB: table:stop_times, column:trip_id, value:"120M_0822_1"
-2018-Oct-10 17:21:59 : readTableDB: Loaded stop_times, 14 records
-2018-Oct-10 17:21:59 : extractSequencefromGTFS: Loading sequence for route 120M, return direction from trip 120M_0822_1:
-['MEHDI2', 'RETHI2', 'NANAL1', 'SALAR2', 'FLOUR1', 'LANGE1', 'BAPUN1', 'BAPUG2', 'CHAVE1', 'RAMDE2', 'IBRAH2', 'TARAM1', 'HANUM2', 'NARSI2']
-2018-Oct-10 17:21:59 : sequence GET call took 1.52 seconds.
-2018-Oct-10 17:21:59 : 
-shapesList GET call
-2018-Oct-10 17:21:59 : readTableDB: table:trips, column:route_id, value:"120M"
-2018-Oct-10 17:21:59 : readTableDB: Loaded trips, 29 records
-2018-Oct-10 17:22:17 : 
-sequence POST call
-2018-Oct-10 17:22:18 : API/sequence POST call took 0.62 seconds.
-2018-Oct-10 17:22:18 : 
-allShapesList GET call
-2018-Oct-10 17:22:18 : allShapesList GET call took 0.05 seconds.
-2018-Oct-10 17:22:18 : 
-shapesList GET call
-2018-Oct-10 17:22:18 : readTableDB: table:trips, column:route_id, value:"120M"
-2018-Oct-10 17:22:18 : readTableDB: Loaded trips, 29 records
-2018-Oct-10 17:22:29 : 
-routes GET call
-2018-Oct-10 17:22:29 : readTableDB: Loaded routes, 9 records
-2018-Oct-10 17:22:29 : routes GET call took 0.05 seconds.
-2018-Oct-10 17:22:29 : 
+2018-Oct-25 17:44:30 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:44:30 : agency GET call took 0.16 seconds.
+2018-Oct-25 17:44:46 : 
+tableReadSave GET call for table=routes
+2018-Oct-25 17:44:47 : readTableDB: Loaded routes, 9 records
+2018-Oct-25 17:44:47 : tableReadSave GET call for table=routes took 0.1 seconds.
+2018-Oct-25 17:44:47 : 
 agency GET call
-2018-Oct-10 17:22:29 : readTableDB: Loaded agency, 1 records
-2018-Oct-10 17:22:29 : agency GET call took 0.04 seconds.
-2018-Oct-10 17:22:34 : 
-routes GET call
-2018-Oct-10 17:22:34 : readTableDB: Loaded routes, 9 records
-2018-Oct-10 17:22:34 : routes GET call took 0.06 seconds.
-2018-Oct-10 17:22:34 : 
-tripIdList GET call
-2018-Oct-10 17:22:34 : readTableDB: Loaded trips, 839 records
-2018-Oct-10 17:22:34 : tripIdList GET call took 0.21 seconds.
-2018-Oct-10 17:22:34 : 
-allShapesList GET call
-2018-Oct-10 17:22:34 : allShapesList GET call took 0.07 seconds.
-2018-Oct-10 17:22:34 : 
-allStopsKeyed GET call
-2018-Oct-10 17:22:34 : readTableDB: Loaded stops, 592 records
-2018-Oct-10 17:22:34 : allStopsKeyed GET call took 0.07 seconds.
-2018-Oct-10 17:22:34 : 
-calendar GET call
-2018-Oct-10 17:22:34 : readTableDB: Loaded calendar, 1 records
-2018-Oct-10 17:22:34 : 20181010.0
-2018-Oct-10 17:22:34 : calendar GET call took 0.1 seconds.
-2018-Oct-10 17:22:35 : 
-trips GET call
-2018-Oct-10 17:22:35 : readTableDB: table:trips, column:route_id, value:"120M"
-2018-Oct-10 17:22:35 : readTableDB: Loaded trips, 29 records
-2018-Oct-10 17:22:35 : Got the sequence from sequence db file.
-2018-Oct-10 17:22:35 : trips GET call took 0.07 seconds.
-2018-Oct-10 17:23:39 : 
-trips POST call
-2018-Oct-10 17:23:39 : Replaced 29 entries for route_id=120M with 30 new entries in trips.
-2018-Oct-10 17:23:39 : trips POST call took 0.59 seconds.
-2018-Oct-10 17:23:44 : 
-stopTimes GET call
-2018-Oct-10 17:23:44 : readTableDB: table:trips, column:trip_id, value:"120M001"
-2018-Oct-10 17:23:44 : readTableDB: Loaded trips, 1 records
-2018-Oct-11 08:40:16 : Loaded dependencies, starting static GTFS Manager program.
-2018-Oct-11 08:40:16 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
-2018-Oct-11 08:40:18 : 
-stats GET call
-2018-Oct-11 08:40:20 : readTableDB: Loaded agency, 1 records
-2018-Oct-11 08:40:20 : agency              : 1 entries
-2018-Oct-11 08:40:20 : calendar            : 1 entries
-2018-Oct-11 08:40:20 : stops               : 592 entries
-2018-Oct-11 08:40:20 : routes              : 9 entries
-2018-Oct-11 08:40:20 : trips               : 840 entries
-2018-Oct-11 08:40:20 : stop_times          : 41,068 entries
-2018-Oct-11 08:40:20 : calendar_dates      : 0 entries
-2018-Oct-11 08:40:20 : fare_attributes     : 0 entries
-2018-Oct-11 08:40:20 : fare_rules          : 0 entries
-2018-Oct-11 08:40:20 : shapes              : 13,202 entries
-2018-Oct-11 08:40:20 : frequencies         : 0 entries
-2018-Oct-11 08:40:20 : transfers           : 0 entries
-2018-Oct-11 08:40:20 : feed_info           : 1 entries
-2018-Oct-11 08:40:20 : stats GET call took 2.68 seconds.
-2018-Oct-11 08:40:20 : 
+2018-Oct-25 17:44:47 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:44:47 : agency GET call took 0.11 seconds.
+2018-Oct-25 17:45:09 : 
 pastCommits GET call
-2018-Oct-11 08:40:20 : pastCommits GET call took 0.03 seconds.
-2018-Oct-11 08:40:26 : 
-routes GET call
-2018-Oct-11 08:40:26 : readTableDB: Loaded routes, 9 records
-2018-Oct-11 08:40:26 : routes GET call took 0.12 seconds.
-2018-Oct-11 08:40:26 : 
-agency GET call
-2018-Oct-11 08:40:26 : readTableDB: Loaded agency, 1 records
-2018-Oct-11 08:40:26 : agency GET call took 0.05 seconds.
-2018-Oct-11 08:40:28 : 
-allStopsKeyed GET call
-2018-Oct-11 08:40:28 : readTableDB: Loaded stops, 592 records
-2018-Oct-11 08:40:28 : allStopsKeyed GET call took 0.09 seconds.
-2018-Oct-11 08:40:28 : 
-routes GET call
-2018-Oct-11 08:40:28 : readTableDB: Loaded routes, 9 records
-2018-Oct-11 08:40:28 : routes GET call took 0.04 seconds.
-2018-Oct-11 08:40:28 : 
-tripIdList GET call
-2018-Oct-11 08:40:28 : readTableDB: Loaded trips, 840 records
-2018-Oct-11 08:40:28 : tripIdList GET call took 0.15 seconds.
-2018-Oct-11 08:40:28 : 
-calendar GET call
-2018-Oct-11 08:40:28 : readTableDB: Loaded calendar, 1 records
-2018-Oct-11 08:40:28 : 20181011.0
-2018-Oct-11 08:40:28 : calendar GET call took 0.08 seconds.
-2018-Oct-11 08:40:28 : 
-allShapesList GET call
-2018-Oct-11 08:40:28 : allShapesList GET call took 0.07 seconds.
-2018-Oct-11 08:40:30 : 
-trips GET call
-2018-Oct-11 08:40:30 : readTableDB: table:trips, column:route_id, value:"120M"
-2018-Oct-11 08:40:30 : readTableDB: Loaded trips, 30 records
-2018-Oct-11 08:40:30 : Got the sequence from sequence db file.
-2018-Oct-11 08:40:30 : trips GET call took 0.14 seconds.
-2018-Oct-11 08:40:34 : 
-stopTimes GET call
-2018-Oct-11 08:40:34 : readTableDB: table:trips, column:trip_id, value:"120M001"
-2018-Oct-11 08:40:34 : readTableDB: Loaded trips, 1 records
-2018-Oct-11 08:40:34 : readTableDB: No stop_times chunk found for key=120M001
-2018-Oct-11 08:40:34 : readTableDB: Loaded stop_times, 0 records
-2018-Oct-11 08:40:34 : returnJson.message: This trip is new. Loading default sequence, please fill in timings and save to DB.
-2018-Oct-11 08:40:34 : stopTimes GET call took 0.09 seconds.
-2018-Oct-11 08:46:30 : Loaded dependencies, starting static GTFS Manager program.
-2018-Oct-11 08:46:30 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
-2018-Oct-11 08:46:32 : 
+2018-Oct-25 17:45:10 : 
 stats GET call
-2018-Oct-11 08:46:32 : readTableDB: Loaded agency, 1 records
-2018-Oct-11 08:46:32 : agency              : 1 entries
-2018-Oct-11 08:46:32 : calendar            : 1 entries
-2018-Oct-11 08:46:33 : stops               : 592 entries
-2018-Oct-11 08:46:33 : routes              : 9 entries
-2018-Oct-11 08:46:33 : trips               : 840 entries
-2018-Oct-11 08:46:33 : stop_times          : 41,068 entries
-2018-Oct-11 08:46:33 : calendar_dates      : 0 entries
-2018-Oct-11 08:46:33 : fare_attributes     : 0 entries
-2018-Oct-11 08:46:33 : fare_rules          : 0 entries
-2018-Oct-11 08:46:33 : shapes              : 13,202 entries
-2018-Oct-11 08:46:33 : frequencies         : 0 entries
-2018-Oct-11 08:46:33 : transfers           : 0 entries
-2018-Oct-11 08:46:33 : feed_info           : 1 entries
-2018-Oct-11 08:46:33 : stats GET call took 1.12 seconds.
-2018-Oct-11 08:46:33 : 
+2018-Oct-25 17:45:10 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:45:10 : agency              : 1 entries
+2018-Oct-25 17:45:10 : calendar            : 1 entries
+2018-Oct-25 17:45:10 : stops               : 592 entries
+2018-Oct-25 17:45:11 : routes              : 9 entries
+2018-Oct-25 17:45:11 : trips               : 839 entries
+2018-Oct-25 17:45:11 : stop_times          : 40,840 entries
+2018-Oct-25 17:45:11 : calendar_dates      : 0 entries
+2018-Oct-25 17:45:11 : fare_attributes     : 0 entries
+2018-Oct-25 17:45:11 : fare_rules          : 0 entries
+2018-Oct-25 17:45:11 : shapes              : 0 entries
+2018-Oct-25 17:45:11 : frequencies         : 0 entries
+2018-Oct-25 17:45:11 : transfers           : 0 entries
+2018-Oct-25 17:45:11 : feed_info           : 1 entries
+2018-Oct-25 17:45:11 : stats GET call took 1.43 seconds.
+2018-Oct-25 17:54:28 : 
+listAll GET call
+2018-Oct-25 17:54:28 : readTableDB: Loaded stops, 592 records
+2018-Oct-25 17:54:33 : readTableDB: Loaded stops, 592 records
+2018-Oct-25 17:54:33 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Oct-25 17:54:33 : readTableDB: Loaded routes, 9 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded trips, 839 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded fare_rules, 0 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded fare_rules, 0 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded fare_attributes, 0 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 17:54:34 : readTableDB: Loaded calendar, 1 records
+2018-Oct-25 17:54:34 : listAll GET call took 6.25 seconds.
+2018-Oct-25 23:04:44 : Loaded dependencies, starting static GTFS Manager program.
+2018-Oct-25 23:04:45 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Oct-25 23:05:01 : 
 pastCommits GET call
-2018-Oct-11 08:46:33 : pastCommits GET call took 0.0 seconds.
-2018-Oct-11 08:46:36 : 
+2018-Oct-25 23:05:01 : 
+stats GET call
+2018-Oct-25 23:05:14 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 23:05:14 : agency              : 1 entries
+2018-Oct-25 23:05:15 : calendar            : 1 entries
+2018-Oct-25 23:05:15 : stops               : 592 entries
+2018-Oct-25 23:05:15 : routes              : 9 entries
+2018-Oct-25 23:05:15 : trips               : 839 entries
+2018-Oct-25 23:05:15 : stop_times          : 40,840 entries
+2018-Oct-25 23:05:15 : calendar_dates      : 0 entries
+2018-Oct-25 23:05:15 : fare_attributes     : 0 entries
+2018-Oct-25 23:05:15 : fare_rules          : 0 entries
+2018-Oct-25 23:05:15 : shapes              : 0 entries
+2018-Oct-25 23:05:15 : frequencies         : 0 entries
+2018-Oct-25 23:05:15 : transfers           : 0 entries
+2018-Oct-25 23:05:16 : feed_info           : 1 entries
+2018-Oct-25 23:05:16 : stats GET call took 14.32 seconds.
+2018-Oct-25 23:05:16 : 
 listAll GET call
-2018-Oct-11 08:46:36 : readTableDB: Loaded stops, 592 records
-2018-Oct-11 08:46:36 : readTableDB: Loaded stops, 592 records
-2018-Oct-11 08:46:36 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-11 08:46:36 : readTableDB: Loaded routes, 9 records
-2018-Oct-11 08:46:36 : readTableDB: Loaded trips, 840 records
-2018-Oct-11 08:46:37 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-11 08:46:37 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-11 08:46:37 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-11 08:46:37 : readTableDB: Loaded agency, 1 records
-2018-Oct-11 08:46:37 : readTableDB: Loaded calendar, 1 records
-2018-Oct-11 08:46:37 : listAll GET call took 0.83 seconds.
-2018-Oct-11 09:01:28 : 
-listAll GET call
-2018-Oct-11 09:01:31 : readTableDB: Loaded stops, 592 records
-2018-Oct-11 09:01:32 : readTableDB: Loaded stops, 592 records
-2018-Oct-11 09:01:32 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
-2018-Oct-11 09:01:32 : readTableDB: Loaded routes, 9 records
-2018-Oct-11 09:01:32 : readTableDB: Loaded trips, 840 records
-2018-Oct-11 09:01:32 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-11 09:01:32 : readTableDB: Loaded fare_rules, 0 records
-2018-Oct-11 09:01:32 : readTableDB: Loaded fare_attributes, 0 records
-2018-Oct-11 09:01:33 : readTableDB: Loaded agency, 1 records
-2018-Oct-11 09:01:33 : readTableDB: Loaded calendar, 1 records
-2018-Oct-11 09:01:33 : listAll GET call took 4.92 seconds.
+2018-Oct-25 23:05:16 : readTableDB: Loaded stops, 592 records
+2018-Oct-25 23:05:17 : readTableDB: Loaded stops, 592 records
+2018-Oct-25 23:05:17 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Oct-25 23:05:17 : readTableDB: Loaded routes, 9 records
+2018-Oct-25 23:05:17 : readTableDB: Loaded trips, 839 records
+2018-Oct-25 23:05:17 : readTableDB: Loaded fare_rules, 0 records
+2018-Oct-25 23:05:18 : readTableDB: Loaded fare_rules, 0 records
+2018-Oct-25 23:05:18 : readTableDB: Loaded fare_attributes, 0 records
+2018-Oct-25 23:05:18 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 23:05:18 : readTableDB: Loaded calendar, 1 records
+2018-Oct-25 23:05:18 : listAll GET call took 1.73 seconds.
+2018-Oct-25 23:25:56 : Loaded dependencies, starting static GTFS Manager program.
+2018-Oct-25 23:25:57 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Oct-25 23:26:06 : 
+stats GET call
+2018-Oct-25 23:26:07 : readTableDB: Loaded agency, 1 records
+2018-Oct-25 23:26:07 : agency              : 1 entries
+2018-Oct-25 23:26:07 : calendar            : 1 entries
+2018-Oct-25 23:26:07 : stops               : 592 entries
+2018-Oct-25 23:26:08 : routes              : 9 entries
+2018-Oct-25 23:26:08 : trips               : 839 entries
+2018-Oct-25 23:26:08 : stop_times          : 40,840 entries
+2018-Oct-25 23:26:08 : calendar_dates      : 0 entries
+2018-Oct-25 23:26:08 : fare_attributes     : 0 entries
+2018-Oct-25 23:26:08 : fare_rules          : 0 entries
+2018-Oct-25 23:26:08 : shapes              : 0 entries
+2018-Oct-25 23:26:08 : frequencies         : 0 entries
+2018-Oct-25 23:26:08 : transfers           : 0 entries
+2018-Oct-25 23:26:08 : feed_info           : 1 entries
+2018-Oct-25 23:26:08 : stats GET call took 2.25 seconds.
+2018-Oct-25 23:26:08 : 
+pastCommits GET call
+2018-Oct-25 23:26:14 : 
+tableReadSave GET call for table=stops
+2018-Oct-25 23:26:14 : readTableDB: Loaded stops, 592 records
+2018-Oct-25 23:26:14 : tableReadSave GET call for table=stops took 0.09 seconds.

@@ -1,0 +1,2 @@
+service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+ALL,1,1,1,1,1,1,1,20180901,20990101

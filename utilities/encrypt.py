@@ -5,10 +5,8 @@ from sys import argv
 # usage: python3 encrypt.py "password"
 # output will be a file "rsa_key.bin" created in the same folder that you can keep in your application and use the decrypt function to authenticate password.
 
-# install pycrpytodome package (and not Crypto or pycrpto) : 
-# sudo pip3 install pycryptodome
-
-# from http://pycryptodome.readthedocs.io/en/latest/src/examples.html
+# install pycrpytodome package (and not Crypto or pycrpto or pycryptodome) : 
+# pip install pycryptodomex
 
 def encrypt(password):
 	key = RSA.generate(2048)

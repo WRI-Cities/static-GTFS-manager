@@ -33,6 +33,7 @@ configdata = {'checkFaresFlag': True, 'checkCalendarFlag': True, 'sundayXML': '8
 logmessage('config params:')
 logmessage(configdata)
 '''
+
 def xml2GTFSConvert(configdata):
 	outputFolder = xmlFolder + 'xml2GTFS/'
 	pathlib.Path(outputFolder).mkdir(parents=True, exist_ok=True) 

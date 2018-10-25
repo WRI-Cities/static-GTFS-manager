@@ -5,7 +5,7 @@
 
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 3.1.0   
+**Development Status** : V 3.2.0   
 Windows binary is available too now. Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
 
 ## Intro

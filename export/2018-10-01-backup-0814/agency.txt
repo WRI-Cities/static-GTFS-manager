@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone
-HMRL,Hyderabad Metro Rail Limited,http://hmrl.telangana.gov.in/,Asia/Kolkata

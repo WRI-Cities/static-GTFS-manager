@@ -29,22 +29,22 @@ $("#routes-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
+	ajaxURL: APIpath + 'tableReadSave?table=routes', //ajax URL
+	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
-		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:["string", "minLength:2"] },
-		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", validator:["required","string", "minLength:2"] },
+		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars },
+		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
 		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
 		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
 		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
 		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
 	],
-	ajaxURL: APIpath + 'routes', //ajax URL
-	ajaxLoaderLoading: loaderHTML,
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
-		console.log(`routes GET request successful.`);
+		console.log(`GET request to tableReadSave table=routes successfull.`);
 		
 		var dropdown = '<option value="">Select a route</option>';
 		data.forEach(function(row){
@@ -57,7 +57,7 @@ $("#routes-table").tabulator({
 
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to routes failed.  Returned status of: ' + errorThrown);
+		console.log('GET request to tableReadSave table=routes failed.  Returned status of: ' + errorThrown);
 	}
 	
 });
@@ -570,17 +570,17 @@ function saveRoutes() {
 	console.log('sending routes table data to server API/saveRoutes via POST.');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}routes?pw=${pw}`);
+	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=routes`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server API routes, resonse received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server API tableReadSave table=routes, response received: ' + xhr.responseText);
 			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes DB.</span>');
 			// reload routes data from DB, and repopulate route selector for sequence
 			$("#routes-table").tabulator("setData");
 		} else {
-			console.log('Server POST request to routes failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			console.log('Server POST request to tableReadSave table=routes failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
 			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}

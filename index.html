@@ -30,7 +30,7 @@ pre {
 <div id="navBar"></div>
 
 <div class="container-fluid">
-<h1 align="center"><img src="extra_files/GTFS.png" height="100%" width="auto" alt="GTFS"> Manager</h1>
+<h1 align="center"><small><i>static</i>&nbsp;</small><img src="extra_files/GTFS.png" height="100%" width="auto" alt="GTFS"> Manager</h1>
 <p align="center"><small><i>An open source tool for managing and creating public transit schedules data in static GTFS format.</i></small></p>
 
 <div id="instructions" class="container">
@@ -106,6 +106,14 @@ pre {
 <div class="alert alert-warning"><small>Note: All of the above 3 actions will wipe out the current data in the db. A backup GTFS export will be made just in case you want to revert later. You can find it from the past commits section after refreshing this page.</small>
 </div>
 
+<hr>
+
+<h3>Export GTFS Feed</h3>
+<p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
+<p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
+<p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>
+<div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
+
 
 </div>
 </div>
@@ -122,13 +130,13 @@ pre {
 </div>
 
 <div class="col">
-
+<!--
 <h3>Export GTFS Feed</h3>
 <p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
 <p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
 <p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>
 <div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
-
+-->
 </div>
 </div>
 

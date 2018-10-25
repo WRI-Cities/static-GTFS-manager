@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone
+TSRTC_HYD,Telangana State Road Transport Corporation (Hyderabad local bus),http://tsrtconline.in,Asia/Kolkata

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Trips and Timings Management</title>
+<title>Trips and Timings (stop_times) Management</title>
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
 <link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
@@ -48,7 +48,7 @@
 <body>
 <div id="navBar"></div>
 <div class="container">
-<h2>Trips and Timings</h2>
+<h2>Trips and Timings (Stop_times)</h2>
 
 <div id="accordion">
 <h4>Instructions</h4>
@@ -66,7 +66,7 @@
 <li>To access a trip's timings, select a trip (click on left side handle) and move to Timings tab.</li>
 <li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
 </ul>
-<b>Timings tab</b>
+<b>Stop_times tab</b>
 <ul>
 <li>The trip you have chosen will be displayed in green. Click the "load timings" button.</li>
 <li>In some seconds the timings should load in the table</li>
@@ -84,7 +84,7 @@
 <div id="tabs">
 <ul>
 <li><a href="#tab1">Trips</a></li>
-<li><a href="#tab2">Timings</a></li>
+<li><a href="#tab2">Stop_times</a></li>
 </ul>
 
 
@@ -103,7 +103,7 @@
 
 <div id="newTripHTML">
 
-<p><b>Create a new trip:</b></p>
+<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
 <!--<input placeholder="trip_short_name" id="trip2add" size="8">-->
 
 <p>Calendar service: <select id="trip_calendar"></select></p>
@@ -123,7 +123,7 @@ Direction: <select id="trip_direction">
 
 </div>
 <div id="noSequenceAlert" style="display:none" class="alert alert-warning">
-Note: Cannot add new trips to this route right now as this route's sequence is not finalized yet. Please do so by visiting the <a class="btn btn-outline-info" href="routes.html">Routes section</a>.
+Note: Cannot add new trips to this route right now as this route's sequence is not finalized yet. Please do so by visiting the <a class="btn btn-outline-info" href="sequence.html">Default Sequence</a> page.
 </div>
 
 <br>
@@ -155,7 +155,7 @@ To delete an existing trip that has already been saved in the db, please go to t
 <!-- STOP_TIMES -->
 <div id="tab2">
 
-<h5>Timings</h5>
+<h5>Stop_times (timings)</h5>
 <div class="row">
 	<div class="col-md-4 alert alert-info"><small>
 Select a Trip from the trips table in the previous tab, then click the load button here to edit its timings in the table below. You can select a row by clicking on the left side handle.</small>

@@ -802,12 +802,11 @@ function download_shapefile(direction=0) {
 function getPythonRoutes() {
 	//load from python!
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/routes`);
+	xhr.open('GET', `API/tableReadSave?table=routes`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`GET call to Server API/routes succesful.`);
+			console.log(`GET call to Server API/tableReadSave?table=routes succesful.`);
 			var data = JSON.parse(xhr.responseText);
-			//$("#routes-table").tabulator('setData',data);
 			
 			// populating route select for sequence:
 			var dropdown = '<option value="">Select a route</option>';
@@ -823,7 +822,7 @@ function getPythonRoutes() {
 
 		}
 		else {
-			console.log('Server request to API/routes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+			console.log('Server request to API/tableReadSave?table=routes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();

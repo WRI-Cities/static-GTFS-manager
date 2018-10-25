@@ -1,9 +1,12 @@
 // from commonfuncs.js
 
-const VERSION = 'v3.1.0';
+const VERSION = 'v3.2.0';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
-const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry" };
+// this flag tells whether it is mandatory for all UIDs to be in capitals or not.
+const CAPSLOCK = false;
+
+const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service",  };
 //const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
 const route_type_lookup = route_type_options;
 
@@ -15,7 +18,8 @@ const menu = {
 		"Stops": "stops.html",
 		"Routes": "routes.html",
 		"Calendar": "calendar.html",
-		"Trips and Timings": "tripstimings.html",
+		"Trips and Stop_times": "tripstimings.html",
+		"Frequencies": "frequencies.html",
 		"Fares": "fares.html",
 		"Translations": "translations.html"
 	},
@@ -32,9 +36,6 @@ const menu = {
 	}
 }
 
-// this flag tells whether it is mandatory for all UIDs to be in capitals or not.
-const CAPSLOCK = true;
-
 // default config parameters for KMRL KML import.
 const KMRLDEFAULTS = { "stations":"stations.csv", "timepoint":1, "wheelchair_accessible":1, "route_type":1, "route_color":"00B7F3", "route_text_color":"000000", "secondland":"ml", "currency_type":CURRENCY, "payment_method":0, "transfers":"", "agency_id":"KMRL", "agency_name":"Kochi Metro", "agency_name_translation":"കൊച്ചി മെട്രോ", "agency_url":"http://www.kochimetro.org/", "agency_timezone":"Asia/Kolkata", "end_date":"20990101"
 	};
@@ -45,6 +46,7 @@ const loaderHTML = '<div class="loader loader--style1"> <svg version="1.1" id="l
 
 // from stops.js
 const UID_leastchars = 2;
+const tabulator_UID_leastchars = "minLength:2";
 const UID_maxchars = 20;
 const MARKERSLIMIT = 100;
 
@@ -58,3 +60,7 @@ const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
 const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
 const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
 const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+
+// from calendar.js:
+const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
+const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};

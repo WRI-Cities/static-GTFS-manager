@@ -16,7 +16,7 @@ $("#translations-table").tabulator({
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-	ajaxURL: `${APIpath}translations`, //ajax URL
+	ajaxURL: `${APIpath}tableReadSave?table=translations`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
@@ -32,7 +32,7 @@ $("#translations-table").tabulator({
 			}}
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
-		console.log('GET request to translations failed.  Returned status of: ' + errorThrown);
+		console.log('GET request to tableReadSave table=translations failed.  Returned status of: ' + errorThrown);
 	}
 });
 
@@ -105,15 +105,15 @@ function saveTranslation() {
 	console.log('sending to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}translations?pw=${pw}`);
+	xhr.open('POST', `${APIpath}tableReadSave?table=translations&pw=${pw}`);
 	xhr.withCredentials = true;
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server API/translations, response received: ' + xhr.responseText);
+			console.log('Successfully sent data via POST to server API/tableReadSave table=translations, response received: ' + xhr.responseText);
 			$('#translationSaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
 		} else {
-			console.log('Server POST request to API/translations failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
+			console.log('Server POST request to API/tableReadSave table=translation failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
 			$('#translationSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
 		}
 	}

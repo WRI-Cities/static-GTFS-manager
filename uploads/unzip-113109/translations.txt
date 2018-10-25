@@ -1,0 +1,99 @@
+trans_id,lang,translation
+Miyapur,te,మియాపూర్
+Miyapur,ur,میااپور
+Miyapur,hi,मियापुर
+JNTU College,te,జె.ఎన్.టి.యు కాలేజ్
+JNTU College,ur,جی این ٹی.یو.
+JNTU College,hi,जे.एन.टि.यु कॉलेज
+KPHB Colony,te,కె.పి.హెచ్.బి కాలనీ
+KPHB Colony,hi,के.पि.एच.बि कॉलोनी
+Kukatpally,te,కూకట్ పల్లి
+Kukatpally,hi,कूकटपल्लि 
+Dr. B. R. Ambedkar Balanagar,te,డా. బి. ఆర్. అంబేద్కర్ బాలానగర్
+Dr. B. R. Ambedkar Balanagar,ur,بالانگر
+Dr. B. R. Ambedkar Balanagar,hi,डॉ. बी. आर. अंबेडकर बालानगर
+Moosapet,te,మూసాపేట్
+Moosapet,hi,मूसापेट
+Bharath Nagar,te,భరత్ నగర్
+Bharath Nagar,ur,بھارتھ نگر
+Bharath Nagar,hi,भारत नगर
+Erragadda,te,ఎర్రగడ్డ
+Erragadda,ur,ارگداڈا
+Erragadda,hi,एरागड्डा
+ESI Hospital,te,ఇ. ఎస్. ఐ. హోస్పిటల్
+ESI Hospital,ur,ای. ایس.
+ESI Hospital,hi,ई.एस.आई. हॉस्पिटल
+S R Nagar,te,ఎస్.ఆర్. నగర్
+S R Nagar,ur,ایس آرنگر
+S R Nagar,hi,एस. आर. नगर
+Ameerpet,te,అమీర్ పేట్
+Ameerpet,ur,امیرچیٹ
+Ameerpet,hi,अमीरपेट
+Punjagutta,te,పంజాగుట్ట
+Punjagutta,hi,पंजागुट्टा 
+Irrum Manzil,te,ఇరమంజిల్
+Irrum Manzil,hi,इर्रम् मंजिल
+Khairatabad,te,ఖైరతాబాద్
+Khairatabad,hi,खैरताबाद
+Lakdikapul,te,లక్డి-క-పూల్
+Lakdikapul,hi,लकड़ी-का-पुल
+Assembly,te,అసెంబ్లీ
+Assembly,hi,असेम्ब्ली
+Nampally,te,నాంపల్లి
+Nampally,hi,नामपल्लि
+Gandhi Bhavan,te,గాంధీ భవన్
+Gandhi Bhavan,hi,गांधी भवन
+Osmania Medical College,te,ఉస్మానియా మెడికల్ కాలేజీ
+Osmania Medical College,hi,उस्मानिया मेडिकल कॉलेज
+MG Bus station,te,ఎం.జి. బస్ స్టేషన్
+MG Bus station,hi,एम.जि. बस स्टेशन
+Malakpet,te,మలక్ పేట్
+Malakpet,hi,मलकपेट
+New Market,te,న్యూ మార్కెట్
+New Market,hi,न्यू मार्केट
+Musarambagh,te,ముసరంబాగ్
+Musarambagh,hi,मुसरमबाग
+Dilsukhnagar,te,దిల్ సుఖ్ నగర్
+Dilsukhnagar,hi,दिलसुखनगर
+Chaitanyapuri,te,చైతన్యపురి
+Chaitanyapuri,hi,चैतन्यपुरी
+Victoria Memorial,te,విక్టోరియా మెమోరియల్
+Victoria Memorial,hi,विकटोरिया मेमोरिअल
+L B Nagar,te,ఎల్.బి నగర్ మెట్రో స్టేషన్
+L B Nagar,hi,एल.बि. नगर
+Nagole,te,నాగోల్
+Nagole,ur,ناگول
+Nagole,hi,नागोल
+Uppal,te,ఉప్పల్
+Uppal,ur,اپپال
+Uppal,hi,उप्पल
+Stadium,te,స్టేడియం
+Stadium,ur,اسٹیڈیم
+Stadium,hi,स्टेडियम
+NGRI,te,ఎన్ జి ఆర్ ఐ
+NGRI,ur,این جی آر. آئی.
+NGRI,hi,एन. जी. आर. आई
+Habsiguda,te,హబ్సిగూడ
+Habsiguda,ur,حبسگدا
+Habsiguda,hi,हब्सिगुडा
+Tarnaka,te,తార్నాక
+Tarnaka,ur,ترنکا
+Tarnaka,hi,तार्नाका
+Mettuguda,te,మెట్టుగూడ
+Mettuguda,hi,मेट्टुगूडा
+Secunderabad (E),te,సికింద్రాబాద్ ఈస్ట్
+Secunderabad (E),ur,سکندرآباد (ای)
+Secunderabad (E),hi,सिकन्दराबाद ईस्ट
+Parade Grounds,te,పరేడ్ గ్రౌండ్
+Parade Grounds,ur,پریڈ میدان
+Parade Grounds,hi,परेड़ ग्राउण्ड
+Paradise,te,ప్యారడైజ్
+Paradise,ur,جنت
+Paradise,hi,पैरेडाइस
+Rasoolpura,te,రసూల్ పుర
+Rasoolpura,hi,रसूलपुरा
+Prakash Nagar,te,ప్రకాశ్ నగర్
+Prakash Nagar,ur,پراشک نگر
+Prakash Nagar,hi,प्रकाशनगर
+Begumpet,te,బేగంపేట్
+Begumpet,hi,बेगमपेट

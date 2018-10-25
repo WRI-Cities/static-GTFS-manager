@@ -1,5 +1,49 @@
-#GTFSserverfunctions.py
-# this file is to be inline included in the main script. Seriously, I do not want to keep declaring import statements everywhere.
+'''
+GTFSserverfunctions.py
+this file is to be inline included in the main script. Seriously, I do not want to keep declaring import statements everywhere.
+
+
+import tornado.web
+import tornado.ioloop
+import json
+import os
+import time, datetime
+
+import xmltodict
+import pandas as pd
+from collections import OrderedDict
+import zipfile, zlib
+from tinydb import TinyDB, Query
+from tinydb.operations import delete
+import webbrowser
+from Cryptodome.PublicKey import RSA #uses pycryptodomex package.. disambiguates from pycrypto, pycryptodome
+import shutil # used in fareChartUpload to fix header if changed
+import pathlib
+from math import sin, cos, sqrt, atan2, radians # for lat-long distance calculations
+# import requests # nope, not needed for now
+from json.decoder import JSONDecodeError # used to catch corrupted DB file when tinyDB loads it.
+import signal, sys # for catching Ctrl+C and exiting gracefully.
+import gc # garbage collector, from https://stackoverflow.com/a/1316793/4355695
+import csv
+import numpy as np
+import io # used in hyd csv import
+
+global uploadFolder
+global xmlFolder
+global logFolder
+global configFolder
+global dbFolder
+global exportFolder
+
+global sequenceDBfile
+global passwordFile
+global chunkRulesFile
+global configFile
+
+if __name__ == "__main__":
+	print("Don't run this, run GTFSManager.py.")
+
+'''
 
 def csvwriter( array2write, filename, keys=None ):
 	# 15.4.18: Changing to use pandas instead of csv.DictWriter. Solves https://github.com/WRI-Cities/static-GTFS-manager/issues/3
@@ -29,7 +73,7 @@ def exportGTFS (folder):
 
 		try:
 			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
 		
@@ -59,7 +103,7 @@ def exportGTFS (folder):
 		for count,h5File in enumerate(filenames):
 			try:
 				df = pd.read_hdf(dbFolder + h5File,stop=0)
-			except KeyError as e:
+			except (KeyError, ValueError) as e:
 				df = pd.DataFrame()
 				logmessage('Note: {} does not have any data.'.format(h5File))
 			columnsList.update(df.columns.tolist())	
@@ -77,7 +121,7 @@ def exportGTFS (folder):
 			logmessage('Writing {} to csv'.format(h5File))
 			try:
 				df1 = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
-			except KeyError as e:
+			except (KeyError, ValueError) as e:
 				df1 = pd.DataFrame()
 				logmessage('Note: {} does not have any data.'.format(h5File))
 			# in case the final columns list has more columns than df1 does, concatenating an empty df with the full columns list.
@@ -287,7 +331,7 @@ def GTFSstats():
 				try:
 					count = hdf.get_storer('df').nrows
 					# gets number of rows, without reading the entire file into memory. From https://stackoverflow.com/a/26466301/4355695
-				except KeyError as e:
+				except (KeyError, ValueError) as e:
 					logmessage('Note: {} does not have any data.'.format(tablename + '.h5'))
 				hdf.close()
 				# have to close this opened file, else will conflict with pd.read_csv later on
@@ -306,7 +350,7 @@ def GTFSstats():
 					hdf = pd.HDFStore(dbFolder + h5File)
 					try:
 						count += hdf.get_storer('df').nrows
-					except KeyError as e:
+					except (KeyError, ValueError) as e:
 						logmessage('Note: {} does not have any data.'.format(h5File))
 					hdf.close()
 					coveredFiles.append(h5File)
@@ -329,7 +373,7 @@ def GTFSstats():
 				hdf = pd.HDFStore(dbFolder + tablename + '.h5')
 				try:
 					count = hdf.get_storer('df').nrows
-				except KeyError as e:
+				except (KeyError, ValueError) as e:
 					logmessage('Note: {} does not have any data.'.format(tablename + '.h5'))
 				hdf.close()
 				coveredFiles.append(tablename+'.h5')
@@ -345,7 +389,7 @@ def GTFSstats():
 					hdf = pd.HDFStore(dbFolder + h5File)
 					try:
 						count += hdf.get_storer('df').nrows
-					except KeyError as e:
+					except (KeyError, ValueError) as e:
 						logmessage('Note: {} does not have any data.'.format(h5File))
 					hdf.close()
 					coveredFiles.append(h5File)
@@ -362,7 +406,7 @@ def GTFSstats():
 		hdf = pd.HDFStore(dbFolder + h5File)
 		try:
 			count = hdf.get_storer('df').nrows
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			logmessage('Note: {} does not have any data.'.format(h5File))
 			count = 0
 		hdf.close()
@@ -418,7 +462,7 @@ def readTableDB(tablename, key=None, value=None):
 		try:
 			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
 			# typecasting as str, keeping NA values blank ''
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
 
@@ -479,7 +523,7 @@ def replaceTableDB(tablename, data, key=None, value=None):
 		# remove entries matching the key and value
 		try:
 			df = pd.read_hdf(dbFolder+h5File).fillna('').astype(str)
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
 		oldLen = len( df[ df[key] == str(value)])
@@ -1085,7 +1129,7 @@ def replaceTableCell(h5File,column,valueFrom,valueTo):
 	
 	try:
 		df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
-	except KeyError as e:
+	except (KeyError, ValueError) as e:
 		df = pd.DataFrame()
 		logmessage('Note: {} does not have any data.'.format(h5File))
 	if column not in df.columns:
@@ -1217,7 +1261,7 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 		logmessage('Editing ' + chunkFile)
 		try:
 			df = pd.read_hdf(dbFolder + chunkFile).fillna('').astype(str)
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(chunkFile))
 		initLen = len(df)
@@ -1238,7 +1282,7 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 		chunkFile = smallestChunk(tablename)
 		try:
 			df = pd.read_hdf(dbFolder + chunkFile).fillna('').astype(str)
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(chunkFile))
 		except FileNotFoundError as e:
@@ -1246,7 +1290,8 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 			logmessage('Note: {} does not exist yet, so we will likely create it.'.format(chunkFile))
 	
 	# next 3 lines to be done in either case
-	newdf = pd.concat([df,xdf],ignore_index=True)
+	# newdf = pd.concat([df,xdf],ignore_index=True)
+	newdf = df.append(xdf, ignore_index=True, sort=False)
 	logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
 	newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
 
@@ -1399,7 +1444,7 @@ def readChunkTableDB(tablename, key, value):
 		try:
 			df = pd.read_hdf(dbFolder+h5File).fillna('').astype(str)\
 					.query( '{}=="{}"'.format(key,value) )
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
 		if len(df): 
@@ -1420,6 +1465,10 @@ def readChunkTableDB(tablename, key, value):
 
 
 def deleteID(column,value):
+	'''
+	Note: this is a container function. 
+	The actual deleting is taking place in deleteInTable() func below.
+	'''
 	content = ''
 
 	# special case: if its a route_id or a calendar service_id, have to delete all the trips under it first, so their respective entries in stop_times are deleted too.
@@ -1456,12 +1505,14 @@ def deleteID(column,value):
 
 def deleteInTable(tablename, key, value, action="delete"):
 	if tablename not in chunkRules.keys():
+		# its not a chunked table
 		h5Files = [tablename + '.h5']
 		# since we've composed this filename, check if file exists.
 		if not os.path.exists(dbFolder + h5Files[0]):
 			logmessage('deleteInTable: {} not found.'.format(h5Files[0]))
 			return ''
 	else:
+		# its a chunked table
 		if key == chunkRules[tablename].get('key'):
 			h5Files = [findChunk(value, tablename)]
 			
@@ -1476,6 +1527,7 @@ def deleteInTable(tablename, key, value, action="delete"):
 				json.dump(table_lookup, outfile, indent=2)
 
 		else:
+			# list all the chunks
 			h5Files = findFiles(dbFolder, ext='.h5', prefix=tablename, chunk='y')
 
 	# now in h5Files we have which all files to process.
@@ -1483,7 +1535,7 @@ def deleteInTable(tablename, key, value, action="delete"):
 	for h5File in h5Files:
 		try:
 			df = pd.read_hdf(dbFolder + h5File).fillna('').astype(str)
-		except KeyError as e:
+		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
 

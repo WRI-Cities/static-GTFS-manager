@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Agency</title>
+<title>Agency and Feed_info</title>
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
 <link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
@@ -47,8 +47,21 @@ Used for the feed's metadata, and in Routes section if there are multiple agenci
 
 </div></div>
 
-
-
+<hr>
+<h2>Feed_info</h2>
+<p>This is an optional table (only one row), for giving information about the feed. See <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#feed_infotxt" target="_blank">specs document</a> for details.</p>
+<p>
+feed_publisher_name* : <input id="feed_publisher_name"></p><p>
+feed_publisher_url* : <input id="feed_publisher_url"></p><p>
+feed_lang* : <input id="feed_lang"></p><p>
+feed_start_date : <input id="feed_start_date"></p><p>
+feed_end_date : <input id="feed_end_date"></p><p>
+feed_version : <input id="feed_version"></p><p>
+feed_contact_email : <input id="feed_contact_email"></p><p>
+feed_contact_url : <input id="feed_contact_url"></p><p>
+</p>
+<p><button id="saveFeedInfoButton" class="btn btn-outline-success btn-md">Save Feed_info Changes</button> &nbsp; <small id="feedInfoSaveStatus"></small></p>
+<p><small>Note: If you are having feed_info table at all, then the top 3 fields are compulsory. Otherwise, leave everything blank.</small></p>
 </div>
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
