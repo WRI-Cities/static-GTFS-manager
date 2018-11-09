@@ -341,3 +341,715 @@ pastCommits GET call
 tableReadSave GET call for table=stops
 2018-Oct-25 23:26:14 : readTableDB: Loaded stops, 592 records
 2018-Oct-25 23:26:14 : tableReadSave GET call for table=stops took 0.09 seconds.
+2018-Oct-28 07:34:25 : Loaded dependencies, starting static GTFS Manager program.
+2018-Oct-28 07:34:26 : Open http://localhost:5001 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Oct-28 07:34:33 : 
+stats GET call
+2018-Oct-28 07:34:40 : readTableDB: Loaded agency, 1 records
+2018-Oct-28 07:34:40 : agency              : 1 entries
+2018-Oct-28 07:34:40 : calendar            : 1 entries
+2018-Oct-28 07:34:40 : stops               : 592 entries
+2018-Oct-28 07:34:40 : routes              : 9 entries
+2018-Oct-28 07:34:40 : trips               : 839 entries
+2018-Oct-28 07:34:40 : stop_times          : 40,840 entries
+2018-Oct-28 07:34:40 : calendar_dates      : 0 entries
+2018-Oct-28 07:34:40 : fare_attributes     : 0 entries
+2018-Oct-28 07:34:40 : fare_rules          : 0 entries
+2018-Oct-28 07:34:40 : shapes              : 0 entries
+2018-Oct-28 07:34:40 : frequencies         : 0 entries
+2018-Oct-28 07:34:40 : transfers           : 0 entries
+2018-Oct-28 07:34:40 : feed_info           : 1 entries
+2018-Oct-28 07:34:40 : stats GET call took 7.35 seconds.
+2018-Oct-28 07:34:40 : 
+pastCommits GET call
+2018-Oct-28 07:55:36 : 
+tableReadSave GET call for table=stops
+2018-Oct-28 07:55:36 : readTableDB: Loaded stops, 592 records
+2018-Oct-28 07:55:36 : tableReadSave GET call for table=stops took 0.08 seconds.
+2018-Oct-28 07:55:40 : 
+tableReadSave GET call for table=stops
+2018-Oct-28 07:55:40 : readTableDB: Loaded stops, 592 records
+2018-Oct-28 07:55:40 : tableReadSave GET call for table=stops took 0.15 seconds.
+2018-Oct-28 07:56:19 : 
+tableReadSave GET call for table=stops
+2018-Oct-28 07:56:19 : readTableDB: Loaded stops, 592 records
+2018-Oct-28 07:56:19 : tableReadSave GET call for table=stops took 0.15 seconds.
+2018-Oct-28 07:58:56 : 
+tableReadSave GET call for table=calendar
+2018-Oct-28 07:58:56 : readTableDB: Loaded calendar, 1 records
+2018-Oct-28 07:58:56 : tableReadSave GET call for table=calendar took 0.07 seconds.
+2018-Oct-28 07:58:56 : 
+tableReadSave GET call for table=calendar_dates
+2018-Oct-28 07:58:56 : readTableDB: Loaded calendar_dates, 0 records
+2018-Oct-28 07:58:56 : tableReadSave GET call for table=calendar_dates took 0.01 seconds.
+2018-Oct-28 08:09:12 : 
+pastCommits GET call
+2018-Oct-28 08:09:12 : 
+stats GET call
+2018-Oct-28 08:09:13 : readTableDB: Loaded agency, 1 records
+2018-Oct-28 08:09:13 : agency              : 1 entries
+2018-Oct-28 08:09:13 : calendar            : 1 entries
+2018-Oct-28 08:09:13 : stops               : 592 entries
+2018-Oct-28 08:09:13 : routes              : 9 entries
+2018-Oct-28 08:09:13 : trips               : 839 entries
+2018-Oct-28 08:09:13 : stop_times          : 40,840 entries
+2018-Oct-28 08:09:13 : calendar_dates      : 0 entries
+2018-Oct-28 08:09:13 : fare_attributes     : 0 entries
+2018-Oct-28 08:09:13 : fare_rules          : 0 entries
+2018-Oct-28 08:09:13 : shapes              : 0 entries
+2018-Oct-28 08:09:13 : frequencies         : 0 entries
+2018-Oct-28 08:09:13 : transfers           : 0 entries
+2018-Oct-28 08:09:13 : feed_info           : 1 entries
+2018-Oct-28 08:09:13 : stats GET call took 1.44 seconds.
+2018-Nov-01 13:35:53 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-01 13:35:53 : Open http://localhost:5001 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Nov-01 13:35:55 : 
+stats GET call
+2018-Nov-01 13:35:57 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 13:35:57 : agency              : 1 entries
+2018-Nov-01 13:35:57 : calendar            : 1 entries
+2018-Nov-01 13:35:57 : stops               : 592 entries
+2018-Nov-01 13:35:57 : routes              : 9 entries
+2018-Nov-01 13:35:58 : trips               : 839 entries
+2018-Nov-01 13:35:58 : stop_times          : 40,840 entries
+2018-Nov-01 13:35:58 : calendar_dates      : 0 entries
+2018-Nov-01 13:35:58 : fare_attributes     : 0 entries
+2018-Nov-01 13:35:58 : fare_rules          : 0 entries
+2018-Nov-01 13:35:58 : shapes              : 0 entries
+2018-Nov-01 13:35:58 : frequencies         : 0 entries
+2018-Nov-01 13:35:58 : transfers           : 0 entries
+2018-Nov-01 13:35:58 : feed_info           : 1 entries
+2018-Nov-01 13:35:58 : stats GET call took 2.89 seconds.
+2018-Nov-01 13:35:58 : 
+pastCommits GET call
+2018-Nov-01 13:36:29 : 
+gtfsImportZip GET call
+2018-Nov-01 13:36:30 : Saving filename: hyd-20181031.zip to uploads/
+2018-Nov-01 13:36:30 : 
+backupDB: Creating backup of DB in export/2018-11-01-backup-1336/.
+2018-Nov-01 13:36:30 : Writing agency to disk and zipping...
+2018-Nov-01 13:36:30 : Added agency in 0.049 seconds.
+2018-Nov-01 13:36:30 : Writing calendar to disk and zipping...
+2018-Nov-01 13:36:30 : Added calendar in 0.055 seconds.
+2018-Nov-01 13:36:30 : Writing feed_info to disk and zipping...
+2018-Nov-01 13:36:30 : Added feed_info in 0.044 seconds.
+2018-Nov-01 13:36:30 : Writing routes to disk and zipping...
+2018-Nov-01 13:36:30 : Added routes in 0.03 seconds.
+2018-Nov-01 13:36:30 : Writing stops to disk and zipping...
+2018-Nov-01 13:36:30 : Added stops in 0.041 seconds.
+2018-Nov-01 13:36:30 : Writing trips to disk and zipping...
+2018-Nov-01 13:36:30 : Added trips in 0.042 seconds.
+2018-Nov-01 13:36:30 : Columns for stop_times: ['trip_id', 'departure_time', 'stop_id', 'timepoint', 'arrival_time', 'stop_sequence']
+2018-Nov-01 13:36:30 : Writing stop_times_1.h5 to csv
+2018-Nov-01 13:36:31 : CSV stop_times.txt created in 1.087 seconds, now zipping
+2018-Nov-01 13:36:31 : Added stop_times to zip in 0.154 seconds.
+2018-Nov-01 13:36:31 : Added stop_times in 1.242 seconds.
+2018-Nov-01 13:36:31 : Generated GTFS feed at export/2018-11-01-backup-1336/
+2018-Nov-01 13:36:31 : Backup created.
+
+2018-Nov-01 13:36:31 : Extracting uploaded zip to uploads/unzip-133631/
+2018-Nov-01 13:36:32 : Extracted files: ['agency.txt', 'calendar.txt', 'feed_info.txt', 'routes.txt', 'stops.txt', 'stop_times.txt', 'trips.txt']
+2018-Nov-01 13:36:32 : Removed .h5 files from db/
+2018-Nov-01 13:36:32 : Removed .json files from db/
+2018-Nov-01 13:36:33 : db/sequence.json purged.
+2018-Nov-01 13:36:33 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2018-Nov-01 13:36:33 : agency.h5: 1 rows
+2018-Nov-01 13:36:33 : calendar.h5: 1 rows
+2018-Nov-01 13:36:33 : feed_info.h5: 1 rows
+2018-Nov-01 13:36:33 : routes.h5: 747 rows
+2018-Nov-01 13:36:33 : stops.h5: 1628 rows
+2018-Nov-01 13:36:33 : Storing stop_times in chunks.
+2018-Nov-01 13:36:34 : stop_times_1.h5: 99994 rows
+2018-Nov-01 13:36:35 : stop_times_2.h5: 100000 rows
+2018-Nov-01 13:36:36 : stop_times_3.h5: 99982 rows
+2018-Nov-01 13:36:38 : stop_times_4.h5: 100012 rows
+2018-Nov-01 13:36:40 : stop_times_5.h5: 99977 rows
+2018-Nov-01 13:36:41 : stop_times_6.h5: 8500 rows
+2018-Nov-01 13:36:41 : Appending the 2 rows of last ID to last chunk stop_times_6.h5
+2018-Nov-01 13:36:41 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2018-Nov-01 13:36:41 : trips.h5: 16931 rows
+2018-Nov-01 13:36:41 : Finished importing GTFS feed. You can remove the feed zip hyd-20181031.zip and folder uploads/unzip-133631/ from uploads/ if you want.
+2018-Nov-01 13:36:41 : gtfsImportZip POST call took 12.02 seconds.
+2018-Nov-01 13:36:41 : 
+stats GET call
+2018-Nov-01 13:36:41 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 13:36:41 : agency              : 1 entries
+2018-Nov-01 13:36:41 : calendar            : 1 entries
+2018-Nov-01 13:36:41 : stops               : 1,628 entries
+2018-Nov-01 13:36:41 : routes              : 747 entries
+2018-Nov-01 13:36:41 : trips               : 16,931 entries
+2018-Nov-01 13:36:41 : stop_times          : 508,467 entries
+2018-Nov-01 13:36:41 : calendar_dates      : 0 entries
+2018-Nov-01 13:36:41 : fare_attributes     : 0 entries
+2018-Nov-01 13:36:41 : fare_rules          : 0 entries
+2018-Nov-01 13:36:41 : shapes              : 0 entries
+2018-Nov-01 13:36:41 : frequencies         : 0 entries
+2018-Nov-01 13:36:41 : transfers           : 0 entries
+2018-Nov-01 13:36:41 : feed_info           : 1 entries
+2018-Nov-01 13:36:41 : stats GET call took 0.24 seconds.
+2018-Nov-01 13:36:41 : 
+pastCommits GET call
+2018-Nov-01 13:36:41 : pastCommits GET call took 0.0 seconds.
+2018-Nov-01 13:36:55 : 
+tableReadSave GET call for table=agency
+2018-Nov-01 13:36:55 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 13:36:55 : tableReadSave GET call for table=agency took 0.09 seconds.
+2018-Nov-01 13:36:55 : 
+tableReadSave GET call for table=feed_info
+2018-Nov-01 13:36:55 : readTableDB: Loaded feed_info, 1 records
+2018-Nov-01 13:36:55 : tableReadSave GET call for table=feed_info took 0.07 seconds.
+2018-Nov-01 13:37:01 : 
+tableReadSave GET call for table=stops
+2018-Nov-01 13:37:01 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 13:37:01 : tableReadSave GET call for table=stops took 0.07 seconds.
+2018-Nov-01 13:37:53 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 13:37:53 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 13:37:53 : tableReadSave GET call for table=routes took 0.16 seconds.
+2018-Nov-01 13:37:53 : 
+agency GET call
+2018-Nov-01 13:37:53 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 13:37:53 : agency GET call took 0.06 seconds.
+2018-Nov-01 13:38:04 : 
+tripIdList GET call
+2018-Nov-01 13:38:04 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 13:38:04 : tripIdList GET call took 0.33 seconds.
+2018-Nov-01 13:38:04 : 
+calendar GET call
+2018-Nov-01 13:38:04 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 13:38:04 : 20181101.0
+2018-Nov-01 13:38:04 : calendar GET call took 0.09 seconds.
+2018-Nov-01 13:38:04 : 
+allShapesList GET call
+2018-Nov-01 13:38:04 : allShapesList GET call took 0.1 seconds.
+2018-Nov-01 13:38:04 : 
+allStopsKeyed GET call
+2018-Nov-01 13:38:04 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 13:38:04 : allStopsKeyed GET call took 0.1 seconds.
+2018-Nov-01 13:38:04 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 13:38:04 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 13:38:04 : tableReadSave GET call for table=routes took 0.06 seconds.
+2018-Nov-01 13:38:15 : 
+listAll GET call
+2018-Nov-01 13:38:15 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 13:38:15 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 13:38:15 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Nov-01 13:38:16 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded fare_rules, 0 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded fare_rules, 0 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded fare_attributes, 0 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 13:38:16 : readTableDB: Loaded calendar_dates, 0 records
+2018-Nov-01 13:38:16 : listAll GET call took 1.11 seconds.
+2018-Nov-01 13:38:18 : 
+tableReadSave GET call for table=calendar
+2018-Nov-01 13:38:18 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 13:38:18 : tableReadSave GET call for table=calendar took 0.07 seconds.
+2018-Nov-01 13:38:18 : 
+tableReadSave GET call for table=calendar_dates
+2018-Nov-01 13:38:18 : readTableDB: Loaded calendar_dates, 0 records
+2018-Nov-01 13:38:18 : tableReadSave GET call for table=calendar_dates took 0.02 seconds.
+2018-Nov-01 13:38:49 : 
+tableReadSave POST call for table=calendar_dates
+2018-Nov-01 13:38:49 : DB file for calendar_dates not found so created with the new data.
+2018-Nov-01 13:38:49 : tableReadSave POST call for table=calendar_dates took 0.52 seconds.
+2018-Nov-01 14:07:57 : 
+listAll GET call
+2018-Nov-01 14:07:57 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 14:07:57 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 14:07:57 : readColumnDB: Hey, the column zone_id doesn't exist in the table stops for None=None
+2018-Nov-01 14:07:57 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 14:07:57 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded fare_rules, 0 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded fare_rules, 0 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded fare_attributes, 0 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 14:07:58 : readTableDB: Loaded calendar_dates, 1 records
+2018-Nov-01 14:07:58 : listAll GET call took 1.11 seconds.
+2018-Nov-01 14:08:07 : 
+diagnoseID GET call
+2018-Nov-01 14:08:07 : readTableDB: table:calendar, column:service_id, value:"ALL"
+2018-Nov-01 14:08:07 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 14:08:07 : readTableDB: table:calendar_dates, column:service_id, value:"ALL"
+2018-Nov-01 14:08:07 : readTableDB: Loaded calendar_dates, 0 records
+2018-Nov-01 14:08:07 : readTableDB: table:trips, column:service_id, value:"ALL"
+2018-Nov-01 14:08:07 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 14:08:07 : diagnoseID GET call took 0.43 seconds.
+2018-Nov-01 14:08:12 : 
+diagnoseID GET call
+2018-Nov-01 14:08:12 : readTableDB: table:calendar, column:service_id, value:"DAY"
+2018-Nov-01 14:08:12 : readTableDB: Loaded calendar, 0 records
+2018-Nov-01 14:08:12 : readTableDB: table:calendar_dates, column:service_id, value:"DAY"
+2018-Nov-01 14:08:13 : readTableDB: Loaded calendar_dates, 1 records
+2018-Nov-01 14:08:13 : readTableDB: table:trips, column:service_id, value:"DAY"
+2018-Nov-01 14:08:13 : readTableDB: Loaded trips, 0 records
+2018-Nov-01 14:08:13 : diagnoseID GET call took 0.32 seconds.
+2018-Nov-01 14:48:39 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 14:48:39 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 14:48:39 : tableReadSave GET call for table=frequencies took 0.02 seconds.
+2018-Nov-01 14:48:48 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 14:48:48 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 14:48:48 : tableReadSave GET call for table=routes took 0.08 seconds.
+2018-Nov-01 14:48:48 : 
+tripIdList GET call
+2018-Nov-01 14:48:48 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 14:48:48 : tripIdList GET call took 0.37 seconds.
+2018-Nov-01 14:48:48 : 
+calendar GET call
+2018-Nov-01 14:48:48 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 14:48:48 : 20181101.0
+2018-Nov-01 14:48:48 : calendar GET call took 0.11 seconds.
+2018-Nov-01 14:48:48 : 
+allShapesList GET call
+2018-Nov-01 14:48:48 : allShapesList GET call took 0.06 seconds.
+2018-Nov-01 14:48:48 : 
+allStopsKeyed GET call
+2018-Nov-01 14:48:48 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 14:48:48 : allStopsKeyed GET call took 0.08 seconds.
+2018-Nov-01 14:58:52 : 
+trips GET call
+2018-Nov-01 14:58:52 : readTableDB: table:trips, column:route_id, value:"18B"
+2018-Nov-01 14:58:52 : readTableDB: Loaded trips, 40 records
+2018-Nov-01 14:58:52 : trips GET call took 0.2 seconds.
+2018-Nov-01 14:59:07 : 
+stopTimes GET call
+2018-Nov-01 14:59:08 : readTableDB: table:trips, column:trip_id, value:"18B_0846_0"
+2018-Nov-01 14:59:08 : readTableDB: Loaded trips, 1 records
+2018-Nov-01 14:59:09 : readTableDB: table:stop_times, column:trip_id, value:"18B_0846_0"
+2018-Nov-01 14:59:09 : readTableDB: Loaded stop_times, 17 records
+2018-Nov-01 14:59:09 : returnJson.message: Loaded timings from stop_times table.
+2018-Nov-01 14:59:09 : stopTimes GET call took 1.49 seconds.
+2018-Nov-01 15:01:48 : 
+stopTimes GET call
+2018-Nov-01 15:01:49 : readTableDB: table:trips, column:trip_id, value:"18B_0846_0"
+2018-Nov-01 15:01:49 : readTableDB: Loaded trips, 1 records
+2018-Nov-01 15:01:50 : readTableDB: table:stop_times, column:trip_id, value:"18B_0846_0"
+2018-Nov-01 15:01:50 : readTableDB: Loaded stop_times, 17 records
+2018-Nov-01 15:01:50 : returnJson.message: Loaded timings from stop_times table.
+2018-Nov-01 15:01:50 : stopTimes GET call took 1.47 seconds.
+2018-Nov-01 15:02:00 : 
+stopTimes GET call
+2018-Nov-01 15:02:00 : readTableDB: table:trips, column:trip_id, value:"18B_1052_0"
+2018-Nov-01 15:02:00 : readTableDB: Loaded trips, 1 records
+2018-Nov-01 15:02:02 : readTableDB: table:stop_times, column:trip_id, value:"18B_1052_0"
+2018-Nov-01 15:02:02 : readTableDB: Loaded stop_times, 17 records
+2018-Nov-01 15:02:02 : returnJson.message: Loaded timings from stop_times table.
+2018-Nov-01 15:02:02 : stopTimes GET call took 1.54 seconds.
+2018-Nov-01 16:01:04 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 16:01:05 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 16:01:05 : tableReadSave GET call for table=frequencies took 0.72 seconds.
+2018-Nov-01 16:05:37 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 16:05:37 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 16:05:37 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 16:06:26 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 16:06:26 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 16:06:26 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 16:20:05 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-01 16:20:05 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Nov-01 16:20:12 : 
+stats GET call
+2018-Nov-01 16:20:18 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 16:20:18 : agency              : 1 entries
+2018-Nov-01 16:20:18 : calendar            : 1 entries
+2018-Nov-01 16:20:18 : stops               : 1,628 entries
+2018-Nov-01 16:20:18 : routes              : 747 entries
+2018-Nov-01 16:20:18 : trips               : 16,931 entries
+2018-Nov-01 16:20:19 : stop_times          : 508,467 entries
+2018-Nov-01 16:20:19 : calendar_dates      : 1 entries
+2018-Nov-01 16:20:19 : fare_attributes     : 0 entries
+2018-Nov-01 16:20:19 : fare_rules          : 0 entries
+2018-Nov-01 16:20:19 : shapes              : 0 entries
+2018-Nov-01 16:20:19 : frequencies         : 0 entries
+2018-Nov-01 16:20:19 : transfers           : 0 entries
+2018-Nov-01 16:20:19 : feed_info           : 1 entries
+2018-Nov-01 16:20:19 : stats GET call took 6.92 seconds.
+2018-Nov-01 16:20:19 : 
+pastCommits GET call
+2018-Nov-01 16:20:19 : pastCommits GET call took 0.02 seconds.
+2018-Nov-01 16:20:24 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 16:20:24 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 16:20:24 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 16:20:25 : 
+routeIdList GET call
+2018-Nov-01 16:20:25 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 16:20:25 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 16:20:25 : tableColumn GET call took 0.43 seconds.
+2018-Nov-01 16:21:10 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 16:21:10 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 16:21:10 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 16:21:10 : 
+routeIdList GET call
+2018-Nov-01 16:21:10 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 16:21:11 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 16:21:11 : tableColumn GET call took 0.32 seconds.
+2018-Nov-01 16:23:20 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 16:23:20 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 16:23:20 : tableReadSave GET call for table=routes took 0.07 seconds.
+2018-Nov-01 16:23:20 : 
+tripIdList GET call
+2018-Nov-01 16:23:20 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 16:23:20 : tripIdList GET call took 0.38 seconds.
+2018-Nov-01 16:23:20 : 
+calendar GET call
+2018-Nov-01 16:23:20 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 16:23:20 : 20181101.0
+2018-Nov-01 16:23:20 : calendar GET call took 0.17 seconds.
+2018-Nov-01 16:23:20 : 
+allStopsKeyed GET call
+2018-Nov-01 16:23:20 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 16:23:20 : allStopsKeyed GET call took 0.09 seconds.
+2018-Nov-01 16:23:20 : 
+allShapesList GET call
+2018-Nov-01 16:23:20 : allShapesList GET call took 0.05 seconds.
+2018-Nov-01 16:24:49 : 
+stats GET call
+2018-Nov-01 16:24:49 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 16:24:49 : agency              : 1 entries
+2018-Nov-01 16:24:49 : calendar            : 1 entries
+2018-Nov-01 16:24:49 : stops               : 1,628 entries
+2018-Nov-01 16:24:49 : routes              : 747 entries
+2018-Nov-01 16:24:49 : trips               : 16,931 entries
+2018-Nov-01 16:24:50 : stop_times          : 508,467 entries
+2018-Nov-01 16:24:50 : calendar_dates      : 1 entries
+2018-Nov-01 16:24:50 : fare_attributes     : 0 entries
+2018-Nov-01 16:24:50 : fare_rules          : 0 entries
+2018-Nov-01 16:24:50 : shapes              : 0 entries
+2018-Nov-01 16:24:50 : frequencies         : 0 entries
+2018-Nov-01 16:24:50 : transfers           : 0 entries
+2018-Nov-01 16:24:50 : feed_info           : 1 entries
+2018-Nov-01 16:24:50 : stats GET call took 0.53 seconds.
+2018-Nov-01 16:24:50 : 
+pastCommits GET call
+2018-Nov-01 16:24:50 : pastCommits GET call took 0.0 seconds.
+2018-Nov-01 16:24:53 : 
+stats GET call
+2018-Nov-01 16:24:53 : readTableDB: Loaded agency, 1 records
+2018-Nov-01 16:24:53 : agency              : 1 entries
+2018-Nov-01 16:24:53 : calendar            : 1 entries
+2018-Nov-01 16:24:53 : stops               : 1,628 entries
+2018-Nov-01 16:24:53 : routes              : 747 entries
+2018-Nov-01 16:24:53 : trips               : 16,931 entries
+2018-Nov-01 16:24:53 : stop_times          : 508,467 entries
+2018-Nov-01 16:24:53 : calendar_dates      : 1 entries
+2018-Nov-01 16:24:53 : fare_attributes     : 0 entries
+2018-Nov-01 16:24:53 : fare_rules          : 0 entries
+2018-Nov-01 16:24:53 : shapes              : 0 entries
+2018-Nov-01 16:24:53 : frequencies         : 0 entries
+2018-Nov-01 16:24:53 : transfers           : 0 entries
+2018-Nov-01 16:24:53 : feed_info           : 1 entries
+2018-Nov-01 16:24:53 : stats GET call took 0.39 seconds.
+2018-Nov-01 16:24:53 : 
+pastCommits GET call
+2018-Nov-01 16:24:53 : pastCommits GET call took 0.0 seconds.
+2018-Nov-01 16:25:03 : 
+tripIdList GET call
+2018-Nov-01 16:25:03 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 16:25:03 : tripIdList GET call took 0.33 seconds.
+2018-Nov-01 16:25:03 : 
+calendar GET call
+2018-Nov-01 16:25:03 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 16:25:03 : 20181101.0
+2018-Nov-01 16:25:03 : calendar GET call took 0.06 seconds.
+2018-Nov-01 16:25:03 : 
+allShapesList GET call
+2018-Nov-01 16:25:03 : allShapesList GET call took 0.06 seconds.
+2018-Nov-01 16:25:03 : 
+allStopsKeyed GET call
+2018-Nov-01 16:25:03 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 16:25:03 : allStopsKeyed GET call took 0.09 seconds.
+2018-Nov-01 16:25:03 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 16:25:03 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 16:25:03 : tableReadSave GET call for table=routes took 0.05 seconds.
+2018-Nov-01 18:46:43 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:46:43 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:46:43 : tableReadSave GET call for table=frequencies took 0.68 seconds.
+2018-Nov-01 18:46:44 : 
+routeIdList GET call
+2018-Nov-01 18:46:44 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 18:46:45 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:46:45 : tableColumn GET call took 1.29 seconds.
+2018-Nov-01 18:48:04 : 
+calendar GET call
+2018-Nov-01 18:48:04 : readTableDB: Loaded calendar, 1 records
+2018-Nov-01 18:48:04 : 20181101.0
+2018-Nov-01 18:48:04 : calendar GET call took 0.32 seconds.
+2018-Nov-01 18:48:04 : 
+tripIdList GET call
+2018-Nov-01 18:48:04 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:48:04 : tripIdList GET call took 0.27 seconds.
+2018-Nov-01 18:48:04 : 
+tableReadSave GET call for table=routes
+2018-Nov-01 18:48:04 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 18:48:04 : tableReadSave GET call for table=routes took 0.1 seconds.
+2018-Nov-01 18:48:04 : 
+allShapesList GET call
+2018-Nov-01 18:48:04 : allShapesList GET call took 0.06 seconds.
+2018-Nov-01 18:48:04 : 
+allStopsKeyed GET call
+2018-Nov-01 18:48:05 : readTableDB: Loaded stops, 1628 records
+2018-Nov-01 18:48:05 : allStopsKeyed GET call took 0.14 seconds.
+2018-Nov-01 18:48:12 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:48:12 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:48:12 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 18:48:12 : 
+routeIdList GET call
+2018-Nov-01 18:48:12 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 18:48:12 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:48:12 : tableColumn GET call took 0.35 seconds.
+2018-Nov-01 18:48:47 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:48:47 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:48:47 : tableReadSave GET call for table=frequencies took 0.02 seconds.
+2018-Nov-01 18:48:47 : 
+routeIdList GET call
+2018-Nov-01 18:48:47 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 18:48:47 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:48:47 : tableColumn GET call took 0.29 seconds.
+2018-Nov-01 18:49:05 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:49:05 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:49:05 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 18:49:05 : 
+routeIdList GET call
+2018-Nov-01 18:49:05 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 18:49:05 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:49:05 : tableColumn GET call took 0.31 seconds.
+2018-Nov-01 18:52:31 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:52:31 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:52:31 : tableReadSave GET call for table=frequencies took 0.0 seconds.
+2018-Nov-01 18:52:31 : 
+routeIdList GET call
+2018-Nov-01 18:52:31 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 18:52:31 : readTableDB: Loaded trips, 16931 records
+2018-Nov-01 18:52:31 : tableColumn GET call took 0.39 seconds.
+2018-Nov-01 18:52:44 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:52:44 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:52:44 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 18:52:44 : 
+routeIdList GET call
+2018-Nov-01 18:52:44 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 18:52:44 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 18:52:44 : tableColumn GET call took 0.12 seconds.
+2018-Nov-01 18:53:01 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 18:53:01 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 18:53:01 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 18:53:02 : 
+routeIdList GET call
+2018-Nov-01 18:53:02 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 18:53:02 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 18:53:02 : tableColumn GET call took 0.29 seconds.
+2018-Nov-01 19:10:23 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 19:10:24 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 19:10:24 : tableReadSave GET call for table=frequencies took 0.68 seconds.
+2018-Nov-01 19:10:24 : 
+routeIdList GET call
+2018-Nov-01 19:10:24 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 19:10:25 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 19:10:26 : tableColumn GET call took 1.33 seconds.
+2018-Nov-01 21:19:23 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-01 21:19:23 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Nov-01 21:19:58 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 21:19:58 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 21:19:58 : tableReadSave GET call for table=frequencies took 0.03 seconds.
+2018-Nov-01 21:19:59 : 
+routeIdList GET call
+2018-Nov-01 21:19:59 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 21:20:06 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 21:20:07 : tableColumn GET call took 7.77 seconds.
+2018-Nov-01 21:20:44 : 
+routeIdList GET call
+2018-Nov-01 21:20:44 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 21:20:44 : readTableDB: table:trips, column:route_id, value:"100"
+2018-Nov-01 21:20:45 : readTableDB: Loaded trips, 41 records
+2018-Nov-01 21:20:45 : tableColumn GET call took 0.49 seconds.
+2018-Nov-01 21:52:27 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 21:52:27 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 21:52:27 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 21:52:27 : 
+routeIdList GET call
+2018-Nov-01 21:52:27 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 21:52:27 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 21:52:27 : tableColumn GET call took 0.16 seconds.
+2018-Nov-01 21:52:37 : 
+routeIdList GET call
+2018-Nov-01 21:52:37 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 21:52:38 : readTableDB: table:trips, column:route_id, value:"100"
+2018-Nov-01 21:52:38 : readTableDB: Loaded trips, 41 records
+2018-Nov-01 21:52:38 : tableColumn GET call took 0.23 seconds.
+2018-Nov-01 21:52:55 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-01 21:52:55 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-01 21:52:55 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-01 21:52:55 : 
+routeIdList GET call
+2018-Nov-01 21:52:55 : 	ableColumn GET call for table=routes, column=route_id
+2018-Nov-01 21:52:55 : readTableDB: Loaded routes, 747 records
+2018-Nov-01 21:52:55 : tableColumn GET call took 0.22 seconds.
+2018-Nov-01 21:53:30 : 
+routeIdList GET call
+2018-Nov-01 21:53:30 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 21:53:30 : readTableDB: table:trips, column:route_id, value:"299"
+2018-Nov-01 21:53:30 : readTableDB: Loaded trips, 2 records
+2018-Nov-01 21:53:30 : tableColumn GET call took 0.22 seconds.
+2018-Nov-01 22:51:25 : 
+routeIdList GET call
+2018-Nov-01 22:51:25 : 	ableColumn GET call for table=trips, column=trip_id
+2018-Nov-01 22:51:25 : readTableDB: table:trips, column:route_id, value:"290K"
+2018-Nov-01 22:51:25 : readTableDB: Loaded trips, 5 records
+2018-Nov-01 22:51:25 : tableColumn GET call took 0.37 seconds.
+2018-Nov-09 06:41:33 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-09 06:41:33 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Nov-09 06:41:37 : 
+stats GET call
+2018-Nov-09 06:41:37 : readTableDB: Loaded agency, 1 records
+2018-Nov-09 06:41:38 : agency              : 1 entries
+2018-Nov-09 06:41:38 : calendar            : 1 entries
+2018-Nov-09 06:41:38 : stops               : 1,628 entries
+2018-Nov-09 06:41:38 : routes              : 747 entries
+2018-Nov-09 06:41:38 : trips               : 16,931 entries
+2018-Nov-09 06:41:38 : stop_times          : 508,467 entries
+2018-Nov-09 06:41:38 : calendar_dates      : 1 entries
+2018-Nov-09 06:41:38 : fare_attributes     : 0 entries
+2018-Nov-09 06:41:38 : fare_rules          : 0 entries
+2018-Nov-09 06:41:38 : shapes              : 0 entries
+2018-Nov-09 06:41:38 : frequencies         : 0 entries
+2018-Nov-09 06:41:38 : transfers           : 0 entries
+2018-Nov-09 06:41:38 : feed_info           : 1 entries
+2018-Nov-09 06:41:38 : stats GET call took 1.41 seconds.
+2018-Nov-09 06:41:38 : 
+pastCommits GET call
+2018-Nov-09 06:41:38 : pastCommits GET call took 0.0 seconds.
+2018-Nov-09 06:41:50 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-09 06:41:50 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-09 06:41:50 : tableReadSave GET call for table=frequencies took 0.0 seconds.
+2018-Nov-09 06:41:50 : 
+routeIdList GET call
+2018-Nov-09 06:41:50 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-09 06:41:50 : readTableDB: Loaded routes, 747 records
+2018-Nov-09 06:41:50 : tableColumn GET call took 0.14 seconds.
+2018-Nov-09 06:42:16 : 
+routeIdList GET call
+2018-Nov-09 06:42:16 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 06:42:16 : readTableDB: table:trips, column:route_id, value:"100V"
+2018-Nov-09 06:42:16 : readTableDB: Loaded trips, 50 records
+2018-Nov-09 06:42:16 : tableColumn GET call took 0.31 seconds.
+2018-Nov-09 06:44:00 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-09 06:44:00 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-09 06:44:00 : tableReadSave GET call for table=frequencies took 0.0 seconds.
+2018-Nov-09 06:44:01 : 
+routeIdList GET call
+2018-Nov-09 06:44:01 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-09 06:44:01 : readTableDB: Loaded routes, 747 records
+2018-Nov-09 06:44:01 : tableColumn GET call took 0.17 seconds.
+2018-Nov-09 06:44:38 : 
+routeIdList GET call
+2018-Nov-09 06:44:38 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 06:44:38 : readTableDB: table:trips, column:route_id, value:"100"
+2018-Nov-09 06:44:38 : readTableDB: Loaded trips, 41 records
+2018-Nov-09 06:44:38 : tableColumn GET call took 0.24 seconds.
+2018-Nov-09 06:45:34 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-09 06:45:34 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-09 06:45:34 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-09 06:45:35 : 
+routeIdList GET call
+2018-Nov-09 06:45:35 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-09 06:45:35 : readTableDB: Loaded routes, 747 records
+2018-Nov-09 06:45:35 : tableColumn GET call took 0.17 seconds.
+2018-Nov-09 06:45:38 : 
+routeIdList GET call
+2018-Nov-09 06:45:38 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 06:45:38 : readTableDB: table:trips, column:route_id, value:"100C"
+2018-Nov-09 06:45:38 : readTableDB: Loaded trips, 9 records
+2018-Nov-09 06:45:38 : tableColumn GET call took 0.21 seconds.
+2018-Nov-09 06:46:50 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-09 06:46:50 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-09 06:46:50 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-09 06:46:50 : 
+routeIdList GET call
+2018-Nov-09 06:46:50 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-09 06:46:50 : readTableDB: Loaded routes, 747 records
+2018-Nov-09 06:46:50 : tableColumn GET call took 0.13 seconds.
+2018-Nov-09 06:46:56 : 
+routeIdList GET call
+2018-Nov-09 06:46:56 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 06:46:56 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Nov-09 06:46:56 : readTableDB: Loaded trips, 50 records
+2018-Nov-09 06:46:56 : tableColumn GET call took 0.2 seconds.
+2018-Nov-09 07:27:57 : 
+routeIdList GET call
+2018-Nov-09 07:27:57 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 07:27:57 : readTableDB: table:trips, column:route_id, value:"100N"
+2018-Nov-09 07:27:57 : readTableDB: Loaded trips, 34 records
+2018-Nov-09 07:27:57 : tableColumn GET call took 0.19 seconds.
+2018-Nov-09 07:28:03 : 
+routeIdList GET call
+2018-Nov-09 07:28:03 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 07:28:03 : readTableDB: table:trips, column:route_id, value:"100N"
+2018-Nov-09 07:28:03 : readTableDB: Loaded trips, 34 records
+2018-Nov-09 07:28:03 : tableColumn GET call took 0.2 seconds.
+2018-Nov-09 07:29:34 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-09 07:29:34 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-09 07:29:34 : tableReadSave GET call for table=frequencies took 0.01 seconds.
+2018-Nov-09 07:29:35 : 
+routeIdList GET call
+2018-Nov-09 07:29:35 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-09 07:29:35 : readTableDB: Loaded routes, 747 records
+2018-Nov-09 07:29:35 : tableColumn GET call took 0.12 seconds.
+2018-Nov-09 07:29:37 : 
+routeIdList GET call
+2018-Nov-09 07:29:37 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 07:29:37 : readTableDB: table:trips, column:route_id, value:"1"
+2018-Nov-09 07:29:37 : readTableDB: Loaded trips, 50 records
+2018-Nov-09 07:29:37 : tableColumn GET call took 0.22 seconds.
+2018-Nov-09 07:29:41 : 
+routeIdList GET call
+2018-Nov-09 07:29:41 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 07:29:41 : readTableDB: table:trips, column:route_id, value:"10"
+2018-Nov-09 07:29:41 : readTableDB: Loaded trips, 50 records
+2018-Nov-09 07:29:41 : tableColumn GET call took 0.2 seconds.
+2018-Nov-09 08:39:49 : 
+routeIdList GET call
+2018-Nov-09 08:39:49 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-09 08:39:50 : readTableDB: table:trips, column:route_id, value:"100A"
+2018-Nov-09 08:39:50 : readTableDB: Loaded trips, 25 records
+2018-Nov-09 08:39:50 : tableColumn GET call took 0.9 seconds.

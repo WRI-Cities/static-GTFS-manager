@@ -18,7 +18,7 @@ const menu = {
 		"Stops": "stops.html",
 		"Routes": "routes.html",
 		"Calendar": "calendar.html",
-		"Trips and Stop_times": "tripstimings.html",
+		"Trips, Stop_times": "tripstimings.html",
 		"Frequencies": "frequencies.html",
 		"Fares": "fares.html",
 		"Translations": "translations.html"

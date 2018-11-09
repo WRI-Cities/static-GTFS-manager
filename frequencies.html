@@ -43,8 +43,17 @@
 
 <div id="frequencies-table"></div>
 <br>
-<p>Create a new frequency: <input placeholder="trip_id" id="freq2add" size="6"><button class="btn-primary btn-xs" id="addFreqButton" type="button">Add</button> &nbsp; <small id="freqAddStatus"></small></p>
+<p>Create a new frequency: 
+<!--<input placeholder="trip_id" id="freq2add" size="6">-->
+<select id="routeSelect">
+	<option value="">Choose a route</option>
+</select>&nbsp;&nbsp; <button onclick="getPythonTripsList()">fetch trips ></button> &nbsp;&nbsp;
+<select id="tripSelect">
+	<option value="">Choose a trip</option>
+</select>&nbsp;&nbsp;&nbsp;&nbsp;
 
+<button class="btn-primary btn-xs" id="addFreqButton" type="button">Add</button> &nbsp; <small id="freqAddStatus"></small></p>
+<br>
 <p><button id="saveFreqButton" class="btn btn-outline-success btn-md">Save Frequencies Changes</button> &nbsp; <small id="freqSaveStatus"></small></p>
 
 <p>Note: A frequency-based trip_id defined here needs to have an entry in trips table too, and the sequence of stops in this trip needs to be defined in stop_times table.</p>

@@ -28,6 +28,8 @@ import csv
 import numpy as np
 import io # used in hyd csv import
 
+# to do: how to get these variables declared in the other file to be recognized here?
+
 global uploadFolder
 global xmlFolder
 global logFolder
@@ -980,11 +982,16 @@ def allShapesListFunc():
 
 def serviceIdsFunc():
 	calendarDF = readTableDB('calendar')
-	if not len(calendarDF):
-		service_id_list = []
-	else:
-		service_id_list = calendarDF['service_id'].tolist()
-	return service_id_list
+	collectorSet = set()
+	if len(calendarDF):
+		collectorSet.update( calendarDF['service_id'].tolist() )
+		# service_id_list = calendarDF['service_id'].tolist()
+	
+	calendarDatesDF = readTableDB('calendar_dates')
+	if len(calendarDatesDF):
+		collectorSet.update( calendarDatesDF['service_id'].tolist() )
+
+	return list(collectorSet)
 
 
 #################################################3

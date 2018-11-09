@@ -1318,6 +1318,35 @@ class tableReadSave(tornado.web.RequestHandler):
 		end = time.time()
 		logmessage("tableReadSave POST call for table={} took {} seconds.".format(table,round(end-start,2)))
 
+class tableColumn(tornado.web.RequestHandler):
+	def get(self):
+		# API/tableColumn?table=table&column=column&key=key&value=value
+		start = time.time()
+		logmessage('\nrouteIdList GET call')
+		
+		table=self.get_argument('table',default='')
+		column=self.get_argument('column',default='')
+		logmessage('\ntableColumn GET call for table={}, column={}'.format(table,column))
+		
+		if (not table) or (not column) :
+			self.set_status(400)
+			self.write("Error: invalid table or column given.")
+			return 
+
+		key=self.get_argument('key',default=None)
+		value=self.get_argument('value',default=None)
+		
+		if key and value:
+			returnList = readColumnDB(table, column, key=key, value=value)
+		else:
+			returnList = readColumnDB(table, column)
+
+		returnList.sort()
+		self.write(json.dumps(returnList))
+		end = time.time()
+		logmessage("tableColumn GET call took {} seconds.".format(round(end-start,2)))
+
+
 def make_app():
 	return tornado.web.Application([
 		#(r"/API/data", APIHandler),
@@ -1357,6 +1386,7 @@ def make_app():
 		(r"/API/hydGTFS", hydGTFS),
 		(r"/API/frequencies", frequencies),
 		(r"/API/tableReadSave", tableReadSave),
+		(r"/API/tableColumn", tableColumn),
 		#(r"/API/idList", idList),
 		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
 	])
