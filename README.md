@@ -5,8 +5,11 @@
 
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 3.2.1   
-Windows binary is available too now. Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).
+**Development Status** : V 3.3.0  
+Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).  
+- Windows binary is available in the repo itself, just double-click GTFSManager.exe to start the program.
+- Mac, Ubuntu users can run by first installing docker, then double-clicking two scripts. See [Running with Docker on any OS](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-with-Docker-on-any-OS)
+
 
 ## Intro
 This project is the result of a collaboration between WRI ([World Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail Limited](http://kochimetro.org)). 
@@ -20,7 +23,7 @@ See the [KMRL open data portal](https://kochimetro.org/open-data/) and some news
 This program adheres to the static GTFS (General Transit Feed Specification Reference) open transit data specs as published by Google Transit here: <https://developers.google.com/transit/gtfs/reference/>  
 It also implements a [GTFS extension for translations](https://developers.google.com/transit/gtfs/reference/gtfs-extensions#translations) of stops and routes names to facilitate multilingual use of the data.
 
-Lead programmer up till April 2018: [Nikhil VJ](https://answerquest.github.io) from Pune, India.
+Lead programmer up till November 2018: [Nikhil VJ](https://answerquest.github.io) from Pune, India.
 
 See this and many more GTFS related resources listed on **[Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools)**, a one-stop community listing for all things GTFS.
 
@@ -44,15 +47,14 @@ Psst! Password is `program`.
 4. More notes on this, including some troubleshooting and watchouts, **[on the wiki](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Standalone-Windows-Executable)**.
 
 
-### On Ubuntu / Linux OS
+### On Ubuntu / Linux OS, on Python 3
 See on the project wiki: [Running on Ubuntu OS](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-on-Ubuntu-OS)
 
-### Running with Python3 on a Windows OS
+### Running on Windows on Python 3
 See on the project wiki: [Running on Windows OS with Python 3](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-on-Windows-OS-with-Python-3)
 
-### Running in Docker with Compose
-Work in progress! See [this](https://github.com/WRI-Cities/static-GTFS-manager/issues/69)
-
+### Running in Docker on all OS's (including Mac)
+See [Running with Docker on any OS](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-with-Docker-on-any-OS)
 ----
 
 ## Changing the password
@@ -88,13 +90,12 @@ In the import process, the program creates a backup ZIP of the current data and 
 ## Improvements, Feedback
 Please see the [Issues](https://github.com/WRI-Cities/static-GTFS-manager/issues) section for seeing existing program improvement efforts, feedback, questions. Please make sure you search through all the issues ([click here](https://github.com/WRI-Cities/static-GTFS-manager/issues?utf8=%E2%9C%93&q=) for full list) before filing a new one : it might already be covered in another.
 
-**Invitation**: This project invites active participation from professionals in the coding and GTFS fields to join in to take it forward. Please feel free to fork, write your fixes/enhancements and create a pull request.
+**Invitation**: This project invites active participation from professionals in the coding and GTFS fields to join in to take it forward. Please feel free to fork, write your fixes/enhancements and submit a pull request.
 
 
 ## Known limitations
-- Schedules with frequencies currently not supported, [this is desired](https://github.com/WRI-Cities/static-GTFS-manager/issues/23) as for some systems their schedules may be frequency-based rather than fixed times, plus using frequency greatly reduces the database/feed size by removing repetitive entries from stop_times table.
 - Shapes are only accepted in .geojson format. The first entry in the file will be picked up and others will be discarded.
-- Doesn't support calendar_dates.txt yet. For that and all such extra files: If you've imported it, it'll be there in the DB, and will be there in the feed when you export again. Just haven't gotten around to making their UI yet. Code contributions welcome in that regard.
+- Extra files that are optional : If you've imported it, it'll be there in the DB, and will be there in the feed when you export again. Code contributions welcome in that regard.
 
 ## Technical Overview
 Moved to Wiki: [Technical Overview](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Technical-Overview)

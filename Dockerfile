@@ -7,7 +7,7 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN mkdir -p /app
 WORKDIR /app
 COPY . /app/
-RUN pip3 install -r requirements.txt --user --no-cache-dir
+RUN pip3 install -r requirements.txt --user
 
 EXPOSE 5000
 

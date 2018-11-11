@@ -1053,3 +1053,88 @@ tableColumn GET call for table=trips, column=trip_id
 2018-Nov-09 08:39:50 : readTableDB: table:trips, column:route_id, value:"100A"
 2018-Nov-09 08:39:50 : readTableDB: Loaded trips, 25 records
 2018-Nov-09 08:39:50 : tableColumn GET call took 0.9 seconds.
+2018-Nov-11 18:42:15 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-11 18:42:16 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically within 5 seconds.
+2018-Nov-11 18:42:25 : 
+pastCommits GET call
+2018-Nov-11 18:42:25 : pastCommits GET call took 0.05 seconds.
+2018-Nov-11 18:42:25 : 
+stats GET call
+2018-Nov-11 18:42:32 : readTableDB: Loaded agency, 1 records
+2018-Nov-11 18:42:32 : agency              : 1 entries
+2018-Nov-11 18:42:32 : calendar            : 1 entries
+2018-Nov-11 18:42:32 : stops               : 1,628 entries
+2018-Nov-11 18:42:33 : routes              : 747 entries
+2018-Nov-11 18:42:33 : trips               : 16,931 entries
+2018-Nov-11 18:42:33 : stop_times          : 508,467 entries
+2018-Nov-11 18:42:33 : calendar_dates      : 1 entries
+2018-Nov-11 18:42:33 : fare_attributes     : 0 entries
+2018-Nov-11 18:42:33 : fare_rules          : 0 entries
+2018-Nov-11 18:42:33 : shapes              : 0 entries
+2018-Nov-11 18:42:33 : frequencies         : 0 entries
+2018-Nov-11 18:42:33 : transfers           : 0 entries
+2018-Nov-11 18:42:33 : feed_info           : 1 entries
+2018-Nov-11 18:42:33 : stats GET call took 7.83 seconds.
+2018-Nov-11 18:50:30 : 
+tableReadSave GET call for table=frequencies
+2018-Nov-11 18:50:30 : readTableDB: Loaded frequencies, 0 records
+2018-Nov-11 18:50:30 : tableReadSave GET call for table=frequencies took 0.05 seconds.
+2018-Nov-11 18:50:30 : 
+routeIdList GET call
+2018-Nov-11 18:50:30 : 
+tableColumn GET call for table=routes, column=route_id
+2018-Nov-11 18:50:30 : readTableDB: Loaded routes, 747 records
+2018-Nov-11 18:50:30 : tableColumn GET call took 0.21 seconds.
+2018-Nov-11 18:50:33 : 
+routeIdList GET call
+2018-Nov-11 18:50:33 : 
+tableColumn GET call for table=trips, column=trip_id
+2018-Nov-11 18:50:33 : readTableDB: table:trips, column:route_id, value:"10"
+2018-Nov-11 18:50:34 : readTableDB: Loaded trips, 50 records
+2018-Nov-11 18:50:34 : tableColumn GET call took 0.38 seconds.
+2018-Nov-11 20:48:45 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-11 20:48:45 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2018-Nov-11 20:48:49 : 
+pastCommits GET call
+2018-Nov-11 20:48:49 : pastCommits GET call took 0.0 seconds.
+2018-Nov-11 20:48:49 : 
+stats GET call
+2018-Nov-11 20:48:50 : readTableDB: Loaded agency, 1 records
+2018-Nov-11 20:48:50 : agency              : 1 entries
+2018-Nov-11 20:48:50 : calendar            : 1 entries
+2018-Nov-11 20:48:50 : stops               : 1,628 entries
+2018-Nov-11 20:48:50 : routes              : 747 entries
+2018-Nov-11 20:48:50 : trips               : 16,931 entries
+2018-Nov-11 20:48:51 : stop_times          : 508,467 entries
+2018-Nov-11 20:48:51 : calendar_dates      : 1 entries
+2018-Nov-11 20:48:51 : fare_attributes     : 0 entries
+2018-Nov-11 20:48:51 : fare_rules          : 0 entries
+2018-Nov-11 20:48:51 : shapes              : 0 entries
+2018-Nov-11 20:48:51 : frequencies         : 0 entries
+2018-Nov-11 20:48:51 : transfers           : 0 entries
+2018-Nov-11 20:48:51 : feed_info           : 1 entries
+2018-Nov-11 20:48:51 : stats GET call took 1.5 seconds.
+2018-Nov-11 20:50:19 : Loaded dependencies, starting static GTFS Manager program.
+2018-Nov-11 20:50:19 : Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2018-Nov-11 20:50:20 : 
+stats GET call
+2018-Nov-11 20:50:20 : readTableDB: Loaded agency, 1 records
+2018-Nov-11 20:50:20 : agency              : 1 entries
+2018-Nov-11 20:50:20 : calendar            : 1 entries
+2018-Nov-11 20:50:20 : stops               : 1,628 entries
+2018-Nov-11 20:50:20 : routes              : 747 entries
+2018-Nov-11 20:50:20 : trips               : 16,931 entries
+2018-Nov-11 20:50:21 : stop_times          : 508,467 entries
+2018-Nov-11 20:50:21 : calendar_dates      : 1 entries
+2018-Nov-11 20:50:21 : fare_attributes     : 0 entries
+2018-Nov-11 20:50:21 : fare_rules          : 0 entries
+2018-Nov-11 20:50:21 : shapes              : 0 entries
+2018-Nov-11 20:50:21 : frequencies         : 0 entries
+2018-Nov-11 20:50:21 : transfers           : 0 entries
+2018-Nov-11 20:50:21 : feed_info           : 1 entries
+2018-Nov-11 20:50:21 : stats GET call took 0.67 seconds.
+2018-Nov-11 20:50:21 : 
+pastCommits GET call
+2018-Nov-11 20:50:21 : pastCommits GET call took 0.0 seconds.

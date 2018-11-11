@@ -1414,7 +1414,7 @@ if __name__ == "__main__":
 
 	thisURL = "http://localhost:" + str(port)
 	webbrowser.open(thisURL)
-	logmessage("Open {} in your Web Browser if you don't see it opening automatically within 5 seconds.".format(thisURL))
+	logmessage("Open {} in your Web Browser if you don't see it opening automatically in 5 seconds.\nNote: If this is through docker, then it's not going to auto-open in browser, don't wait.".format(thisURL))
 	tornado.ioloop.IOLoop.current().start()
 
 
