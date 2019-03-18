@@ -151,13 +151,16 @@ def xml2GTFSConvert(configdata):
 				last_stop_technicalname = trip['STOP'][-1]['TOP']
 				findstationrow = next((item for item in stations if (item["down_id"] == last_stop_technicalname or item["up_id"] == last_stop_technicalname) ), None)
 				trips_row['trip_headsign'] = findstationrow['stop_name']
-				trips_row['trip_short_name'] = trip['ENTRY_TIME'][0:5] + ' ' + trips_row['trip_headsign']
-				trips_row['direction_id'] = direction_id
-				trips_row['block_id'] = int( trip['SERVICE_ID'] ) # vehicle number is stored in "SERVICE_ID"
 				
-				# shape related.. assigning blank for now so the column makes its way to csv
-				# trips_row['shape_id'] = route_id + '_' + str(direction_id)
-				trips_row['shape_id'] = ''
+				# trips_row['trip_short_name'] = trip['ENTRY_TIME'][0:5] + ' ' + trips_row['trip_headsign']
+				# 17.3.19 : not making trip_short_name, because Google told KMRL they don't want that column to be there.
+
+				trips_row['direction_id'] = direction_id
+				trips_row['block_id'] = "{}_{}".format(trip['SERVICE_ID'],direction_id)
+				int( trip['SERVICE_ID'] ) # vehicle number is stored in "SERVICE_ID"
+				
+				# 17.3.19 : shape to be loaded later. Hard-setting this right now; make it conditional later.
+				trips_row['shape_id'] = "{}_{}".format(route_id,direction_id)
 
 				trips_row['wheelchair_accessible'] = int(wheelchair_accessible)
 				trips_array.append( trips_row )
@@ -335,13 +338,14 @@ def xml2GTFSConvert(configdata):
 
 	##############
 	# fares
-	fares_rulesDF = csvunpivot(filename=uploadFolder + configdata.get('fareschart','fares-chart.csv'), keepcols=['Stations'], var_header='destination_id', value_header='fare_id', sortby=['Stations','destination_id','fare_id'])
+	fare_rulesDF = csvunpivot(filename=uploadFolder + configdata.get('fareschart','fares-chart.csv'), keepcols=['Stations'], var_header='destination_id', value_header='fare_id', sortby=['Stations','destination_id','fare_id'])
 	# update: csvunpivot function now by itself renames "Stations" to "origin_id" and removes all NaN values. And the last argument is for sorting by values!. Pandas dude: you don't need to do shit with dict when you've got freakin pandas.
 	
-	fares_rulesDF.to_csv(outputFolder+'fares_rules.txt', index=None)
-	
-	returnMessage += '<a target="_blank" href="'+ outputFolder+'fares_rules.txt">fares_rules file</a> created with %d entires.<br>'%len(fares_rulesDF)
-	logmessage('fares_rules.txt created, %d entries'%len(fares_rulesDF))
+	fare_rulesDF.to_csv(outputFolder+'fare_rules.txt', index=None)
+	zf.write(outputFolder+'fare_rules.txt', arcname='fare_rules.txt', compress_type=zipfile.ZIP_DEFLATED )
+
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'fare_rules.txt">fare_rules file</a> created with %d entries.<br>'%len(fare_rulesDF)
+	logmessage('fare_rules.txt created, %d entries'%len(fare_rulesDF))
 	
 	##############
 	# fare attributes
@@ -361,6 +365,7 @@ def xml2GTFSConvert(configdata):
 	fare_attributesDF['transfers'] = configdata.get('transfers','')
 	
 	fare_attributesDF.to_csv(outputFolder+'fare_attributes.txt', index=None)
+	zf.write(outputFolder+'fare_attributes.txt', arcname='fare_attributes.txt', compress_type=zipfile.ZIP_DEFLATED )
 	
 	returnMessage += '<a target="_blank" href="'+ outputFolder+'fare_attributes.txt">fare_attributes file</a> created with %d entires.<br>'%len(fare_attributesDF)
 	logmessage('fare_attributes.txt created, %d entries'%len(fare_attributesDF))
@@ -371,14 +376,28 @@ def xml2GTFSConvert(configdata):
 	secondlang = configdata.get('secondlang','ml')
 	translations_array = [ OrderedDict({'trans_id': x['stop_name'], 'lang':secondlang, 'translation': x['stop_name_secondlang'] }) for x in stations ]
 	
-	# adding agency
+	# adding agency name in translations
 	translations_array.append( OrderedDict({ 'trans_id': configdata.get('agency_name','Kochi Metro'), 'lang':secondlang, 'translation': configdata.get('agency_name_translation','കൊച്ചി മെട്രോ') }) )
 	translationsDF = pd.DataFrame(translations_array)
 	translationsDF.to_csv(outputFolder+'translations.txt', index=None)
+	zf.write(outputFolder+'translations.txt', arcname='translations.txt', compress_type=zipfile.ZIP_DEFLATED )
 	
 	returnMessage += '<a target="_blank" href="'+ outputFolder+'translations.txt">translations file</a> created with %d entires.<br>'%len(translationsDF)
 	logmessage('translations.txt created, %d entries'%len(translationsDF))
 
+
+	##############
+	# shapes
+	# intervention: bring in geojson:
+	configdata['shapefile'] = os.path.join(xmlFolder, 'R001.geojson');
+	
+	shapeArray = geoJson2shape(route_id, configdata.get('shapefile'), shapefileRev=None)
+	shapeDF = pd.DataFrame(shapeArray)
+	shapeDF.to_csv(outputFolder+'shapes.txt', index=None)
+	zf.write(outputFolder+'shapes.txt', arcname='shapes.txt', compress_type=zipfile.ZIP_DEFLATED )
+	
+	returnMessage += '<a target="_blank" href="'+ outputFolder+'shapes.txt">shapes file</a> created with %d entires.<br>'%len(shapeDF)
+	logmessage('shapes.txt created, %d entries'%len(shapeDF))
 
 	##############
 	# end

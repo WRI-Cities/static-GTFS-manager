@@ -6,6 +6,7 @@
 // ############################
 // RUN ON ALL PAGES
 $(document).ready(function() {
+	
 	/* Function to build navigation menu */
 	//finding current page, from https://stackoverflow.com/a/21343880/4355695
 	var pageName = location.pathname.split("/").slice(-1).join();
@@ -13,7 +14,7 @@ $(document).ready(function() {
 	console.log(pageName);
 	
 	var navBarContentStart = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
-	 <!-- Brand --> \
+	<!-- Brand --> \
 	<div class="navbar-brand"><a class="navbar-brand" href="index.html"><small>static</small> <img src="extra_files/GTFS.png" height="44" width="auto" aria-label="GTFS" alt="GTFS"> Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + VERSION + '</span></a></div> \
 	<!-- Links --> \
 	<ul class="navbar-nav">';
@@ -58,7 +59,7 @@ $(document).ready(function() {
 
 	navBarContent+=navBarContentEnd;
 	$( "#navBar" ).html(navBarContent);
-
+	
 	// initiate bootstrap / jquery components like tabs, accordions
 	// tabs
 	$( "#tabs" ).tabs({
@@ -88,6 +89,7 @@ $(document).ready(function() {
 	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
 	<!-- End Matomo -->`);
 
+	document.getElementById("password").value = "program";
 });
 // ############################
 // FUNCTIONS
@@ -102,15 +104,18 @@ function preventOtherInputs(ui, id) {
 }
 
 function checklatlng(lat,lon) {
+	lat = parseFloat(lat);
+	lon = parseFloat(lon);
 	if ( typeof lat == 'number' && typeof lon == 'number' &&
 		!isNaN(lat) && !isNaN(lon) ) {
 		//console.log(lat,lon,'is valid');
-		return true;
+		// again, check if they're in 90 -90 etc
+		if( (-90<=lat<=90) && (-180<=lon<=180) ) return true;
 	}
-	else {
-		//console.log(lat,lon,'is not valid');
-		return false;
-	}
+	
+	// no need of else.. if it fails anywhere above, default return should be false
+	//console.log(lat,lon,'is not valid');
+	return false;
 }
 
 function filled(id, minlen) {

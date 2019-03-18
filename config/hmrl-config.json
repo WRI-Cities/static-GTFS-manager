@@ -2,7 +2,7 @@
 	"routes": [
 	{
 		"route_id" : "RED",
-		"route_sequence" : ["AME","SRN","ESI","ERA","BTN","MSP",	"BLR","KUK","KPH","JNT","MYP"],
+		"route_sequence" : ["AME","SRN","ESI","ERA","BTN","MSP","BLR","KUK","KPH","JNT","MYP"],
 		"direction_suffix" : ["2","1"],
 		"route_short_name" : "Red",
 		"route_long_name" : "Red Line, Ameerpet to Miyapur",
@@ -13,7 +13,7 @@
 	
 	{
 		"route_id" : "BLU",
-		"route_sequence" : ["AME","BEG","PRN","ROP","PAR","PRG","SEC",	"MET","TAR","HSG","NGR","SOI","UPL","NAG"],
+		"route_sequence" : ["AME","BEG","PRN","ROP","PAR","PRG","SEC","MET","TAR","HSG","NGR","SOI","UPL","NAG"],
 		"direction_suffix" : ["2","1"],
 		"route_short_name" : "Blue",
 		"route_long_name" : "Blue Line, Ameerpet to Nagole",

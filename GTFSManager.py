@@ -26,18 +26,19 @@ import gc # garbage collector, from https://stackoverflow.com/a/1316793/4355695
 import csv
 import numpy as np
 import io # used in hyd csv import
+import requests, platform # used to log user stats
 
 # setting constants
 root = os.path.dirname(__file__) # needed for tornado
-uploadFolder = 'uploads/'
-xmlFolder = 'xml_related/'
-logFolder = 'logs/'
-configFolder = 'config/'
-dbFolder = 'db/' # 12.5.18 new pandas DB storage
-exportFolder = 'export/' # 4.9.18 putting exports here now
+uploadFolder = os.path.join(root,'uploads/')
+xmlFolder = os.path.join(root,'xml_related/')
+logFolder = os.path.join(root,'logs/')
+configFolder = os.path.join(root,'config/')
+dbFolder = os.path.join(root,'db/') # 12.5.18 new pandas DB storage
+exportFolder = os.path.join(root,'export/') # 4.9.18 putting exports here now
 
-sequenceDBfile = 'db/sequence.json'
-passwordFile = 'pw/rsa_key.bin'
+sequenceDBfile = os.path.join(root,'db/sequence.json')
+passwordFile = os.path.join(root,'pw/rsa_key.bin')
 chunkRulesFile = 'chunkRules.json'
 configFile = 'config.json'
 thisURL = ''
@@ -62,9 +63,9 @@ for folder in [uploadFolder, xmlFolder, logFolder, configFolder, dbFolder, expor
 
 
 # importing GTFSserverfunctions.py, embedding it inline to avoid re-declarations etc
-exec(open("./GTFSserverfunctions.py", encoding='utf8').read())
-exec(open("./xml2GTFSfunction.py", encoding='utf8').read())
-exec(open("./hydCSV2GTFS.py", encoding='utf8').read())
+exec(open(os.path.join(root,"GTFSserverfunctions.py"), encoding='utf8').read())
+exec(open(os.path.join(root,"xml2GTFSfunction.py"), encoding='utf8').read())
+exec(open(os.path.join(root,"hydCSV2GTFS.py"), encoding='utf8').read())
 
 logmessage('Loaded dependencies, starting static GTFS Manager program.')
 
@@ -633,6 +634,7 @@ class stats(tornado.web.RequestHandler):
 		self.write(json.dumps(stats))
 		end = time.time()
 		logmessage("stats GET call took {} seconds.".format( round(end-start, 2) ) )
+		logUse('stats')
 
 
 class gtfsImportZip(tornado.web.RequestHandler):
@@ -655,6 +657,7 @@ class gtfsImportZip(tornado.web.RequestHandler):
 
 		end = time.time()
 		logmessage("gtfsImportZip POST call took {} seconds.".format( round(end-start,2) ))
+		logUse('gtfsImportZip')
 
 class commitExport(tornado.web.RequestHandler):
 	def get(self):
@@ -673,6 +676,7 @@ class commitExport(tornado.web.RequestHandler):
 		self.write(finalmessage)
 		end = time.time()
 		logmessage("commitExport GET call took {} seconds.".format(round(end-start,2)))
+		logUse('commitExport')
 
 
 class pastCommits(tornado.web.RequestHandler):
@@ -731,6 +735,7 @@ class XMLUpload(tornado.web.RequestHandler):
 		self.write(json.dumps(returnJson))
 		end = time.time()
 		logmessage("XMLUpload POST call took {} seconds.".format(round(end-start,2)))
+		logUse('XMLUpload')
 
 class XMLDiagnose(tornado.web.RequestHandler):
 	def get(self):
@@ -763,6 +768,7 @@ class XMLDiagnose(tornado.web.RequestHandler):
 		self.write(json.dumps(returnJson))
 		end = time.time()
 		logmessage("XMLDiagnose GET call took {} seconds.".format(round(end-start,2)))
+		logUse('XMLDiagnose')
 
 
 class stations(tornado.web.RequestHandler):
@@ -854,7 +860,7 @@ class fareChartUpload(tornado.web.RequestHandler):
 		self.write(json.dumps(returnJson))
 		end = time.time()
 		logmessage("fareChartUpload POST call took {} seconds.".format(round(end-start,2)))
-
+		logUse('fareChartUpload')
 
 class xml2GTFS(tornado.web.RequestHandler):
 	def post(self):
@@ -878,7 +884,7 @@ class xml2GTFS(tornado.web.RequestHandler):
 		self.write(returnMessage)
 		end = time.time()
 		logmessage("xml2GTFS POST call took {} seconds.".format(round(end-start,2)))
-
+		logUse('xml2GTFS')
 
 class gtfsBlankSlate(tornado.web.RequestHandler):
 	def get(self):
@@ -904,6 +910,7 @@ class gtfsBlankSlate(tornado.web.RequestHandler):
 		self.write(finalmessage)
 		end = time.time()
 		logmessage("gtfsBlankSlate GET call took {} seconds.".format(round(end-start,2)))
+		logUse('gtfsBlankSlate')
 
 class translations(tornado.web.RequestHandler):
 	def get(self):
@@ -1281,6 +1288,7 @@ class tableReadSave(tornado.web.RequestHandler):
 		
 		self.write(dataJson)
 		end = time.time()
+		logUse('{}_read'.format(table))
 		logmessage("tableReadSave GET call for table={} took {} seconds.".format(table,round(end-start,2)))
 
 	def post(self):
@@ -1316,6 +1324,7 @@ class tableReadSave(tornado.web.RequestHandler):
 			self.set_status(400)
 			self.write("Error: Could not save to DB.")
 		end = time.time()
+		logUse('{}_write'.format(table))
 		logmessage("tableReadSave POST call for table={} took {} seconds.".format(table,round(end-start,2)))
 
 class tableColumn(tornado.web.RequestHandler):
@@ -1344,6 +1353,7 @@ class tableColumn(tornado.web.RequestHandler):
 		returnList.sort()
 		self.write(json.dumps(returnList))
 		end = time.time()
+		logUse('{}_column'.format(table))
 		logmessage("tableColumn GET call took {} seconds.".format(round(end-start,2)))
 
 
@@ -1409,12 +1419,13 @@ if __name__ == "__main__":
 		except OSError:
 			portnum += 1
 			if portnum > 9999: 
-				print('Thats it I give up! Even port 9999 isn\'t free!')
+				print('Can\'t launch as no port number from 5000 through 9999 is free.')
 				sys.exit()
 
 	thisURL = "http://localhost:" + str(port)
 	webbrowser.open(thisURL)
-	logmessage("Open {} in your Web Browser if you don't see it opening automatically in 5 seconds.\nNote: If this is through docker, then it's not going to auto-open in browser, don't wait.".format(thisURL))
+	logmessage("\n\nOpen {} in your Web Browser if you don't see it opening automatically in 5 seconds.\n\nNote: If this is through docker, then it's not going to auto-open in browser, don't wait.".format(thisURL))
+	logUse()
 	tornado.ioloop.IOLoop.current().start()
 
 

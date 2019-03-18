@@ -930,7 +930,7 @@ def geoJson2shape(route_id, shapefile, shapefileRev=None):
 		newrow['shape_dist_traveled'] = dist_traveled
 		i = i + 1
 		newrow['shape_pt_sequence'] = i
-		output_array.append(newrow)
+		output_array.append(newrow.copy())
 		prevlat = item[1]
 		prevlon = item[0]
 	
@@ -961,7 +961,7 @@ def geoJson2shape(route_id, shapefile, shapefileRev=None):
 		newrow['shape_dist_traveled'] = dist_traveled
 		i = i + 1
 		newrow['shape_pt_sequence'] = i
-		output_array.append(newrow)
+		output_array.append(newrow.copy())
 		prevlat = item[1]
 		prevlon = item[0]
 	
@@ -1653,3 +1653,21 @@ def calendarCurrent():
 	logmessage(today)
 	calendarDF.end_date = calendarDF.end_date.astype(float)
 	return calendarDF[ calendarDF.end_date >= today ]
+
+def logUse(action='launch'):
+	payload = {'idsite': 3,  'rec': 1, 'send_image':0}
+	payload['action_name'] = action
+	cvar = {}
+	cvar['1'] = ['OS', platform.system()]
+	cvar['2'] = ['processor',platform.processor()]
+	if cvar['1'][1] == 'Linux':
+		cvar['1'][1] = platform.linux_distribution()[0]
+		cvar['3'] = ['version', platform.linux_distribution()[1] ]
+	else:
+		cvar['3'] = ['version', platform.release() ]
+	payload['_cvar'] = json.dumps(cvar)
+	try:
+		r = requests.get('http://nikhilvj.co.in/tracking/piwik.php', params=payload, verify=False, timeout=1)
+	except requests.exceptions.RequestException as e:
+		# print('exception',e)
+		pass
