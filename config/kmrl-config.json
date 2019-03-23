@@ -1,0 +1,24 @@
+{ 
+"stations": "stations.csv", 
+"timepoint": "1", 
+"wheelchair_accessible": "1", 
+
+"route_type": "1", 
+"route_color": "00B7F3", 
+"route_text_color": "000000", 
+
+"secondland": "ml", 
+"currency_type": "INR", 
+"payment_method": "0", 
+"transfers": "",
+
+"agency_id": "KMRL",
+"agency_name": "Kochi Metro",
+"agency_name_translation": "കൊച്ചി മെട്രോ",
+"agency_url": "https://www.kochimetro.org/",
+"agency_timezone": "Asia/Kolkata",
+"agency_phone": "18004250355",
+"agency_fare_url": "https://kochimetro.org/fare-chart/",
+
+"end_date": "20220311"
+}
