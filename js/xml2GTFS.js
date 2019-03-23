@@ -10,7 +10,7 @@ var weekdaySchedules = [];
 var sundaySchedules = [];
 var allStopsMappedFlag = false;
 var faresListGlobal = [];
-var config = KMRLDEFAULTS; // loading default config parameters, see in commonfuncs.js .
+var config = {}; // loading default config parameters, see in commonfuncs.js .
 
 // #######################
 // initiate map
@@ -86,14 +86,19 @@ $(document).ready(function(){
 	var rightNow = new Date(); 
 	ydm = rightNow.toISOString().slice(0,10).replace(/-/g,'');
 	$( "#start_date").val(ydm);
+	$( "#end_date").val( String(parseInt(ydm)+30000) );
 
 	//Pre-load input boxes with config defaults 
-	$( "#agency_id").val( config['agency_id'] );
-	$( "#agency_name").val( config['agency_name'] );
-	$( "#agency_name_translation").val( config['agency_name_translation'] );
-	$( "#agency_url").val( config['agency_url'] );
-	$( "#agency_timezone").val( config['agency_timezone'] );
-	$( "#end_date").val( config['end_date'] );
+	$.getJSON( "config/kmrl-config.json", function( data ) {
+		config = data;
+		$( "#agency_id").val( config['agency_id'] );
+		$( "#agency_name").val( config['agency_name'] );
+		$( "#agency_name_translation").val( config['agency_name_translation'] );
+		$( "#agency_url").val( config['agency_url'] );
+		$( "#agency_phone").val( config['agency_phone'] );
+		$( "#agency_fare_url").val( config['agency_fare_url'] );
+		$( "#agency_timezone").val( config['agency_timezone'] );
+	});
 
 });
 //###################

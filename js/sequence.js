@@ -391,8 +391,8 @@ function mapPop(stop_id, i=0) {
 			});
 			layer.openPopup();
 			// decideZoom = map[i].getZoom() > 13 ? 16 : 13; // if zoomed in more, take it to 16. Else if very much out, zoom in to 13.
-			decideZoom = map[i].getZoom();
-			map[i].flyTo(layer.getLatLng(), decideZoom, {duration:1, animate:true});
+			// map[i].flyTo(layer.getLatLng(), decideZoom, {duration:1, animate:true});
+			map[i].panTo(layer.getLatLng(), {duration:1, animate:true});
 		}
 	});
 }

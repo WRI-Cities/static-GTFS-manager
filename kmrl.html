@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>XML to GTGS Conversion</title>
+<title>KMRL XML to GTGS Conversion</title>
 <link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
 <link href="lib/jquery-ui.min.css" rel="stylesheet">
 <link href="lib/tabulator.min.css" rel="stylesheet">
@@ -35,14 +35,13 @@
 <div id="navBar"></div>
 
 <div class="container-fluid">
-<h2>Convert XML schedules format to GTFS</h2>
+<h2>Convert Kochi Metro's XML schedules format to GTFS</h2>
 
 <div id="instructions">
 <h3>Instructions</h3>
 <div>
 <p align="center"><a href="https://www.youtube.com/embed/_JYVtm-6iJg?rel=0&autoplay=1" target="_blank"><img class="videothumb" src="extra_files/GTFS-manager-XML-import-diagnostic.png" height="240" width="auto"><br><small>Click here to see a demo video.</small></a></p>
 <p>This page handles the <a target="_blank" href="extra_files/sample-XML-structure.txt">specific XML format&#x2197;</a> of KMRL. There are some files to upload and some settings to set before converting to GTFS. Please make your way through each of the tabs.</p>
-- Do remember to enter the password on top right for all actions.<br>
 - Detailed instructions are given in info boxes at each tab.
 
 </div></div><!-- Accordion over -->
@@ -142,14 +141,18 @@ Upload XMLs in step 1...
 
 <h5>Agency Info <span id="agency-check"></span></h5>
 <p><small>
-<label title="Short, unique internal code for agency, like KMRL">agency_id: 
+<label title="Short, unique internal code for agency, like KMRL">id: 
 	<input required id="agency_id" size="5"></label><br>
-<label title="Official name of agency">agency_name: 
+<label title="Official name of agency">name: 
 	<input required id="agency_name" size="10"></label><br>
-<label title="Local language translation of name of agency">agency_name translation: 
+<label title="Local language translation of name of agency">name translation: 
 	<input id="agency_name_translation" size="10"></label><br>
-<label title="Official website of agency">agency_url: 
+<label title="Official website of agency (agency_url)">url: 
 	<input required id="agency_url" size="15"></label><br>
+<label title="Phone number (agency_phone)">phone: 
+	<input required id="agency_phone" size="12"></label><br>
+<label title="Fare URL (agency_fare_url)">fare url: 
+	<input required id="agency_fare_url" size="15"></label><br>
 <label>agency_timezone: 
 	<input required id="agency_timezone" size="10"></label>
 </small></p>

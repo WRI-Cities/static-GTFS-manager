@@ -1,0 +1,54 @@
+2019-Mar-22 18:22:21 : Loaded dependencies, starting static GTFS Manager program.
+2019-Mar-22 18:22:21 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Mar-22 18:22:25 : 
+stats GET call
+2019-Mar-22 18:22:27 : readTableDB: Loaded agency, 1 records
+2019-Mar-22 18:22:27 : agency              : 1 entries
+2019-Mar-22 18:22:27 : calendar            : 2 entries
+2019-Mar-22 18:22:27 : stops               : 16 entries
+2019-Mar-22 18:22:27 : routes              : 1 entries
+2019-Mar-22 18:22:27 : trips               : 376 entries
+2019-Mar-22 18:22:27 : stop_times          : 6,016 entries
+2019-Mar-22 18:22:27 : calendar_dates      : 0 entries
+2019-Mar-22 18:22:27 : fare_attributes     : 5 entries
+2019-Mar-22 18:22:27 : fare_rules          : 240 entries
+2019-Mar-22 18:22:27 : shapes              : 242 entries
+2019-Mar-22 18:22:27 : frequencies         : 0 entries
+2019-Mar-22 18:22:27 : transfers           : 0 entries
+2019-Mar-22 18:22:27 : feed_info           : 0 entries
+2019-Mar-22 18:22:27 : translations        : 17 entries
+2019-Mar-22 18:22:27 : stats GET call took 1.85 seconds.
+2019-Mar-22 18:22:28 : 
+pastCommits GET call
+2019-Mar-22 18:25:48 : 
+tableReadSave GET call for table=calendar
+2019-Mar-22 18:25:48 : readTableDB: Loaded calendar, 2 records
+2019-Mar-22 18:25:49 : tableReadSave GET call for table=calendar took 0.05 seconds.
+2019-Mar-22 18:25:49 : 
+tableReadSave GET call for table=calendar_dates
+2019-Mar-22 18:25:49 : readTableDB: Loaded calendar_dates, 0 records
+2019-Mar-22 18:25:50 : tableReadSave GET call for table=calendar_dates took 0.01 seconds.
+2019-Mar-22 18:25:53 : 
+stats GET call
+2019-Mar-22 18:25:53 : readTableDB: Loaded agency, 1 records
+2019-Mar-22 18:25:53 : agency              : 1 entries
+2019-Mar-22 18:25:53 : calendar            : 2 entries
+2019-Mar-22 18:25:53 : stops               : 16 entries
+2019-Mar-22 18:25:54 : routes              : 1 entries
+2019-Mar-22 18:25:54 : trips               : 376 entries
+2019-Mar-22 18:25:54 : stop_times          : 6,016 entries
+2019-Mar-22 18:25:54 : calendar_dates      : 0 entries
+2019-Mar-22 18:25:54 : fare_attributes     : 5 entries
+2019-Mar-22 18:25:54 : fare_rules          : 240 entries
+2019-Mar-22 18:25:54 : shapes              : 242 entries
+2019-Mar-22 18:25:54 : frequencies         : 0 entries
+2019-Mar-22 18:25:54 : transfers           : 0 entries
+2019-Mar-22 18:25:54 : feed_info           : 0 entries
+2019-Mar-22 18:25:54 : translations        : 17 entries
+2019-Mar-22 18:25:54 : stats GET call took 0.36 seconds.
+2019-Mar-22 18:25:55 : 
+pastCommits GET call
