@@ -1,3 +1,12 @@
+//##############
+// Global constants, variables
+
+var databankLayer = new L.geoJson(null);
+
+// SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
+var myRenderer = L.canvas({ padding: 0.5 });
+
+
 // #########################################
 // Function-variables to be used in tabulator
 
@@ -61,6 +70,7 @@ $("#stops-table").tabulator({
 
 		logmessage(message);
 	},
+	/*
 	historyRedo:function(action, component, data){
 		var message = '';
 		if(action == 'cellEdit') {
@@ -73,7 +83,7 @@ $("#stops-table").tabulator({
 			reloadData();
 		}
 		logmessage(message);
-	},
+	},*/
 	cellEditing:function(cell){
 		// pop up the stop on the map when user starts editing
 		mapPop(cell.getRow().getData().stop_id);
@@ -109,21 +119,68 @@ var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbo
 var mapboxUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
 var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9teusbbr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmlraGlsc2hldGgiLCJhIjoiQTREVlJuOCJ9.YpMpVVbkxOFZW-bEq1_LIw' ; 
 
-var MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib });
-var scenic = L.tileLayer(scenicUrl, { attribution: MBAttrib });
+var MBstreets = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mlpl2d', attribution: MBAttrib, maxZoom: 20}),
+	MBsatlabel = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmaa87', attribution: MBAttrib, maxZoom: 20}),
+	MBsat = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mni8e7', attribution: MBAttrib, maxZoom: 20}),
+	MBlight = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmobne', attribution: MBAttrib, maxZoom: 20}),
+	MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib, maxZoom: 20}),
+	OsmIndia = L.tileLayer(mapboxUrl, {id: 'openstreetmap.1b68f018', attribution: MBAttrib, maxZoom: 20}),
+	GithubLight = L.tileLayer('https://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png', {attribution: MBAttrib, maxZoom: 20}),
+	scenic = L.tileLayer(scenicUrl, {attribution: MBAttrib, maxZoom: 20}) ; 
+var gStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+		maxZoom: 20,
+		subdomains:['mt0','mt1','mt2','mt3']
+});
+	
+var gHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+		maxZoom: 20,
+		subdomains:['mt0','mt1','mt2','mt3']
+});
+var gSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
 
 const startLocation = [10.030259357021862, 76.31446838378908];
 
 var map = new L.Map('map', {
 	center: [0,0],
 	zoom: 2,
-	layers: [scenic],
+	layers: [MBlight],
 	scrollWheelZoom: true
 });
 
 $('.leaflet-container').css('cursor','crosshair'); // from https://stackoverflow.com/a/28724847/4355695 Changing mouse cursor to crosshairs
 
 L.control.scale({metric:true, imperial:false}).addTo(map);
+
+var stopsLayer = new L.geoJson(null)
+.bindTooltip(function (layer) {
+	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+}, { sticky: false })
+.bindPopup(function (layer) {
+	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+})
+.on('click',markerOnClick);
+
+var baseLayers = {
+	"Scenic" : scenic,
+	"OpenStreetMap.IN": OsmIndia,
+	"Streets": MBstreets,
+	"Satellite": MBsatlabel ,
+	"Light": MBlight,
+	"Dark" : MBdark,
+	"gStreets": gStreets,
+	"gHybrid": gHybrid,
+	"gSat": gSat
+};
+
+var overlays = {
+	'stops': stopsLayer,
+	'databank': databankLayer
+}
+var layerControl = L.control.layers(baseLayers, overlays, {collapsed: true, autoZIndex:false}).addTo(map); 
+
 
 var ZoomBoxOptions = {
 	modal: false,
@@ -138,7 +195,7 @@ map.addControl(ZoomBoxControl);
 // Marker for positioning new stop or changing location of stop
 var dragmarkerOptions = {
 	renderer: myRenderer,
-	radius: 6,
+	radius: 4,
 	fillColor: "red",
 	color: null,
 	weight: 1,
@@ -149,9 +206,11 @@ var dragmarkerOptions = {
 var clickedflag = 0;
 
 var dragmarker = L.circleMarker(startLocation, dragmarkerOptions);
+/* we're not dragging anymore!
 dragmarker.on('dragend', function(e) {
 	updateLatLng();
-});
+});*/
+
 map.on('click', function(e) {
 	dragmarker.setLatLng(e.latlng);
 	updateLatLng( dragmarker.getLatLng() );
@@ -161,9 +220,6 @@ map.on('click', function(e) {
 
 // #################################
 /* 4. Loading stops on map */
-
-var myRenderer = L.canvas({ padding: 0.5 });
-// from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
 
 var circleMarkerOptions = {
 	renderer: myRenderer,
@@ -177,14 +233,7 @@ var circleMarkerOptions = {
 	fillOpacity: 0.5
 };
 
-var stopsLayer = new L.geoJson(null)
-.bindTooltip(function (layer) {
-	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-}, { sticky: false })
-.bindPopup(function (layer) {
-	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-})
-.on('click',markerOnClick);
+
 
 
 // adding buttons to zoom to show all stops
@@ -204,7 +253,7 @@ L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to fil
 
 //###########################
 // initiate bootstrap / jquery components like tabs, accordions
-$( function() {
+$(document).ready(function() {
 	// tabs
 	$( "#tabs" ).tabs({
 		active:0
@@ -367,7 +416,7 @@ function reloadMap(timeflag='normal',filterFlag=false) {
 
 	loadonmap(data,stopsLayer);
 	if(timeflag == 'firstTime') {
-		map.fitBounds(stopsLayer.getBounds(), {padding:[20,20], maxZoom:16}); 
+		map.flyToBounds(stopsLayer.getBounds(), {padding:[20,20], maxZoom:16}); 
 		//Zoom map to see all stops only the first time. Later when making changes, don't bother.
 	}
 	stopsLayer.addTo(map);
@@ -535,3 +584,45 @@ function saveStops(){
 
 }
 
+function databank() {
+	if(document.getElementById('databank').files.length != 1) {
+		alert('Please select a proper file first');
+		return;
+	}
+	databankLayer.clearLayers();
+	
+	Papa.parse(document.getElementById('databank').files[0], {
+		header: true,
+		skipEmptyLines: true,
+		dynamicTyping: true, // this reads numbers as numerical; set false to read everything as string
+		complete: function(results) {
+			console.log(results.data);
+			var databankCounter = 0;
+			results.data.forEach(r => {
+				if(!(r.hasOwnProperty('stop_lat') && r.hasOwnProperty('stop_lon'))) return;
+
+				if(! checklatlng(r.stop_lat,r.stop_lon)) return;
+				
+				var databank_marker_options = {
+					renderer: myRenderer,
+					radius: 3,
+					fillColor: "brown",
+					color: null,
+					weight: 0,
+					opacity: 0,
+					fillOpacity: 0.5,
+				};
+				var databankMarker = L.circleMarker([r.stop_lat,r.stop_lon], databank_marker_options).bindTooltip(r.stop_name, { sticky: false }).addTo(databankLayer);
+				databankCounter ++;
+			});
+			console.log(databankCounter,'locations found in databank.');
+			
+			// removing all and adding consecutively so stops are always on top
+			map.removeLayer(stopsLayer);
+			if(! map.hasLayer(databankLayer)) databankLayer.addTo(map);
+			map.addLayer(stopsLayer);
+
+			map.flyToBounds(databankLayer.getBounds(), {padding:[10,10], maxZoom:14});
+		}
+	});
+}

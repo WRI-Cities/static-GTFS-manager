@@ -1,6 +1,6 @@
 // from commonfuncs.js
 
-const VERSION = 'v3.4.2';
+const VERSION = 'v3.4.3';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
@@ -61,3 +61,6 @@ const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
 // from calendar.js:
 const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
 const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};
+
+
+// Leaflet Map related

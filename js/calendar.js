@@ -169,7 +169,8 @@ function addCalendar(table="calendar-table") {
 	
 	var service_id_list = data.map(a => a.service_id);
 	var isPresent = service_id_list.indexOf(service_id) > -1;
-	if(isPresent) {
+	if(table=="calendar-table" && isPresent) {
+		// 17.4.19 made the unique-only condition only for calendar table and not calendar-dates.
 		$('#'+statusHolder).html('<span class="alert alert-danger">Sorry, ' + service_id + ' is already taken. Please try another value.</span>');
 	} else {
 		$('#'+table).tabulator("addRow",{ 'service_id': service_id } );

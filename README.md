@@ -5,7 +5,7 @@
 
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Development Status** : V 3.4.2  
+**Release Status** : V 3.4.2 (live branch may be some commits ahead)
 Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).  
 - Windows binary is available in the repo itself, just double-click GTFSManager.exe to start the program.
 - Mac, Ubuntu users can run by first installing docker, then double-clicking two scripts. See [Running with Docker on any OS](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-with-Docker-on-any-OS)

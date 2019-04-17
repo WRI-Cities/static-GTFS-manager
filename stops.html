@@ -109,11 +109,13 @@ height: 400px;
 
 <div id="stops-table"></div>
 <br>
-<p><button id="copytable">Copy Table</button></p>
+<p><small>Note: Auto-zooming-in or out is disabled because it was disorienting users while mapping. You can use +/- keys after clicking once on the map to quckly zoom.</small></p>
+	<!--<button id="copytable">Copy Table</button></p>
 <p align="center" id="undoredo" style="display:none"><br>
 
 Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo</button> | 
 <button class="btn-info btn-sm" id="history-redo" type="button">Redo</button></p>
+-->
 
 </div>
 
@@ -136,13 +138,20 @@ Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo
 </div>
 
 </div>
-</div>
 
-<div id="rightcontainer">
-<div id="map"></div>
 <br>
 <p>Once all edits are done, <button class="btn btn-success" id="savetable" name="savetable">Save Stops to DB</button></p>
 <p><small id="stopSaveStatus"></small></p>
+
+</div><!-- end of left container-->
+
+<div id="rightcontainer">
+<div id="map"></div>
+
+<br><p>Got another data source of point locations?<br>
+<input type="file" id="databank" name="databank" class="btn btn-sm btn-outline-secondary" accept=".csv">
+<button onclick="databank()">Load databank</button></p>
+<small>Will appear as small brown points. The CSV databank file needs to have at least a stop_name, stop_lat and stop_lon column.</small>
 </div>
 
 
