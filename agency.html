@@ -218,6 +218,10 @@
 										<div class="card-body">
 											<div id="agency-table"></div>
 										</div>
+										<div class="card-footer">
+											<button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> 
+											<small id="agencySaveStatus"></small>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -228,17 +232,18 @@
 												<strong class="card-title mb-3">New Agency</strong>
 											</div>
 											<div class="card-body">
-													<p>Create a new agency: 
-															<input placeholder="agency_id" id="agency2add" size="7"><button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; <small><span id="agencyAddStatus"></span></small></p>
-															
-															<p><button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> &nbsp; <small id="agencySaveStatus"></small></p>
-															
-															</div><div class="col-md-4">
-															
-															<div class="alert alert-info"><small>
-															Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
-															<br><br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
-															</small></div>
+													<p>Create a new agency: </p>
+													<input placeholder="agency_id" id="agency2add" size="7">
+													<button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; 
+													<small><span id="agencyAddStatus"></span></small></p>
+																								
+													
+													
+													
+													<div class="alert alert-info"><small>
+													Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
+													<br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
+													</small></div>
 											</div>
 										</div>
 									</div>
@@ -251,18 +256,83 @@
 										</div>
 										<div class="card-body">
 											<p>This is an optional table (only one row), for giving information about the feed. See <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#feed_infotxt" target="_blank">specs document</a> for details.</p>
-											<p>
-											feed_publisher_name* : <input id="feed_publisher_name"></p><p>
-											feed_publisher_url* : <input id="feed_publisher_url"></p><p>
-											feed_lang* : <input id="feed_lang"></p><p>
-											feed_start_date : <input id="feed_start_date"></p><p>
-											feed_end_date : <input id="feed_end_date"></p><p>
-											feed_version : <input id="feed_version"></p><p>
-											feed_contact_email : <input id="feed_contact_email"></p><p>
-											feed_contact_url : <input id="feed_contact_url"></p><p>
-											</p>
-											<p><button id="saveFeedInfoButton" class="btn btn-outline-success btn-md">Save Feed_info Changes</button> &nbsp; <small id="feedInfoSaveStatus"></small></p>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="file-input" class="form-control-label">feed_publisher_name</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_publisher_name" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="file-input" class="form-control-label">feed_publisher_url</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_publisher_url" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="file-input" class="form-control-label">feed_publisher_url</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_publisher_url" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="file-input" class="form-control-label">feed_lang</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_lang" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="feed_start_date" class="form-control-label">feed_start_date</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_start_date" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="feed_end_date" class="form-control-label">feed_end_date</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_end_date" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="feed_version" class="form-control-label">feed_version</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_version" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="feed_contact_email" class="form-control-label">feed_contact_email</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_contact_email" class="form-control">
+												</div>
+											</div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="feed_contact_url " class="form-control-label">feed_contact_url</label>
+												</div>
+												<div class="col-12 col-md-9">
+													<input id="feed_contact_url " class="form-control">
+												</div>
+											</div>																						
 											<p><small>Note: If you are having feed_info table at all, then the top 3 fields are compulsory. Otherwise, leave everything blank.</small></p>
+										</div>
+										<div class="card-footer">
+											<button id="saveFeedInfoButton" class="btn btn-outline-success btn-md">Save Feed_info Changes</button><small id="feedInfoSaveStatus"></small>
+											
 										</div>
 									</div>
 								</div>

@@ -65,7 +65,7 @@ function saveAgency() {
 		$('#agencySaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
 		shakeIt('password'); return;
 	}
-	var data = $('#agency-table').tabulator('getData');
+	var data = table.getData();
 
 	console.log('sending to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
@@ -86,7 +86,7 @@ function saveAgency() {
 }
 
 function addAgency() {
-	var data = $('#agency-table').tabulator('getData');
+	var data = table.getData();
 	var agency_id = $('#agency2add').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
 	$('#agency2add').val(agency_id);
 	if(! agency_id.length) {
@@ -100,7 +100,7 @@ function addAgency() {
 	if(isPresent) {
 		$('#agencyAddStatus').html('<span class="alert alert-danger">' + agency_id + ' is already there.</span>');
 	} else {
-		$("#agency-table").tabulator("addRow",{ 'agency_id': agency_id, 'agency_timezone':'Asia/Kolkata' } );
+		table.addData([{ 'agency_id': agency_id, 'agency_timezone':'Asia/Kolkata' } ]);
 		$('#agencyAddStatus').html('<span class="alert alert-success">Added agency_id ' + agency_id + '</span>');
 	}
 
