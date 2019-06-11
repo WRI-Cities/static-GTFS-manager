@@ -9,7 +9,7 @@ var agencyTotal = function(values, data, calcParams){
 //####################
 // Tabulator tables
 
-$("#agency-table").tabulator({
+var table = new Tabulator("#agency-table", {
 	selectable:0,
 	index: 'agency_id',
 	movableRows: true,

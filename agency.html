@@ -1,71 +1,306 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Agency and Feed_info</title>
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link rel="stylesheet" href="lib/chosen/chosen.min.css">
-<link href="js/commonstyle.css" rel="stylesheet">
-<!-- Put the CSSs first and JSs next -->
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Main info</title>
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/tabulator.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-<style>
-#agency-table {
-	height: 300px;
-}
-</style></head>
-<body>
-<div id="navBar"></div>
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-<div class="container">
-<h2>Agency</h2>
-<br>
-<div class="row">
-<div class="col-md-8">
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-<div id="agency-table"></div>
-<br>
-<p>Create a new agency: 
-<input placeholder="agency_id" id="agency2add" size="7"><button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; <small><span id="agencyAddStatus"></span></small></p>
+    <!-- Vendor CSS-->
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+	<link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+	<link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+	<script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
 
-<p><button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> &nbsp; <small id="agencySaveStatus"></small></p>
+</head>
 
-</div><div class="col-md-4">
+<body class="animsition">
+        <div class="page-wrapper">
+            <!-- HEADER MOBILE-->
+            <header class="header-mobile d-block d-lg-none">
+                <div class="header-mobile__bar">
+                    <div class="container-fluid">
+                        <div class="header-mobile-inner">
+                            <a class="logo" href="index.html">
+                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+                            </a>
+                            <button class="hamburger hamburger--slider" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="navbar-mobile">
+                    <div class="container-fluid">
+                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
+                            </li>
+                            <li>
+                                <a href="chart.html">
+                                    <i class="fas fa-chart-bar"></i>Charts</a>
+                            </li>
+                            <li>
+                                <a href="table.html">
+                                    <i class="fas fa-table"></i>Tables</a>
+                            </li>
+                            <li>
+                                <a href="form.html">
+                                    <i class="far fa-check-square"></i>Forms</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            </li>
+                            <li>
+                                <a href="map.html">
+                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-copy"></i>Pages</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="forget-pass.html">Forget Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-desktop"></i>GTFS</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="button.html">Button</a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- END HEADER MOBILE-->
+    
+            <!-- MENU SIDEBAR-->
+            <aside class="menu-sidebar d-none d-lg-block">
+                <div class="logo">
+                    <a href="#">
+                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
+                    </a>
+                </div>
+                <div class="menu-sidebar__content js-scrollbar1">
+                    <nav class="navbar-sidebar">
+                            <ul class="list-unstyled navbar__list">
+                                    <li class="active">
+                                        <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-tachometer-alt"></i>Home</a>                                        
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>GTFS</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="agency.html">Agency</a>
+                                            </li>
+                                            <li>
+                                                <a href="stops.html">Stops</a>
+                                            </li>
+                                            <li>
+                                                <a href="routes.html">Routes</a>
+                                            </li>
+                                            <li>
+                                                <a href="calendar.html">Calendar</a>
+                                            </li>
+                                            <li>
+                                                <a href="tripstimings.html">Trips, Stop_times</a>
+                                            </li>
+                                            <li>
+                                                <a href="frequencies.html">Frequencies</a>
+                                            </li>
+                                            <li>
+                                                <a href="fares.html">Fares</a>
+                                            </li>
+                                            <li>
+                                                <a href="translations.html">Translations</a>
+                                            </li>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Tools</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="sequence.html">Default Route Sequence</a>
+                                            </li>
+                                            <li>
+                                                <a href="renameID.html">Rename ID</a>
+                                            </li>
+                                            <li>
+                                                <a href="deleteID.html">Delete ID</a>
+                                            </li>
+                                                                                     
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Data</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="kmrl.html">Import KMRL format</a>
+                                            </li>
+                                            <li>
+                                                <a href="hmrl.html">Import HRML format</a>
+                                            </li>                                   
+                                        </ul>
+                                    </li>
+                                </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- END MENU SIDEBAR-->
+    
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <!-- HEADER DESKTOP-->
+                <header class="header-desktop">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="header-wrap">
+                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
+                                <form class="form-header" action="" method="POST">
+                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
+                                    <button class="au-btn--submit" type="submit">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </button>
+                                </form>                                
+                        </div>
+                    </div>
+                </header>
+                <!-- HEADER DESKTOP-->
+    
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<strong class="card-title mb-3">Agency</strong>
+										</div>
+										<div class="card-body">
+											<div id="agency-table"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+									<div class="col-md-12">
+										<div class="card">
+											<div class="card-header">
+												<strong class="card-title mb-3">New Agency</strong>
+											</div>
+											<div class="card-body">
+													<p>Create a new agency: 
+															<input placeholder="agency_id" id="agency2add" size="7"><button class="btn-primary btn-xs" id="addAgencyButton" type="button">Add</button> &nbsp; <small><span id="agencyAddStatus"></span></small></p>
+															
+															<p><button id="saveAgencyButton" class="btn btn-outline-success btn-md">Save Agency Changes</button> &nbsp; <small id="agencySaveStatus"></small></p>
+															
+															</div><div class="col-md-4">
+															
+															<div class="alert alert-info"><small>
+															Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
+															<br><br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
+															</small></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<strong class="card-title mb-3">Feed_info</strong>
+										</div>
+										<div class="card-body">
+											<p>This is an optional table (only one row), for giving information about the feed. See <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#feed_infotxt" target="_blank">specs document</a> for details.</p>
+											<p>
+											feed_publisher_name* : <input id="feed_publisher_name"></p><p>
+											feed_publisher_url* : <input id="feed_publisher_url"></p><p>
+											feed_lang* : <input id="feed_lang"></p><p>
+											feed_start_date : <input id="feed_start_date"></p><p>
+											feed_end_date : <input id="feed_end_date"></p><p>
+											feed_version : <input id="feed_version"></p><p>
+											feed_contact_email : <input id="feed_contact_email"></p><p>
+											feed_contact_url : <input id="feed_contact_url"></p><p>
+											</p>
+											<p><button id="saveFeedInfoButton" class="btn btn-outline-success btn-md">Save Feed_info Changes</button> &nbsp; <small id="feedInfoSaveStatus"></small></p>
+											<p><small>Note: If you are having feed_info table at all, then the top 3 fields are compulsory. Otherwise, leave everything blank.</small></p>
+										</div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+    
+        </div>
+    
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>        
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js"></script>		
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+    
+    
 
-<div class="alert alert-info"><small>
-Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
-<br><br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
-</small></div>
-
-</div></div>
-
-<hr>
-<h2>Feed_info</h2>
-<p>This is an optional table (only one row), for giving information about the feed. See <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#feed_infotxt" target="_blank">specs document</a> for details.</p>
-<p>
-feed_publisher_name* : <input id="feed_publisher_name"></p><p>
-feed_publisher_url* : <input id="feed_publisher_url"></p><p>
-feed_lang* : <input id="feed_lang"></p><p>
-feed_start_date : <input id="feed_start_date"></p><p>
-feed_end_date : <input id="feed_end_date"></p><p>
-feed_version : <input id="feed_version"></p><p>
-feed_contact_email : <input id="feed_contact_email"></p><p>
-feed_contact_url : <input id="feed_contact_url"></p><p>
-</p>
-<p><button id="saveFeedInfoButton" class="btn btn-outline-success btn-md">Save Feed_info Changes</button> &nbsp; <small id="feedInfoSaveStatus"></small></p>
-<p><small>Note: If you are having feed_info table at all, then the top 3 fields are compulsory. Otherwise, leave everything blank.</small></p>
-</div>
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/agency.js"></script>
 
-</body>
+</body>  
 </html>
+
