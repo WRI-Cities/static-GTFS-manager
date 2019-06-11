@@ -3,3 +3,4 @@ db/sequence.json
 *.h5
 *.zip
 logs/log.txt
+*.txt
