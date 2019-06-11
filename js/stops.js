@@ -19,7 +19,7 @@ var stopsTotal = function(values, data, calcParams){
 /* 2. Tabulator initiation */
 
 //create Tabulator on DOM element with id "stops-table"
-$("#stops-table").tabulator({
+var table = new Tabulator("#stops-table", {
 	selectable:1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	//layout:"fitColumns", //fit columns to width of table (optional)
@@ -255,16 +255,16 @@ L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to fil
 // initiate bootstrap / jquery components like tabs, accordions
 $(document).ready(function() {
 	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
+	//$( "#tabs" ).tabs({
+	//	active:0
+	//});
 	// Setting accordion
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
+	//$( "#instructions" ).accordion({
+	//	collapsible: true, active: false
+	//});
+	//$( "#logaccordion" ).accordion({
+	//	collapsible: true, active: false
+	//});
 	//getParking();
 });
 
@@ -340,7 +340,7 @@ function updateTable() {
 	}
 	
 	try {
-		$("#stops-table").tabulator("updateOrAddRow", stop_id, {stop_id:stop_id, stop_lat:lat, stop_lon:lon, stop_name:stop_name, zone_id:zone_id, wheelchair_boarding:wheelchair_boarding  } );
+		table.updateOrAddData([{stop_id:stop_id, stop_lat:lat, stop_lon:lon, stop_name:stop_name, zone_id:zone_id, wheelchair_boarding:wheelchair_boarding  } ]);
 	}
 	catch(e) {
 		console.log("exception caught in updateOrAddRow function call.", e);
@@ -354,14 +354,16 @@ function updateTable() {
 
 	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
 	$(function () { 
-    $('#myTab li:first-child a').tab('show');
+    	$('#myTab li:first-child a').tab('show');
   })
 
   setTimeout(function(){
 		//var row = $("#stops-table").tabulator("getRow",stop_id);
 		//row.scrollTo();
-		$("#stops-table").tabulator("selectRow", stop_id);
-		$("#stops-table").tabulator("scrollToRow", stop_id);
+		//$("#stops-table").tabulator("selectRow", stop_id);
+		table.selectRow(stop_id);
+		//$("#stops-table").tabulator("scrollToRow", stop_id);
+		table.selectRow(stop_id);
 		// clearing values
 		$("#targetStopid").val('');
 		$("#stop_name").val('');
@@ -373,7 +375,7 @@ function updateTable() {
 
 
 function reloadData(timeflag='normal') {
-	var data = $("#stops-table").tabulator("getData");
+	var data = table.getData();
 	stop_id_list = data.map(a => a.stop_id); 
 	
 	if ($('.autocomplete').data('uiAutocomplete')) {
@@ -385,20 +387,20 @@ function reloadData(timeflag='normal') {
 		return;
 	}
 	// auto-populating the targetStopid text field. from http://jqueryui.com/autocomplete/ . Make sure jquery-ui css and js are included.
-	$( ".autocomplete" ).autocomplete({
-		source: stop_id_list
-	});
+	//$( ".autocomplete" ).autocomplete({
+	//	source: stop_id_list
+	//});
 
 	// For Add/Edit section, Auto-populate other fields on selecting a stop id
 	// have to declare it inside the reloadData() function because of Destroy command above. After destroying it needs to be re-initiated.
-	$( "#targetStopid" ).autocomplete({
-		select: function( event, ui ) {
-			//console.log(ui.item.value);
-			stop_id = ui.item.value;
-			populateFields(stop_id);
-			mapPop(stop_id);
-		}
-	});
+	//$( "#targetStopid" ).autocomplete({
+	//	select: function( event, ui ) {
+	//		//console.log(ui.item.value);
+	//		stop_id = ui.item.value;
+	//		populateFields(stop_id);
+	//		mapPop(stop_id);
+	//	}
+	//});
 
 	// Map update
 	reloadMap(timeflag);
@@ -410,9 +412,9 @@ function reloadMap(timeflag='normal',filterFlag=false) {
 
 	var data = [];
 	if(filterFlag)
-		data = $("#stops-table").tabulator("getData",true); // gets filtered data from table
+		data = table.getData(true); // gets filtered data from table
 	else
-		data = $("#stops-table").tabulator("getData"); // gets full data from table
+		data = table.getData(); // gets full data from table
 
 	loadonmap(data,stopsLayer);
 	if(timeflag == 'firstTime') {
@@ -520,14 +522,13 @@ function markerOnClick(e) {
 }
 
 function populateFields(stop_id) {
-	var row = $("#stops-table").tabulator("getRow", stop_id); //return row compoenent with index of 1
-			var rowData = row.getData();
-	  	//console.log(JSON.stringify(rowData,null,2));
-
-	  	$('#stop_name').val(rowData['stop_name']);
-	  	$('#zone_id').val(rowData['zone_id']);
-	  	$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
-	  	$('#wheelchair').val(rowData['wheelchair_boarding']);
+	var row = table.getRow(stop_id); //return row compoenent with index of 1
+	var rowData = row.getData();
+	//console.log(JSON.stringify(rowData,null,2));
+	$('#stop_name').val(rowData['stop_name']);
+	$('#zone_id').val(rowData['zone_id']);
+	$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
+	$('#wheelchair').val(rowData['wheelchair_boarding']);
 }
 
 function depopulateFields() {
