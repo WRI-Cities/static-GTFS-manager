@@ -1,147 +1,356 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>GTFS Manager : Main info</title>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Main info</title>
 
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link href="js/commonstyle.css" rel="stylesheet">
-<!-- Put the CSSs first and JSs next -->
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/tabulator.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
-</script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<style>
-pre {
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}
-</style></head>
-<body>
-<div id="navBar"></div>
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-<div class="container-fluid">
-<h1 align="center"><small><i>static</i>&nbsp;</small><img src="extra_files/GTFS.png" height="100%" width="auto" alt="GTFS"> Manager</h1>
-<p align="center"><small><i>An open source tool for managing and creating public transit schedules data in static GTFS format.</i></small></p>
+    <!-- Vendor CSS-->
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
-<div id="instructions" class="container">
-<h4>Instructions</h4>
-<div>
-<p align="center"><a href="https://www.youtube.com/embed/n8BuDM51QyU?rel=0&autoplay=1" target="_blank"><img class="videothumb" src="extra_files/demo-video.jpg"><br><small>Click here to see a demo video.</small></a></p>
-<ul>
-<li>This is the home/main page of the tool. It gives you and overview of your data, and here you can import/export your GTFS feeds.</li>
-<li>There are 4 sections on this page:</li>
-<li><b>Current GTFS data</b> : current stats of data in database.</li>
-<li><b>Import GTFS</b> : Import a GTFS feed to load it into the database and edit it with this tool. You can also load in other formats or start a Blank Slate (blank GTFS feed).</li>
-<li><b>Browse past GTFS Exports</b> : See past exports and backups of the database. To revert to an older version of the data, download a past feed and re-import it using the Import GTFS section.</li>
-<li><b>Commit and Export GTFS</b> : Feeling ready with the data? Or just want to keep a backup? Type in a name for easy identification, and press the big green button!</li>
-<li>Please make sure you are well versed with the <a href="https://developers.google.com/transit/gtfs/reference/">static GTFS standard</a> before using this tool.</li>
-</ul>
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
 
-</div>
-</div><!-- Accordion over -->
+</head>
 
-<br><hr>
+<body class="animsition">
+        <div class="page-wrapper">
+            <!-- HEADER MOBILE-->
+            <header class="header-mobile d-block d-lg-none">
+                <div class="header-mobile__bar">
+                    <div class="container-fluid">
+                        <div class="header-mobile-inner">
+                            <a class="logo" href="index.html">
+                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+                            </a>
+                            <button class="hamburger hamburger--slider" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="navbar-mobile">
+                    <div class="container-fluid">
+                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
+                            </li>
+                            <li>
+                                <a href="chart.html">
+                                    <i class="fas fa-chart-bar"></i>Charts</a>
+                            </li>
+                            <li>
+                                <a href="table.html">
+                                    <i class="fas fa-table"></i>Tables</a>
+                            </li>
+                            <li>
+                                <a href="form.html">
+                                    <i class="far fa-check-square"></i>Forms</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            </li>
+                            <li>
+                                <a href="map.html">
+                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-copy"></i>Pages</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="forget-pass.html">Forget Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-desktop"></i>GTFS</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="button.html">Button</a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- END HEADER MOBILE-->
+    
+            <!-- MENU SIDEBAR-->
+            <aside class="menu-sidebar d-none d-lg-block">
+                <div class="logo">
+                    <a href="#">
+                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
+                    </a>
+                </div>
+                <div class="menu-sidebar__content js-scrollbar1">
+                    <nav class="navbar-sidebar">
+                            <ul class="list-unstyled navbar__list">
+                                    <li class="active">
+                                        <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-tachometer-alt"></i>Home</a>                                        
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>GTFS</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="agency.html">Agency</a>
+                                            </li>
+                                            <li>
+                                                <a href="stops.html">Stops</a>
+                                            </li>
+                                            <li>
+                                                <a href="routes.html">Routes</a>
+                                            </li>
+                                            <li>
+                                                <a href="calendar.html">Calendar</a>
+                                            </li>
+                                            <li>
+                                                <a href="tripstimings.html">Trips, Stop_times</a>
+                                            </li>
+                                            <li>
+                                                <a href="frequencies.html">Frequencies</a>
+                                            </li>
+                                            <li>
+                                                <a href="fares.html">Fares</a>
+                                            </li>
+                                            <li>
+                                                <a href="translations.html">Translations</a>
+                                            </li>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Tools</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="sequence.html">Default Route Sequence</a>
+                                            </li>
+                                            <li>
+                                                <a href="renameID.html">Rename ID</a>
+                                            </li>
+                                            <li>
+                                                <a href="deleteID.html">Delete ID</a>
+                                            </li>
+                                                                                     
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Data</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="kmrl.html">Import KMRL format</a>
+                                            </li>
+                                            <li>
+                                                <a href="hmrl.html">Import HRML format</a>
+                                            </li>                                   
+                                        </ul>
+                                    </li>
+                                </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- END MENU SIDEBAR-->
+    
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <!-- HEADER DESKTOP-->
+                <header class="header-desktop">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="header-wrap">
+                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
+                                <form class="form-header" action="" method="POST">
+                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
+                                    <button class="au-btn--submit" type="submit">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </button>
+                                </form>                                
+                        </div>
+                    </div>
+                </header>
+                <!-- HEADER DESKTOP-->
+    
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong class="card-title mb-3">Instructions</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <p align="center"><a href="https://www.youtube.com/embed/n8BuDM51QyU?rel=0&autoplay=1" target="_blank"><img class="videothumb" src="extra_files/demo-video.jpg"><br><small>Click here to see a demo video.</small></a></p>
+                                            <ul>
+                                            <li>This is the home/main page of the tool. It gives you and overview of your data, and here you can import/export your GTFS feeds.</li>
+                                            <li>There are 4 sections on this page:</li>
+                                            <li><b>Current GTFS data</b> : current stats of data in database.</li>
+                                            <li><b>Import GTFS</b> : Import a GTFS feed to load it into the database and edit it with this tool. You can also load in other formats or start a Blank Slate (blank GTFS feed).</li>
+                                            <li><b>Browse past GTFS Exports</b> : See past exports and backups of the database. To revert to an older version of the data, download a past feed and re-import it using the Import GTFS section.</li>
+                                            <li><b>Commit and Export GTFS</b> : Feeling ready with the data? Or just want to keep a backup? Type in a name for easy identification, and press the big green button!</li>
+                                            <li>Please make sure you are well versed with the <a href="https://developers.google.com/transit/gtfs/reference/">static GTFS standard</a> before using this tool.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong class="card-title mb-3">Current GTFS data</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <pre class="card mb-3 card-body bg-light" id="GTFSstats">
+                                            Loading stats..
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong class="card-title mb-3">Import GTFS</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1. GTFS ZIP</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2. Other Formats</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3. Blank Slate</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content pl-3 p-1" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                    1. Import an existing GTFS feed. <small>(.zip file)</small>
+                                                    <div class="form-horizontal"> 
+                                                        <div class="col col-md-3">
+                                                            <label for="hf-email" class=" form-control-label">File</label>
+                                                        </div>
+                                                        <div class="col-12 col-md-9">
+                                                            <input type="file" id="gtfsZipFile" name="gtfsZipFile" class="form-control" accept=".zip">
+                                                            <span class="help-block">Choose a file</span>
+                                                        </div>
+                                                        <div class="col col-md-12">
+                                                                <button id="importGTFSbutton" class="btn btn-primary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Importing GTFS zip" data-content="Note: <br>1. All files inside the ZIP file must be at top level (no subfolders) and properly named, in lowercase, with .txt extensions as per the accepted static GTFS standards.<br>2. <b>stop_times.txt</b> <i>must</i> be sorted by trip_id.<br>3. <b>shapes.txt</b> <i>must</i> be sorted by shape_id.<br>4. Its ok if some tables are absent - import whatever you have and then build remaining tables with this tool.">Upload >></button></p>
+                                                        </div>
+                                                           
+                                                    </div>
+                                                    <div id="importGTFSStatus"></div>
+                                                </div>
+                                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                    <h6>2. Import data in other formats</h6>
+                                                    <ul>
+                                                        <li>If your data is in Kochi Metro's XML format, <a href="kmrl.html">click here</a>.</li>
+                                                        <li>If your data is in Hyderabad Metro's CSV format, <a href="hmrl.html">click here</a>.</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                                    <p>3. <button id="gtfsBlankSlateButton" class="btn btn-outline-danger">Create a Blank Slate DB</button> to start making a GTFS feed from scratch.</p>
+                                                    <p id="gtfsBlankSlateStatus"></p>
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-warning"><small>Note: All of the above 3 actions will wipe out the current data in the db. A backup GTFS export will be made just in case you want to revert later. You can find it from the past commits section after refreshing this page.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                            <div class="card-header">
+                                                <strong class="card-title mb-3">Export GTFS Feed</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
+                                                <p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
+                                                <p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>
+                                                <div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong class="card-title mb-3">Browse past GTFS Exports</strong>
+                                        </div>
+                                        <div class="card-body" id="pastCommits"><small>Loading past commits..</small>>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+    
+        </div>
+    
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js"></script>
+    
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+    
+    
 
-<div class="row">
-<div class="col">
-<h3>Current GTFS data</h3>
-<p>Display stats on current data.</p>
-<pre class="card mb-3 card-body bg-light" id="GTFSstats">
-	Loading stats..
-</pre>
-
-</div>
-<div class="col">
-
-<h3>Import GTFS</h3>
-
-<!-- Tabs Menu -->
-<div id="tabs">
-<ul>
-<li><a href="#tab1">1. GTFS ZIP</a></li>
-<li><a href="#tab2">2. Other Formats</a></li>
-<li><a href="#tab3">3. Blank Slate</a></li>
-</ul>
-
-<!-- 1 ############################-->
-<div id="tab1">
-
-<h6>1. Import an existing GTFS feed. <small>(.zip file)</small></h6>
-<p><input type="file" id="gtfsZipFile" name="gtfsZipFile" class="btn btn-sm btn-outline-secondary" accept=".zip">
-<button id="importGTFSbutton" class="btn btn-outline-primary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Importing GTFS zip" data-content="Note: <br>1. All files inside the ZIP file must be at top level (no subfolders) and properly named, in lowercase, with .txt extensions as per the accepted static GTFS standards.<br>2. <b>stop_times.txt</b> <i>must</i> be sorted by trip_id.<br>3. <b>shapes.txt</b> <i>must</i> be sorted by shape_id.<br>4. Its ok if some tables are absent - import whatever you have and then build remaining tables with this tool.">Upload >></button></p>
-<div id="importGTFSStatus"></div>
-
-</div>
-
-<!-- 2 ############################-->
-<div id="tab2">
-
-<h6>2. Import data in other formats</h6>
-<ul>
-<li>If your data is in Kochi Metro's XML format, <a href="kmrl.html">click here</a>.</li>
-<li>If your data is in Hyderabad Metro's CSV format, <a href="hmrl.html">click here</a>.</li>
-</ul>
-</div>
-
-<!-- 3 ############################-->
-<div id="tab3">
-
-<p>3. <button id="gtfsBlankSlateButton" class="btn btn-outline-danger">Create a Blank Slate DB</button> to start making a GTFS feed from scratch.</p>
-<p id="gtfsBlankSlateStatus"></p>
-
-</div>
-
-</div>
-
-<div class="alert alert-warning"><small>Note: All of the above 3 actions will wipe out the current data in the db. A backup GTFS export will be made just in case you want to revert later. You can find it from the past commits section after refreshing this page.</small>
-</div>
-
-<hr>
-
-<h3>Export GTFS Feed</h3>
-<p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
-<p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
-<p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>
-<div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
-
-
-</div>
-</div>
-
-<br><hr>
-
-<div class="row">
-<div class="col">
-
-<h3>Browse past GTFS Exports</h3>
-<p>Listing past commits with links to download GTFS feed zip.<br><small>(latest first, oldest last)</small></p>
-<div class="card mb-3 card-body bg-light" id="pastCommits"><small>Loading past commits..</small></div>
-
-</div>
-
-<div class="col">
-<!--
-<h3>Export GTFS Feed</h3>
-<p>If you feel like your data is ready, choose a commit name and press the button to create a freshly minted GTFS feed!</p>
-<p><input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"></p>
-<p><button class="btn btn-bg btn-success" id="exportGTFS">Generate and Export GTFS</button></p>
-<div class="card mb-3 card-body bg-light" id="exportGTFSlog">Log</div>
--->
-</div>
-</div>
-
-<br><hr><br>
-</div>
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/homepage.js" type="text/javascript"></script>

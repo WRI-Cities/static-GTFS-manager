@@ -23,63 +23,63 @@ $(document).ready(function() {
 		<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" aria-label="Search" style="width:200px;"> \
 	</nav>';
 	
-	var navBarContent = navBarContentStart;
+	var navBarContent = ""; //navBarContentStart;
 	
 	for(key in menu) {
 		if (typeof menu[key] != "object") {
 			if(menu[key] == pageName)
-				navBarContent+= `<li class="nav-item"><a class="nav-link currentpage" href="${menu[key]}">
+				navBarContent+= `<li class="active"><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
 				${key}</a></li>`;
 			else
-				navBarContent+= `<li class="nav-item"><a class="nav-link" href="${menu[key]}">
+				navBarContent+= `<li class=""><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
 				${key}</a></li>`;
 
 		}
 		else { // if its a sub-menu
 			// from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
 			sectionStart = `
-			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			<li class="has-sub">
+			<a class="js-arrow" href="#"><i class="fas fa-chart-bar"></i>
 			${key}</a>
-			<div class="dropdown-menu bg-dark">`;
-			sectionEnd = `</div></li>`;
+			<ul class="list-unstyled navbar__sub-list js-sub-list">`;
+			sectionEnd = `</ul></li>`;
 
 			navBarContent+= sectionStart;
 			for(subItem in menu[key]) {
 				if(menu[key][subItem] == pageName)
-					navBarContent+= `<a class="dropdown-item currentpage" href="${menu[key][subItem]}">
-					${subItem}</a>`;
+					navBarContent+= `<li><a href="${menu[key][subItem]}">
+					${subItem}</a></li>`;
 				else
-					navBarContent+= `<a class="dropdown-item" href="${menu[key][subItem]}">
-					${subItem}</a>`;
+					navBarContent+= `<li><a href="${menu[key][subItem]}">
+					${subItem}</a></li>`;
 			}
 			navBarContent += sectionEnd;
 		}
 	}
 
-	navBarContent+=navBarContentEnd;
-	$( "#navBar" ).html(navBarContent);
+	//navBarContent+=navBarContentEnd;
+	//$( "#navbar-desktop" ).html(navBarContent);
 	
 	// initiate bootstrap / jquery components like tabs, accordions
 	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
+	//$( "#tabs" ).tabs({
+	//	active:0
+	//});
 	// popover
 	$('[data-toggle="popover"]').popover(); 
 
 	$('[data-toggle="tooltip"]').tooltip(); 
 
 	// initiate accordion
-	$( "#accordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
+	//$( "#accordion" ).accordion({
+	//	collapsible: true, active: false
+	//});
+	//$( "#instructions" ).accordion({
+	//	collapsible: true, active: false
+	//});
+	//$( "#logaccordion" ).accordion({
+	//	collapsible: true, active: false
+	//});
 	
 	// Footer
 	$("body").append(`<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a></div>`);

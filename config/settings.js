@@ -2,7 +2,7 @@
 
 const VERSION = 'v3.4.3';
 const APIpath = 'API/';
-const CURRENCY = 'INR';
+const CURRENCY = 'COP';
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;
 

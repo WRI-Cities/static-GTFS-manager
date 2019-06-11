@@ -1,0 +1,904 @@
+2019-Jun-11 09:36:00 : Loaded dependencies, starting static GTFS Manager program.
+2019-Jun-11 09:36:00 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Jun-11 09:36:02 : 
+stats GET call
+2019-Jun-11 09:36:02 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:36:02 : agency              : 0 entries
+2019-Jun-11 09:36:02 : calendar            : 0 entries
+2019-Jun-11 09:36:02 : stops               : 0 entries
+2019-Jun-11 09:36:02 : routes              : 0 entries
+2019-Jun-11 09:36:02 : trips               : 0 entries
+2019-Jun-11 09:36:02 : stop_times          : 0 entries
+2019-Jun-11 09:36:02 : calendar_dates      : 0 entries
+2019-Jun-11 09:36:02 : fare_attributes     : 0 entries
+2019-Jun-11 09:36:02 : fare_rules          : 0 entries
+2019-Jun-11 09:36:02 : shapes              : 0 entries
+2019-Jun-11 09:36:02 : frequencies         : 0 entries
+2019-Jun-11 09:36:02 : transfers           : 0 entries
+2019-Jun-11 09:36:02 : feed_info           : 0 entries
+2019-Jun-11 09:36:02 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:36:03 : 
+pastCommits GET call
+2019-Jun-11 09:38:34 : 
+pastCommits GET call
+2019-Jun-11 09:38:34 : 
+stats GET call
+2019-Jun-11 09:38:34 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:38:34 : agency              : 0 entries
+2019-Jun-11 09:38:34 : calendar            : 0 entries
+2019-Jun-11 09:38:34 : stops               : 0 entries
+2019-Jun-11 09:38:34 : routes              : 0 entries
+2019-Jun-11 09:38:34 : trips               : 0 entries
+2019-Jun-11 09:38:34 : stop_times          : 0 entries
+2019-Jun-11 09:38:34 : calendar_dates      : 0 entries
+2019-Jun-11 09:38:34 : fare_attributes     : 0 entries
+2019-Jun-11 09:38:34 : fare_rules          : 0 entries
+2019-Jun-11 09:38:34 : shapes              : 0 entries
+2019-Jun-11 09:38:34 : frequencies         : 0 entries
+2019-Jun-11 09:38:34 : transfers           : 0 entries
+2019-Jun-11 09:38:34 : feed_info           : 0 entries
+2019-Jun-11 09:38:34 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:38:45 : 
+stats GET call
+2019-Jun-11 09:38:45 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:38:45 : agency              : 0 entries
+2019-Jun-11 09:38:45 : calendar            : 0 entries
+2019-Jun-11 09:38:45 : stops               : 0 entries
+2019-Jun-11 09:38:45 : routes              : 0 entries
+2019-Jun-11 09:38:46 : trips               : 0 entries
+2019-Jun-11 09:38:46 : stop_times          : 0 entries
+2019-Jun-11 09:38:46 : calendar_dates      : 0 entries
+2019-Jun-11 09:38:46 : fare_attributes     : 0 entries
+2019-Jun-11 09:38:46 : fare_rules          : 0 entries
+2019-Jun-11 09:38:46 : shapes              : 0 entries
+2019-Jun-11 09:38:46 : frequencies         : 0 entries
+2019-Jun-11 09:38:46 : transfers           : 0 entries
+2019-Jun-11 09:38:46 : feed_info           : 0 entries
+2019-Jun-11 09:38:46 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:38:46 : 
+pastCommits GET call
+2019-Jun-11 09:41:28 : 
+stats GET call
+2019-Jun-11 09:41:28 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:41:28 : agency              : 0 entries
+2019-Jun-11 09:41:28 : calendar            : 0 entries
+2019-Jun-11 09:41:28 : stops               : 0 entries
+2019-Jun-11 09:41:28 : routes              : 0 entries
+2019-Jun-11 09:41:28 : trips               : 0 entries
+2019-Jun-11 09:41:28 : stop_times          : 0 entries
+2019-Jun-11 09:41:28 : calendar_dates      : 0 entries
+2019-Jun-11 09:41:28 : fare_attributes     : 0 entries
+2019-Jun-11 09:41:28 : fare_rules          : 0 entries
+2019-Jun-11 09:41:28 : shapes              : 0 entries
+2019-Jun-11 09:41:28 : frequencies         : 0 entries
+2019-Jun-11 09:41:28 : transfers           : 0 entries
+2019-Jun-11 09:41:28 : feed_info           : 0 entries
+2019-Jun-11 09:41:28 : stats GET call took 0.04 seconds.
+2019-Jun-11 09:41:28 : 
+pastCommits GET call
+2019-Jun-11 09:46:46 : 
+stats GET call
+2019-Jun-11 09:46:46 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:46:46 : agency              : 0 entries
+2019-Jun-11 09:46:46 : calendar            : 0 entries
+2019-Jun-11 09:46:46 : stops               : 0 entries
+2019-Jun-11 09:46:46 : routes              : 0 entries
+2019-Jun-11 09:46:46 : trips               : 0 entries
+2019-Jun-11 09:46:46 : stop_times          : 0 entries
+2019-Jun-11 09:46:46 : calendar_dates      : 0 entries
+2019-Jun-11 09:46:46 : fare_attributes     : 0 entries
+2019-Jun-11 09:46:46 : fare_rules          : 0 entries
+2019-Jun-11 09:46:46 : shapes              : 0 entries
+2019-Jun-11 09:46:46 : frequencies         : 0 entries
+2019-Jun-11 09:46:46 : transfers           : 0 entries
+2019-Jun-11 09:46:46 : feed_info           : 0 entries
+2019-Jun-11 09:46:46 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:46:46 : 
+pastCommits GET call
+2019-Jun-11 09:51:36 : 
+pastCommits GET call
+2019-Jun-11 09:51:37 : 
+stats GET call
+2019-Jun-11 09:51:37 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:51:37 : agency              : 0 entries
+2019-Jun-11 09:51:37 : calendar            : 0 entries
+2019-Jun-11 09:51:37 : stops               : 0 entries
+2019-Jun-11 09:51:37 : routes              : 0 entries
+2019-Jun-11 09:51:37 : trips               : 0 entries
+2019-Jun-11 09:51:37 : stop_times          : 0 entries
+2019-Jun-11 09:51:37 : calendar_dates      : 0 entries
+2019-Jun-11 09:51:37 : fare_attributes     : 0 entries
+2019-Jun-11 09:51:37 : fare_rules          : 0 entries
+2019-Jun-11 09:51:37 : shapes              : 0 entries
+2019-Jun-11 09:51:37 : frequencies         : 0 entries
+2019-Jun-11 09:51:37 : transfers           : 0 entries
+2019-Jun-11 09:51:37 : feed_info           : 0 entries
+2019-Jun-11 09:51:37 : stats GET call took 0.02 seconds.
+2019-Jun-11 09:52:33 : 
+pastCommits GET call
+2019-Jun-11 09:52:33 : 
+stats GET call
+2019-Jun-11 09:52:33 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:52:33 : agency              : 0 entries
+2019-Jun-11 09:52:33 : calendar            : 0 entries
+2019-Jun-11 09:52:33 : stops               : 0 entries
+2019-Jun-11 09:52:33 : routes              : 0 entries
+2019-Jun-11 09:52:33 : trips               : 0 entries
+2019-Jun-11 09:52:33 : stop_times          : 0 entries
+2019-Jun-11 09:52:33 : calendar_dates      : 0 entries
+2019-Jun-11 09:52:33 : fare_attributes     : 0 entries
+2019-Jun-11 09:52:33 : fare_rules          : 0 entries
+2019-Jun-11 09:52:33 : shapes              : 0 entries
+2019-Jun-11 09:52:33 : frequencies         : 0 entries
+2019-Jun-11 09:52:33 : transfers           : 0 entries
+2019-Jun-11 09:52:33 : feed_info           : 0 entries
+2019-Jun-11 09:52:33 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:53:24 : 
+stats GET call
+2019-Jun-11 09:53:24 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:53:24 : agency              : 0 entries
+2019-Jun-11 09:53:24 : calendar            : 0 entries
+2019-Jun-11 09:53:24 : stops               : 0 entries
+2019-Jun-11 09:53:24 : routes              : 0 entries
+2019-Jun-11 09:53:24 : trips               : 0 entries
+2019-Jun-11 09:53:24 : stop_times          : 0 entries
+2019-Jun-11 09:53:24 : calendar_dates      : 0 entries
+2019-Jun-11 09:53:24 : fare_attributes     : 0 entries
+2019-Jun-11 09:53:24 : fare_rules          : 0 entries
+2019-Jun-11 09:53:24 : shapes              : 0 entries
+2019-Jun-11 09:53:24 : frequencies         : 0 entries
+2019-Jun-11 09:53:24 : transfers           : 0 entries
+2019-Jun-11 09:53:24 : feed_info           : 0 entries
+2019-Jun-11 09:53:24 : stats GET call took 0.03 seconds.
+2019-Jun-11 09:53:24 : 
+pastCommits GET call
+2019-Jun-11 09:54:50 : 
+stats GET call
+2019-Jun-11 09:54:50 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 09:54:50 : agency              : 0 entries
+2019-Jun-11 09:54:50 : calendar            : 0 entries
+2019-Jun-11 09:54:50 : stops               : 0 entries
+2019-Jun-11 09:54:50 : routes              : 0 entries
+2019-Jun-11 09:54:50 : trips               : 0 entries
+2019-Jun-11 09:54:50 : stop_times          : 0 entries
+2019-Jun-11 09:54:50 : calendar_dates      : 0 entries
+2019-Jun-11 09:54:50 : fare_attributes     : 0 entries
+2019-Jun-11 09:54:50 : fare_rules          : 0 entries
+2019-Jun-11 09:54:50 : shapes              : 0 entries
+2019-Jun-11 09:54:50 : frequencies         : 0 entries
+2019-Jun-11 09:54:50 : transfers           : 0 entries
+2019-Jun-11 09:54:50 : feed_info           : 0 entries
+2019-Jun-11 09:54:50 : stats GET call took 0.02 seconds.
+2019-Jun-11 09:54:51 : 
+pastCommits GET call
+2019-Jun-11 10:07:38 : 
+stats GET call
+2019-Jun-11 10:07:38 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 10:07:38 : agency              : 0 entries
+2019-Jun-11 10:07:38 : calendar            : 0 entries
+2019-Jun-11 10:07:38 : stops               : 0 entries
+2019-Jun-11 10:07:38 : routes              : 0 entries
+2019-Jun-11 10:07:38 : trips               : 0 entries
+2019-Jun-11 10:07:38 : stop_times          : 0 entries
+2019-Jun-11 10:07:38 : calendar_dates      : 0 entries
+2019-Jun-11 10:07:38 : fare_attributes     : 0 entries
+2019-Jun-11 10:07:38 : fare_rules          : 0 entries
+2019-Jun-11 10:07:38 : shapes              : 0 entries
+2019-Jun-11 10:07:38 : frequencies         : 0 entries
+2019-Jun-11 10:07:38 : transfers           : 0 entries
+2019-Jun-11 10:07:38 : feed_info           : 0 entries
+2019-Jun-11 10:07:38 : stats GET call took 0.05 seconds.
+2019-Jun-11 10:07:39 : 
+pastCommits GET call
+2019-Jun-11 10:07:57 : 
+pastCommits GET call
+2019-Jun-11 10:07:57 : 
+stats GET call
+2019-Jun-11 10:07:57 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 10:07:57 : agency              : 0 entries
+2019-Jun-11 10:07:57 : calendar            : 0 entries
+2019-Jun-11 10:07:57 : stops               : 0 entries
+2019-Jun-11 10:07:57 : routes              : 0 entries
+2019-Jun-11 10:07:57 : trips               : 0 entries
+2019-Jun-11 10:07:57 : stop_times          : 0 entries
+2019-Jun-11 10:07:57 : calendar_dates      : 0 entries
+2019-Jun-11 10:07:57 : fare_attributes     : 0 entries
+2019-Jun-11 10:07:57 : fare_rules          : 0 entries
+2019-Jun-11 10:07:57 : shapes              : 0 entries
+2019-Jun-11 10:07:57 : frequencies         : 0 entries
+2019-Jun-11 10:07:57 : transfers           : 0 entries
+2019-Jun-11 10:07:57 : feed_info           : 0 entries
+2019-Jun-11 10:07:57 : stats GET call took 0.05 seconds.
+2019-Jun-11 10:50:03 : 
+pastCommits GET call
+2019-Jun-11 10:50:03 : 
+stats GET call
+2019-Jun-11 10:50:03 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 10:50:03 : agency              : 0 entries
+2019-Jun-11 10:50:03 : calendar            : 0 entries
+2019-Jun-11 10:50:03 : stops               : 0 entries
+2019-Jun-11 10:50:03 : routes              : 0 entries
+2019-Jun-11 10:50:03 : trips               : 0 entries
+2019-Jun-11 10:50:03 : stop_times          : 0 entries
+2019-Jun-11 10:50:03 : calendar_dates      : 0 entries
+2019-Jun-11 10:50:03 : fare_attributes     : 0 entries
+2019-Jun-11 10:50:03 : fare_rules          : 0 entries
+2019-Jun-11 10:50:03 : shapes              : 0 entries
+2019-Jun-11 10:50:03 : frequencies         : 0 entries
+2019-Jun-11 10:50:03 : transfers           : 0 entries
+2019-Jun-11 10:50:03 : feed_info           : 0 entries
+2019-Jun-11 10:50:03 : stats GET call took 0.02 seconds.
+2019-Jun-11 11:13:19 : 
+pastCommits GET call
+2019-Jun-11 11:13:19 : 
+stats GET call
+2019-Jun-11 11:13:19 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:13:19 : agency              : 0 entries
+2019-Jun-11 11:13:19 : calendar            : 0 entries
+2019-Jun-11 11:13:19 : stops               : 0 entries
+2019-Jun-11 11:13:19 : routes              : 0 entries
+2019-Jun-11 11:13:19 : trips               : 0 entries
+2019-Jun-11 11:13:19 : stop_times          : 0 entries
+2019-Jun-11 11:13:19 : calendar_dates      : 0 entries
+2019-Jun-11 11:13:19 : fare_attributes     : 0 entries
+2019-Jun-11 11:13:20 : fare_rules          : 0 entries
+2019-Jun-11 11:13:20 : shapes              : 0 entries
+2019-Jun-11 11:13:20 : frequencies         : 0 entries
+2019-Jun-11 11:13:20 : transfers           : 0 entries
+2019-Jun-11 11:13:20 : feed_info           : 0 entries
+2019-Jun-11 11:13:20 : stats GET call took 0.03 seconds.
+2019-Jun-11 11:13:22 : 
+pastCommits GET call
+2019-Jun-11 11:13:22 : 
+stats GET call
+2019-Jun-11 11:13:22 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:13:22 : agency              : 0 entries
+2019-Jun-11 11:13:22 : calendar            : 0 entries
+2019-Jun-11 11:13:22 : stops               : 0 entries
+2019-Jun-11 11:13:22 : routes              : 0 entries
+2019-Jun-11 11:13:22 : trips               : 0 entries
+2019-Jun-11 11:13:22 : stop_times          : 0 entries
+2019-Jun-11 11:13:22 : calendar_dates      : 0 entries
+2019-Jun-11 11:13:22 : fare_attributes     : 0 entries
+2019-Jun-11 11:13:22 : fare_rules          : 0 entries
+2019-Jun-11 11:13:22 : shapes              : 0 entries
+2019-Jun-11 11:13:22 : frequencies         : 0 entries
+2019-Jun-11 11:13:22 : transfers           : 0 entries
+2019-Jun-11 11:13:22 : feed_info           : 0 entries
+2019-Jun-11 11:13:22 : stats GET call took 0.02 seconds.
+2019-Jun-11 11:13:33 : 
+stats GET call
+2019-Jun-11 11:13:33 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:13:33 : agency              : 0 entries
+2019-Jun-11 11:13:33 : calendar            : 0 entries
+2019-Jun-11 11:13:33 : stops               : 0 entries
+2019-Jun-11 11:13:33 : routes              : 0 entries
+2019-Jun-11 11:13:33 : trips               : 0 entries
+2019-Jun-11 11:13:33 : stop_times          : 0 entries
+2019-Jun-11 11:13:33 : calendar_dates      : 0 entries
+2019-Jun-11 11:13:33 : fare_attributes     : 0 entries
+2019-Jun-11 11:13:33 : fare_rules          : 0 entries
+2019-Jun-11 11:13:33 : shapes              : 0 entries
+2019-Jun-11 11:13:33 : frequencies         : 0 entries
+2019-Jun-11 11:13:33 : transfers           : 0 entries
+2019-Jun-11 11:13:33 : feed_info           : 0 entries
+2019-Jun-11 11:13:33 : stats GET call took 0.05 seconds.
+2019-Jun-11 11:13:34 : 
+pastCommits GET call
+2019-Jun-11 11:41:11 : 
+pastCommits GET call
+2019-Jun-11 11:41:11 : 
+stats GET call
+2019-Jun-11 11:41:11 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:41:11 : agency              : 0 entries
+2019-Jun-11 11:41:11 : calendar            : 0 entries
+2019-Jun-11 11:41:11 : stops               : 0 entries
+2019-Jun-11 11:41:11 : routes              : 0 entries
+2019-Jun-11 11:41:11 : trips               : 0 entries
+2019-Jun-11 11:41:11 : stop_times          : 0 entries
+2019-Jun-11 11:41:11 : calendar_dates      : 0 entries
+2019-Jun-11 11:41:11 : fare_attributes     : 0 entries
+2019-Jun-11 11:41:11 : fare_rules          : 0 entries
+2019-Jun-11 11:41:11 : shapes              : 0 entries
+2019-Jun-11 11:41:11 : frequencies         : 0 entries
+2019-Jun-11 11:41:11 : transfers           : 0 entries
+2019-Jun-11 11:41:11 : feed_info           : 0 entries
+2019-Jun-11 11:41:11 : stats GET call took 0.03 seconds.
+2019-Jun-11 11:47:48 : 
+stats GET call
+2019-Jun-11 11:47:48 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:47:48 : agency              : 0 entries
+2019-Jun-11 11:47:48 : calendar            : 0 entries
+2019-Jun-11 11:47:48 : stops               : 0 entries
+2019-Jun-11 11:47:48 : routes              : 0 entries
+2019-Jun-11 11:47:48 : trips               : 0 entries
+2019-Jun-11 11:47:48 : stop_times          : 0 entries
+2019-Jun-11 11:47:48 : calendar_dates      : 0 entries
+2019-Jun-11 11:47:48 : fare_attributes     : 0 entries
+2019-Jun-11 11:47:48 : fare_rules          : 0 entries
+2019-Jun-11 11:47:48 : shapes              : 0 entries
+2019-Jun-11 11:47:48 : frequencies         : 0 entries
+2019-Jun-11 11:47:48 : transfers           : 0 entries
+2019-Jun-11 11:47:48 : feed_info           : 0 entries
+2019-Jun-11 11:47:48 : stats GET call took 0.06 seconds.
+2019-Jun-11 11:47:49 : 
+pastCommits GET call
+2019-Jun-11 11:48:10 : 
+stats GET call
+2019-Jun-11 11:48:10 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:48:10 : agency              : 0 entries
+2019-Jun-11 11:48:10 : calendar            : 0 entries
+2019-Jun-11 11:48:10 : stops               : 0 entries
+2019-Jun-11 11:48:10 : routes              : 0 entries
+2019-Jun-11 11:48:10 : trips               : 0 entries
+2019-Jun-11 11:48:10 : stop_times          : 0 entries
+2019-Jun-11 11:48:10 : calendar_dates      : 0 entries
+2019-Jun-11 11:48:10 : fare_attributes     : 0 entries
+2019-Jun-11 11:48:10 : fare_rules          : 0 entries
+2019-Jun-11 11:48:10 : shapes              : 0 entries
+2019-Jun-11 11:48:10 : frequencies         : 0 entries
+2019-Jun-11 11:48:10 : transfers           : 0 entries
+2019-Jun-11 11:48:10 : feed_info           : 0 entries
+2019-Jun-11 11:48:10 : stats GET call took 0.02 seconds.
+2019-Jun-11 11:48:10 : 
+pastCommits GET call
+2019-Jun-11 11:48:25 : 
+stats GET call
+2019-Jun-11 11:48:25 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 11:48:25 : agency              : 0 entries
+2019-Jun-11 11:48:25 : calendar            : 0 entries
+2019-Jun-11 11:48:25 : stops               : 0 entries
+2019-Jun-11 11:48:25 : routes              : 0 entries
+2019-Jun-11 11:48:25 : trips               : 0 entries
+2019-Jun-11 11:48:25 : stop_times          : 0 entries
+2019-Jun-11 11:48:25 : calendar_dates      : 0 entries
+2019-Jun-11 11:48:25 : fare_attributes     : 0 entries
+2019-Jun-11 11:48:25 : fare_rules          : 0 entries
+2019-Jun-11 11:48:25 : shapes              : 0 entries
+2019-Jun-11 11:48:25 : frequencies         : 0 entries
+2019-Jun-11 11:48:25 : transfers           : 0 entries
+2019-Jun-11 11:48:25 : feed_info           : 0 entries
+2019-Jun-11 11:48:25 : stats GET call took 0.02 seconds.
+2019-Jun-11 11:48:25 : 
+pastCommits GET call
+2019-Jun-11 12:26:00 : 
+stats GET call
+2019-Jun-11 12:26:00 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:26:00 : agency              : 0 entries
+2019-Jun-11 12:26:00 : calendar            : 0 entries
+2019-Jun-11 12:26:00 : stops               : 0 entries
+2019-Jun-11 12:26:00 : routes              : 0 entries
+2019-Jun-11 12:26:00 : trips               : 0 entries
+2019-Jun-11 12:26:00 : stop_times          : 0 entries
+2019-Jun-11 12:26:00 : calendar_dates      : 0 entries
+2019-Jun-11 12:26:00 : fare_attributes     : 0 entries
+2019-Jun-11 12:26:00 : fare_rules          : 0 entries
+2019-Jun-11 12:26:00 : shapes              : 0 entries
+2019-Jun-11 12:26:00 : frequencies         : 0 entries
+2019-Jun-11 12:26:00 : transfers           : 0 entries
+2019-Jun-11 12:26:00 : feed_info           : 0 entries
+2019-Jun-11 12:26:00 : stats GET call took 0.05 seconds.
+2019-Jun-11 12:26:01 : 
+pastCommits GET call
+2019-Jun-11 12:27:38 : 
+pastCommits GET call
+2019-Jun-11 12:27:38 : 
+stats GET call
+2019-Jun-11 12:27:38 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:27:38 : agency              : 0 entries
+2019-Jun-11 12:27:38 : calendar            : 0 entries
+2019-Jun-11 12:27:38 : stops               : 0 entries
+2019-Jun-11 12:27:38 : routes              : 0 entries
+2019-Jun-11 12:27:38 : trips               : 0 entries
+2019-Jun-11 12:27:38 : stop_times          : 0 entries
+2019-Jun-11 12:27:38 : calendar_dates      : 0 entries
+2019-Jun-11 12:27:38 : fare_attributes     : 0 entries
+2019-Jun-11 12:27:38 : fare_rules          : 0 entries
+2019-Jun-11 12:27:38 : shapes              : 0 entries
+2019-Jun-11 12:27:38 : frequencies         : 0 entries
+2019-Jun-11 12:27:38 : transfers           : 0 entries
+2019-Jun-11 12:27:38 : feed_info           : 0 entries
+2019-Jun-11 12:27:38 : stats GET call took 0.04 seconds.
+2019-Jun-11 12:28:35 : 
+stats GET call
+2019-Jun-11 12:28:35 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:28:35 : agency              : 0 entries
+2019-Jun-11 12:28:35 : calendar            : 0 entries
+2019-Jun-11 12:28:35 : stops               : 0 entries
+2019-Jun-11 12:28:35 : routes              : 0 entries
+2019-Jun-11 12:28:35 : trips               : 0 entries
+2019-Jun-11 12:28:35 : stop_times          : 0 entries
+2019-Jun-11 12:28:35 : calendar_dates      : 0 entries
+2019-Jun-11 12:28:35 : fare_attributes     : 0 entries
+2019-Jun-11 12:28:35 : fare_rules          : 0 entries
+2019-Jun-11 12:28:35 : shapes              : 0 entries
+2019-Jun-11 12:28:35 : frequencies         : 0 entries
+2019-Jun-11 12:28:35 : transfers           : 0 entries
+2019-Jun-11 12:28:35 : feed_info           : 0 entries
+2019-Jun-11 12:28:35 : stats GET call took 0.03 seconds.
+2019-Jun-11 12:28:35 : 
+pastCommits GET call
+2019-Jun-11 12:30:00 : 
+pastCommits GET call
+2019-Jun-11 12:30:00 : 
+stats GET call
+2019-Jun-11 12:30:00 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:30:00 : agency              : 0 entries
+2019-Jun-11 12:30:00 : calendar            : 0 entries
+2019-Jun-11 12:30:00 : stops               : 0 entries
+2019-Jun-11 12:30:00 : routes              : 0 entries
+2019-Jun-11 12:30:00 : trips               : 0 entries
+2019-Jun-11 12:30:00 : stop_times          : 0 entries
+2019-Jun-11 12:30:00 : calendar_dates      : 0 entries
+2019-Jun-11 12:30:00 : fare_attributes     : 0 entries
+2019-Jun-11 12:30:00 : fare_rules          : 0 entries
+2019-Jun-11 12:30:00 : shapes              : 0 entries
+2019-Jun-11 12:30:00 : frequencies         : 0 entries
+2019-Jun-11 12:30:00 : transfers           : 0 entries
+2019-Jun-11 12:30:00 : feed_info           : 0 entries
+2019-Jun-11 12:30:00 : stats GET call took 0.03 seconds.
+2019-Jun-11 12:30:38 : 
+stats GET call
+2019-Jun-11 12:30:38 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:30:38 : agency              : 0 entries
+2019-Jun-11 12:30:38 : calendar            : 0 entries
+2019-Jun-11 12:30:38 : stops               : 0 entries
+2019-Jun-11 12:30:38 : routes              : 0 entries
+2019-Jun-11 12:30:38 : trips               : 0 entries
+2019-Jun-11 12:30:38 : stop_times          : 0 entries
+2019-Jun-11 12:30:38 : calendar_dates      : 0 entries
+2019-Jun-11 12:30:38 : fare_attributes     : 0 entries
+2019-Jun-11 12:30:38 : fare_rules          : 0 entries
+2019-Jun-11 12:30:38 : shapes              : 0 entries
+2019-Jun-11 12:30:38 : frequencies         : 0 entries
+2019-Jun-11 12:30:38 : transfers           : 0 entries
+2019-Jun-11 12:30:38 : feed_info           : 0 entries
+2019-Jun-11 12:30:38 : stats GET call took 0.05 seconds.
+2019-Jun-11 12:30:38 : 
+pastCommits GET call
+2019-Jun-11 12:34:41 : 
+stats GET call
+2019-Jun-11 12:34:41 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:34:41 : agency              : 0 entries
+2019-Jun-11 12:34:41 : calendar            : 0 entries
+2019-Jun-11 12:34:41 : stops               : 0 entries
+2019-Jun-11 12:34:41 : routes              : 0 entries
+2019-Jun-11 12:34:41 : trips               : 0 entries
+2019-Jun-11 12:34:41 : stop_times          : 0 entries
+2019-Jun-11 12:34:41 : calendar_dates      : 0 entries
+2019-Jun-11 12:34:41 : fare_attributes     : 0 entries
+2019-Jun-11 12:34:41 : fare_rules          : 0 entries
+2019-Jun-11 12:34:41 : shapes              : 0 entries
+2019-Jun-11 12:34:41 : frequencies         : 0 entries
+2019-Jun-11 12:34:41 : transfers           : 0 entries
+2019-Jun-11 12:34:41 : feed_info           : 0 entries
+2019-Jun-11 12:34:41 : stats GET call took 0.07 seconds.
+2019-Jun-11 12:34:42 : 
+pastCommits GET call
+2019-Jun-11 12:37:32 : 
+stats GET call
+2019-Jun-11 12:37:32 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:37:32 : agency              : 0 entries
+2019-Jun-11 12:37:32 : calendar            : 0 entries
+2019-Jun-11 12:37:32 : stops               : 0 entries
+2019-Jun-11 12:37:32 : routes              : 0 entries
+2019-Jun-11 12:37:32 : trips               : 0 entries
+2019-Jun-11 12:37:32 : stop_times          : 0 entries
+2019-Jun-11 12:37:32 : calendar_dates      : 0 entries
+2019-Jun-11 12:37:32 : fare_attributes     : 0 entries
+2019-Jun-11 12:37:32 : fare_rules          : 0 entries
+2019-Jun-11 12:37:32 : shapes              : 0 entries
+2019-Jun-11 12:37:32 : frequencies         : 0 entries
+2019-Jun-11 12:37:32 : transfers           : 0 entries
+2019-Jun-11 12:37:32 : feed_info           : 0 entries
+2019-Jun-11 12:37:32 : stats GET call took 0.02 seconds.
+2019-Jun-11 12:37:33 : 
+pastCommits GET call
+2019-Jun-11 12:50:08 : 
+stats GET call
+2019-Jun-11 12:50:08 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:50:08 : agency              : 0 entries
+2019-Jun-11 12:50:08 : calendar            : 0 entries
+2019-Jun-11 12:50:08 : stops               : 0 entries
+2019-Jun-11 12:50:08 : routes              : 0 entries
+2019-Jun-11 12:50:08 : trips               : 0 entries
+2019-Jun-11 12:50:08 : stop_times          : 0 entries
+2019-Jun-11 12:50:08 : calendar_dates      : 0 entries
+2019-Jun-11 12:50:08 : fare_attributes     : 0 entries
+2019-Jun-11 12:50:08 : fare_rules          : 0 entries
+2019-Jun-11 12:50:08 : shapes              : 0 entries
+2019-Jun-11 12:50:08 : frequencies         : 0 entries
+2019-Jun-11 12:50:08 : transfers           : 0 entries
+2019-Jun-11 12:50:08 : feed_info           : 0 entries
+2019-Jun-11 12:50:08 : stats GET call took 0.03 seconds.
+2019-Jun-11 12:50:08 : 
+pastCommits GET call
+2019-Jun-11 12:51:29 : 
+stats GET call
+2019-Jun-11 12:51:29 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 12:51:29 : agency              : 0 entries
+2019-Jun-11 12:51:29 : calendar            : 0 entries
+2019-Jun-11 12:51:29 : stops               : 0 entries
+2019-Jun-11 12:51:29 : routes              : 0 entries
+2019-Jun-11 12:51:29 : trips               : 0 entries
+2019-Jun-11 12:51:29 : stop_times          : 0 entries
+2019-Jun-11 12:51:29 : calendar_dates      : 0 entries
+2019-Jun-11 12:51:29 : fare_attributes     : 0 entries
+2019-Jun-11 12:51:29 : fare_rules          : 0 entries
+2019-Jun-11 12:51:29 : shapes              : 0 entries
+2019-Jun-11 12:51:29 : frequencies         : 0 entries
+2019-Jun-11 12:51:29 : transfers           : 0 entries
+2019-Jun-11 12:51:29 : feed_info           : 0 entries
+2019-Jun-11 12:51:29 : stats GET call took 0.03 seconds.
+2019-Jun-11 12:51:29 : 
+pastCommits GET call
+2019-Jun-11 13:33:37 : 
+stats GET call
+2019-Jun-11 13:33:37 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:33:37 : agency              : 0 entries
+2019-Jun-11 13:33:37 : calendar            : 0 entries
+2019-Jun-11 13:33:37 : stops               : 0 entries
+2019-Jun-11 13:33:37 : routes              : 0 entries
+2019-Jun-11 13:33:37 : trips               : 0 entries
+2019-Jun-11 13:33:37 : stop_times          : 0 entries
+2019-Jun-11 13:33:37 : calendar_dates      : 0 entries
+2019-Jun-11 13:33:37 : fare_attributes     : 0 entries
+2019-Jun-11 13:33:37 : fare_rules          : 0 entries
+2019-Jun-11 13:33:37 : shapes              : 0 entries
+2019-Jun-11 13:33:37 : frequencies         : 0 entries
+2019-Jun-11 13:33:37 : transfers           : 0 entries
+2019-Jun-11 13:33:37 : feed_info           : 0 entries
+2019-Jun-11 13:33:37 : stats GET call took 0.03 seconds.
+2019-Jun-11 13:33:38 : 
+pastCommits GET call
+2019-Jun-11 13:33:51 : 
+stats GET call
+2019-Jun-11 13:33:51 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:33:51 : agency              : 0 entries
+2019-Jun-11 13:33:51 : calendar            : 0 entries
+2019-Jun-11 13:33:51 : stops               : 0 entries
+2019-Jun-11 13:33:51 : routes              : 0 entries
+2019-Jun-11 13:33:51 : trips               : 0 entries
+2019-Jun-11 13:33:51 : stop_times          : 0 entries
+2019-Jun-11 13:33:51 : calendar_dates      : 0 entries
+2019-Jun-11 13:33:51 : fare_attributes     : 0 entries
+2019-Jun-11 13:33:51 : fare_rules          : 0 entries
+2019-Jun-11 13:33:51 : shapes              : 0 entries
+2019-Jun-11 13:33:51 : frequencies         : 0 entries
+2019-Jun-11 13:33:51 : transfers           : 0 entries
+2019-Jun-11 13:33:51 : feed_info           : 0 entries
+2019-Jun-11 13:33:51 : stats GET call took 0.02 seconds.
+2019-Jun-11 13:33:51 : 
+pastCommits GET call
+2019-Jun-11 13:34:05 : 
+stats GET call
+2019-Jun-11 13:34:05 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:34:05 : agency              : 0 entries
+2019-Jun-11 13:34:05 : calendar            : 0 entries
+2019-Jun-11 13:34:05 : stops               : 0 entries
+2019-Jun-11 13:34:05 : routes              : 0 entries
+2019-Jun-11 13:34:05 : trips               : 0 entries
+2019-Jun-11 13:34:05 : stop_times          : 0 entries
+2019-Jun-11 13:34:05 : calendar_dates      : 0 entries
+2019-Jun-11 13:34:05 : fare_attributes     : 0 entries
+2019-Jun-11 13:34:05 : fare_rules          : 0 entries
+2019-Jun-11 13:34:05 : shapes              : 0 entries
+2019-Jun-11 13:34:05 : frequencies         : 0 entries
+2019-Jun-11 13:34:05 : transfers           : 0 entries
+2019-Jun-11 13:34:05 : feed_info           : 0 entries
+2019-Jun-11 13:34:05 : stats GET call took 0.02 seconds.
+2019-Jun-11 13:34:05 : 
+pastCommits GET call
+2019-Jun-11 13:43:43 : 
+stats GET call
+2019-Jun-11 13:43:43 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:43:43 : agency              : 0 entries
+2019-Jun-11 13:43:43 : calendar            : 0 entries
+2019-Jun-11 13:43:43 : stops               : 0 entries
+2019-Jun-11 13:43:43 : routes              : 0 entries
+2019-Jun-11 13:43:43 : trips               : 0 entries
+2019-Jun-11 13:43:43 : stop_times          : 0 entries
+2019-Jun-11 13:43:43 : calendar_dates      : 0 entries
+2019-Jun-11 13:43:43 : fare_attributes     : 0 entries
+2019-Jun-11 13:43:43 : fare_rules          : 0 entries
+2019-Jun-11 13:43:43 : shapes              : 0 entries
+2019-Jun-11 13:43:43 : frequencies         : 0 entries
+2019-Jun-11 13:43:43 : transfers           : 0 entries
+2019-Jun-11 13:43:43 : feed_info           : 0 entries
+2019-Jun-11 13:43:43 : stats GET call took 0.04 seconds.
+2019-Jun-11 13:43:43 : 
+pastCommits GET call
+2019-Jun-11 13:43:48 : 
+stats GET call
+2019-Jun-11 13:43:48 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:43:48 : agency              : 0 entries
+2019-Jun-11 13:43:48 : calendar            : 0 entries
+2019-Jun-11 13:43:48 : stops               : 0 entries
+2019-Jun-11 13:43:48 : routes              : 0 entries
+2019-Jun-11 13:43:48 : trips               : 0 entries
+2019-Jun-11 13:43:48 : stop_times          : 0 entries
+2019-Jun-11 13:43:48 : calendar_dates      : 0 entries
+2019-Jun-11 13:43:48 : fare_attributes     : 0 entries
+2019-Jun-11 13:43:48 : fare_rules          : 0 entries
+2019-Jun-11 13:43:48 : shapes              : 0 entries
+2019-Jun-11 13:43:48 : frequencies         : 0 entries
+2019-Jun-11 13:43:48 : transfers           : 0 entries
+2019-Jun-11 13:43:48 : feed_info           : 0 entries
+2019-Jun-11 13:43:48 : stats GET call took 0.02 seconds.
+2019-Jun-11 13:43:49 : 
+pastCommits GET call
+2019-Jun-11 13:44:09 : 
+pastCommits GET call
+2019-Jun-11 13:44:09 : 
+stats GET call
+2019-Jun-11 13:44:09 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:44:09 : agency              : 0 entries
+2019-Jun-11 13:44:09 : calendar            : 0 entries
+2019-Jun-11 13:44:09 : stops               : 0 entries
+2019-Jun-11 13:44:09 : routes              : 0 entries
+2019-Jun-11 13:44:09 : trips               : 0 entries
+2019-Jun-11 13:44:09 : stop_times          : 0 entries
+2019-Jun-11 13:44:09 : calendar_dates      : 0 entries
+2019-Jun-11 13:44:09 : fare_attributes     : 0 entries
+2019-Jun-11 13:44:09 : fare_rules          : 0 entries
+2019-Jun-11 13:44:09 : shapes              : 0 entries
+2019-Jun-11 13:44:09 : frequencies         : 0 entries
+2019-Jun-11 13:44:09 : transfers           : 0 entries
+2019-Jun-11 13:44:09 : feed_info           : 0 entries
+2019-Jun-11 13:44:09 : stats GET call took 0.03 seconds.
+2019-Jun-11 13:46:52 : 
+stats GET call
+2019-Jun-11 13:46:52 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:46:52 : agency              : 0 entries
+2019-Jun-11 13:46:52 : calendar            : 0 entries
+2019-Jun-11 13:46:52 : stops               : 0 entries
+2019-Jun-11 13:46:52 : routes              : 0 entries
+2019-Jun-11 13:46:52 : trips               : 0 entries
+2019-Jun-11 13:46:52 : stop_times          : 0 entries
+2019-Jun-11 13:46:52 : calendar_dates      : 0 entries
+2019-Jun-11 13:46:52 : fare_attributes     : 0 entries
+2019-Jun-11 13:46:52 : fare_rules          : 0 entries
+2019-Jun-11 13:46:52 : shapes              : 0 entries
+2019-Jun-11 13:46:52 : frequencies         : 0 entries
+2019-Jun-11 13:46:52 : transfers           : 0 entries
+2019-Jun-11 13:46:52 : feed_info           : 0 entries
+2019-Jun-11 13:46:52 : stats GET call took 0.02 seconds.
+2019-Jun-11 13:46:53 : 
+pastCommits GET call
+2019-Jun-11 13:52:57 : 
+stats GET call
+2019-Jun-11 13:52:57 : readTableDB: Loaded agency, 0 records
+2019-Jun-11 13:52:57 : agency              : 0 entries
+2019-Jun-11 13:52:57 : calendar            : 0 entries
+2019-Jun-11 13:52:57 : stops               : 0 entries
+2019-Jun-11 13:52:57 : routes              : 0 entries
+2019-Jun-11 13:52:57 : trips               : 0 entries
+2019-Jun-11 13:52:57 : stop_times          : 0 entries
+2019-Jun-11 13:52:57 : calendar_dates      : 0 entries
+2019-Jun-11 13:52:57 : fare_attributes     : 0 entries
+2019-Jun-11 13:52:57 : fare_rules          : 0 entries
+2019-Jun-11 13:52:57 : shapes              : 0 entries
+2019-Jun-11 13:52:57 : frequencies         : 0 entries
+2019-Jun-11 13:52:57 : transfers           : 0 entries
+2019-Jun-11 13:52:57 : feed_info           : 0 entries
+2019-Jun-11 13:52:57 : stats GET call took 0.02 seconds.
+2019-Jun-11 13:52:58 : 
+pastCommits GET call
+2019-Jun-11 13:54:36 : 
+gtfsImportZip GET call
+2019-Jun-11 13:54:37 : Saving filename: Megabus-8.zip to uploads/
+2019-Jun-11 13:54:37 : 
+backupDB: Creating backup of DB in export/2019-06-11-backup-1354/.
+2019-Jun-11 13:54:37 : Generated GTFS feed at export/2019-06-11-backup-1354/
+2019-Jun-11 13:54:37 : Backup created.
+
+2019-Jun-11 13:54:37 : Extracting uploaded zip to uploads/unzip-135437/
+2019-Jun-11 13:54:37 : Extracted files: ['agency.txt', 'calendar.txt', 'frequencies.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'trips.txt']
+2019-Jun-11 13:54:37 : Removed .h5 files from db/
+2019-Jun-11 13:54:37 : Removed .json files from db/
+2019-Jun-11 13:54:37 : db/sequence.json purged.
+2019-Jun-11 13:54:37 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Jun-11 13:54:37 : agency.h5: 1 rows
+2019-Jun-11 13:54:37 : calendar.h5: 6 rows
+2019-Jun-11 13:54:37 : frequencies.h5: 20 rows
+2019-Jun-11 13:54:37 : routes.h5: 42 rows
+2019-Jun-11 13:54:37 : Storing shapes in chunks.
+2019-Jun-11 13:54:37 : shapes_1.h5: 46234 rows
+2019-Jun-11 13:54:37 : Appending the 330 rows of last ID to last chunk shapes_1.h5
+2019-Jun-11 13:54:37 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2019-Jun-11 13:54:37 : stops.h5: 110 rows
+2019-Jun-11 13:54:37 : Storing stop_times in chunks.
+2019-Jun-11 13:54:37 : stop_times_1.h5: 235 rows
+2019-Jun-11 13:54:37 : Appending the 3 rows of last ID to last chunk stop_times_1.h5
+2019-Jun-11 13:54:37 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Jun-11 13:54:37 : trips.h5: 17 rows
+2019-Jun-11 13:54:37 : Finished importing GTFS feed. You can remove the feed zip Megabus-8.zip and folder uploads/unzip-135437/ from uploads/ if you want.
+2019-Jun-11 13:54:37 : gtfsImportZip POST call took 1.0 seconds.
+2019-Jun-11 13:54:38 : 
+pastCommits GET call
+2019-Jun-11 13:54:38 : pastCommits GET call took 0.0 seconds.
+2019-Jun-11 13:54:38 : 
+stats GET call
+2019-Jun-11 13:54:38 : readTableDB: Loaded agency, 1 records
+2019-Jun-11 13:54:38 : agency              : 1 entries
+2019-Jun-11 13:54:38 : calendar            : 6 entries
+2019-Jun-11 13:54:38 : stops               : 110 entries
+2019-Jun-11 13:54:38 : routes              : 42 entries
+2019-Jun-11 13:54:38 : trips               : 17 entries
+2019-Jun-11 13:54:38 : stop_times          : 238 entries
+2019-Jun-11 13:54:38 : calendar_dates      : 0 entries
+2019-Jun-11 13:54:38 : fare_attributes     : 0 entries
+2019-Jun-11 13:54:38 : fare_rules          : 0 entries
+2019-Jun-11 13:54:38 : shapes              : 46,564 entries
+2019-Jun-11 13:54:38 : frequencies         : 20 entries
+2019-Jun-11 13:54:38 : transfers           : 0 entries
+2019-Jun-11 13:54:38 : feed_info           : 0 entries
+2019-Jun-11 13:54:38 : stats GET call took 0.09 seconds.
+2019-Jun-11 14:01:33 : 
+stats GET call
+2019-Jun-11 14:01:33 : readTableDB: Loaded agency, 1 records
+2019-Jun-11 14:01:33 : agency              : 1 entries
+2019-Jun-11 14:01:33 : calendar            : 6 entries
+2019-Jun-11 14:01:33 : stops               : 110 entries
+2019-Jun-11 14:01:33 : routes              : 42 entries
+2019-Jun-11 14:01:33 : trips               : 17 entries
+2019-Jun-11 14:01:34 : stop_times          : 238 entries
+2019-Jun-11 14:01:34 : calendar_dates      : 0 entries
+2019-Jun-11 14:01:34 : fare_attributes     : 0 entries
+2019-Jun-11 14:01:34 : fare_rules          : 0 entries
+2019-Jun-11 14:01:34 : shapes              : 46,564 entries
+2019-Jun-11 14:01:34 : frequencies         : 20 entries
+2019-Jun-11 14:01:34 : transfers           : 0 entries
+2019-Jun-11 14:01:34 : feed_info           : 0 entries
+2019-Jun-11 14:01:34 : stats GET call took 0.12 seconds.
+2019-Jun-11 14:01:34 : 
+pastCommits GET call
+2019-Jun-11 14:01:34 : pastCommits GET call took 0.0 seconds.
+2019-Jun-11 14:01:48 : 
+pastCommits GET call
+2019-Jun-11 14:01:48 : pastCommits GET call took 0.01 seconds.
+2019-Jun-11 14:01:48 : 
+stats GET call
+2019-Jun-11 14:01:48 : readTableDB: Loaded agency, 1 records
+2019-Jun-11 14:01:48 : agency              : 1 entries
+2019-Jun-11 14:01:48 : calendar            : 6 entries
+2019-Jun-11 14:01:48 : stops               : 110 entries
+2019-Jun-11 14:01:48 : routes              : 42 entries
+2019-Jun-11 14:01:48 : trips               : 17 entries
+2019-Jun-11 14:01:48 : stop_times          : 238 entries
+2019-Jun-11 14:01:48 : calendar_dates      : 0 entries
+2019-Jun-11 14:01:48 : fare_attributes     : 0 entries
+2019-Jun-11 14:01:48 : fare_rules          : 0 entries
+2019-Jun-11 14:01:48 : shapes              : 46,564 entries
+2019-Jun-11 14:01:48 : frequencies         : 20 entries
+2019-Jun-11 14:01:48 : transfers           : 0 entries
+2019-Jun-11 14:01:48 : feed_info           : 0 entries
+2019-Jun-11 14:01:48 : stats GET call took 0.25 seconds.
+2019-Jun-11 14:01:51 : 
+pastCommits GET call
+2019-Jun-11 14:01:51 : pastCommits GET call took 0.0 seconds.
+2019-Jun-11 14:01:51 : 
+stats GET call
+2019-Jun-11 14:01:51 : readTableDB: Loaded agency, 1 records
+2019-Jun-11 14:01:51 : agency              : 1 entries
+2019-Jun-11 14:01:51 : calendar            : 6 entries
+2019-Jun-11 14:01:51 : stops               : 110 entries
+2019-Jun-11 14:01:51 : routes              : 42 entries
+2019-Jun-11 14:01:51 : trips               : 17 entries
+2019-Jun-11 14:01:51 : stop_times          : 238 entries
+2019-Jun-11 14:01:51 : calendar_dates      : 0 entries
+2019-Jun-11 14:01:51 : fare_attributes     : 0 entries
+2019-Jun-11 14:01:51 : fare_rules          : 0 entries
+2019-Jun-11 14:01:51 : shapes              : 46,564 entries
+2019-Jun-11 14:01:51 : frequencies         : 20 entries
+2019-Jun-11 14:01:51 : transfers           : 0 entries
+2019-Jun-11 14:01:51 : feed_info           : 0 entries
+2019-Jun-11 14:01:51 : stats GET call took 0.21 seconds.
+2019-Jun-11 14:01:58 : 
+gtfsImportZip GET call
+2019-Jun-11 14:01:58 : Saving filename: C:\Users\martijn\Downloads\Megabus-8.zip to uploads/
+2019-Jun-11 14:02:01 : 
+gtfsImportZip GET call
+2019-Jun-11 14:02:01 : Saving filename: C:\Users\martijn\Downloads\Megabus-8.zip to uploads/
+2019-Jun-11 14:02:06 : 
+gtfsImportZip GET call
+2019-Jun-11 14:02:07 : Saving filename: Megabus-8.zip to uploads/
+2019-Jun-11 14:02:07 : 
+backupDB: Creating backup of DB in export/2019-06-11-backup-1402/.
+2019-Jun-11 14:02:07 : Writing agency to disk and zipping...
+2019-Jun-11 14:02:07 : Added agency in 0.014 seconds.
+2019-Jun-11 14:02:07 : Writing calendar to disk and zipping...
+2019-Jun-11 14:02:07 : Added calendar in 0.013 seconds.
+2019-Jun-11 14:02:07 : Writing frequencies to disk and zipping...
+2019-Jun-11 14:02:07 : Added frequencies in 0.014 seconds.
+2019-Jun-11 14:02:07 : Writing routes to disk and zipping...
+2019-Jun-11 14:02:07 : Added routes in 0.016 seconds.
+2019-Jun-11 14:02:07 : Writing stops to disk and zipping...
+2019-Jun-11 14:02:07 : Added stops in 0.014 seconds.
+2019-Jun-11 14:02:07 : Writing trips to disk and zipping...
+2019-Jun-11 14:02:07 : Added trips in 0.013 seconds.
+2019-Jun-11 14:02:07 : Columns for stop_times: ['trip_id', 'departure_time', 'arrival_time', 'timepoint', 'stop_id', 'shape_dist_traveled', 'stop_headsign', 'pickup_type', 'stop_sequence', 'drop_off_type']
+2019-Jun-11 14:02:07 : Writing stop_times_1.h5 to csv
+2019-Jun-11 14:02:07 : CSV stop_times.txt created in 0.048 seconds, now zipping
+2019-Jun-11 14:02:07 : Added stop_times to zip in 0.002 seconds.
+2019-Jun-11 14:02:07 : Added stop_times in 0.05 seconds.
+2019-Jun-11 14:02:07 : Columns for shapes: ['shape_id', 'shape_pt_lon', 'shape_dist_traveled', 'shape_pt_sequence', 'shape_pt_lat']
+2019-Jun-11 14:02:07 : Writing shapes_1.h5 to csv
+2019-Jun-11 14:02:07 : CSV shapes.txt created in 0.375 seconds, now zipping
+2019-Jun-11 14:02:07 : Added shapes to zip in 0.118 seconds.
+2019-Jun-11 14:02:07 : Added shapes in 0.493 seconds.
+2019-Jun-11 14:02:07 : Generated GTFS feed at export/2019-06-11-backup-1402/
+2019-Jun-11 14:02:07 : Backup created.
+
+2019-Jun-11 14:02:07 : Extracting uploaded zip to uploads/unzip-140207/
+2019-Jun-11 14:02:07 : Extracted files: ['agency.txt', 'calendar.txt', 'frequencies.txt', 'routes.txt', 'shapes.txt', 'stops.txt', 'stop_times.txt', 'trips.txt']
+2019-Jun-11 14:02:07 : Removed .h5 files from db/
+2019-Jun-11 14:02:07 : Removed .json files from db/
+2019-Jun-11 14:02:07 : db/sequence.json purged.
+2019-Jun-11 14:02:07 : Commencing conversion of gtfs feed files into the DB's .h5 files
+2019-Jun-11 14:02:07 : agency.h5: 1 rows
+2019-Jun-11 14:02:07 : calendar.h5: 6 rows
+2019-Jun-11 14:02:07 : frequencies.h5: 20 rows
+2019-Jun-11 14:02:07 : routes.h5: 42 rows
+2019-Jun-11 14:02:07 : Storing shapes in chunks.
+2019-Jun-11 14:02:07 : shapes_1.h5: 46234 rows
+2019-Jun-11 14:02:08 : Appending the 330 rows of last ID to last chunk shapes_1.h5
+2019-Jun-11 14:02:08 : Lookup json: shapes_lookup.json created for mapping ID shape_id to shapes_n.h5 chunk files.
+2019-Jun-11 14:02:08 : stops.h5: 110 rows
+2019-Jun-11 14:02:08 : Storing stop_times in chunks.
+2019-Jun-11 14:02:08 : stop_times_1.h5: 235 rows
+2019-Jun-11 14:02:08 : Appending the 3 rows of last ID to last chunk stop_times_1.h5
+2019-Jun-11 14:02:08 : Lookup json: stop_times_lookup.json created for mapping ID trip_id to stop_times_n.h5 chunk files.
+2019-Jun-11 14:02:08 : trips.h5: 17 rows
+2019-Jun-11 14:02:08 : Finished importing GTFS feed. You can remove the feed zip Megabus-8.zip and folder uploads/unzip-140207/ from uploads/ if you want.
+2019-Jun-11 14:02:08 : gtfsImportZip POST call took 1.63 seconds.
+2019-Jun-11 14:02:08 : 
+stats GET call
+2019-Jun-11 14:02:08 : readTableDB: Loaded agency, 1 records
+2019-Jun-11 14:02:08 : agency              : 1 entries
+2019-Jun-11 14:02:08 : calendar            : 6 entries
+2019-Jun-11 14:02:08 : stops               : 110 entries
+2019-Jun-11 14:02:08 : routes              : 42 entries
+2019-Jun-11 14:02:08 : trips               : 17 entries
+2019-Jun-11 14:02:08 : stop_times          : 238 entries
+2019-Jun-11 14:02:08 : calendar_dates      : 0 entries
+2019-Jun-11 14:02:08 : fare_attributes     : 0 entries
+2019-Jun-11 14:02:08 : fare_rules          : 0 entries
+2019-Jun-11 14:02:08 : shapes              : 46,564 entries
+2019-Jun-11 14:02:08 : frequencies         : 20 entries
+2019-Jun-11 14:02:08 : transfers           : 0 entries
+2019-Jun-11 14:02:08 : feed_info           : 0 entries
+2019-Jun-11 14:02:09 : stats GET call took 0.09 seconds.
+2019-Jun-11 14:02:09 : 
+pastCommits GET call
+2019-Jun-11 14:02:09 : pastCommits GET call took 0.0 seconds.
+2019-Jun-11 14:02:43 : 
+commitExport GET call
+2019-Jun-11 14:02:43 : Writing agency to disk and zipping...
+2019-Jun-11 14:02:43 : Added agency in 0.021 seconds.
+2019-Jun-11 14:02:43 : Writing calendar to disk and zipping...
+2019-Jun-11 14:02:43 : Added calendar in 0.014 seconds.
+2019-Jun-11 14:02:43 : Writing frequencies to disk and zipping...
+2019-Jun-11 14:02:43 : Added frequencies in 0.018 seconds.
+2019-Jun-11 14:02:43 : Writing routes to disk and zipping...
+2019-Jun-11 14:02:43 : Added routes in 0.019 seconds.
+2019-Jun-11 14:02:43 : Writing stops to disk and zipping...
+2019-Jun-11 14:02:43 : Added stops in 0.017 seconds.
+2019-Jun-11 14:02:43 : Writing trips to disk and zipping...
+2019-Jun-11 14:02:43 : Added trips in 0.014 seconds.
+2019-Jun-11 14:02:43 : Columns for stop_times: ['trip_id', 'departure_time', 'arrival_time', 'timepoint', 'stop_id', 'shape_dist_traveled', 'stop_headsign', 'pickup_type', 'stop_sequence', 'drop_off_type']
+2019-Jun-11 14:02:43 : Writing stop_times_1.h5 to csv
+2019-Jun-11 14:02:43 : CSV stop_times.txt created in 0.049 seconds, now zipping
+2019-Jun-11 14:02:43 : Added stop_times to zip in 0.002 seconds.
+2019-Jun-11 14:02:43 : Added stop_times in 0.051 seconds.
+2019-Jun-11 14:02:43 : Columns for shapes: ['shape_id', 'shape_pt_lon', 'shape_dist_traveled', 'shape_pt_sequence', 'shape_pt_lat']
+2019-Jun-11 14:02:43 : Writing shapes_1.h5 to csv
+2019-Jun-11 14:02:43 : CSV shapes.txt created in 0.38 seconds, now zipping
+2019-Jun-11 14:02:43 : Added shapes to zip in 0.105 seconds.
+2019-Jun-11 14:02:43 : Added shapes in 0.485 seconds.
+2019-Jun-11 14:02:43 : Generated GTFS feed at export/2019-06-11-test/
+2019-Jun-11 14:02:43 : commitExport GET call took 0.69 seconds.
