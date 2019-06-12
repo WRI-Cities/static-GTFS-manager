@@ -233,45 +233,30 @@ var circleMarkerOptions = {
 	fillOpacity: 0.5
 };
 
-
-
-
 // adding buttons to zoom to show all stops
 // L.easyButton('<span class="mapButton" title="fit all points">&curren;</span>', function(btn, map){
-L.easyButton('<img src="extra_files/home.png" title="show all stops" data-toggle="tooltip" data-placement="right">', function(btn, map){
+L.easyButton('<i class="fas fa-home"></i>', function(btn, map){
 	//map.fitBounds(stopsLayer.getBounds(), {padding:[20,20]});
 	reloadMap('firstTime',false);
-}).addTo(map);
+},'Show all stops').addTo(map);
 
 //L.easyButton('<font size="5">&#9782;</font>', function(btn, map){
-L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to filter by table view" data-toggle="tooltip" data-placement="right">', function(btn, map){
+L.easyButton('<i class="fas fa-filter"></i>', function(btn, map){
 	console.log('filter!');
 	reloadMap('firstTime',true);
-}).addTo(map);
-
-
-
-//###########################
-// initiate bootstrap / jquery components like tabs, accordions
-$(document).ready(function() {
-	// Retreive table data
-	
-	//console.log(select2items.length)
-
-    
-});
+}, 'Filter the map based on the filter of the list').addTo(map);
 
 
 //##################
 // Buttons:
 //undo button
 $("#history-undo").on("click", function(){
-	$("#stops-table").tabulator("undo");
+	table.undo();
 });
 
 //redo button
 $("#history-redo").on("click", function(){
-	$("#stops-table").tabulator("redo");
+	table.redo();
 });
 
 //Save table
@@ -280,7 +265,7 @@ $("#savetable").on("click", function(){
 });
 
 $("#copytable").on("click", function(){
-	$("#stops-table").tabulator("copyToClipboard");
+	table.copyToClipboard();
 });
 
 // Clone zone_id
