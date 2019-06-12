@@ -617,3 +617,34 @@ function databank() {
 		}
 	});
 }
+
+// Openstreetmap search code:
+var geocoder = L.Control.geocoder({
+	defaultMarkGeocode: false,
+	position: 'topleft'
+  })
+	.on('markgeocode', function(e) {
+		alert(e.geocode);
+		alert(e.geocode.name);
+		var stop_name = e.geocode.name;
+		var latlng = e.geocode.center;
+		
+		$("#targetStopid").val(null).trigger('change');
+		$("#stop_name").val(e.geocode.name);
+		$("#wheelchair").val('');
+		$("#newlatlng").val('');
+		$("#zone_id").val('');
+		console.log(latlng);
+		dragmarker.setLatLng(e.geocode.center);
+		updateLatLng( dragmarker.getLatLng() );
+		dragmarker.addTo(map);
+		//var bbox = e.geocode.bbox;
+	//   var poly = L.polygon([
+	// 	bbox.getSouthEast(),
+	// 	bbox.getNorthEast(),
+	// 	bbox.getNorthWest(),
+	// 	bbox.getSouthWest()
+	//   ]).addTo(map);
+		//map.fitBounds(bbox);
+	})
+	.addTo(map);

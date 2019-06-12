@@ -17,7 +17,7 @@ var calendarDatesTotal = function(values, data, calcParams){
 
 //####################
 // Tabulator tables
-$("#calendar-table").tabulator({
+var service = new Tabulator("#calendar-table", {
 	selectable:0,
 	index: 'service_id',
 	movableRows: true,
@@ -45,7 +45,7 @@ $("#calendar-table").tabulator({
 	}
 });
 
-$("#calendar-dates-table").tabulator({
+var calendarDates = new Tabulator("#calendar-dates-table", {
 	selectable:0,
 	index: 'service_id',
 	movableRows: true,
@@ -117,7 +117,7 @@ $('#addCalendarButton').on('click', function(){
 function saveCalendar() {
 	$('#calendarSaveStatus').html('Sending data to server.. Please wait..');
 
-	var data = $("#calendar-table").tabulator('getData');
+	var data = service.getData();
 	
 	var pw = $("#password").val();
 	if ( ! pw ) { 
@@ -145,17 +145,20 @@ function saveCalendar() {
 }
 
 function addCalendar(table="calendar-table") {
+	var data;
 
 	if(table == 'calendar-table') {
+		data = service.getData();
 		statusHolder = 'calendarAddStatus';
 		inputHolder = 'calendar2add';
 	}
 	else {
+		data = calendarDates.getData();
 		statusHolder = 'calendarDatesAddStatus';
 		inputHolder = 'calendarDates2add';
 	}
 
-	var data = $('#'+table).tabulator('getData');
+	//var data = $('#'+table).tabulator('getData');
 
 	//var service_id = $('#calendar2add').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
 	var service_id = $('#'+inputHolder).val().replace(/[ `,]/g, "");
@@ -173,7 +176,13 @@ function addCalendar(table="calendar-table") {
 		// 17.4.19 made the unique-only condition only for calendar table and not calendar-dates.
 		$('#'+statusHolder).html('<span class="alert alert-danger">Sorry, ' + service_id + ' is already taken. Please try another value.</span>');
 	} else {
-		$('#'+table).tabulator("addRow",{ 'service_id': service_id } );
+		if(table == 'calendar-table') {
+			service.addRow([{ 'service_id': service_id }]);
+		 }
+		else {
+			calendarDates.addRow([{ 'service_id': service_id }]);
+		}
+		//$('#'+table).tabulator("addRow",{ 'service_id': service_id } );
 		$('#'+statusHolder).html('<span class="alert alert-success">Added service_id ' + service_id + '</span>');
 	}
 }
@@ -188,7 +197,7 @@ $('#addCalendarDatesButton').on('click', function(){
 $("#saveCalendarDatesButton").on("click", function(){
 	$('#calendarDatesSaveStatus').html('Sending data to server.. Please wait..');
 
-	var data = $("#calendar-dates-table").tabulator('getData');
+	var data = calendarDates.getData();
 	
 	var pw = $("#password").val();
 	if ( ! pw ) { 

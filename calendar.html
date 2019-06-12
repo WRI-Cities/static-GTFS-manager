@@ -1,67 +1,327 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Calendar</title>
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link rel="stylesheet" href="lib/chosen/chosen.min.css">
-<link href="js/commonstyle.css" rel="stylesheet">
-<!-- Put the CSSs first and JSs next -->
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Main info</title>
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/tabulator.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-<style>
-#calendar-table, #calendar-dates-table {
-	height: 300px;
-}
-</style></head>
-<body>
-<div id="navBar"></div>
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-<div class="container">
-<h2>Calendar</h2>
-<div id="instructions" class="container">
-	<h3>Instructions</h3>
-	<div>
-		<p>The service_id is referred to when defining trips. Typically there are different schedules followed on working days and holidays.</p>
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
+	<link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+	<link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+	<script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
+</head>
+
+<body class="animsition">
+        <div class="page-wrapper">
+            <!-- HEADER MOBILE-->
+            <header class="header-mobile d-block d-lg-none">
+                <div class="header-mobile__bar">
+                    <div class="container-fluid">
+                        <div class="header-mobile-inner">
+                            <a class="logo" href="index.html">
+                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+                            </a>
+                            <button class="hamburger hamburger--slider" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="navbar-mobile">
+                    <div class="container-fluid">
+                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
+                            <li class="has-sub">
+                                <a class="js-arrow" href="index.html">
+                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
+                            </li>
+                            <li>
+                                <a href="chart.html">
+                                    <i class="fas fa-chart-bar"></i>Charts</a>
+                            </li>
+                            <li>
+                                <a href="table.html">
+                                    <i class="fas fa-table"></i>Tables</a>
+                            </li>
+                            <li>
+                                <a href="form.html">
+                                    <i class="far fa-check-square"></i>Forms</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            </li>
+                            <li>
+                                <a href="map.html">
+                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-copy"></i>Pages</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="forget-pass.html">Forget Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-desktop"></i>GTFS</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="button.html">Button</a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- END HEADER MOBILE-->
+    
+            <!-- MENU SIDEBAR-->
+            <aside class="menu-sidebar d-none d-lg-block">
+                <div class="logo">
+                    <a href="#">
+                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
+                    </a>
+                </div>
+                <div class="menu-sidebar__content js-scrollbar1">
+                    <nav class="navbar-sidebar">
+                            <ul class="list-unstyled navbar__list">
+                                    <li class="active">
+                                        <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-tachometer-alt"></i>Home</a>                                        
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>GTFS</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="agency.html">Agency</a>
+                                            </li>
+                                            <li>
+                                                <a href="stops.html">Stops</a>
+                                            </li>
+                                            <li>
+                                                <a href="routes.html">Routes</a>
+                                            </li>
+                                            <li>
+                                                <a href="calendar.html">Calendar</a>
+                                            </li>
+                                            <li>
+                                                <a href="tripstimings.html">Trips, Stop_times</a>
+                                            </li>
+                                            <li>
+                                                <a href="frequencies.html">Frequencies</a>
+                                            </li>
+                                            <li>
+                                                <a href="fares.html">Fares</a>
+                                            </li>
+                                            <li>
+                                                <a href="translations.html">Translations</a>
+                                            </li>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Tools</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="sequence.html">Default Route Sequence</a>
+                                            </li>
+                                            <li>
+                                                <a href="renameID.html">Rename ID</a>
+                                            </li>
+                                            <li>
+                                                <a href="deleteID.html">Delete ID</a>
+                                            </li>
+                                                                                     
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Data</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="kmrl.html">Import KMRL format</a>
+                                            </li>
+                                            <li>
+                                                <a href="hmrl.html">Import HRML format</a>
+                                            </li>                                   
+                                        </ul>
+                                    </li>
+                                </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- END MENU SIDEBAR-->
+    
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <!-- HEADER DESKTOP-->
+                <header class="header-desktop">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="header-wrap">
+                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
+                                <form class="form-header" action="" method="POST">
+                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
+                                    <button class="au-btn--submit" type="submit">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </button>
+                                </form>                                
+                        </div>
+                    </div>
+                </header>
+                <!-- HEADER DESKTOP-->
+    
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+										  <div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+											  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+												<i class="fas fa-angle-right"></i> Instructions
+											  </button>
+											</h2>
+										  </div>									  
+										  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-body">
+													<p>The service_id is referred to when defining trips. Typically there are different schedules followed on working days and holidays.</p>
 		<p>The service_id's get used in TRIPS table to define which days of the week a trip operates on. This allows for different timings on weekends.</p>
 		<p>Use the Tools > Delete ID section to delete a calendar service. Note that because the service_id field is required in trips table, deleting a calendar service will need cascading deleting of all trips and timings data associated with it. It would be a better option to change the service_id instead.</p>
 		<p>If you have made any additions or changes that you wish to revert and you haven't pressed the big "Save" button below, you may simply reload this page, and all changes will be dropped. Conversely, make sure to Save to preserve any changes you make.</p>
-</div></div><!-- Accordion over -->
-<br>
+											</div>
+										  </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<strong class="card-title mb-3">Calendar</strong>
+										</div>
+										<div class="card-body">											
+											<div id="calendar-table"></div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="agency2add" class="form-control-label">Create a new calendar service:</label>
+												</div>
+												<div class="col-9 col-md-6">
+													<input placeholder="service_id" id="calendar2add" size="6" class="form-control">
+												</div>
+												<div class="col-3 col-md-3">
+														<button class="btn btn-primary" id="addCalendarButton" type="button">Add</button>
+												</div>
+											</div>
+											<div class="row">
+													<small id="calendarAddStatus"></small>
+											</div>																																			
+										</div>
+										<div class="card-footer">
+												<button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small>												
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+										<div class="card">
+											<div class="card-header">
+												<strong class="card-title mb-3">Calendar Dates</strong>
+											</div>
+											<div class="card-body">												
+													<div id="calendar-dates-table"></div>
+												<div class="row form-group">
+													<div class="col col-md-3">
+														<label for="agency2add" class="form-control-label">Create a new calendar_dates service:</label>
+													</div>
+													<div class="col-9 col-md-6">
+															<input placeholder="service_id" id="calendarDates2add" size="6">
+													</div>
+													<div class="col-3 col-md-3">
+															<button class="btn btn-primary" id="addCalendarDatesButton" type="button">Add</button>
+													</div>
+												</div>
+												<div class="row">
+													<small id="calendarDatesAddStatus"></small>
+												</div>																																			
+											</div>
+											<div class="card-footer">
+													<button id="saveCalendarDatesButton" class="btn btn-outline-success btn-md">Save Calendar_Dates Changes</button> &nbsp; <small id="calendarDatesSaveStatus"></small>											
+											</div>
+										</div>
+									</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+    
+        </div>
+    
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+		<script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+		
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js"></script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>        
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/js/select2.min.js"></script>		
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+    
+    
 
-
-<div id="calendar-table"></div>
-<br>
-<p>Create a new calendar service: <input placeholder="service_id" id="calendar2add" size="6"><button class="btn-primary btn-xs" id="addCalendarButton" type="button">Add</button> &nbsp; <small id="calendarAddStatus"></small></p>
-
-<p><button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small></p>
-
-<br>
-<hr>
-
-<h2>Calendar_Dates</h2>
-<p><a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#calendar_datestxt" target="_blank">See spec here.</a>
-</p>
-
-<div id="calendar-dates-table"></div>
-<br>
-<p>Create a new calendar_dates service: <input placeholder="service_id" id="calendarDates2add" size="6"><button class="btn-primary btn-xs" id="addCalendarDatesButton" type="button">Add</button> &nbsp; <small id="calendarDatesAddStatus"></small></p>
-
-<p><button id="saveCalendarDatesButton" class="btn btn-outline-success btn-md">Save Calendar_Dates Changes</button> &nbsp; <small id="calendarDatesSaveStatus"></small></p>
-
-
-</div>
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/calendar.js"></script>
 
-</body>
+</body>  
 </html>
