@@ -254,18 +254,11 @@ L.easyButton('<img src="extra_files/filter.png" width="100%" title="Click to fil
 //###########################
 // initiate bootstrap / jquery components like tabs, accordions
 $(document).ready(function() {
-	// tabs
-	//$( "#tabs" ).tabs({
-	//	active:0
-	//});
-	// Setting accordion
-	//$( "#instructions" ).accordion({
-	//	collapsible: true, active: false
-	//});
-	//$( "#logaccordion" ).accordion({
-	//	collapsible: true, active: false
-	//});
-	//getParking();
+	// Retreive table data
+	
+	//console.log(select2items.length)
+
+    
 });
 
 
@@ -376,31 +369,31 @@ function updateTable() {
 
 function reloadData(timeflag='normal') {
 	var data = table.getData();
-	stop_id_list = data.map(a => a.stop_id); 
-	
-	if ($('.autocomplete').data('uiAutocomplete')) {
-	$( ".autocomplete" ).autocomplete( "destroy" );
-	}
+	;// stop_id_list = data.map(a => a.stop_id); 
+
+	var select2items = $.map(data, function (obj) {
+		obj.id = obj.id || obj.stop_id; // replace identifier
+		obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
+		return obj;
+	  });
+		
+	$("#targetStopid").select2({
+		tags: true,
+		data: select2items
+	  });
 
 	if( data.length == 0) {
 		console.log('No data!');
 		return;
 	}
-	// auto-populating the targetStopid text field. from http://jqueryui.com/autocomplete/ . Make sure jquery-ui css and js are included.
-	//$( ".autocomplete" ).autocomplete({
-	//	source: stop_id_list
-	//});
-
-	// For Add/Edit section, Auto-populate other fields on selecting a stop id
-	// have to declare it inside the reloadData() function because of Destroy command above. After destroying it needs to be re-initiated.
-	//$( "#targetStopid" ).autocomplete({
-	//	select: function( event, ui ) {
-	//		//console.log(ui.item.value);
-	//		stop_id = ui.item.value;
-	//		populateFields(stop_id);
-	//		mapPop(stop_id);
-	//	}
-	//});
+	// 
+	$('#targetStopid').on("select2:select", function(e) { 		
+		// what you would like to happen
+		var item = e.params.data;
+		stop_id = item.id;		
+		populateFields(stop_id);
+		mapPop(stop_id);
+	 });
 
 	// Map update
 	reloadMap(timeflag);
@@ -511,8 +504,7 @@ function mapPop(stop_id) {
 function markerOnClick(e) {
 	//console.log("Clicked marker", e.layer.properties.stop_id, e.latlng );
 	stop_id = e.layer.properties.stop_id;
-
-	var row = $("#stops-table").tabulator("getRow", stop_id);
+	var row = table.getRow(stop_id);
 	row.scrollTo();
 	row.toggleSelect();
 	// load editing and deleting panes too
@@ -522,13 +514,26 @@ function markerOnClick(e) {
 }
 
 function populateFields(stop_id) {
-	var row = table.getRow(stop_id); //return row compoenent with index of 1
-	var rowData = row.getData();
-	//console.log(JSON.stringify(rowData,null,2));
-	$('#stop_name').val(rowData['stop_name']);
-	$('#zone_id').val(rowData['zone_id']);
-	$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
-	$('#wheelchair').val(rowData['wheelchair_boarding']);
+	var row = table.getRow(stop_id); //return row compoenent with index of 1	
+	if (!row)
+	{
+		// New row
+		$('#zone_id').val('');
+		$('#newlatlng').val('');
+		$('#wheelchair').val('');
+		$('#stop_name').val('');
+	}
+	else 
+	{
+		var rowData = row.getData();
+		console.log(JSON.stringify(rowData,null,2));
+		$('#targetStopid').val(rowData['stop_id']);
+		$('#targetStopid').select2().trigger('change');
+		$('#stop_name').val(rowData['stop_name']);
+		$('#zone_id').val(rowData['zone_id']);
+		$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
+		$('#wheelchair').val(rowData['wheelchair_boarding']);
+	}	
 }
 
 function depopulateFields() {
@@ -558,7 +563,7 @@ function timestamp() {
 function saveStops(){
 	$('#stopSaveStatus').html('<span class="alert alert-info">Sending data, please wait...</span>');
 
-	var data = $("#stops-table").tabulator("getData");
+	var data = table.getData();
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
