@@ -1,154 +1,314 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Routes Management</title>
-<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link rel="stylesheet" href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-<link rel="stylesheet" href="lib/chosen/chosen.min.css">
-<link href="js/commonstyle.css" rel="stylesheet">
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Main info</title>
 
-<!-- Put the CSSs first and JSs next -->
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/leaflet.js"></script>
-<script src="lib/leaflet.textpath.js"></script>
-<script src="lib/leaflet-ant-path.js"></script>
-<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-<script src="lib/tabulator.min.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-<style>
-#map0, #map1 {
-	height: 400px;
-	z-index: 0;
-}
-
-#sequence-0-table, #sequence-1-table {
-	height: 350px;
-}
-
- #routes-table {
-	height: 400px;
-}
-
-input[type=checkbox]#reverseCheck {
- width: 20px; height: 20px;
- -webkit-border-radius: 22px; -moz-border-radius: 22px; border-radius: 22px;
-  border: 1px solid #bbb;
-  vertical-align: middle; 
-}
-
-
-/* Leaflet Map Overlay */
-.overlaycontainer {
-	position: relative;
-	width:100%;
-	height: 400px;
-}
-
-#map0 {
-	position:absolute;
-	width: 100%;
-}
-.shapeOverlay {
-	position:absolute;
-	background-color: rgba(255,255,255,.5);
-	height:auto;
-	width: auto;
-	top:10px;
-	right:10px;
-	border-radius: 5px;
-	padding: 5px;
-	box-shadow:0px 0px 20px black; 
-}
-
-#shapes0List .chosen-container .chosen-drop {
-	background-color: rgba(255,255,255,.7)!important;
-}
-/* for map, custom markers */
-
-.sequence-0-divicon, .sequence-1-divicon {
-	border-radius: 50%;
-	color: white;
-	padding-top: 2px;
-	position: absolute;
-	text-align: center;
-	overflow: hidden;
-	box-shadow:0px 0px 10px black; /*looks 3D! no need of a border*/
-}
-
-.sequence-0-divicon {
-	background-color: rgba(0, 0, 255, 0.7);
-}
-.sequence-1-divicon {
-	background-color: rgba(128, 0,128,0.7);
-}
-
-/* Chosen JS autocomplete */
-.chosen-search-input {
-	font-size: 14px;
-}
-
-</style>
-	   
+    <!-- Vendor CSS-->
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
+	<link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+	<link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+	<script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
 </head>
-<body>
-<!--<script src="js/navbar.js"></script>-->
-<div id="navBar"></div>
-<div class="container">
-<h2>Routes</h2>
 
-<div id="instructions">
-<h3>Instructions</h3>
-<div>
-<p><br>
-1. Click on the cells of the first table to edit them.<br>
-2. You can add new routes through the blue Add button just below the table. <br>
-3. Save changes when done with the big green "Save.." button.</p>
-<p>
-Note: Changing the default sequence for a route will not change all the trips already existing under this route. The new sequence will reflect only when you create new trips. GTFS standard doesn't store a default stops sequence for a route, so this program is storing it in a separate database file called sequences.json.</p>
-</div>
-</div><!-- Accordion over -->
-<br>
-<p>Listing all the routes. You can click on any of the cells for editing.</p>
-<div id="routes-table"></div>
+<body class="animsition">
+        <div class="page-wrapper">
+            <!-- HEADER MOBILE-->
+            <header class="header-mobile d-block d-lg-none">
+                <div class="header-mobile__bar">
+                    <div class="container-fluid">
+                        <div class="header-mobile-inner">
+                            <a class="logo" href="index.html">
+                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+                            </a>
+                            <button class="hamburger hamburger--slider" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="navbar-mobile">
+                    <div class="container-fluid">
+                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
+                            <li class="has-sub">
+                                <a class="js-arrow" href="index.html">
+                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
+                            </li>
+                            <li>
+                                <a href="chart.html">
+                                    <i class="fas fa-chart-bar"></i>Charts</a>
+                            </li>
+                            <li>
+                                <a href="table.html">
+                                    <i class="fas fa-table"></i>Tables</a>
+                            </li>
+                            <li>
+                                <a href="form.html">
+                                    <i class="far fa-check-square"></i>Forms</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            </li>
+                            <li>
+                                <a href="map.html">
+                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-copy"></i>Pages</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="forget-pass.html">Forget Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-desktop"></i>GTFS</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="button.html">Button</a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- END HEADER MOBILE-->
+    
+            <!-- MENU SIDEBAR-->
+            <aside class="menu-sidebar d-none d-lg-block">
+                <div class="logo">
+                    <a href="#">
+                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
+                    </a>
+                </div>
+                <div class="menu-sidebar__content js-scrollbar1">
+                    <nav class="navbar-sidebar">
+                            <ul class="list-unstyled navbar__list">
+                                    <li class="active">
+                                        <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-tachometer-alt"></i>Home</a>                                        
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>GTFS</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="agency.html">Agency</a>
+                                            </li>
+                                            <li>
+                                                <a href="stops.html">Stops</a>
+                                            </li>
+                                            <li>
+                                                <a href="routes.html">Routes</a>
+                                            </li>
+                                            <li>
+                                                <a href="calendar.html">Calendar</a>
+                                            </li>
+                                            <li>
+                                                <a href="tripstimings.html">Trips, Stop_times</a>
+                                            </li>
+                                            <li>
+                                                <a href="frequencies.html">Frequencies</a>
+                                            </li>
+                                            <li>
+                                                <a href="fares.html">Fares</a>
+                                            </li>
+                                            <li>
+                                                <a href="translations.html">Translations</a>
+                                            </li>                                            
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Tools</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="sequence.html">Default Route Sequence</a>
+                                            </li>
+                                            <li>
+                                                <a href="renameID.html">Rename ID</a>
+                                            </li>
+                                            <li>
+                                                <a href="deleteID.html">Delete ID</a>
+                                            </li>
+                                                                                     
+                                        </ul>
+                                    </li>
+                                    <li class="has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-desktop"></i>Data</a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li>
+                                                <a href="kmrl.html">Import KMRL format</a>
+                                            </li>
+                                            <li>
+                                                <a href="hmrl.html">Import HRML format</a>
+                                            </li>                                   
+                                        </ul>
+                                    </li>
+                                </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- END MENU SIDEBAR-->
+    
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <!-- HEADER DESKTOP-->
+                <header class="header-desktop">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="header-wrap">
+                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
+                                <form class="form-header" action="" method="POST">
+                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
+                                    <button class="au-btn--submit" type="submit">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </button>
+                                </form>                                
+                        </div>
+                    </div>
+                </header>
+                <!-- HEADER DESKTOP-->
+    
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+										  <div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+											  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+												<i class="fas fa-angle-right"></i> Instructions
+											  </button>
+											</h2>
+										  </div>									  
+										  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-body">
+													<p>
+														1. Click on the cells of the first table to edit them.<br>
+														2. You can add new routes through the blue Add button just below the table. <br>
+														3. Save changes when done with the big green "Save.." button.</p>
+														<p>
+														Note: Changing the default sequence for a route will not change all the trips already existing under this route. The new sequence will reflect only when you create new trips. GTFS standard doesn't store a default stops sequence for a route, so this program is storing it in a separate database file called sequences.json.</p>
+											</div>
+										  </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<strong class="card-title mb-3">Routes</strong>
+										</div>
+										<div class="card-body">
+											<p>Listing all the routes. You can click on any of the cells for editing.</p>
+											<div id="routes-table"></div>
+											<div class="row form-group">
+												<div class="col col-md-3">
+													<label for="agency2add" class="form-control-label">Add a new route</label>
+												</div>
+												<div class="col-9 col-md-6">
+													<select id="agencySelect" class="form-control"></select>
+												</div>
+												<div class="col-3 col-md-3">
+													<button class="btn btn-primary" id="addRoute" type="button">Add</button>
+												</div>
+											</div>
+											<div class="row">
+													<small id="routeAddStatus">The system will auto-generate a new route_id.</small></p>
+											</div>																																			
+										</div>
+										<div class="card-footer">
+												<button id="saveRoutes" class="btn btn-success btn-lg">Save Routes to DB</button> <small id="routeSaveStatus"></small>
+												<br><small>Be sure to save changes before proceeding to next tabs.</small>
+												</div>
+												</div>
+												<br><p><b><i>Recommended :</i></b> After setting up your routes here, assign default stop sequences and shapes to them.
+												<br>Go to the <a href="sequence.html" >Tools > Default Route Sequence page</a>.</p>
+												<p>Note: The GTFS spec natively doesn't store a default sequence for routes (that is managed per trip), but in this tool we introduced it so that it helps to have default sequence/shape when provisioning new trips.</p>
+												
+										</div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+    
+        </div>
+    
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+		<script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+		<!-- Leaflet Maps -->
+		
+		<script src="lib/leaflet.js"></script>
+		<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+		<script src="lib/papaparse.min.js" type="text/javascript"></script>
+		<script src="lib/L.Control.ZoomBox.min.js" type="text/javascript"></script>
 
-<div class="row" style="padding-top: 5px;">
-<div class="col-md-6">
-<p>Add a new route: <select id="agencySelect"></select>
-<button class="btn-primary btn-xs" id="addRoute" type="button">Add</button> <br>
-<small id="routeAddStatus">The system will auto-generate a new route_id.</small></p>
-<!-- commenting out undo-redo for now
-<p>Changes: <button class="btn-xs" id="route-undo">Undo</button> | 
-<button class="btn-xs" id="route-redo" type="button">Redo</button> &nbsp; <small></small></p>
--->
-</div>
-
-<div class="col-md-6">
-<button id="saveRoutes" class="btn btn-success btn-lg">Save Routes to DB</button> <small id="routeSaveStatus"></small>
-<br><small>Be sure to save changes before proceeding to next tabs.</small>
-</div>
-</div>
-<br><p><b><i>Recommended :</i></b> After setting up your routes here, assign default stop sequences and shapes to them.
-<br>Go to the <a href="sequence.html" >Tools > Default Route Sequence page</a>.</p>
-<p>Note: The GTFS spec natively doesn't store a default sequence for routes (that is managed per trip), but in this tool we introduced it so that it helps to have default sequence/shape when provisioning new trips.</p>
-
-
-<br>
-
-</div>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js"></script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>        
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/js/select2.min.js"></script>		
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+    
+    
 
 <script src="config/settings.js" type="text/javascript"></script>
 <script src="js/commonfuncs.js" type="text/javascript"></script>
-<script src="js/routes.js" type="text/javascript"></script>
+<script src="js/routes.js"></script>
 
-</body>
+</body>  
 </html>

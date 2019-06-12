@@ -21,7 +21,7 @@ var routesTotal = function(values, data, calcParams){
 
 // #########################################
 // Construct tables
-$("#routes-table").tabulator({
+var table = new Tabulator("#routes-table", {
 	selectable:0,
 	index: 'route_id',
 	movableRows: true,
@@ -46,14 +46,14 @@ $("#routes-table").tabulator({
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`GET request to tableReadSave table=routes successfull.`);
 		
-		var dropdown = '<option value="">Select a route</option>';
-		data.forEach(function(row){
-			dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-		});
+		// var dropdown = '<option value="">Select a route</option>';
+		// data.forEach(function(row){
+		// 	dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
+		// });
 
-		$("#routeSelect").html(dropdown);
-		$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-		$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
+		// $("#routeSelect").html(dropdown);
+		// $('#routeSelect').trigger('chosen:updated'); // update if re-populating
+		// $('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
 
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
@@ -78,9 +78,8 @@ $(document).ready(function() {
 $("#addRoute").on("click", function(){
 	var agency_id = $('#agencySelect').val().replace(/[^A-Za-z0-9-_.]/g, "");
 	if(! agency_id.length) return;
-	let data = $("#routes-table").tabulator("getData");
-	route_id_list = data.map(a => a.route_id); 
-
+	let data = table.getData();
+	route_id_list = data.map(a => a.route_id);
 	var counter = 1;
 	while ( route_id_list.indexOf(agency_id + pad(counter) ) > -1 ) counter++;
 
@@ -88,7 +87,7 @@ $("#addRoute").on("click", function(){
 	
 	console.log(route_id);
 
-	$("#routes-table").tabulator('addRow',{route_id: route_id, agency_id:agency_id, route_short_name:route_id},true);
+	table.addRow([{route_id: route_id, agency_id:agency_id, route_short_name:route_id}],true);
 	$('#route2add').val('');
 	$('#routeAddStatus').html('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
 });
@@ -105,7 +104,7 @@ $("#saveRoutes").on("click", function(){
 function saveRoutes() {
 	$('#routeSaveStatus').html('');
 
-	var data=$('#routes-table').tabulator('getData');
+	var data=table.getData();
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
@@ -144,20 +143,28 @@ function getPythonAgency() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded agency data from Server API/agency .`);
 			var data = JSON.parse(xhr.responseText);
-			var dropdown = '<option value="">Select agency</option>'
-			var selectedFlag = false;
+			// var dropdown = '<option value="">Select agency</option>'
+			// var selectedFlag = false;
 			data.forEach(function(row){
-				agencyListGlobal[''] = '(None)';
-				agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
-				var select = '';
-				if(!selectedFlag) {
-					select = '  selected="selected"'; selectedFlag = true;
-				}
-				dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
+			 	agencyListGlobal[''] = '(None)';
+			 	agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
+			// 	var select = '';
+			// 	if(!selectedFlag) {
+			// 		select = '  selected="selected"'; selectedFlag = true;
+			// 	}
+			// 	dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
 			});
-			$('#agencySelect').html(dropdown);
-			$('#agencySelect').trigger('chosen:updated');
-			$('#agencySelect').chosen({disable_search_threshold: 1, search_contains:true, width:200});
+			var select2items = $.map(data, function (obj) {
+				obj.id = obj.id || obj.agency_id; // replace identifier
+				obj.text = obj.text || obj.agency_id + " - " + obj.agency_name
+				return obj;
+			  });
+				
+			$("#agencySelect").select2({
+				tags: false,
+				placeholder: 'Select agency',
+				data: select2items
+			  });
 
 		}
 		else {
