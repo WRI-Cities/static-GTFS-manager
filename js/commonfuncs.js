@@ -23,39 +23,39 @@ $(document).ready(function() {
 		<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" aria-label="Search" style="width:200px;"> \
 	</nav>';
 	
-	var navBarContent = ""; //navBarContentStart;
+	// var navBarContent = ""; //navBarContentStart;
 	
-	for(key in menu) {
-		if (typeof menu[key] != "object") {
-			if(menu[key] == pageName)
-				navBarContent+= `<li class="active"><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
-				${key}</a></li>`;
-			else
-				navBarContent+= `<li class=""><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
-				${key}</a></li>`;
+	// for(key in menu) {
+	// 	if (typeof menu[key] != "object") {
+	// 		if(menu[key] == pageName)
+	// 			navBarContent+= `<li class="active"><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
+	// 			${key}</a></li>`;
+	// 		else
+	// 			navBarContent+= `<li class=""><a href="${menu[key]}"><i class="fas fa-chart-bar"></i>
+	// 			${key}</a></li>`;
 
-		}
-		else { // if its a sub-menu
-			// from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
-			sectionStart = `
-			<li class="has-sub">
-			<a class="js-arrow" href="#"><i class="fas fa-chart-bar"></i>
-			${key}</a>
-			<ul class="list-unstyled navbar__sub-list js-sub-list">`;
-			sectionEnd = `</ul></li>`;
+	// 	}
+	// 	else { // if its a sub-menu
+	// 		// from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
+	// 		sectionStart = `
+	// 		<li class="has-sub">
+	// 		<a class="js-arrow" href="#"><i class="fas fa-chart-bar"></i>
+	// 		${key}</a>
+	// 		<ul class="list-unstyled navbar__sub-list js-sub-list">`;
+	// 		sectionEnd = `</ul></li>`;
 
-			navBarContent+= sectionStart;
-			for(subItem in menu[key]) {
-				if(menu[key][subItem] == pageName)
-					navBarContent+= `<li><a href="${menu[key][subItem]}">
-					${subItem}</a></li>`;
-				else
-					navBarContent+= `<li><a href="${menu[key][subItem]}">
-					${subItem}</a></li>`;
-			}
-			navBarContent += sectionEnd;
-		}
-	}
+	// 		navBarContent+= sectionStart;
+	// 		for(subItem in menu[key]) {
+	// 			if(menu[key][subItem] == pageName)
+	// 				navBarContent+= `<li><a href="${menu[key][subItem]}">
+	// 				${subItem}</a></li>`;
+	// 			else
+	// 				navBarContent+= `<li><a href="${menu[key][subItem]}">
+	// 				${subItem}</a></li>`;
+	// 		}
+	// 		navBarContent += sectionEnd;
+	// 	}
+	// }
 
 	//navBarContent+=navBarContentEnd;
 	//$( "#navbar-desktop" ).html(navBarContent);

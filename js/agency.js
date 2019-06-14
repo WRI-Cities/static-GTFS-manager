@@ -24,7 +24,7 @@ var table = new Tabulator("#agency-table", {
 		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false, validator:tabulator_UID_leastchars },
 		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false, bottomCalc:agencyTotal },
 		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false },
-		{title:"agency_timezone", field:"agency_timezone", editor:"input", headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
+		{title:"agency_timezone", field:"agency_timezone", editor: select2TZEditor,width: 300, headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
 		
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
@@ -76,10 +76,24 @@ function saveAgency() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/tableReadSave table=agency, response received: ' + xhr.responseText);
-			$('#agencySaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Agency',
+				subtitle: 'Success',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			  });
+			  //$('#agencySaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
 		} else {
 			console.log('Server POST request to API/tableReadSave table=agency failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#agencySaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
+			$.toast({
+				title: 'Save Agency',
+				subtitle: 'Failed to save',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
+			  //$('#agencySaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

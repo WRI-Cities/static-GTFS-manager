@@ -45,7 +45,14 @@ function getPythonGTFSstats() {
 		}
 		else {
 			console.log('Server request to API/stats for all stops failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-			$('#GTFSstats').html('<p>Failed to fetch stats. Message: ' + xhr.responseText + '</p>');
+			//$('#GTFSstats').html('<p>Failed to fetch stats. Message: ' + xhr.responseText + '</p>');
+			$.toast({
+				title: 'GTFS Stats',
+				subtitle: 'Fetch failed',
+				content: 'Failed to fetch stats. Message: ' + xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
 		}
 	};
 	xhr.send();
@@ -83,7 +90,14 @@ function exportGTFS() {
 
 	//reject if its blank
 	if (! commit.length) {
-		$('#exportGTFSlog').html('<div class="alert alert-danger">Please give a valid name for the commit.</div>');
+		$.toast({
+			title: 'GTFS Export',
+			subtitle: 'No valid name',
+			content: 'Please give a valid name for the commit',
+			type: 'error',
+			delay: 5000
+		  });
+		//$('#exportGTFSlog').html('<div class="alert alert-danger">Please give a valid name for the commit.</div>');
 		shakeIt('commitName'); return;
 	}
 	/*
@@ -93,8 +107,14 @@ function exportGTFS() {
 		shakeIt('password'); return;
 	}
 	*/
-
-	$("#exportGTFSlog").html('Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.');
+	$.toast({
+		title: 'GTFS Export',
+		subtitle: 'Processing',
+		content: 'Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.',
+		type: 'info',
+		delay: 5000
+	  });
+	//$("#exportGTFSlog").html('Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.');
 	
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
@@ -117,7 +137,14 @@ function gtfsImportZip() {
 
 	// idiot-proofing: check if the files have been uploaded or not.
 	if( document.getElementById('gtfsZipFile').value == '') {
-		$('#importGTFSStatus').html('<div class="alert alert-warning">Please select a file first! ;)</div>');
+		$.toast({
+			title: 'GTFS Import',
+			subtitle: 'Warning',
+			content: 'Please select a file first!',
+			type: 'warning',
+			delay: 5000
+		  });
+		//$('#importGTFSStatus').html('<div class="alert alert-warning">Please select a file first! ;)</div>');
 		shakeIt('gtfsZipFile'); return;
 	}
 
@@ -126,7 +153,14 @@ function gtfsImportZip() {
 		$('#importGTFSStatus').html('<div class="alert alert-danger">Please enter the password.</div>');
 		shakeIt('password'); return;
 	}
-	$("#importGTFSStatus").html('Importing GTFS file, please wait..');
+	$.toast({
+		title: 'GTFS Import',
+		subtitle: 'Proccessing',
+		content: 'Importing GTFS file, please wait..',
+		type: 'info',
+		delay: 5000
+	  });
+	  //$("#importGTFSStatus").html('Importing GTFS file, please wait..');
 
 	var formData = new FormData();
 	//formData.append('gtfsZipFile', $('#gtfsZipFile')[0].files[0]);
@@ -141,15 +175,29 @@ function gtfsImportZip() {
 		contentType: false,  // tell jQuery not to set contentType
 		success : function(data) {
 			console.log(data);
-			$("#importGTFSStatus").html('<div class="alert alert-success">Successfully imported GTFS feed. See the other pages to explore the data.<br>A backup has been taken of the earlier data just in case.</div>');
+			$.toast({
+				title: 'GTFS Import',
+				subtitle: 'Success',
+				content: 'Successfully imported GTFS feed. See the other pages to explore the data.<br>A backup has been taken of the earlier data just in case.',
+				type: 'success',
+				delay: 5000
+			  });
+			//$("#importGTFSStatus").html('<div class="alert alert-success">Successfully imported GTFS feed. See the other pages to explore the data.<br>A backup has been taken of the earlier data just in case.</div>');
 				// housekeeping: run stats and past commits scan again and clear out blank slate status
-				getPythonGTFSstats(); getPythonPastCommits();
-				$("#gtfsBlankSlateStatus").html('');
+			getPythonGTFSstats(); getPythonPastCommits();
+			$("#gtfsBlankSlateStatus").html('');
 
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/gtfsImportZip POST request failed.');
-			$("#importGTFSStatus").html('<div class="alert alert-warning">GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText + '</div>');
+			$.toast({
+				title: 'GTFS Import',
+				subtitle: 'Failed',
+				content: 'GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText,
+				type: 'error',
+				delay: 5000
+			  });
+			//$("#importGTFSStatus").html('<div class="alert alert-warning">GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText + '</div>');
 		}
 
 	});
