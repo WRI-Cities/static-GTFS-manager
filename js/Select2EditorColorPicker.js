@@ -3,7 +3,9 @@ var ColorEditor = function(cell, onRendered, success, cancel, editorParams){
 
     //create input element to hold select
     var editor = document.createElement("input");
-    
+    editor.style.width = "100%";
+    editor.style.height = "100%";
+ 
 
     // Current value
     editor.value = cell.getValue()
@@ -13,10 +15,11 @@ var ColorEditor = function(cell, onRendered, success, cancel, editorParams){
 
         ColorEditor.colorpicker({
             useHashPrefix: false,
-            useAlpha: false,            
+            useAlpha: false,
+            debug: true     
         });
 
-        ColorEditor.on('changeColor', function (e) {            
+        ColorEditor.on('colorpickerUpdate', function (e) {            
             success(e.color.string());
         });
 
