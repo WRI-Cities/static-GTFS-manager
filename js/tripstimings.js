@@ -32,7 +32,7 @@ var tripsTotal = function(values, data, calcParams){
 
 // #########################################
 // initializing tabulators
-$("#trips-table").tabulator({
+var tripsTable = new Tabulator("#trips-table", {
 	selectable:1,
 	index: 'trip_id',
 	movableRows: true,
@@ -69,7 +69,7 @@ $("#trips-table").tabulator({
 		if(tripname) tripname = chosenTrip + ': ' + tripname;
 		else tripname = chosenTrip;
 		$('#chosenTrip').html('<big><big><span class="badge label-green">' + tripname + '</span></big></big>');
-		$("#stop-times-table").tabulator('clearData'); // on changing selection, clear the stop_times table in Timings tab.
+		stoptimesTable.clearData(); // on changing selection, clear the stop_times table in Timings tab.
 		$('#loadTimingsStatus').html('');
 
 		// load up start time if in the format 
@@ -92,7 +92,7 @@ $("#trips-table").tabulator({
 	}
 });
 
-$("#stop-times-table").tabulator({
+var stoptimesTable = new Tabulator("#stop-times-table", {
 	selectable:0,
 	index: 'stop_sequence',
 	history:true,
@@ -107,8 +107,8 @@ $("#stop-times-table").tabulator({
 		{title:"stop_sequence", field:"stop_sequence", headerFilter:"input", headerSort:false, sorter:"number" },
 		{title:"stop_id", field:"stop_id", headerFilter:"input", headerSort:false },
 		// to do: validation for hh:mm:ss and accepting hh>23
-		{title:"arrival_time", field:"arrival_time", editor:"input", headerFilter:"input", headerSort:false },
-		{title:"departure_time", field:"departure_time", editor:"input", headerFilter:"input", headerSort:false },
+		{title:"arrival_time", field:"arrival_time", editor:"input", headerFilter:"input", validator:"regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort:false },
+		{title:"departure_time", field:"departure_time", editor:"input", headerFilter:"input", validator:"regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort:false },
 		{title:"timepoint", field:"timepoint", headerFilter:"input", editor:"select", editorParams:{0:"0 - Estimated", 1:"1 - Accurate", "":"blank - Accurate"}, headerSort:false},
 		{title:"shape_dist_traveled", field:"shape_dist_traveled", editor:"input", headerFilter:"input", validator:["numeric", "min:0"], headerSort:false }
 	],
@@ -123,16 +123,16 @@ $("#stop-times-table").tabulator({
 
 // initiate bootstrap / jquery components like tabs, accordions
 $( function() {
-	$( "#accordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
+	// $( "#accordion" ).accordion({
+	// 	collapsible: true, active: false
+	// });
+	// $( "#logaccordion" ).accordion({
+	// 	collapsible: true, active: false
+	// });
+	// // tabs
+	// $( "#tabs" ).tabs({
+	// 	active:0
+	// });
 
 	getPythonRoutes();
 
@@ -168,14 +168,21 @@ $("#defaultShapesApplyButton").on("click", function(){
 // Functions:
 
 function getPythonTrips(route_id) {
-	$("#trips-table").tabulator('clearData');
-	$('#routeSelectStatus').html('');  
+	tripsTable.clearData();
+	//$('#routeSelectStatus').html('');  
 	$("#noSequenceAlert").hide('slow');
 	
 	if(!route_id || route_id == 'No Selection') return; // exit if no route actually selected
 
 	chosenRoute = route_id; // set global variable
-	$('#routeSelectStatus').html('<span class="alert alert-warning">Loading trips for route ' + route_id + '...</span>');
+	$.toast({
+		title: 'Trips',
+		subtitle: 'Loading',
+		content: 'Loading trips for route ' + route_id,
+		type: 'info',
+		delay: 1000
+	  });
+	//$('#routeSelectStatus').html('<span class="alert alert-warning">Loading trips for route ' + route_id + '...</span>');
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
 	xhr.open('GET', `${APIpath}trips?route=${route_id}`);
@@ -183,8 +190,15 @@ function getPythonTrips(route_id) {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded trips data for the chosen route from Server API/trips .`);
 			var data = JSON.parse(xhr.responseText);
-			$("#trips-table").tabulator('setData',data.trips);
-			$('#routeSelectStatus').html('<span class="alert alert-success">Loaded trips for route ' + route_id + '</span>');
+			tripsTable.setData(data.trips);
+			$.toast({
+				title: 'Trips',
+				subtitle: 'Loaded',
+				content: 'Loaded trips for route ' + route_id,
+				type: 'success',
+				delay: 5000
+			  });
+			//$('#routeSelectStatus').html('<span class="alert alert-success">Loaded trips for route ' + route_id + '</span>');
 			
 			// resetting save to DB button if a new set of trips has been loaded from DB, clearing status text.
 			setSaveTrips(false);
@@ -213,7 +227,14 @@ function getPythonTrips(route_id) {
 		}
 		else {
 			console.log('Server request to API/trips failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-			$("#trips-table").html('<p class="alert alert-danger">Could not load trips data from server. Message: ' + xhr.responseText + '<br>Please try again or contact the developers.</p>');
+			$.toast({
+				title: 'Trips',
+				subtitle: 'Loading',
+				content: 'Could not load trips data from server. Message: ' + xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
+			//$("#trips-table").html('<p class="alert alert-danger">Could not load trips data from server. Message: ' + xhr.responseText + '<br>Please try again or contact the developers.</p>');
 		}
 	};
 	xhr.send();
@@ -227,7 +248,7 @@ function getPythonStopTimes(trip_id){
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded timings data for the chosen trip from Server API/stopTimes .`);
 			var returndata = JSON.parse(xhr.responseText);
-			$("#stop-times-table").tabulator('setData',returndata.data);
+			stoptimesTable.setData(returndata.data);
 			if(returndata.newFlag) {
 				setSaveTimings(true);
 				populateStopTimesFromSequence(trip_id);
@@ -267,18 +288,35 @@ function getPythonRoutes() {
 
 
 function populateRouteSelect(data) {
-	var content = '<option value="">No Selection</option>';
-	// route_id,route_short_name,route_long_name,route_type,route_color,route_text_color
-	data.forEach(function(row){
-			if(!row['route_long_name']) row['route_long_name'] = '(no long name)';
-			content += `<option value="${row['route_id']}">${row['route_short_name']}-${row['route_long_name']}</option>`;
-		});
-	$('#routeSelect').html(content);
-	$('#routeSelect').chosen({search_contains:true, width:300, placeholder_text_single:'Pick a Route'});
-	$('#routeSelect').on('change', function(evt,params) {
-		let route_id = params.selected;
+
+	var select2items = $.map(data, function (obj) {
+		obj.id = obj.id || obj.route_id; // replace identifier
+		obj.text = obj.text || obj.route_short_name + " - " +  obj.route_long_name
+		return obj;
+	  });
+	console.log($("#targetStopid").val())
+	$("#routeSelect").select2({
+		placeholder: "Pick a Route",
+		theme: 'bootstrap4',
+		createTag: function (tag) {
+			return {
+				id: tag.term,
+				text: tag.term,
+				isNew : true
+			}
+		},		
+		data: select2items
+	  });
+
+	if( data.length == 0) {
+		console.log('No data!');
+		return;
+	}
+	// 
+	$('#routeSelect').on("select2:select", function(e) { 		
+		let route_id = e.params.data.id;
 		if( !route_id.length ) {
-			$("#trips-table").tabulator('clearData');
+			tripsTable.clearData();
 			chosenRoute = '';
 			chosenRouteShortName = '';
 			$("#newTripHTML").hide('slow');
@@ -295,13 +333,50 @@ function populateRouteSelect(data) {
 				break;
 			}
 		}
-
 		console.log(chosenRouteShortName);
-	});
+	 });
+
+
+
+
+
+
+
+	// var content = '<option value="">No Selection</option>';
+	// // route_id,route_short_name,route_long_name,route_type,route_color,route_text_color
+	// data.forEach(function(row){
+	// 		if(!row['route_long_name']) row['route_long_name'] = '(no long name)';
+	// 		content += `<option value="${row['route_id']}">${row['route_short_name']}-${row['route_long_name']}</option>`;
+	// 	});
+	// $('#routeSelect').html(content);
+	// $('#routeSelect').chosen({search_contains:true, width:300, placeholder_text_single:'Pick a Route'});
+	// $('#routeSelect').on('change', function(evt,params) {
+	// 	let route_id = params.selected;
+	// 	if( !route_id.length ) {
+	// 		tripsTable.clearData();
+	// 		chosenRoute = '';
+	// 		chosenRouteShortName = '';
+	// 		$("#newTripHTML").hide('slow');
+	// 		$("#shapeApplyHTML").hide('slow');
+	// 		return;
+	// 	}
+	// 	getPythonTrips(route_id);
+	// 	resetTimings();
+	// 	// set globals
+	// 	chosenRoute = route_id;
+	// 	for(var i = 0; i < globalRoutes.length; i++) {
+	// 		if(globalRoutes[i].route_id == chosenRoute) {		
+	// 			chosenRouteShortName =  globalRoutes[i].route_short_name;
+	// 			break;
+	// 		}
+	// 	}
+
+	// 	console.log(chosenRouteShortName);
+	// });
 }
 
 function saveTimings() {
-	var selected = $("#trips-table").tabulator("getSelectedData");
+	var selected = tripsTable.getSelectedData();
 	if(selected.length != 1) {
 		console.log('Please select a trip_id and load the timings table first.');
 		return;
@@ -315,7 +390,7 @@ function saveTimings() {
 
 	$('#timingsSaveStatus').html('<span class="alert alert-info">Sending modified timings data to server, please wait..</span>');
 
-	var timingsData = $("#stop-times-table").tabulator("getData");
+	var timingsData = stoptimesTable.getData();
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=stop_times&key=trip_id&value=${trip_id}`);
 	xhr.withCredentials = true;
@@ -342,7 +417,7 @@ function saveTrips() {
 		shakeIt('password'); return;
 	}
 
-	var tripsData = $("#trips-table").tabulator("getData");
+	var tripsData = tripsTable.getData();
 	var route_id = tripsData[0]['route_id'];
 
 	$('#tripsSaveStatus').html('<span class="alert alert-info">Sending modified trips data to server, please wait..</span>');
@@ -396,7 +471,7 @@ function setSaveTimings(lock = true) {
 
 function loadTimings() {
 	if( chosenTrip != '') {
-		$("#stop-times-table").tabulator('clearData');
+		stoptimesTable.clearData();
 		getPythonStopTimes(chosenTrip);
 		$('#loadTimingsStatus').html('<div class="alert alert-info">Loading timings..</div>');
 	}
@@ -430,7 +505,7 @@ function addTrip() {
 	for( i in directionsArray) { // looping through directions. If just one direction then fine.
 
 		// search next available id
-		var tripsTableList = $("#trips-table").tabulator('getData').map(a => a.trip_id);
+		var tripsTableList = tripsTable.getData().map(a => a.trip_id);
 		var allTrips = trip_id_list.concat(tripsTableList);
 
 		// loop till you find an available id:
@@ -451,15 +526,15 @@ function addTrip() {
 		var shape_id = '';
 		if(sequenceHolder[ 'shape' + dirIndex ] ) shape_id = sequenceHolder[ 'shape' + dirIndex ];
 		
-		$("#trips-table").tabulator('addRow',{ route_id:route_id, trip_id: trip_id, 
+		tripsTable.addRow([{ route_id:route_id, trip_id: trip_id, 
 			service_id:service_id, direction_id:directionsArray[i], shape_id:shape_id,
-			trip_short_name: trip_short_name, trip_headsign:trip_headsign },true);
+			trip_short_name: trip_short_name, trip_headsign:trip_headsign }],true);
 
 	}
 	
 	$('#addTripStatus').html('<span class="alert alert-success">Trip(s) added with id ' + trip_id + '. Fill its info in the table and then save changes.</span>');
 
-	$("#trips-table").tabulator('redraw', true);
+	tripsTable.redraw(true);
 
 }
 /*
@@ -511,7 +586,7 @@ function populateStopTimesFromSequence(trip_id) {
 	}
 	timesArray[0]['arrival_time'] = timesArray[0]['departure_time'] = '00:00:00';
 	timesArray[list.length-1]['arrival_time'] = timesArray[list.length-1]['departure_time'] = '01:00:00';
-	$("#stop-times-table").tabulator('setData', timesArray);
+	stoptimesTable.setData(timesArray);
 	
 }
 
@@ -576,7 +651,7 @@ function getPythonAllShapesList() {
 }
 
 function resetTimings() {
-	$("#stop-times-table").tabulator('clearData');
+	stoptimesTable.clearData();
 	$('#chosenTrip').html('[select in Trips tab]');
 	chosenTrip = '';
 	$('#loadTimingsStatus').html('');
@@ -601,7 +676,7 @@ function getPythonStopsKeyed() {
 
 
 function defaultShapesApply() {
-	var tripsData = $("#trips-table").tabulator("getData");
+	var tripsData = tripsTable.getData();
 
 	tripsData.forEach(function(row){
 		
@@ -615,8 +690,8 @@ function defaultShapesApply() {
 
 	});
 	
-	$("#trips-table").tabulator("setData", tripsData);
-	$("#trips-table").tabulator('redraw', true);
+	tripsTable.setData(tripsData);
+	tripsTable.redraw(true);
 	
 	$("#defaultShapesApplyStatus").html( '<font color="green"><b><font size="5">&#10004;</font></b> Done!</font> Save Changes to save to DB.');
 	setSaveTrips(true);

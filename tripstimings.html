@@ -1,187 +1,391 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Trips and Timings (stop_times) Management</title>
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link rel="stylesheet" href="lib/chosen/chosen.min.css">
-<link href="js/commonstyle.css" rel="stylesheet">
-<!-- Put the CSSs first and JSs next -->
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Main info</title>
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/tabulator.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
-</script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<script src="lib/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-<style>
-#trips-table{
-	height: 350px;
-}
+   <!-- Fontfaces CSS-->
+   <link href="css/font-face.css" rel="stylesheet" media="all">
+   <link href="vendor/font-awesome-5/css/all.min.css" rel="stylesheet" media="all">
 
-#stop-times-table {
-	height: 300px;
-}
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    
+    <!-- Vendor CSS-->
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
 
-.ui-autocomplete {
-	font-size: 1em;
-}
+    <link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
+</head>
 
-#newTripHTML {
-	border-radius: 5px;
-	padding: 15px;
-	border: 1px black solid;
-	/*box-shadow:0px 0px 20px black; */
-}
+<body class="animsition">
+        <div class="page-wrapper">
+            <!-- HEADER MOBILE-->
+            <header class="header-mobile d-block d-lg-none">
+                <div class="header-mobile__bar">
+                    <div class="container-fluid">
+                        <div class="header-mobile-inner">
+                            <a class="logo" href="index.html">
+                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+                            </a>
+                            <button class="hamburger hamburger--slider" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="navbar-mobile">
+                    <div class="container-fluid">
+                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
+                            <li class="has-sub">
+                                <a class="js-arrow" href="index.html">
+                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
+                            </li>
+                            <li>
+                                <a href="chart.html">
+                                    <i class="fas fa-chart-bar"></i>Charts</a>
+                            </li>
+                            <li>
+                                <a href="table.html">
+                                    <i class="fas fa-table"></i>Tables</a>
+                            </li>
+                            <li>
+                                <a href="form.html">
+                                    <i class="far fa-check-square"></i>Forms</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            </li>
+                            <li>
+                                <a href="map.html">
+                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-copy"></i>Pages</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="forget-pass.html">Forget Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a class="js-arrow" href="#">
+                                    <i class="fas fa-desktop"></i>GTFS</a>
+                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                    <li>
+                                        <a href="button.html">Button</a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- END HEADER MOBILE-->
+    
+            <!-- MENU SIDEBAR-->
+            <aside class="menu-sidebar d-none d-lg-block">
+                <div class="logo">
+                    <a href="#">
+                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
+                    </a>
+                </div>
+                <div class="menu-sidebar__content js-scrollbar1">
+                    <nav class="navbar-sidebar">
+                        <ul class="list-unstyled navbar__list">
+                                <li class="active">
+                                    <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-home"></i>Home</a>                                        
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                            <i class="fas fa-bus"></i></i>GTFS</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="agency.html"><i class="fas fa-building"></i>Agency</a>
+                                        </li>
+                                        <li>
+                                            <a href="stops.html"><i class="fas fa-map-marker-alt"></i>Stops</a>
+                                        </li>
+                                        <li>
+                                            <a href="routes.html"><i class="fas fa-road"></i>Routes</a>
+                                        </li>
+                                        <li>
+                                            <a href="calendar.html"><i class="fas fa-calendar"></i>Calendar</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="tripstimings.html"><i class="fas fa-stopwatch"></i>Trips, Stop_times</a>
+                                        </li>
+                                        <li>
+                                            <a href="frequencies.html"><i class="fas fa-wave-square"></i>Frequencies</a>
+                                        </li>
+                                        <li>
+                                            <a href="fares.html"><i class="fas fa-dollar-sign"></i>Fares</a>
+                                        </li>
+                                        <li>
+                                            <a href="translations.html"><i class="fas fa-language"></i>Translations</a>
+                                        </li>                                            
+                                    </ul>
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                        <i class="fas fa-tools"></i>Tools</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="sequence.html"><i class="fas fa-align-justify"></i>Default Route Sequence</a>
+                                        </li>
+                                        <li>
+                                            <a href="renameID.html"><i class="fas fa-pen"></i>Rename ID</a>
+                                        </li>
+                                        <li>
+                                            <a href="deleteID.html"><i class="fas fa-trash"></i>Delete ID</a>
+                                        </li>
+                                                                                    
+                                    </ul>
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                            <i class="fas fa-database"></i>Data</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="kmrl.html"><i class="fas fa-file-import"></i>Import KMRL format</a>
+                                        </li>
+                                        <li>
+                                            <a href="hmrl.html"><i class="fas fa-file-import"></i>Import HRML format</a>
+                                        </li>                                   
+                                    </ul>
+                                </li>
+                            </ul>
+                </nav>
+                </div>
+            </aside>
+            <!-- END MENU SIDEBAR-->
+    
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <!-- HEADER DESKTOP-->
+                <header class="header-desktop">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="header-wrap">
+                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
+                                <form class="form-header" action="" method="POST">
+                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
+                                    <button class="au-btn--submit" type="submit">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </button>
+                                </form>                                
+                        </div>
+                    </div>
+                </header>
+                <!-- HEADER DESKTOP-->
+    
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+										  <div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+											  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+												<i class="fas fa-angle-right"></i> Instructions
+											  </button>
+											</h2>
+										  </div>									  
+										  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-body">
+												<b>Trips tab</b>
+												<ul>
+												<li>Pick a Route from the dropdown. In some time, all the trips under this route will load.</li>
+												<li>In case it's a new route, the table will be empty.</li>
+												<li>If the chosen route's default sequence has been saved to the DB in the Routes page Sequence tab, then a "Create new trip" box will be visible below the table.</li>
+												<li>You can create a new trip by filling in or selecting the fields provided : Calendar service, start time, direction.</li>
+												<li>On clicking "Add a Trip", new entry will be created in the Trips table.</li>
+												<li>Many columns will be populated based on your selection, but you can change the values (other than route and trip ids) by clicking on the respective cells.</li>
+												<li>If you have set default shapes for this route in Routes page, then below the table on the right you will have options to assign these shapes to all the trips under the chosen route, repsectively by direction.</li>
+												<li><b>block_id</b> field is for the vehicle indentifier.</li>
+												<li>To access a trip's timings, select a trip (click on left side handle) and move to Timings tab.</li>
+												<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
+												</ul>
+												<b>Stop_times tab</b>
+												<ul>
+												<li>The trip you have chosen will be displayed in green. Click the "load timings" button.</li>
+												<li>In some seconds the timings should load in the table</li>
+												<li>You can edit some columns like arrival_time and departure_time, and other columns on left side are fixed.</li>
+												<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
+												</ul>	
+												<p>Read the <a href="https://developers.google.com/transit/gtfs/reference/#tripstxt">trips reference</a> docs for learning more about trips, and read the <a href="https://developers.google.com/transit/gtfs/reference/#stop_timestxt">stop_times reference</a> for learning more about the way the timings data is stored in GTFS.</p>
+												<p>Note: Arrival time and departure time must be specified for the first and the last stop in a trip; rest may be left blank. (if so, set timepoint to 0-Estimated ).
+												
+											</div>
+										  </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<strong class="card-title mb-3">Trips and Timings (Stop_times)</strong>
+										</div>
+										<div class="card-body">											
+											<ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="trips-tab" data-toggle="tab" href="#trips" role="tab" aria-controls="trips" aria-selected="true">Trips</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="stoptimes-tab" data-toggle="tab" href="#stoptimes" role="tab" aria-controls="stoptimes" aria-selected="false">Stop times</a>
+                                                </li>                                                
+											</ul>
+											<div class="tab-content pl-3 p-1" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="trips" role="tabpanel" aria-labelledby="trips-tab">
+													<div class="row">
+														<div class="col-md-3">
+															Pick a route
+														</div>
+														<div class="col-md-9">
+															<select id="routeSelect"></select>
+														</div>
+													</div>													
+													<h5>Trips</h5>													
+													<div id="trips-table"></div>
+													
+													<div id="newTripHTML">
+													
+														<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
+														<!--<input placeholder="trip_short_name" id="trip2add" size="8">-->
+													
+														<p>Calendar service: <select id="trip_calendar"></select></p>
+														<p>
+															Start time:<input id="trip_time" type="time" name="time">
+															&nbsp;&nbsp;
+															Direction: <select id="trip_direction">
+																<option value="0" selected="selected">Onward</option>
+																<option value="1">Return</option>
+																<option value="none">None</option>
+																<option value="both">Both</option>
+															</select>
+															&nbsp;&nbsp;
+															<button class="btn btn-apple btn-sm	" id="addTripButton" type="button">Add a Trip</button></p>
+													
+														<p><small id="addTripStatus"><i>A new row will be added at the top of the table. Please fill in all the values
+																	appropriately and then save to DB.</i></small></p>
+													
+													</div>
+													<div id="noSequenceAlert" style="display:none" class="alert alert-warning">
+														Note: Cannot add new trips to this route right now as this route's sequence is not finalized yet. Please do so by
+														visiting the <a class="btn btn-outline-info" href="sequence.html">Default Sequence</a> page.
+													</div>
+													
+													<br>
+													<p>If you edit any trip's information, make sure to <button id="saveTrips" class="btn btn-normal" disabled>Save Trips to
+															DB</button> before changing to another route above.</p>
+													<p><span id="tripsSaveStatus"></span></p>
+													
+													<div id="shapeApplyHTML" style="display:none" class="alert alert-warning">
+															<p>This route has default shape(s) set:
+																<br><span id="defaultShapesInfo"></span>
+																<br>Would you like to apply them to all the trips?
+																<br><button class="btn btn-outline-info" id="defaultShapesApplyButton">Apply shapes to all trips</button>
+															</p>
+															<p id="defaultShapesApplyStatus"></p>
+															</div>
+															<small>
+																To delete a trip you have just added, just reload this page without saving changes.
+																<br>
+																To delete an existing trip that has already been saved in the db, please go to the <a
+																	href="misc.html">Miscellaneous page</a>, Maintenance tab.
+													
+															</small>
+                                                </div>
+                                                <div class="tab-pane fade" id="stoptimes" role="tabpanel" aria-labelledby="stoptimes-tab">													
+													<h5>Stop_times (timings)</h5>
+													<div class="row">
+														<div class="col-md-4 alert alert-info"><small>
+													Select a Trip from the trips table in the previous tab, then click the load button here to edit its timings in the table below. You can select a row by clicking on the left side handle.</small>
+													</div>
+													<div class="col-md-8">
+													<p>For the trip_id <span id="chosenTrip">[select in Trips tab]</span> chosen, 
+													<button id="loadTimingsButton" class="btn btn-sm btn-outline-apple"><font size=4><b>&#8986;</b></font> click to load timings</button> <br><br>
+													<small><span id="loadTimingsStatus"></span></small></p>
+													</div>
+													</div>
+													
+													<div id="stop-times-table"></div>
+													<br>
+													<p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings to DB</button> before changing to another trip above.</p>
+													<p><small id="timingsSaveStatus"></small></p>
+													<br>
+													<p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to <a href="sequence.html">Default Route Sequence</a> page and change the sequence from there.</p>
+																					   
+                                                    
+                                                </div>                                               
+                                            </div>
 
-#shapeApplyHTML {
-	border-radius: 5px;
-	padding: 15px;
-	border: 1px black solid;
-	/*box-shadow:0px 0px 20px black; */
-}
-</style></head>
-<body>
-<div id="navBar"></div>
-<div class="container">
-<h2>Trips and Timings (Stop_times)</h2>
+									</div>
+								</div>
+							</div>							
+                        </div>
+                    </div>
+                </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+    
+        </div>
+    
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+		<script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+		
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js"></script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>        
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/select2/js/select2.min.js"></script>
+		<script src="vendor/toast-0.7.1/toast.min.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
+    
+    
 
-<div id="accordion">
-<h4>Instructions</h4>
-<div>
-<b>Trips tab</b>
-<ul>
-<li>Pick a Route from the dropdown. In some time, all the trips under this route will load.</li>
-<li>In case it's a new route, the table will be empty.</li>
-<li>If the chosen route's default sequence has been saved to the DB in the Routes page Sequence tab, then a "Create new trip" box will be visible below the table.</li>
-<li>You can create a new trip by filling in or selecting the fields provided : Calendar service, start time, direction.</li>
-<li>On clicking "Add a Trip", new entry will be created in the Trips table.</li>
-<li>Many columns will be populated based on your selection, but you can change the values (other than route and trip ids) by clicking on the respective cells.</li>
-<li>If you have set default shapes for this route in Routes page, then below the table on the right you will have options to assign these shapes to all the trips under the chosen route, repsectively by direction.</li>
-<li><b>block_id</b> field is for the vehicle indentifier.</li>
-<li>To access a trip's timings, select a trip (click on left side handle) and move to Timings tab.</li>
-<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
-</ul>
-<b>Stop_times tab</b>
-<ul>
-<li>The trip you have chosen will be displayed in green. Click the "load timings" button.</li>
-<li>In some seconds the timings should load in the table</li>
-<li>You can edit some columns like arrival_time and departure_time, and other columns on left side are fixed.</li>
-<li>After making changes, be sure to click the big green button at the bottom to commit your changes to the DB.</li>
-</ul>	
-<p>Read the <a href="https://developers.google.com/transit/gtfs/reference/#tripstxt">trips reference</a> docs for learning more about trips, and read the <a href="https://developers.google.com/transit/gtfs/reference/#stop_timestxt">stop_times reference</a> for learning more about the way the timings data is stored in GTFS.</p>
-<p>Note: Arrival time and departure time must be specified for the first and the last stop in a trip; rest may be left blank. (if so, set timepoint to 0-Estimated ).
-
-</div>
-</div><!-- Accordion over -->
-<br>
-
-<!-- Tabs Menu -->
-<div id="tabs">
-<ul>
-<li><a href="#tab1">Trips</a></li>
-<li><a href="#tab2">Stop_times</a></li>
-</ul>
-
-
-<!-- TRIPS -->
-<div id="tab1">
-
-<h5>Pick a route: <select id="routeSelect"></select> &nbsp;&nbsp;&nbsp;<small><span id="routeSelectStatus"></span></small></h5>
-
-
-<h5>Trips</h5>
-
-<div id="trips-table"></div>
-<br>
-<div class="row">
-<div class="col col-md-8">
-
-<div id="newTripHTML">
-
-<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
-<!--<input placeholder="trip_short_name" id="trip2add" size="8">-->
-
-<p>Calendar service: <select id="trip_calendar"></select></p>
-<p>
-Start time:<input id="trip_time" type="time" name="time">
-&nbsp;&nbsp;
-Direction: <select id="trip_direction">
-	<option value="0" selected="selected">Onward</option>
-	<option value="1">Return</option>
-	<option value="none">None</option>
-	<option value="both">Both</option>
-</select>
-&nbsp;&nbsp;
-<button class="btn btn-apple btn-sm	" id="addTripButton" type="button">Add a Trip</button></p>
-
-<p><small id="addTripStatus"><i>A new row will be added at the top of the table. Please fill in all the values appropriately and then save to DB.</i></small></p>
-
-</div>
-<div id="noSequenceAlert" style="display:none" class="alert alert-warning">
-Note: Cannot add new trips to this route right now as this route's sequence is not finalized yet. Please do so by visiting the <a class="btn btn-outline-info" href="sequence.html">Default Sequence</a> page.
-</div>
-
-<br>
-<p>If you edit any trip's information, make sure to <button id="saveTrips" class="btn btn-normal" disabled>Save Trips to DB</button> before changing to another route above.</p>
-<p><span id="tripsSaveStatus"></span></p>
-
-</div><div class="col col-md-4">
-<div id="shapeApplyHTML" style="display:none" class="alert alert-warning">
-<p>This route has default shape(s) set:
-<br><span id="defaultShapesInfo"></span>
-<br>Would you like to apply them to all the trips?
-<br><button class="btn btn-outline-info" id="defaultShapesApplyButton">Apply shapes to all trips</button></p>
-<p id="defaultShapesApplyStatus"></p>
-
-</div>
-
-</div>
-</div>
-
-<small>
-To delete a trip you have just added, just reload this page without saving changes.
-<br>
-To delete an existing trip that has already been saved in the db, please go to the <a href="misc.html">Miscellaneous page</a>, Maintenance tab.
-
-</small>
-
-</div> <!-- TRIPS tab end -->
-
-<!-- STOP_TIMES -->
-<div id="tab2">
-
-<h5>Stop_times (timings)</h5>
-<div class="row">
-	<div class="col-md-4 alert alert-info"><small>
-Select a Trip from the trips table in the previous tab, then click the load button here to edit its timings in the table below. You can select a row by clicking on the left side handle.</small>
-</div>
-<div class="col-md-8">
-<p>For the trip_id <span id="chosenTrip">[select in Trips tab]</span> chosen, 
-<button id="loadTimingsButton" class="btn btn-sm btn-outline-apple"><font size=4><b>&#8986;</b></font> click to load timings</button> <br><br>
-<small><span id="loadTimingsStatus"></span></small></p>
-</div>
-</div>
-
-<div id="stop-times-table"></div>
-<br>
-<p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings to DB</button> before changing to another trip above.</p>
-<p><small id="timingsSaveStatus"></small></p>
-<br>
-<p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to <a href="sequence.html">Default Route Sequence</a> page and change the sequence from there.</p>
-
-</div>
-</div>
-
-</div>
-<br><br><br>
 <script src="config/settings.js" type="text/javascript"></script>
-<script src="js/commonfuncs.js"></script>
+<script src="js/commonfuncs.js" type="text/javascript"></script>
 <script src="js/tripstimings.js"></script>
 
-</body>
+</body>  
 </html>
+

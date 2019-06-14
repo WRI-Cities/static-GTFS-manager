@@ -8,25 +8,24 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <title>GTFS Manager : Main info</title>
 
-    <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+   <!-- Fontfaces CSS-->
+   <link href="css/font-face.css" rel="stylesheet" media="all">
+   <link href="vendor/font-awesome-5/css/all.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
     <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
+    
     <!-- Vendor CSS-->
     <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
     <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
     <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
     <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
     <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
-	<link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-	<link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
-	<script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
+
+    <link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
     <!-- Put the CSSs first and JSs next -->
@@ -117,71 +116,71 @@
                 </div>
                 <div class="menu-sidebar__content js-scrollbar1">
                     <nav class="navbar-sidebar">
-                            <ul class="list-unstyled navbar__list">
-                                    <li class="active">
-                                        <a class="js-arrow" href="index.html">
-                                            <i class="fas fa-tachometer-alt"></i>Home</a>                                        
-                                    </li>
-                                    <li class="has-sub">
-                                        <a class="js-arrow" href="#">
-                                            <i class="fas fa-desktop"></i>GTFS</a>
-                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                            <li>
-                                                <a href="agency.html">Agency</a>
-                                            </li>
-                                            <li>
-                                                <a href="stops.html">Stops</a>
-                                            </li>
-                                            <li>
-                                                <a href="routes.html">Routes</a>
-                                            </li>
-                                            <li>
-                                                <a href="calendar.html">Calendar</a>
-                                            </li>
-                                            <li>
-                                                <a href="tripstimings.html">Trips, Stop_times</a>
-                                            </li>
-                                            <li>
-                                                <a href="frequencies.html">Frequencies</a>
-                                            </li>
-                                            <li>
-                                                <a href="fares.html">Fares</a>
-                                            </li>
-                                            <li>
-                                                <a href="translations.html">Translations</a>
-                                            </li>                                            
-                                        </ul>
-                                    </li>
-                                    <li class="has-sub">
-                                        <a class="js-arrow" href="#">
-                                            <i class="fas fa-desktop"></i>Tools</a>
-                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                            <li>
-                                                <a href="sequence.html">Default Route Sequence</a>
-                                            </li>
-                                            <li>
-                                                <a href="renameID.html">Rename ID</a>
-                                            </li>
-                                            <li>
-                                                <a href="deleteID.html">Delete ID</a>
-                                            </li>
-                                                                                     
-                                        </ul>
-                                    </li>
-                                    <li class="has-sub">
-                                        <a class="js-arrow" href="#">
-                                            <i class="fas fa-desktop"></i>Data</a>
-                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                            <li>
-                                                <a href="kmrl.html">Import KMRL format</a>
-                                            </li>
-                                            <li>
-                                                <a href="hmrl.html">Import HRML format</a>
-                                            </li>                                   
-                                        </ul>
-                                    </li>
-                                </ul>
-                    </nav>
+                        <ul class="list-unstyled navbar__list">
+                                <li class="active">
+                                    <a class="js-arrow" href="index.html">
+                                            <i class="fas fa-home"></i>Home</a>                                        
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                            <i class="fas fa-bus"></i></i>GTFS</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="agency.html"><i class="fas fa-building"></i>Agency</a>
+                                        </li>
+                                        <li>
+                                            <a href="stops.html"><i class="fas fa-map-marker-alt"></i>Stops</a>
+                                        </li>
+                                        <li>
+                                            <a href="routes.html"><i class="fas fa-road"></i>Routes</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="calendar.html"><i class="fas fa-calendar"></i>Calendar</a>
+                                        </li>
+                                        <li>
+                                            <a href="tripstimings.html"><i class="fas fa-stopwatch"></i>Trips, Stop_times</a>
+                                        </li>
+                                        <li>
+                                            <a href="frequencies.html"><i class="fas fa-wave-square"></i>Frequencies</a>
+                                        </li>
+                                        <li>
+                                            <a href="fares.html"><i class="fas fa-dollar-sign"></i>Fares</a>
+                                        </li>
+                                        <li>
+                                            <a href="translations.html"><i class="fas fa-language"></i>Translations</a>
+                                        </li>                                            
+                                    </ul>
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                        <i class="fas fa-tools"></i>Tools</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="sequence.html"><i class="fas fa-align-justify"></i>Default Route Sequence</a>
+                                        </li>
+                                        <li>
+                                            <a href="renameID.html"><i class="fas fa-pen"></i>Rename ID</a>
+                                        </li>
+                                        <li>
+                                            <a href="deleteID.html"><i class="fas fa-trash"></i>Delete ID</a>
+                                        </li>
+                                                                                    
+                                    </ul>
+                                </li>
+                                <li class="has-sub">
+                                    <a class="js-arrow" href="#">
+                                            <i class="fas fa-database"></i>Data</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                        <li>
+                                            <a href="kmrl.html"><i class="fas fa-file-import"></i>Import KMRL format</a>
+                                        </li>
+                                        <li>
+                                            <a href="hmrl.html"><i class="fas fa-file-import"></i>Import HRML format</a>
+                                        </li>                                   
+                                    </ul>
+                                </li>
+                            </ul>
+                </nav>
                 </div>
             </aside>
             <!-- END MENU SIDEBAR-->
@@ -312,8 +311,8 @@
         <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>        
         <script src="vendor/circle-progress/circle-progress.min.js"></script>
         <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-        <script src="vendor/select2/js/select2.min.js"></script>		
+        <script src="vendor/select2/js/select2.min.js"></script>
+
         <!-- Main JS-->
         <script src="js/main.js"></script>
     
