@@ -40,11 +40,13 @@ var table = new Tabulator("#stops-table", {
 		{title:"stop_lat", field:"stop_lat", headerSort:false, validator:"float" },
 		{title:"stop_lon", field:"stop_lon", headerSort:false, validator:"float" },
 		{title:"zone_id", field:"zone_id", editor:"input" },
-		{title:"wheelchair_boarding", field:"wheelchair_boarding", editor:"select", editorParams:{0:"No (0)", 1:"Yes (1)"}, headerSort:false }
+		{title:"wheelchair_boarding", field:"wheelchair_boarding", editor:"select", headerSort:false,editorParams:{values:{0:"No (0)", 1:"Yes (1)"}} }
 	],
 	
 	rowSelected:function(row){ //when a row is selected
 		//console.log("Row " + row.getData().stop_id + " Clicked, index: " + row.getIndex() );
+		// Change tab on select
+		$('.nav-tabs a[href="#edit"]').tab('show');
 		mapPop(row.getData().stop_id);
 	},
 	rowDeselected:function(row){ //when a row is deselected
@@ -311,7 +313,13 @@ function updateTable() {
 	stop_id = $("#targetStopid").val();
 	stop_name = $("#stop_name").val();
 	zone_id = $("#zone_id").val();
-	wheelchair_boarding = parseInt( $("#wheelchair").val() );
+	if ($("#wheelchair").val() == null) {
+		wheelchair_boarding = '';
+	}
+	else {
+		wheelchair_boarding = parseInt( $("#wheelchair").val() );
+	}
+
 	
 	if (stop_id.length < UID_leastchars || stop_id.length > UID_maxchars ) {
 		alert('check stop_id value, must be all caps, alphabets or numbers and between '+UID_leastchars + ' and ' + UID_maxchars + ' chars long.'); return 0; 
@@ -344,6 +352,7 @@ function updateTable() {
 		table.selectRow(stop_id);
 		// clearing values
 		$("#targetStopid").val('');
+		$('#targetStopid').select2().trigger('change');
 		$("#stop_name").val('');
 		$("#wheelchair").val('');
 		$("#newlatlng").val('');
@@ -361,9 +370,18 @@ function reloadData(timeflag='normal') {
 		obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
 		return obj;
 	  });
-		
+	console.log($("#targetStopid").val())
 	$("#targetStopid").select2({
 		tags: true,
+		placeholder: "",
+		theme: 'bootstrap4',
+		createTag: function (tag) {
+			return {
+				id: tag.term,
+				text: tag.term,
+				isNew : true
+			}
+		},		
 		data: select2items
 	  });
 
@@ -373,13 +391,17 @@ function reloadData(timeflag='normal') {
 	}
 	// 
 	$('#targetStopid').on("select2:select", function(e) { 		
-		// what you would like to happen
-		var item = e.params.data;
-		stop_id = item.id;		
+		if(e.params.data.isNew){
+			// New value typed in the select2 box.
+			var newOption = new Option(e.params.data.id, e.params.data.id, false, false);
+			$('#targetStopid').append(newOption).trigger('change');
+			//table.updateOrAddData([{stop_id:e.params.data.id, stop_lat:null, stop_lon:null } ]);
+		}
+		var stop_id = e.params.data.id;		
 		populateFields(stop_id);
 		mapPop(stop_id);
 	 });
-
+	 console.log($("#targetStopid").val())
 	// Map update
 	reloadMap(timeflag);
 
@@ -498,8 +520,8 @@ function markerOnClick(e) {
 	$( "#stop2delete" ).val(stop_id);
 }
 
-function populateFields(stop_id) {
-	var row = table.getRow(stop_id); //return row compoenent with index of 1	
+function populateFields(stop_id) {	
+	var row = table.getRow(stop_id); //return row compoenent with index of 1		
 	if (!row)
 	{
 		// New row
@@ -507,6 +529,8 @@ function populateFields(stop_id) {
 		$('#newlatlng').val('');
 		$('#wheelchair').val('');
 		$('#stop_name').val('');
+		$('#targetStopid').val('');
+		$('#targetStopid').select2().trigger('change');
 	}
 	else 
 	{
@@ -516,7 +540,12 @@ function populateFields(stop_id) {
 		$('#targetStopid').select2().trigger('change');
 		$('#stop_name').val(rowData['stop_name']);
 		$('#zone_id').val(rowData['zone_id']);
-		$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
+		if (rowData['stop_lat'] == null || rowData['stop_lon'] == null) {
+			$('#newlatlng').val('');
+		}
+		else {
+			$('#newlatlng').val(rowData['stop_lat'] + ',' + rowData['stop_lon']);
+		}
 		$('#wheelchair').val(rowData['wheelchair_boarding']);
 	}	
 }
@@ -527,6 +556,7 @@ function depopulateFields() {
 	$('#newlatlng').val('');
 	$('#wheelchair').val('');
 	$( "#targetStopid" ).val('');
+	$('#targetStopid').select2().trigger('change');
 	$( "#stop2delete" ).val('');
 }
 // ##############################

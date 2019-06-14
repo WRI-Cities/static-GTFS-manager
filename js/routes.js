@@ -38,8 +38,8 @@ var table = new Tabulator("#routes-table", {
 		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
 		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
 		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
-		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
-		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
+		{title:"route_color", field:"route_color", headerSort:false, editor: ColorEditor },
+		{title:"route_text_color", field:"route_text_color", headerSort:false, editor: ColorEditor },
 		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
 	],
 	dataLoaded:function(data) {

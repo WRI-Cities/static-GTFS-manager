@@ -59,12 +59,20 @@ $("#agency2add").bind("change keyup", function(){
 // Functions
 
 function saveAgency() {
-	$('#agencySaveStatus').html('Sending data to server.. please wait..');
+	
+	  //$('#agencySaveStatus').html('Sending data to server.. please wait..');
 	var pw = $("#password").val();
 	if ( ! pw ) { 
 		$('#agencySaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
 		shakeIt('password'); return;
 	}
+	$.toast({
+		title: 'Save Agency',
+		subtitle: 'Saving',
+		content: 'Sending data to server.. please wait..',
+		type: 'info',
+		delay: 5000
+	  });
 	var data = table.getData();
 
 	console.log('sending to server via POST');
