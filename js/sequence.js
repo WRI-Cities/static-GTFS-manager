@@ -3,11 +3,14 @@
 var allStops = [];
 var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 
+var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
+    return "<i class='fas fa-trash-alt'></i>";
+};
 
 // #########################################
 // Construct tables
 
-$("#sequence-0-table").tabulator({
+var sequence0table = new Tabulator("#sequence-0-table", {
 	selectable:1,
 	index: 'stop_id',
 	movableRows: true,
@@ -19,7 +22,7 @@ $("#sequence-0-table").tabulator({
 		{title:"Num", width:40, formatter: "rownum", headerSort:false}, // row numbering
 		{title:"stop_id", field:"stop_id", headerFilter:"input", headerFilterPlaceholder:"filter by id", headerSort:false },
 		{title:"stop_name", field:"stop_name", headerFilter:"input", headerFilterPlaceholder:"filter by name", headerSort:false },
-		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
+		{formatter:trashIcon, align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
 			map[0].closePopup();
 			cell.getRow().delete();
 			mapsUpdate();
@@ -40,7 +43,7 @@ $("#sequence-0-table").tabulator({
 	}
 });
 
-$("#sequence-1-table").tabulator({
+var sequence1table = new Tabulator("#sequence-1-table", {
 	selectable:1,
 	index: 'stop_id',
 	movableRows: true,
@@ -52,7 +55,7 @@ $("#sequence-1-table").tabulator({
 		{title:"Num", width:40, formatter: "rownum", headerSort:false}, // row numbering
 		{title:"stop_id", field:"stop_id", headerFilter:"input", headerFilterPlaceholder:"filter by id", headerSort:false },
 		{title:"stop_name", field:"stop_name", headerFilter:"input", headerFilterPlaceholder:"filter by name", headerSort:false },
-		{formatter:"buttonCross", width:40, align:"center", headerSort:false, cellClick:function(e, cell){
+		{formatter:trashIcon, width:40, align:"center", headerSort:false, cellClick:function(e, cell){
     		cell.getRow().delete();
     		mapsUpdate();
 		}}
@@ -115,22 +118,22 @@ for ( i in [0,1] ) {
 }
 
 // adding buttons to zoom to show all stops
-L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+L.easyButton('<i class="fas fa-home"></i>', function(btn, map){
 	map.fitBounds(sequenceLayer[0].getBounds(), {padding:[40,20], maxZoom:14});
-}).addTo( map[0] );
+}, 'Filter stops').addTo( map[0] );
 
-L.easyButton('<img src="extra_files/home.png" title="show all stops">', function(btn, map){
+L.easyButton('<i class="fas fa-home"></i>', function(btn, map){
 	map.fitBounds(sequenceLayer[1].getBounds(), {padding:[40,20], maxZoom:14});
-}).addTo( map[1] );
+}, 'Filter stops').addTo( map[1] );
 
 // adding buttons to download shape
-L.easyButton('<img src="extra_files/downloadicon.svg" title="download shape">', function(btn, map){
+L.easyButton('<i class="fas fa-download"></i>', function(btn, map){
 	download_shapefile(0);
-}).addTo( map[0] );
+}, 'Download shape file').addTo( map[0] );
 
-L.easyButton('<img src="extra_files/downloadicon.svg" title="download shape">', function(btn, map){
+L.easyButton('<i class="fas fa-download"></i>', function(btn, map){
 	download_shapefile(1);
-}).addTo( map[1] );
+}, 'Download shape file').addTo( map[1] );
 
 
 // #########################################
@@ -148,12 +151,13 @@ $(document).ready(function() {
 // Listeners for button presses etc
 
 $("#add-0").on("click", function(){
-	add2sequence($('#stopChooser0').val(),0);
+	//$('#stopChooser0').select2().val();
+	add2sequence($('#stopChooser0').find(':selected').val(),0);
 	//$('#stop2add-0').val('');
 });
 
 $("#add-1").on("click", function(){
-	add2sequence($('#stopChooser1').val(),1);
+	add2sequence($('#stopChooser1').select2().val(),1);
 	//$('#stop2add-1').val('');
 });
 
@@ -215,28 +219,50 @@ $('#routeSelect').on('change', function (e) {
 
 // ##################
 // MODAL
-var modal = document.getElementById('myModal');
-// Get the button that opens the modal
-var btn = document.getElementById("openShapeModal");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-	if(! selected_route_id)
-		$('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
-	else
-    	modal.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+
+$(document).on('show.bs.modal','#UploadShapeModal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var recipient = button.data('whatever') // Extract info from data-* attributes
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+	//modal.find('.modal-title').text('New message to ')
+	//alert(selected_route_id);
+	modal.find('.modal-title').text('Upload a shape for route ' + selected_route_id)
+	// //modal.find('.modal-body input').val(recipient)
+	if(! selected_route_id) {
+		 $('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
+		 modal.modal('hide')
+	}
+ 	else {
+		 modal.modal('show')
+	 }
+	
+  });
+
+
+// var modal = document.getElementById('myModal');
+// // Get the button that opens the modal
+// var btn = document.getElementById("openShapeModal");
+// // Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("close")[0];
+// // When the user clicks the button, open the modal 
+// btn.onclick = function() {
+// 	if(! selected_route_id)
+// 		$('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
+// 	else
+//     	modal.style.display = "block";
+// }
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// }
 
 
 // #########################################
@@ -252,8 +278,25 @@ function getPythonStops() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/allStopsKeyed .`);
 			var data = JSON.parse(xhr.responseText);
-			allStops = data;
-			stopidAutocomplete();
+			allStops = data;		
+			var select2items = [];
+			for(key in allStops) {
+				var searchtext = key + " : " + allStops[key]['stop_name']
+				select2items.push({id : key, text: searchtext})
+				//content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
+			}
+			$("#stopChooser0").select2({				
+				placeholder: "Pick a stop",
+				theme: 'bootstrap4',
+				data: select2items
+			  });
+			$("#stopChooser1").select2({				
+				placeholder: "Pick a stop",
+				theme: 'bootstrap4',
+				data: select2items
+			  });
+
+			//stopidAutocomplete();
 		
 		}
 		else {
@@ -263,17 +306,39 @@ function getPythonStops() {
 	xhr.send();
 }
 
-function stopidAutocomplete() {
-	// chosen.js autocomplete.
-	var content = '<option></option>';
-	for(key in allStops) {
-		content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
-	}
-	$('#stopChooser0').html(content);
-	$('#stopChooser1').html(content);
-	$('#stopChooser0').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
-	$('#stopChooser1').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
-}
+// function stopidAutocomplete() {
+// 	// chosen.js autocomplete.
+// 	var content = '<option></option>';
+// 	for(key in allStops) {
+// 		content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
+// 	}
+
+// 	var select2items = $.map(allStops, function (obj) {
+// 		console.log(allStops[obj]);
+// 		obj.id = obj.id || obj.stop_code; // replace identifier
+// 		obj.text = obj.text || obj.stop_code + " : " + obj.stop_name
+// 		return obj;
+// 	  });
+// 	  console.log(select2items);
+// 	//console.log($("#targetStopid").val())
+// 	$("#stopChooser0").select2({				
+// 		placeholder: "Pick a stop",
+// 		theme: 'bootstrap4',
+// 		data: select2items
+// 	  });
+// 	$("#stopChooser1").select2({				
+// 		placeholder: "Pick a stop",
+// 		theme: 'bootstrap4',
+// 		data: select2items
+// 	  });
+
+
+
+// 	$('#stopChooser0').html(content);
+// 	$('#stopChooser1').html(content);
+// 	$('#stopChooser0').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
+// 	$('#stopChooser1').chosen({search_contains:true, width:225, placeholder_text_single:'Pick a stop'});
+// }
 
 function getPythonSequence(route_id) {
 	$('#sequenceLoadStatus').html('<span class="alert alert-info">Loading sequence from DB...</span>');
@@ -326,8 +391,8 @@ function initiateSequence(sequenceData) {
 		sequence1.push(row);
 	}
 
-	$("#sequence-0-table").tabulator('setData',sequence0);
-	$("#sequence-1-table").tabulator('setData',sequence1);
+	sequence0table.setData(sequence0);
+	sequence1table.setData(sequence1);
 	mapsUpdate('firsttime'); //this would be an all-round full refresh of the maps based on the data in the global varibles.
 
 }
@@ -337,7 +402,13 @@ function mapsUpdate(timeflag='normal') {
 	var data = [];
 
 	for (j in [0,1]) {
-		data[j] = $(`#sequence-${j}-table`).tabulator("getData");
+		if(j == 0) {
+			data[j] = sequence0table.getData();			
+		}
+		else {
+			data[j] = sequence1table.getData();		
+		}
+		//data[j] = $(`#sequence-${j}-table`).tabulator("getData");
 		sequenceLayer[j].clearLayers();
 
 		// check and skip if empty sequence. And note, one sequence may be filled while other is empty.
@@ -374,7 +445,13 @@ function mapsUpdate(timeflag='normal') {
 		}
 
 		// redo the row numbering, in case stops have been moved.
-		$(`#sequence-${j}-table`).tabulator("redraw", true);
+		if(j == 0) {
+			data[j] = sequence0table.redraw(true);			
+		}
+		else {
+			data[j] = sequence1table.redraw(true);
+		}
+		//$(`#sequence-${j}-table`).tabulator("redraw", true);
 		// to check: maybe this belongs elsewhere? -> No, the tabulators call this function when rows are moved. It's fine.
 	}
 }
@@ -421,14 +498,15 @@ function add2sequence(stop_id, direction_id=0) {
 	console.log('add2sequence function: Adding stop_id ' + stop_id + ' to direction ' + direction_id);
 
 	var row = jQuery.extend(true, {}, allStops[stop_id]); //make a copy
+	console.log(row);
 	row['stop_id'] = stop_id;
 
 	if(direction_id == 0) {
-		$("#sequence-0-table").tabulator('addRow',row);
+		sequence0table.addRow(row);
 		mapsUpdate('firsttime'); // using firsttime as on new routes, on adding a stop, it needs to show on the map. Else it is staying invisible.
 	}
 	else {
-		$("#sequence-1-table").tabulator('addRow',row);
+		sequence1table.addRow(row);
 		mapsUpdate('firsttime');
 	}
 }
@@ -439,8 +517,8 @@ function saveSequence() {
 	$('#sequenceSaveStatus').html('<span class="alert alert-info">Saving sequence to DB, please wait...</span>');
 
 	// forget global sequences, retrieve latest sequence data straight from tables.
-	var sequence0 = $("#sequence-0-table").tabulator('getData');
-	var sequence1 = $("#sequence-1-table").tabulator('getData');
+	var sequence0 = sequence0table.getData();
+	var sequence1 = sequence1table.getData();
 	
 	//var selected = $("#routes-table").tabulator("getSelectedData");
 	if(! selected_route_id.length) {
@@ -495,12 +573,12 @@ function flipSequence(overwrite=false) {
 	// flips the onward journey's sequence and inserts it into the return journey sequence. 
 	//If there are stops already listed, then they will be pushed below or over-written depending on the overwrite flag.
 
-	var onward = $("#sequence-0-table").tabulator('getData');
+	var onward = sequence0table.getData();
 	
-	if(overwrite) $("#sequence-1-table").tabulator('setData',[]);
+	if(overwrite) sequence1table.setData([]);
 	
 	for (i in onward) {
-		$("#sequence-1-table").tabulator("addData", onward[i], true);
+		sequence1table.addData(onward[i], true);
 		// inserting into return sequence table at top, in effect reversing the onward sequence.
 	}
 	mapsUpdate('firsttime');
@@ -508,8 +586,8 @@ function flipSequence(overwrite=false) {
 }
 
 function clearSequences() {
-	$("#sequence-0-table").tabulator('setData',[]);
-	$("#sequence-1-table").tabulator('setData',[]);
+	sequence0table.setData([]);
+	sequence1table.setData([]);
 	// ah we have a reset function. let's reset some more things
 	$("#sequenceSaveStatus").html('');
 
@@ -665,6 +743,7 @@ function populateShapesLists(shapes) {
 //###############
 
 function uploadShape() {
+	alert('upload');
 	$('#uploadShapeStatus').html('');
 	// make POST request to API/XMLUpload
 
@@ -809,17 +888,31 @@ function getPythonRoutes() {
 			console.log(`GET call to Server API/tableReadSave?table=routes succesful.`);
 			var data = JSON.parse(xhr.responseText);
 			
-			// populating route select for sequence:
-			var dropdown = '<option value="">Select a route</option>';
-			dropdown += '<option value="">{id}: {short name}: {long name}</option>';
-			data.forEach(function(row){
-				let title = `${row['route_id'] || ''}: ${row['route_short_name'] || ''}: ${row['route_long_name'] || ''}`;
-				dropdown += '<option value="' + row['route_id'] + '">' + title + '</option>';
-			});
+			var select2items = $.map(data, function (obj) {
+				obj.id = obj.id || obj.route_id; // replace identifier
+				obj.text = obj.text || obj.route_id + " : " + obj.route_short_name + " : " + obj.route_long_name
+				return obj;
+			  });
+			//console.log($("#targetStopid").val())
+			$("#routeSelect").select2({				
+				placeholder: "Select a route",
+				theme: 'bootstrap4',
+				data: select2items
+			  });
 
-			$("#routeSelect").html(dropdown);
-			$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-			$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
+
+
+			// populating route select for sequence:
+			// var dropdown = '<option value="">Select a route</option>';
+			// dropdown += '<option value="">{id}: {short name}: {long name}</option>';
+			// data.forEach(function(row){
+			// 	let title = `${row['route_id'] || ''}: ${row['route_short_name'] || ''}: ${row['route_long_name'] || ''}`;
+			// 	dropdown += '<option value="' + row['route_id'] + '">' + title + '</option>';
+			// });
+
+			// $("#routeSelect").html(dropdown);
+			// $('#routeSelect').trigger('chosen:updated'); // update if re-populating
+			// $('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
 
 		}
 		else {
