@@ -357,12 +357,12 @@
 							</div>
 							<div class="row card">
 								<div class="col-md-12">
-										<div class="card">
-												<div class="card-body">
-									Select a route: 
-									<select id="routeSelect"></select> &nbsp;&nbsp;&nbsp;&nbsp;
-									<small><small id="sequenceLoadStatus"></small></small>
-									</div>
+									<div class="card">
+										<div class="card-body">
+											Select a route: 
+											<select id="routeSelect" class="form-control"></select>
+											<small id="sequenceLoadStatus"></small>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -402,7 +402,7 @@
 									</p>
 								</div>
 								<div class="col-md-6">
-									<p>Want to set a new shape for this route? <button class="btn btn-outline-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal">Upload Shapefile</button></p> 
+									<p>Want to set a new shape for this route? <button class="btn btn-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal" disabled>Upload Shapefile</button></p> 
 <p><small><div id="openShapeModalStatus"></div></small></p>
 
 								</div>
@@ -470,10 +470,13 @@
 		<!-- Leaflet Maps -->
 		
 		<script src="lib/leaflet.js"></script>
+		<script src="lib/leaflet.textpath.js"></script>
+		<script src="lib/leaflet-ant-path.js"></script>
 		<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 		<script src="lib/papaparse.min.js" type="text/javascript"></script>
         <script src="lib/L.Control.ZoomBox.min.js" type="text/javascript"></script>
-        <script src="vendor/leaflet-control-geocoder-1.8.2/Control.Geocoder.js"></script>
+		<script src="vendor/leaflet-control-geocoder-1.8.2/Control.Geocoder.js"></script>
+		<script src="vendor/togeojson/togeojson.js"></script>
 
         <!-- Vendor JS       -->
         <script src="vendor/animsition/animsition.min.js"></script>
@@ -483,7 +486,7 @@
         <script src="vendor/select2/js/select2.min.js"></script>
         <script src="js/Select2EditorTimezone.js"></script>		
 		<script src="vendor/toast-0.7.1/toast.min.js"></script>
-		<script src="vendor/togeojson/togeojson.js"></script>
+		
         <!-- Main JS-->
         <script src="js/main.js"></script>
     
@@ -509,7 +512,7 @@
 				<div class="col-md-7">	
 					<b>Onward Journey:</b>
 					<p>Upload a shapefile (.geojson format): <small><a href="xml_related/R001.geojson" target="_blank">see sample</a></small></p>
-					<p><input type="file" id="uploadShape0" name="uploadShape0" class="btn btn-sm btn-outline-secondary" accept=".geojson"></p>
+					<p><input type="file" id="uploadShape0" name="uploadShape0" class="btn btn-sm btn-outline-secondary" accept=".geojson, .kml"></p>
 					<p><label>Pick a Shape id prefix: <input size=4 id="uploadShapeId" placeholder="shape_id" class="form-control"></label></p>
 				</div>
 				<div class="col-md-5">

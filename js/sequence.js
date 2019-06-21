@@ -2,6 +2,7 @@
 // Global variables
 var allStops = [];
 var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
+var tmpfilecontent;
 
 var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
     return "<i class='fas fa-trash-alt'></i>";
@@ -143,7 +144,7 @@ $(document).ready(function() {
 	//getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
 	getPythonRoutes(); // load routes.. for routes management.
 	getPythonAllShapesList();
-
+	
 });
 
 
@@ -173,12 +174,12 @@ $("#flipSequenceInsert").on("click", function(){
 	flipSequence(false);
 });
 
-$("#uploadShapeButton").on("click", function(){
+$(document).on('click','#uploadShapeButton', function(){
 	uploadShape();
 });
 
-$('#shapes0List').on('change', function (e) {
-	var valueSelected = this.value;
+$('#shapes0List').on('select2:select', function (e) {
+	var valueSelected = e.params.data.id;
 	if( valueSelected == '') { 
 		shapeLayer[0].clearLayers();
 		return;
@@ -186,7 +187,7 @@ $('#shapes0List').on('change', function (e) {
 	loadShape(valueSelected,0);
 });
 
-$('#shapes1List').on('change', function (e) {
+$('#shapes1List').on('select2:select', function (e) {
 	var valueSelected = this.value;
 	if( valueSelected == '') { 
 		shapeLayer[1].clearLayers();
@@ -195,13 +196,16 @@ $('#shapes1List').on('change', function (e) {
 	loadShape(valueSelected,1);
 });
 
-$('#routeSelect').on('change', function (e) {
-	var valueSelected = this.value;
+$('#routeSelect').on('select2:select', function (e) {				
+	// Do something
+	//var data = e.params.data;
+
+	var valueSelected = e.params.data.id;
 	console.log(valueSelected)
 	if( valueSelected == '') { 
 		return;
 	}
-
+	$('#openShapeModal').prop('disabled', false);
 	let route_id = valueSelected;
 	// clear present sequence tables.. passing to a function to handle "save changes" action later.
 	clearSequences();
@@ -217,28 +221,34 @@ $('#routeSelect').on('change', function (e) {
 });
 
 
+
+// $('#routeSelect').on('change', function (e) {
+	
+// });
+
+
 // ##################
 // MODAL
 
-$(document).on('show.bs.modal','#UploadShapeModal', function (event) {
-	var button = $(event.relatedTarget) // Button that triggered the modal
-	var recipient = button.data('whatever') // Extract info from data-* attributes
-	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-	var modal = $(this)
-	//modal.find('.modal-title').text('New message to ')
-	//alert(selected_route_id);
-	modal.find('.modal-title').text('Upload a shape for route ' + selected_route_id)
-	// //modal.find('.modal-body input').val(recipient)
-	if(! selected_route_id) {
-		 $('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
-		 modal.modal('hide')
-	}
- 	else {
-		 modal.modal('show')
-	 }
+// $(document).on('show.bs.modal','#UploadShapeModal', function (event) {
+// 	var button = $(event.relatedTarget) // Button that triggered the modal
+// 	var recipient = button.data('whatever') // Extract info from data-* attributes
+// 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+// 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+// 	var modal = $(this)
+// 	//modal.find('.modal-title').text('New message to ')
+// 	//alert(selected_route_id);
+// 	modal.find('.modal-title').text('Upload a shape for route ' + selected_route_id)
+// 	// //modal.find('.modal-body input').val(recipient)
+// 	if(! selected_route_id) {
+// 		 $('#openShapeModalStatus').html('<small><span class="alert alert-danger">Please select a route first from the table above.</span></small>');
+// 		 modal.modal('hide')
+// 	}
+//  	else {
+// 		 modal.modal('show')
+// 	 }
 	
-  });
+//   });
 
 
 // var modal = document.getElementById('myModal');
@@ -498,7 +508,7 @@ function add2sequence(stop_id, direction_id=0) {
 	console.log('add2sequence function: Adding stop_id ' + stop_id + ' to direction ' + direction_id);
 
 	var row = jQuery.extend(true, {}, allStops[stop_id]); //make a copy
-	console.log(row);
+	//console.log(row);
 	row['stop_id'] = stop_id;
 
 	if(direction_id == 0) {
@@ -651,10 +661,26 @@ function populateShapesLists(shapes) {
 	var content = '<option value="">No Shape</option>';
 	var alreadySelected = false;
 	var shapesSoFar = [];
+	var Select2shapeList = [];
+	//Select2shapeList.push({id: "", text: "No Shape"});
+	//console.log(Select2shapeList);
+	$("#shapes0List").select2({		
+		placeholder: "",
+		theme: 'bootstrap4',				
+		data: Select2shapeList
+	  });
+	  var newOption = new Option("No Shape", "", false, false);
+	  $('#shapes0List').append(newOption).trigger('change');
+	  
+	  
 
 	// check if there's just been a shape uploaded
 	if( uploadedShapePrefix.length ) {
-		content += `<option value="${uploadedShapePrefix}_0"  selected="selected">^ ${uploadedShapePrefix}_0</option>`;
+		var valueid = uploadedShapePrefix + "_0";
+		var valuetext = uploadedShapePrefix + "_0";
+		var newOption = new Option(valueid, valuetext, false, true);
+		$('#shapes0List').append(newOption);
+		//content += `<option value="${uploadedShapePrefix}_0"  selected="selected">^ ${uploadedShapePrefix}_0</option>`;
 			alreadySelected = true;
 			shapesSoFar.push(uploadedShapePrefix + '_0');
 			// load up the shape from backend
@@ -663,56 +689,80 @@ function populateShapesLists(shapes) {
 	if( thisRouteSaved ) {
 		if( thisRouteSaved[0]) {
 			if(! alreadySelected ) {
-				selectFlag = ' selected="selected"';
+				selectFlag = true;;
 				alreadySelected = true;
 			}
-			else selectFlag = '';
-			content += `<option value="${thisRouteSaved[0]}" ${selectFlag}>&#10004;${thisRouteSaved[0]}</option>`;
+			else selectFlag = false;
+			var valueid = thisRouteSaved[0];
+			var valuetext = "&#10004;"+ thisRouteSaved[0];
+			var newOption = new Option(valuetext, valueid, false, selectFlag);
+			$('#shapes0List').append(newOption);
+			//content += `<option value="${thisRouteSaved[0]}" ${selectFlag}>&#10004;${thisRouteSaved[0]}</option>`;
 			shapesSoFar.push(thisRouteSaved[0]);
 			loadShape(thisRouteSaved[0],0);
 		}
 	}
 	for (i in shapes[0]) {
 		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
-		selectFlag = '';
-
+		selectFlag = false;
 		if( shapesSoFar.indexOf(shapes[0][i]) < 0 ) {
-			content += `<option value="${shapes[0][i]}"${selectFlag}># ${shapes[0][i]}</option>`;
+			var valueid = shapes[0][i];
+			var valuetext = "# " + shapes[0][i];
+			var newOption = new Option(valuetext, valueid, false, selectFlag);
+			$('#shapes0List').append(newOption);
+			//content += `<option value="${shapes[0][i]}"${selectFlag}># ${shapes[0][i]}</option>`;
 			shapesSoFar.push(shapes[0][i]);
 		}
 	}
 	for(i in allShapesList) {
-		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) 
-			content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) {
+			var valueid = allShapesList[i];
+			var valuetext = allShapesList[i];
+			var newOption = new Option(valuetext, valueid, false, false);
+			$('#shapes0List').append(newOption);
+		}
+			//content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
 	}
-
-	$('#shapes0List').html(content);
-	$('#shapes0List').trigger('chosen:updated'); // need to check if this errors on first run when .chosen not initialized yet.
+	$('#shapes0List').trigger('change');
+	//$('#shapes0List').html(content);
+	//$('#shapes0List').trigger('chosen:updated'); // need to check if this errors on first run when .chosen not initialized yet.
 	//fire chosen autocomplete after populating. 
-	$('#shapes0List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
+	//$('#shapes0List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
 
 	//#######################
 	// direction 1:
 	var content = '<option value="">No Shape</option>';
 	var alreadySelected = false;
 	var shapesSoFar = [];
-
+	$("#shapes1List").select2({		
+		placeholder: "",
+		theme: 'bootstrap4'
+	  });
+	  var newOption = new Option("No Shape", "", false, false);
+	  $('#shapes1List').append(newOption).trigger('change');
 	// check if there's just been a shape uploaded
 	if( uploadedShapePrefix.length ) {
-		content += `<option value="${uploadedShapePrefix}_1"  selected="selected">^ ${uploadedShapePrefix}_1</option>`;
-			alreadySelected = true;
-			shapesSoFar.push(uploadedShapePrefix + '_1');
-			loadShape(uploadedShapePrefix+'_1',1);
+		var valueid = uploadedShapePrefix + "_1";
+		var valuetext = uploadedShapePrefix + "_1";
+		var newOption = new Option(valuetext, valueid, false, true);
+		//content += `<option value="${uploadedShapePrefix}_1"  selected="selected">^ ${uploadedShapePrefix}_1</option>`;
+		alreadySelected = true;
+		shapesSoFar.push(uploadedShapePrefix + '_1');
+		loadShape(uploadedShapePrefix+'_1',1);
 	}
 
 	if( thisRouteSaved ) {
 		if( thisRouteSaved[1]) {
 			if(! alreadySelected ) {
-				selectFlag = ' selected="selected"';
+				selectFlag = true;
 				alreadySelected = true;
 			}
-			else selectFlag = '';
-			content += `<option value="${thisRouteSaved[1]}"${selectFlag}>&#10004; ${thisRouteSaved[1]}</option>`;
+			else selectFlag = false;
+			var valueid = thisRouteSaved[1];
+			var valuetext = "&#10004;"+ thisRouteSaved[1];
+			var newOption = new Option(valuetext, valueid, false, selectFlag);
+			$('#shapes1List').append(newOption);
+			//content += `<option value="${thisRouteSaved[1]}"${selectFlag}>&#10004; ${thisRouteSaved[1]}</option>`;
 			alreadySelected = true;
 			shapesSoFar.push(thisRouteSaved[1]);
 			loadShape(thisRouteSaved[1],1);
@@ -720,30 +770,40 @@ function populateShapesLists(shapes) {
 	}
 	for (i in shapes[1]) {
 		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
-		selectFlag = '';
+		selectFlag = false;
 
 		if( shapesSoFar.indexOf(shapes[1][i]) < 0 ) {
-			content += `<option value="${shapes[1][i]}"${selectFlag}># ${shapes[1][i]}</option>`;
+			//content += `<option value="${shapes[1][i]}"${selectFlag}># ${shapes[1][i]}</option>`;
+			var valueid = shapes[1][i];
+			var valuetext = shapes[1][i];
+			var newOption = new Option(valuetext, valueid, false, selectFlag);
+			$('#shapes1List').append(newOption);
 			shapesSoFar.push(shapes[1][i]);
 		}
 	}
 	for(i in allShapesList) {
-		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) 
-			content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+		if( shapesSoFar.indexOf(allShapesList[i]) < 0 ) {
+			//content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+			var valueid = allShapesList[i];
+			var valuetext = allShapesList[i];
+			var newOption = new Option(valuetext, valueid, false, false);
+			$('#shapes1List').append(newOption);
+		}
+			
 	}
-
-	$('#shapes1List').html(content);
-	$('#shapes1List').trigger('chosen:updated');
+	$('#shapes1List').trigger('change');
+	//$('#shapes1List').html(content);
+	//$('#shapes1List').trigger('chosen:updated');
 
 	//fire chosen autocomplete after populating.
-	$('#shapes1List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
+	//$('#shapes1List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
 
 }
 
 //###############
 
 function uploadShape() {
-	alert('upload');
+	
 	$('#uploadShapeStatus').html('');
 	// make POST request to API/XMLUpload
 
@@ -783,13 +843,106 @@ function uploadShape() {
 	$('#uploadShapeStatus').html( 'Uploading file(s), please wait.. ');
 
 	var reverseFlag = $('#reverseCheck').is(':checked');
+
+	var filename = $('#uploadShape0')[0].files[0].name;
+	var extension = filename.substring(filename.lastIndexOf('.')+1, filename.length);
+
+	const reader = new FileReader();
+	reader.readAsText($('#uploadShape0')[0].files[0]);
+	reader.onload = () => storeResults(reader.result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension);
+
+
+	// var geojsonfile;
+	// var contents;
+	// var tempfile
+	// // Convert KML and gpx to geojson
+	// switch(extension) {
+	// 	case "kml":
+	// 		console.log("Reading KML file");
+	// 		// read the kml file.
+	// 		const reader = new FileReaderSync();
+	// 		reader.readAsText($('#uploadShape0')[0].files[0]);
+	// 		reader.onload = () => storeResults(reader.result, pw. route_id, shape_id_prefix, filename, extension);
+			
+	// 		console.log("File contents: " + tmpfilecontent);
+	// 		var dom = (new DOMParser()).parseFromString(tmpfilecontent, 'text/xml');
+	// 		console.log("XML:" + dom)
+	// 		var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
+	// 		console.log("Geojosn:" + newgeojson);
+	// 		var parts = [newgeojson];
+	// 		var filename = new Date().toISOString().replace(/\D/g, '') + '.geojson';
+	// 		// Construct a file
+	// 		var file = new File(parts, filename, {
+	// 			lastModified: new Date(0), // optional - default = now
+	// 			type: "" // optional - default = ''
+	// 		});
+				
+	// 			// var fr = new FileReader();
+	// 			// fr.readAsText(file);
+	// 		//console.log(tempfile);
+	// 		geojsonfile = file;
+	// 	  break;		
+	// 	default:
+	// 	  // code block
+	// 	  geojsonfile = $('#uploadShape0')[0].files[0];
+	// }
+	// console.log(geojsonfile);
 	
+	// for (var pair of formData.entries()) {
+	// 	console.log(pair[0]+ ', ' + pair[1]); 
+	// }
+
+	
+	
+}
+
+function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension) {
+	var parts = [result];
+	console.log("storeResult: " + result)
+	console.log(pw);
+	console.log("routeID: " + route_id);
+	console.log("shapeprefix: " + shape_id_prefix);
+	console.log("reverse: " + reverseFlag);
+	console.log("filename: " + filename);
+	console.log("extension: " + extension);
+
+	
+	switch(extension) {
+		case "kml":			
+			var dom = (new DOMParser()).parseFromString(result, 'text/xml');
+			console.log("XML:" + dom)
+			var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
+			console.log("Geojosn:" + newgeojson);
+			parts = [newgeojson];
+			var filename = new Date().toISOString().replace(/\D/g, '') + '.geojson';
+			// Construct a file
+			var file = new File(parts, filename, {
+				lastModified: new Date(0), // optional - default = now
+				type: "" // optional - default = ''
+			});
+				
+				// var fr = new FileReader();
+				// fr.readAsText(file);
+			//console.log(tempfile);
+			geojsonfile = file;
+		  break;		
+		default:
+		  // code block
+		  parts = [result];
+	}
+
+	var geojsonfile = new File(parts, filename, {
+		lastModified: new Date(0), // optional - default = now
+		type: "" // optional - default = ''
+	});
+
+
 	var formData = new FormData();
-	formData.append('uploadShape0', $('#uploadShape0')[0].files[0] );
+	formData.append('uploadShape0', geojsonfile );
 	
 	if(reverseFlag) {
 		if ($('#uploadShape1').val() != '') {
-			formData.append('uploadShape1', $('#uploadShape1')[0].files[0] );
+			formData.append('uploadShape1', geojsonfile );
 		}
 		else {
 			$('#uploadShapeStatus').html('Please select the file for reverse direction, or check off that box.');
@@ -798,8 +951,7 @@ function uploadShape() {
 			return;
 		}
 	}
-		
-	
+
 	$.ajax({
 		url : `${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id_prefix}&reverseFlag=${reverseFlag}`,
 		type : 'POST',
@@ -809,20 +961,24 @@ function uploadShape() {
 		contentType: false,  // tell jQuery not to set contentType
 		success : function(returndata) {
 			console.log('API/shape POST request with file upload successfully done.');
-			$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');
-			//exit modal.
+			$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');			
 			uploadedShapePrefix = shape_id_prefix; //assign to global variable
-			modal.style.display = "none";
+			$("#uploadShapeId").val() = '';			
+			//modal.style.display = "none";
 			getPythonAllShapesList();
-			
+			$('#UploadShapeModal').modal('hide');
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/shape POST request failed.')
 			$('#uploadShapeStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
 		}
 	});
-	
-}
+
+
+
+
+  }
+
 
 function loadShape(shape_id, whichMap) {
 		// shorter GET request. from https://api.jquery.com/jQuery.get/
@@ -896,11 +1052,16 @@ function getPythonRoutes() {
 			//console.log($("#targetStopid").val())
 			$("#routeSelect").select2({				
 				placeholder: "Select a route",
+				allowClear: true,
 				theme: 'bootstrap4',
 				data: select2items
 			  });
-
-
+			$('#routeSelect').val(null).trigger('change');
+			
+			$('#routeSelect').on('select2:select', function (e) {				
+				// Do something
+				
+			});
 
 			// populating route select for sequence:
 			// var dropdown = '<option value="">Select a route</option>';
