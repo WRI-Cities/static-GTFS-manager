@@ -797,7 +797,6 @@ function populateShapesLists(shapes) {
 
 	//fire chosen autocomplete after populating.
 	//$('#shapes1List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
-
 }
 
 //###############
@@ -835,8 +834,8 @@ function uploadShape() {
 	if( globalShapesList['all'].indexOf(shape_id_prefix+'_0') > -1 || globalShapesList['all'].indexOf(shape_id_prefix+'_1') > -1 ) {
 		//$('#uploadShapeStatus').html('Please choose some other id, this one\'s taken.');
 		if( !confirm('The shape_id\'s:\n' + shape_id_prefix+'_0 and/or ' + shape_id_prefix+'_1\n..already exist in the shapes DB.\nAre you SURE you want to replace an existing shape?') ) {
-				$("#uploadShapeId").val('');
-				return;
+			$("#uploadShapeId").val('');
+			return;
 		}
 	}
 
@@ -846,112 +845,94 @@ function uploadShape() {
 
 	var filename = $('#uploadShape0')[0].files[0].name;
 	var extension = filename.substring(filename.lastIndexOf('.')+1, filename.length);
+	
 
 	const reader = new FileReader();
 	reader.readAsText($('#uploadShape0')[0].files[0]);
 	reader.onload = () => storeResults(reader.result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension);
-
-
-	// var geojsonfile;
-	// var contents;
-	// var tempfile
-	// // Convert KML and gpx to geojson
-	// switch(extension) {
-	// 	case "kml":
-	// 		console.log("Reading KML file");
-	// 		// read the kml file.
-	// 		const reader = new FileReaderSync();
-	// 		reader.readAsText($('#uploadShape0')[0].files[0]);
-	// 		reader.onload = () => storeResults(reader.result, pw. route_id, shape_id_prefix, filename, extension);
-			
-	// 		console.log("File contents: " + tmpfilecontent);
-	// 		var dom = (new DOMParser()).parseFromString(tmpfilecontent, 'text/xml');
-	// 		console.log("XML:" + dom)
-	// 		var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
-	// 		console.log("Geojosn:" + newgeojson);
-	// 		var parts = [newgeojson];
-	// 		var filename = new Date().toISOString().replace(/\D/g, '') + '.geojson';
-	// 		// Construct a file
-	// 		var file = new File(parts, filename, {
-	// 			lastModified: new Date(0), // optional - default = now
-	// 			type: "" // optional - default = ''
-	// 		});
-				
-	// 			// var fr = new FileReader();
-	// 			// fr.readAsText(file);
-	// 		//console.log(tempfile);
-	// 		geojsonfile = file;
-	// 	  break;		
-	// 	default:
-	// 	  // code block
-	// 	  geojsonfile = $('#uploadShape0')[0].files[0];
-	// }
-	// console.log(geojsonfile);
-	
-	// for (var pair of formData.entries()) {
-	// 	console.log(pair[0]+ ', ' + pair[1]); 
-	// }
-
 	
 	
 }
 
 function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension) {
 	var parts = [result];
-	console.log("storeResult: " + result)
-	console.log(pw);
-	console.log("routeID: " + route_id);
-	console.log("shapeprefix: " + shape_id_prefix);
-	console.log("reverse: " + reverseFlag);
-	console.log("filename: " + filename);
-	console.log("extension: " + extension);
-
-	
-	switch(extension) {
-		case "kml":			
-			var dom = (new DOMParser()).parseFromString(result, 'text/xml');
-			console.log("XML:" + dom)
-			var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
-			console.log("Geojosn:" + newgeojson);
-			parts = [newgeojson];
-			var filename = new Date().toISOString().replace(/\D/g, '') + '.geojson';
-			// Construct a file
-			var file = new File(parts, filename, {
-				lastModified: new Date(0), // optional - default = now
-				type: "" // optional - default = ''
-			});
-				
-				// var fr = new FileReader();
-				// fr.readAsText(file);
-			//console.log(tempfile);
-			geojsonfile = file;
-		  break;		
-		default:
-		  // code block
-		  parts = [result];
+	// first check if the reverse is checked
+	if(reverseFlag) {
+		if ($('#uploadShape1').val() != '') {
+			var backfilename = $('#uploadShape1')[0].files[0].name;
+			var backextension = backfilename.substring(backfilename.lastIndexOf('.')+1, backfilename.length);
+			// Go and read contents of second file.
+			const reader = new FileReader();
+			reader.readAsText($('#uploadShape1')[0].files[0]);
+			reader.onload = () => storeResultsWithReverse(result, reader.result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension, backextension);
+			}
+		else {
+			$('#uploadShapeStatus').html('Please select the file for reverse direction, or check off that box.');
+			shakeIt('uploadShape1');
+			shakeIt('reverseCheck');
+			return;
+		}		
 	}
+	else {		
+		var filenameupload = new Date().toISOString().replace(/\D/g, '') + '.geojson';
+		
+		parts = convertToGeoJson(result, extension);
 
-	var geojsonfile = new File(parts, filename, {
+		var geojsonfile = new File(parts, filenameupload, {
+			lastModified: new Date(0), // optional - default = now
+			type: "" // optional - default = ''
+		});
+
+		var formData = new FormData();
+		formData.append('uploadShape0', geojsonfile );
+				
+		$.ajax({
+			url : `${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id_prefix}&reverseFlag=${reverseFlag}`,
+			type : 'POST',
+			data : formData,
+			cache: false,
+			processData: false,  // tell jQuery not to process the data
+			contentType: false,  // tell jQuery not to set contentType
+			success : function(returndata) {
+				console.log('API/shape POST request with file upload successfully done.');
+				$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');			
+				uploadedShapePrefix = shape_id_prefix; //assign to global variable
+				$("#uploadShapeId").val('');			
+				//modal.style.display = "none";
+				getPythonAllShapesList();
+				$('#UploadShapeModal').modal('hide');
+			},
+			error: function(jqXHR, exception) {
+				console.log('API/shape POST request failed.')
+				$('#uploadShapeStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
+			}
+		});
+	}
+  }
+
+  function storeResultsWithReverse(resultforward, resultback, pw, route_id, shape_id_prefix, reverseFlag, filename, forwardextension, backextension) {
+	console.log("Forard and reverse shapes are different.");
+	var filenameuploadforward = new Date().toISOString().replace(/\D/g, '') + '-forward.geojson';
+	var filenameuploadback = new Date().toISOString().replace(/\D/g, '') + '-back.geojson';
+	
+	var fileforward = convertToGeoJson(resultforward, forwardextension);
+	var fileback = convertToGeoJson(resultback, backextension);
+
+	var geojsonfileforward = new File(fileforward, filenameuploadforward, {
+		lastModified: new Date(0), // optional - default = now
+		type: "" // optional - default = ''
+	});
+
+	var geojsonfileback = new File(fileback, filenameuploadback, {
 		lastModified: new Date(0), // optional - default = now
 		type: "" // optional - default = ''
 	});
 
 
 	var formData = new FormData();
-	formData.append('uploadShape0', geojsonfile );
+	formData.append('uploadShape0', geojsonfileforward );
+	formData.append('uploadShape1', geojsonfileback );
 	
-	if(reverseFlag) {
-		if ($('#uploadShape1').val() != '') {
-			formData.append('uploadShape1', geojsonfile );
-		}
-		else {
-			$('#uploadShapeStatus').html('Please select the file for reverse direction, or check off that box.');
-			shakeIt('uploadShape1');
-			shakeIt('reverseCheck');
-			return;
-		}
-	}
-
 	$.ajax({
 		url : `${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id_prefix}&reverseFlag=${reverseFlag}`,
 		type : 'POST',
@@ -963,7 +944,7 @@ function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filena
 			console.log('API/shape POST request with file upload successfully done.');
 			$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');			
 			uploadedShapePrefix = shape_id_prefix; //assign to global variable
-			$("#uploadShapeId").val() = '';			
+			$("#uploadShapeId").val('');			
 			//modal.style.display = "none";
 			getPythonAllShapesList();
 			$('#UploadShapeModal').modal('hide');
@@ -973,12 +954,33 @@ function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filena
 			$('#uploadShapeStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>' );
 		}
 	});
+}
+  
 
 
-
-
-  }
-
+function convertToGeoJson(filecontent, extension){
+	switch(extension) {
+		case "kml":
+			console.log("converting KML to geoJSON");
+			var dom = (new DOMParser()).parseFromString(filecontent, 'text/xml');
+			console.log("XML:" + dom)
+			var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
+			//console.log("Geojosn:" + newgeojson);
+			parts = [newgeojson];
+		break;
+		case "gpx":
+			console.log("converting GPX to geoJSON");
+			var dom = (new DOMParser()).parseFromString(filecontent, 'text/xml');			
+			var newgeojson = JSON.stringify(toGeoJSON.gpx(dom));
+			//console.log("Geojosn:" + newgeojson);
+			parts = [newgeojson];
+		break;
+		default:
+		// geojson
+		parts = [result];
+	}
+	return parts;
+}
 
 function loadShape(shape_id, whichMap) {
 		// shorter GET request. from https://api.jquery.com/jQuery.get/

@@ -93,7 +93,7 @@
 			position:absolute;
 			background-color: rgba(255,255,255,.5);
 			height:auto;
-			width: auto;
+			width: 150px;
 			top:10px;
 			right:10px;
 			border-radius: 5px;
@@ -101,9 +101,7 @@
 			box-shadow:0px 0px 20px black; 
 		}
 		
-		#shapes0List .chosen-container .chosen-drop {
-			background-color: rgba(255,255,255,.7)!important;
-		}
+		
 		/* for map, custom markers */
 		
 		.sequence-0-divicon, .sequence-1-divicon {
@@ -390,7 +388,7 @@
 									<div id="map0"></div>
 										<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 										<h6>Shape</h6>
-										<select id="shapes0List" class="chooser"></select>
+										<select id="shapes0List" class="form-control col-sm-2"></select>
 									</div>
 								</div>
 							</div>
@@ -432,7 +430,7 @@
 									<div id="map1"></div>
 <div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 <h6>Shape</h6>
-<select id="shapes1List" class="chooser"></select>
+<select id="shapes1List" class="form-control col-sm-2"></select>
 </div>
 								</div>
 							</div>
@@ -509,38 +507,52 @@
       <div class="modal-body">
         <div class="container-fluid">
 			<div class="row">
-				<div class="col-md-7">	
-					<b>Onward Journey:</b>
-					<p>Upload a shapefile (.geojson format): <small><a href="xml_related/R001.geojson" target="_blank">see sample</a></small></p>
-					<p><input type="file" id="uploadShape0" name="uploadShape0" class="btn btn-sm btn-outline-secondary" accept=".geojson, .kml"></p>
-					<p><label>Pick a Shape id prefix: <input size=4 id="uploadShapeId" placeholder="shape_id" class="form-control"></label></p>
+				<div class="col-md-7">
+						<b>Onward Journey:</b>
+					<div class="form-group row">
+						<label for="uploadShape0" class="col-sm-2 col-form-label">Shape File</label>
+						<div class="col-sm-10">
+							<input type="file" id="uploadShape0" name="uploadShape0" class="form-control" accept=".geojson, .kml, .gpx">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="uploadShapeId" class="col-sm-2 col-form-label">Shape id prefix</label>
+						<div class="col-sm-10">
+							<input size=4 id="uploadShapeId" placeholder="shape_id" class="form-control">
+						</div>
+					</div>
+					<b>Return Direction:</b>
+					<br><small>This is for cases where the return journey's path diverges from the onward journey.</small>
+					<div class="form-group row">
+						<label for="reverseCheck" class="col-sm-10 col-form-label">Check ON if you are uploading another shapefile for the route's return journey.</label>
+						<div class="col-sm-2">
+								<input class="form-check-input" type="checkbox" value="reverseCheck" id="reverseCheck">
+						</div>
+					</div>					
+					<div class="form-group row">
+						<label for="uploadShape0" class="col-sm-2 col-form-label">Shape File</label>
+						<div class="col-sm-10">
+							<input type="file" id="uploadShape1" name="uploadShape0" class="form-control" accept=".geojson, .kml, .gpx">
+						</div>
+					</div>					
 				</div>
 				<div class="col-md-5">
 					<p class="alert alert-info">
+					Upload a shapefile (.geojson format): <small><a href="xml_related/R001.geojson" target="_blank">see sample</a></small><br />
 					Don't have a shapefile in .geojson format? You can convert or create one here: <a href="http://geojson.io" target="_blank">geojson.io</a><br><br>
+					Filesupport:<br />
+					<ul>
+						<li>.geojson</li>
+						<li>.kml</li>
+						<li>.gpx</li>
+					</ul>
 					<small>Shape id prefix must be unique, unless you want to overwrite an existing shape. Directions will be added.
 					<br>Example: R001: <i>R001_0, R001_1</i>
-					</small></p>
-				</div>
-			</div>	
-			<div class="row">
-				<div class="col-md-6">
-					<p><b>Return Direction:</b><br>
-						<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="reverseCheck" id="reverseCheck">
-								<label class="form-check-label" for="reverseCheck">
-										Check ON if you are uploading another shapefile for the route's return journey.
-								</label>
-							  </div>
-					<small>If it's checked off, then we'll assume the return journey's shape is a mirror copy of the onward journey.</small></p>
-				</div>
-				<div class="col-md-6">	
-					<p align="right"><input type="file" id="uploadShape1" name="uploadShape1" class="btn btn-sm btn-outline-secondary" accept=".geojson">
-						<br><small>This is for cases where the return journey's path diverges from the onward journey.</small>
+					</small>
 					</p>
+					
 				</div>
-			</div>			
-				
+			</div>				
 		</div>
       </div>
       <div class="modal-footer">
