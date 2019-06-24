@@ -112,7 +112,14 @@ function addAgency() {
 	var agency_id = $('#agency2add').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
 	$('#agency2add').val(agency_id);
 	if(! agency_id.length) {
-		$('#agencyAddStatus').html('<span class="alert alert-warning">Give a valid id please.</span>');
+		$.toast({
+			title: 'Add Agency',
+			subtitle: 'Failed to Add',
+			content: 'Give a valid id please.',
+			type: 'error',
+			delay: 5000
+		  });
+		//$('#agencyAddStatus').html('<span class="alert alert-warning">Give a valid id please.</span>');
 		return;
 
 	}
@@ -120,10 +127,24 @@ function addAgency() {
 	var agency_id_list = data.map(a => a.agency_id);
 	var isPresent = agency_id_list.indexOf(agency_id) > -1;
 	if(isPresent) {
-		$('#agencyAddStatus').html('<span class="alert alert-danger">' + agency_id + ' is already there.</span>');
+		//$('#agencyAddStatus').html('<span class="alert alert-danger">' + agency_id + ' is already there.</span>');
+		$.toast({
+			title: 'Add Agency',
+			subtitle: 'Failed to Add',
+			content: agency_id + ' is already there.',
+			type: 'error',
+			delay: 5000
+		  });
 	} else {
 		table.addData([{ 'agency_id': agency_id, 'agency_timezone':'Asia/Kolkata' } ]);
-		$('#agencyAddStatus').html('<span class="alert alert-success">Added agency_id ' + agency_id + '</span>');
+		//$('#agencyAddStatus').html('<span class="alert alert-success">Added agency_id ' + agency_id + '</span>');
+		$.toast({
+			title: 'Add Agency',
+			subtitle: 'Success',
+			content: 'Added agency_id ' + agency_id,
+			type: 'success',
+			delay: 5000
+		  });
 	}
 
 }
@@ -149,11 +170,26 @@ function loadFeedInfo() {
 
 
 $('#saveFeedInfoButton').on('click', function(){
-	$('#feedInfoSaveStatus').html('Sending data to server.. please wait..');
+	$.toast({
+		title: 'Save Feed Info',
+		subtitle: 'Please wait',
+		content: 'Sending data to server...',
+		type: 'info',
+		delay: 5000
+	  });
+	//$('#feedInfoSaveStatus').html('Sending data to server.. please wait..');
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#feedInfoSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
-		shakeIt('password'); return;
+		$.toast({
+			title: 'Save Feed Info',
+			subtitle: 'Failed to Add/Update',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		  });
+		//$('#feedInfoSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); 
+		return;
 	}
 	var data = [{ 
 		'feed_publisher_name': $('#feed_publisher_name').val(),
@@ -175,10 +211,24 @@ $('#saveFeedInfoButton').on('click', function(){
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/tableReadSave table=agency, response received: ' + xhr.responseText);
-			$('#feedInfoSaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
+			//$('#feedInfoSaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Feed Info',
+				subtitle: 'Success',
+				content: 'Message: ' + xhr.responseText,
+				type: 'success',
+				delay: 5000
+			  });
 		} else {
 			console.log('Server POST request to API/tableReadSave table=agency failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#feedInfoSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
+			//$('#feedInfoSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
+			$.toast({
+				title: 'Save Feed Info',
+				subtitle: 'Failed to Add/Update',
+				content: 'Message: ' + xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

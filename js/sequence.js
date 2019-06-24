@@ -465,7 +465,7 @@ function mapsUpdate(timeflag='normal') {
 		// to check: maybe this belongs elsewhere? -> No, the tabulators call this function when rows are moved. It's fine.
 	}
 }
-	
+
 
 // ##############################
 /* Interlinking between table and map */

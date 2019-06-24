@@ -65,100 +65,29 @@
 			</style>
 </head>
 
-<body class="animsition">
-        <div class="page-wrapper">
-            <!-- HEADER MOBILE-->
-            <header class="header-mobile d-block d-lg-none">
-                <div class="header-mobile__bar">
-                    <div class="container-fluid">
-                        <div class="header-mobile-inner">
-                            <a class="logo" href="index.html">
-                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
-                            </a>
-                            <button class="hamburger hamburger--slider" type="button">
-                                <span class="hamburger-box">
-                                    <span class="hamburger-inner"></span>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <nav class="navbar-mobile">
-                    <div class="container-fluid">
-                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
-                            <li class="has-sub">
-                                <a class="js-arrow" href="index.html">
-                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
-                            </li>
-                            <li>
-                                <a href="chart.html">
-                                    <i class="fas fa-chart-bar"></i>Charts</a>
-                            </li>
-                            <li>
-                                <a href="table.html">
-                                    <i class="fas fa-table"></i>Tables</a>
-                            </li>
-                            <li>
-                                <a href="form.html">
-                                    <i class="far fa-check-square"></i>Forms</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
-                            </li>
-                            <li>
-                                <a href="map.html">
-                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-copy"></i>Pages</a>
-                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="forget-pass.html">Forget Password</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-desktop"></i>GTFS</a>
-                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                    <li>
-                                        <a href="button.html">Button</a>
-                                    </li>
-                                    
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </header>
-            <!-- END HEADER MOBILE-->
-    
-            <!-- MENU SIDEBAR-->
-            <aside class="menu-sidebar d-none d-lg-block">
-                <div class="logo">
-                    <a href="#">
-                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
-                    </a>
-                </div>
-                <div class="menu-sidebar__content js-scrollbar1">
-                        <nav class="navbar-sidebar">
-                                <ul class="list-unstyled navbar__list">
-                                        <li class="active">
-                                            <a class="js-arrow" href="index.html">
-                                                    <i class="fas fa-home"></i>Home</a>                                        
-                                        </li>
+<body>       
+                <div class="page-wrapper">
+                        <!-- HEADER DESKTOP-->
+                    <header class="header-desktop3 d-none d-lg-block">
+                        <div class="section__content section__content--p35">
+                            <div class="header3-wrap">
+                                <div class="header__logo">
+                                    <a href="#">
+                                        <img src="extra_files/GTFS.png" width="52" height="170"  alt="GTFS Manager" />
+                                    </a>
+                                </div>
+                                <div class="header__navbar">
+                                    <ul class="list-unstyled">                            
+                                        <li>
+                                            <a href="index.html">
+                                                <i class="fas fa-home"></i>
+                                                <span class="bot-line"></span>Home</a>
+                                        </li>                            
                                         <li class="has-sub">
-                                            <a class="js-arrow" href="#">
-                                                    <i class="fas fa-bus"></i></i>GTFS</a>
-                                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <a href="#">
+                                                <i class="fas fa-bus"></i>
+                                                <span class="bot-line"></span>GTFS</a>
+                                            <ul class="header3-sub-list list-unstyled">
                                                 <li>
                                                     <a href="agency.html"><i class="fas fa-building"></i>Agency</a>
                                                 </li>
@@ -182,14 +111,15 @@
                                                 </li>
                                                 <li>
                                                     <a href="translations.html"><i class="fas fa-language"></i>Translations</a>
-                                                </li>                                            
+                                                </li>
                                             </ul>
                                         </li>
                                         <li class="has-sub">
-                                            <a class="js-arrow" href="#">
-                                                <i class="fas fa-tools"></i>Tools</a>
-                                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                                <li>
+                                            <a href="#">
+                                                <i class="fas fa-tools"></i>
+                                                <span class="bot-line"></span>Tools</a>
+                                            <ul class="header3-sub-list list-unstyled">
+                                                <li class="active">
                                                     <a href="sequence.html"><i class="fas fa-align-justify"></i>Default Route Sequence</a>
                                                 </li>
                                                 <li>
@@ -198,50 +128,34 @@
                                                 <li>
                                                     <a href="deleteID.html"><i class="fas fa-trash"></i>Delete ID</a>
                                                 </li>
-                                                                                            
                                             </ul>
                                         </li>
                                         <li class="has-sub">
-                                            <a class="js-arrow" href="#">
-                                                    <i class="fas fa-database"></i>Data</a>
-                                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                                <li>
+                                            <a href="#">
+                                                <i class="fas fa-tools"></i>
+                                                <span class="bot-line"></span>Data</a>
+                                            <ul class="header3-sub-list list-unstyled">
+                                               <li>
                                                     <a href="kmrl.html"><i class="fas fa-file-import"></i>Import KMRL format</a>
                                                 </li>
                                                 <li>
                                                     <a href="hmrl.html"><i class="fas fa-file-import"></i>Import HRML format</a>
-                                                </li>                                   
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
-                        </nav>
-                </div>
-            </aside>
-            <!-- END MENU SIDEBAR-->
-    
-            <!-- PAGE CONTAINER-->
-            <div class="page-container">
-                <!-- HEADER DESKTOP-->
-                <header class="header-desktop">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            <div class="header-wrap">
-                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
-                                <form class="form-header" action="" method="POST">
-                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
-                                    <button class="au-btn--submit" type="submit">
-                                        <i class="zmdi zmdi-search"></i>
-                                    </button>
-                                </form>                                
+                                </div>
+                                <div class="">
+                                        <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </header>
-                <!-- HEADER DESKTOP-->
-    
-                <!-- MAIN CONTENT-->
-                <div class="main-content">
+                    </header>
+                    <!-- END HEADER DESKTOP-->
+                        <!-- MAIN CONTENT-->
+                        <div class="page-content--bgf7">
                     <div class="section__content section__content--p30">
-                        <div class="container-fluid">
+                        <div class="container">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="accordion" id="accordionExample">
