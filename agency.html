@@ -43,77 +43,11 @@
                             <img src="extra_files/GTFS.png" width="52" height="170"  alt="GTFS Manager" />
                         </a>
                     </div>
-                    <div class="header__navbar">
-                        <ul class="list-unstyled">                            
-                            <li>
-                                <a href="index.html">
-                                    <i class="fas fa-home"></i>
-                                    <span class="bot-line"></span>Home</a>
-                            </li>                            
-                            <li class="has-sub">
-                                <a href="#">
-                                    <i class="fas fa-bus"></i>
-                                    <span class="bot-line"></span>GTFS</a>
-                                <ul class="header3-sub-list list-unstyled">
-                                    <li class="active">
-                                        <a href="agency.html"><i class="fas fa-building"></i>Agency</a>
-                                    </li>
-                                    <li>
-                                        <a href="stops.html"><i class="fas fa-map-marker-alt"></i>Stops</a>
-                                    </li>
-                                    <li>
-                                        <a href="routes.html"><i class="fas fa-road"></i>Routes</a>
-                                    </li>
-                                    <li>
-                                        <a href="calendar.html"><i class="fas fa-calendar"></i>Calendar</a>
-                                    </li>
-                                    <li>
-                                        <a href="tripstimings.html"><i class="fas fa-stopwatch"></i>Trips, Stop_times</a>
-                                    </li>
-                                    <li>
-                                        <a href="frequencies.html"><i class="fas fa-wave-square"></i>Frequencies</a>
-                                    </li>
-                                    <li>
-                                        <a href="fares.html"><i class="fas fa-dollar-sign"></i>Fares</a>
-                                    </li>
-                                    <li>
-                                        <a href="translations.html"><i class="fas fa-language"></i>Translations</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
-                                <a href="#">
-                                    <i class="fas fa-tools"></i>
-                                    <span class="bot-line"></span>Tools</a>
-                                <ul class="header3-sub-list list-unstyled">
-                                    <li class="active">
-                                        <a href="sequence.html"><i class="fas fa-align-justify"></i>Default Route Sequence</a>
-                                    </li>
-                                    <li>
-                                        <a href="renameID.html"><i class="fas fa-pen"></i>Rename ID</a>
-                                    </li>
-                                    <li>
-                                        <a href="deleteID.html"><i class="fas fa-trash"></i>Delete ID</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
-                                <a href="#">
-                                    <i class="fas fa-tools"></i>
-                                    <span class="bot-line"></span>Data</a>
-                                <ul class="header3-sub-list list-unstyled">
-                                   <li>
-                                        <a href="kmrl.html"><i class="fas fa-file-import"></i>Import KMRL format</a>
-                                    </li>
-                                    <li>
-                                        <a href="hmrl.html"><i class="fas fa-file-import"></i>Import HRML format</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="header__navbar" id="navmenuinsert">
+                        <!-- menu will be inserted from menu.js.-->
                     </div>
-                    <div class="">
-                            <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
+                    <div class="form-inline my-2 my-md-0">
+                        <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
                     </div>
                 </div>
             </div>
@@ -284,6 +218,7 @@
         <script src="vendor/toast-0.7.1/toast.min.js"></script>
         <!-- Main JS-->
         <script src="js/main.js"></script>
+        <script src="js/menu.js"></script>
     
     
 
