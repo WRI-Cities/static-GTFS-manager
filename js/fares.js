@@ -4,6 +4,9 @@
 
 // #########################################
 // Function-variables to be used in tabulator
+var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
+    return "<i class='fas fa-trash-alt'></i>";
+};
 
 // set dynamic dropdown for fare_ids, reading from fare attributes table
 var fareList = function(cell){
@@ -42,7 +45,7 @@ var fareRulesTotal = function(values, data, calcParams){
 
 //#########################
 // defining tables
-$("#fare-attributes-table").tabulator({
+var fareattributes = new Tabulator("#fare-attributes-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	//layout:"fitColumns", //fit columns to width of table (optional)
@@ -113,7 +116,7 @@ $("#fare-attributes-table").tabulator({
 	
 }); // end fare attributes table definition
 
-$("#fare-rules-simple-table").tabulator({
+var simple = new Tabulator("#fare-rules-simple-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	//layout:"fitColumns", //fit columns to width of table (optional)
@@ -129,7 +132,7 @@ $("#fare-rules-simple-table").tabulator({
 		{title:"origin_id", field:"origin_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Origin Zone Id. Journey starting from this zone. Zones defined in Stops page." },
 		{title:"destination_id", field:"destination_id", editor:"select", editorParams:zoneIdLister, headerFilter:"input", width:100, tooltip:"Desitnation Zone Id. Journey ending in this zone. Zones defined in Stops page." },
 		{title:"route_id", field:"route_id", editor:"select", editorParams:routeIdLister, headerFilter:"input", width:100, tooltip:"If this fare rule only applies to a particular route then select the route here." },
-		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, minWidth:30, cellClick:function(e, cell){
+		{formatter:trashIcon, width:40, align:"center", title:"del", headerSort:false, minWidth:30, cellClick:function(e, cell){
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
 			}}
@@ -177,17 +180,17 @@ $("#addEditFare").on("click", function() {
 	
 	$('#fareAttrStatus').html('');
 	
-	var data = $("#fare-attributes-table").tabulator("getData");
+	var data = fareattributes.getData();
 	var fare_id_list = data.map(a => a.fare_id);
 	var isPresent = fare_id_list.indexOf(fare_id) > -1;
 	if(isPresent) {
-		$("#fare-attributes-table").tabulator("updateRow",fare_id, { 'price':price, 'currency_type':currencyChosen });
+		fareattributes.updateRow(fare_id, { 'price':price, 'currency_type':currencyChosen });
 		logmessage('Updated fare_id ' + fare_id);
 		$('#fareAttrStatus').html('<div class="alert alert-success">Updated fare_id ' + fare_id + '</div>');
 		depopulateFields();
 	} 
 	else {
-		$("#fare-attributes-table").tabulator("addRow",{ 'fare_id': fare_id, 'price':price, 'currency_type':currencyChosen, 'payment_method':1, 'transfers':''} );
+		fareattributes.addRow([{ 'fare_id': fare_id, 'price':price, 'currency_type':currencyChosen, 'payment_method':1, 'transfers':''}] );
 		$('#fareAttrStatus').html('<div class="alert alert-success">Added fare_id ' + fare_id + '</div>');
 	}
 });
@@ -302,7 +305,7 @@ function initiateFareRules(rulesData) {
 	columnSettings.push( {rowHandle:true, formatter:"handle", headerSort:false, width:30, minWidth:30} );
 
 	
-	$("#fare-rules-table").tabulator({
+	var farerules = new Tabulator("#fare-rules-table", {
 		selectable:0,
 		index: 'zone_id',
 		movableRows: true,
@@ -335,7 +338,7 @@ function initiateFareRules(rulesData) {
 	});
 
 	// Defning the table is over. Now we load the data
-	$("#fare-rules-table").tabulator('setData',rulesData);
+	farerules.setData(rulesData);
 }
 
 function saveFareAttributes() {
@@ -485,7 +488,7 @@ function addFareRule() {
 	var destination_id = $('#destinationSelect').val();
 	var route_id = $('#routeSelect').val();
 	var fare_id = $('#fareSelect').val();
-	$("#fare-rules-simple-table").tabulator('addRow', {fare_id:fare_id, origin_id:origin_id, destination_id:destination_id, route_id:route_id}, true );
+	simple.addRow({fare_id:fare_id, origin_id:origin_id, destination_id:destination_id, route_id:route_id}, true );
 
 }
 
