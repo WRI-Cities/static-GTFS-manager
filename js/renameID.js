@@ -115,12 +115,12 @@ $("#translations-table").tabulator({
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
 	// tabs
-	$( "#tabs2" ).tabs({
-		active:0,
-		activate: function(event ,ui){
-			resetGlobals();
-		}
-	});
+	// $( "#tabs2" ).tabs({
+	// 	active:0,
+	// 	activate: function(event ,ui){
+	// 		resetGlobals();
+	// 	}
+	// });
 	//getPythonAgency();
 	//getPythonCalendar();
 	//getPythonTranslations();
@@ -407,13 +407,16 @@ function getPythonAllIDs() {
 // #################################
 function populateMaintenanceLists() {
 	//globalIDs
-	var renameContent = '<option>No Selection</option>';
-
+	//var renameContent = '<option>No Selection</option>';
+	var select2items = [];		
+	select2items.push({id : '', text: ''});
 	// stop2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['stop_id_list'].forEach(function(row){
 		//content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
+		var select2id = '{"stop_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'stop: ' + row});
+		//renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
 	});
 	/*
 	$('#stop2Delete').html(content);
@@ -433,7 +436,9 @@ function populateMaintenanceLists() {
 	//var content = '<option>No Selection</option>';
 	globalIDs['route_id_list'].forEach(function(row){
 		//content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
+		//renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
+		var select2id = '{"route_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'route: ' + row});
 	});
 	/*
 	$('#route2Delete').html(content);
@@ -452,7 +457,9 @@ function populateMaintenanceLists() {
 	//var content = '<option>No Selection</option>';
 	globalIDs['trip_id_list'].forEach(function(row){
 		//content += `<option value="${row}">${row}</option>`;
-		renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
+		//renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
+		var select2id = '{"trip_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'trip: ' + row});
 	});
 	/*
 	$('#trip2Delete').html(content);
@@ -470,8 +477,11 @@ function populateMaintenanceLists() {
 	// shape2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['shapeIDsJson']['all'].forEach(function(row){
-			//content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
+		//renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
+		var select2id = '{"shape_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'shape: ' + row});
+
 	});
 	/*
 	$('#shape2Delete').html(content);
@@ -489,8 +499,10 @@ function populateMaintenanceLists() {
 	// service2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['service_id_list'].forEach(function(row){
-			//content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
+		//renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
+		var select2id = '{"service_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'calandar service: ' + row});
 	});
 	/*
 	$('#service2Delete').html(content);
@@ -509,8 +521,10 @@ function populateMaintenanceLists() {
 	// zone2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['zone_id_list'].forEach(function(row){
-			//content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
+		//renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
+		var select2id = '{"zone_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'fare zone: ' + row});
 	});
 	/*
 	$('#zone2Delete').html(content);
@@ -529,8 +543,10 @@ function populateMaintenanceLists() {
 	// fareID2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['fare_id_list'].forEach(function(row){
-			//content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
+		//renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
+		var select2id = '{"fare_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'fare id: ' + row});
 	});
 	/*
 	$('#fareID2Delete').html(content);
@@ -549,8 +565,10 @@ function populateMaintenanceLists() {
 	// agency2Delete
 	//var content = '<option>No Selection</option>';
 	globalIDs['agency_id_list'].forEach(function(row){
-			//content += `<option value="${row}">${row}</option>`;
-			renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
+		//content += `<option value="${row}">${row}</option>`;
+		//renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
+		var select2id = '{"agency_id":"'+row+'"}';
+		select2items.push({id : select2id, text: 'agency: ' + row});
 	});
 	/*
 	$('#agency2Delete').html(content);
@@ -566,18 +584,24 @@ function populateMaintenanceLists() {
 
 	});*/
 
+	$("#renameSource").select2({				
+		placeholder: "No Selection",
+		theme: 'bootstrap4',
+		data: select2items,
+		allowClear: true
+		});
 
-	$('#renameSource').html(renameContent);
-	$('#renameSource').chosen({search_contains:true, allow_single_deselect:true, width:200, placeholder_text_single:'Pick a UID'});
-	$('#renameSource').trigger('chosen:updated');
-	$('#renameSource').on('change', function(evt,params) {
-		if(!params) return;
-		let uid = params.selected;
-		if(uid == 'No Selection') return;
-		// console.log(JSON.parse(uid));
-		// reset the rename button when selection has changed.
-		resetGlobals();
-	});
+	// $('#renameSource').html(renameContent);
+	// $('#renameSource').chosen({search_contains:true, allow_single_deselect:true, width:200, placeholder_text_single:'Pick a UID'});
+	// $('#renameSource').trigger('chosen:updated');
+	// $('#renameSource').on('change', function(evt,params) {
+	// 	if(!params) return;
+	// 	let uid = params.selected;
+	// 	if(uid == 'No Selection') return;
+	// 	// console.log(JSON.parse(uid));
+	// 	// reset the rename button when selection has changed.
+	// 	resetGlobals();
+	// });
 }
 
 // #################################

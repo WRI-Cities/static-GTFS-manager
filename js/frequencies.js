@@ -2,6 +2,7 @@
 // global variables
 const exact_timesChoices = {0:"0 - Not exactly scheduled", 1:"1 - Exactly scheduled", '':"blank - not exactly scheduled (default)"};
 
+
 // #########################################
 // Function-variables to be used in tabulator
 var freqTotal = function(values, data, calcParams){
@@ -14,9 +15,10 @@ var tripLister = function(cell) {
 	return tripListGlobal;
 }
 
+
 //####################
 // Tabulator tables
-$("#frequencies-table").tabulator({
+var table = new Tabulator("#frequencies-table", {
 	selectable:0,
 	index: 'trip_id',
 	movableRows: true,
@@ -44,6 +46,7 @@ $("#frequencies-table").tabulator({
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
 	getPythonRoutesList();
+	$("#tripSelect").select2();
 });
 
 // #########################
@@ -56,7 +59,7 @@ $("#addFreqButton").on("click", function(){
 		setTimeout(function(){ $("#freqAddStatus").html(''); },10000);
 		return;
 	}
-	$("#frequencies-table").tabulator("addRow", {trip_id:trip_id}, true);
+	table.addRow([{trip_id:trip_id}], true);
 	$("#freqAddStatus").html('Added.');
 	setTimeout(function(){ $("#freqAddStatus").html(''); },10000);
 });
@@ -98,43 +101,84 @@ function getPythonRoutesList() {
 	populate a dropdown with it for new frequency adding. It must be an existing trip.
 	*/
 	var jqxhr = $.get( `${APIpath}tableColumn?table=routes&column=route_id`, function( data ) {
-		trip_id_list =  JSON.parse(data) ;
+		route_id_list =  JSON.parse(data) ;
 		console.log('GET request to API/tableColumn table=routes successful.');
-		var content = '<option value="">Choose a Route</option>';
-		trip_id_list.forEach(element => {
-			//tripListGlobal[element] = element;
-			content += `<option value="${element}">${element}</option>`;
-		});
-		$('#routeSelect').html(content);
-		$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-		$('#routeSelect').chosen({search_contains:true, width:200, placeholder_text_single:'Pick a Route'});
+		//allStops = data;		
+		var select2Routesitems = [];		
+		select2Routesitems.push({id : '', text: ''});
+		for(key in route_id_list) {			
+			select2Routesitems.push({id : route_id_list[key], text: route_id_list[key]})
+		}
+		$("#routeSelect").select2({				
+			placeholder: "Choose a Route",
+			theme: 'bootstrap4',
+			data: select2Routesitems,
+			allowClear: true
+		  });		
 	})
 	.fail( function() {
 		console.log('GET request to API/tableColumn table=routes failed.')
 	});
 }
 
-function getPythonTripsList() {
-	var route_id = $('#routeSelect').val();
-	if(!route_id.length) {
-		$("#freqAddStatus").html('Please choose a valid route_id to load its trips.');
-		//shakeIt('routeSelect'); // doesn't seem to work well on chosen dropdowns
+// If Route selected:
+$('#routeSelect').on('select2:select', function (e) {	
+	var route_id = e.params.data.id;
+	console.log(route_id);
+	if( route_id == '') { 
+		$.toast({
+			title: 'Select route',
+			subtitle: 'Failed to select',
+			content: 'Please choose a valid route_id to load its trips.',
+			type: 'error',
+			delay: 5000
+		  });
 		return;
 	}
-
 	var jqxhr = $.get( `${APIpath}tableColumn?table=trips&column=trip_id&key=route_id&value=${route_id}`, function( data ) {
-		trip_id_list =  JSON.parse(data) ;
+		trip_id_list =  JSON.parse(data);
+		var select2Tripsitems = [];
 		console.log('GET request to API/tableColumn table=trips successful.');
-		var content = '<option value="">Choose a Trip</option>';
-		trip_id_list.forEach(element => {
-			//tripListGlobal[element] = element;
-			content += `<option value="${element}">${element}</option>`;
-		});
-		$('#tripSelect').html(content);
-		$('#tripSelect').trigger('chosen:updated'); // update if re-populating
-		$('#tripSelect').chosen({search_contains:true, width:200, placeholder_text_single:'Pick a Trip'});
+		// Clean Trip Options
+		$("#tripSelect").select2("destroy");
+		//$("#tripSelect").val(null).trigger("change");
+		// var newOption = new Option('Select a trip', null, false, true);
+		// $('#tripSelect').append(newOption);
+		// console.log('added default option');
+		for(key in trip_id_list) {			
+			// var newOption = new Option(trip_id_list[key], trip_id_list[key], false, false);
+			// $('#tripSelect').append(newOption);
+			select2Tripsitems.push({id : route_id_list[key], text: route_id_list[key]})
+		}		
+		//$('#tripSelect').trigger('change');
+		$("#tripSelect").select2({				
+			placeholder: "Choose a trip",
+			theme: 'bootstrap4',
+			data: select2Tripsitems
+		  });
+		// var content = '<option value="">Choose a Trip</option>';
+		// trip_id_list.forEach(element => {
+		// 	//tripListGlobal[element] = element;
+		// 	content += `<option value="${element}">${element}</option>`;
+		// });
+		// $('#tripSelect').html(content);
+		// $('#tripSelect').trigger('chosen:updated'); // update if re-populating
+		// $('#tripSelect').chosen({search_contains:true, width:200, placeholder_text_single:'Pick a Trip'});
 	})
 	.fail( function() {
 		console.log('GET request to API/tableColumn table=trips failed.')
 	});
-}
+});
+
+
+
+// function getPythonTripsList() {
+// 	var route_id = $('#routeSelect').val();
+// 	if(!route_id.length) {
+// 		$("#freqAddStatus").html('Please choose a valid route_id to load its trips.');
+// 		//shakeIt('routeSelect'); // doesn't seem to work well on chosen dropdowns
+// 		return;
+// 	}
+
+	
+// }

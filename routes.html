@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <title>GTFS Manager : Main info</title>
+    <title>GTFS Manager : Routes</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -36,181 +36,29 @@
 
 <body class="animsition">
         <div class="page-wrapper">
-            <!-- HEADER MOBILE-->
-            <header class="header-mobile d-block d-lg-none">
-                <div class="header-mobile__bar">
-                    <div class="container-fluid">
-                        <div class="header-mobile-inner">
-                            <a class="logo" href="index.html">
-                                <img src="extra_files/GTFS.png"  height="44" width="auto" alt="GTFs Manager" />
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop3 d-none d-lg-block">
+                <div class="section__content section__content--p35">
+                    <div class="header3-wrap">
+                        <div class="header__logo">
+                            <a href="#">
+                                <img src="extra_files/GTFS.png" width="52" height="170"  alt="GTFS Manager" />
                             </a>
-                            <button class="hamburger hamburger--slider" type="button">
-                                <span class="hamburger-box">
-                                    <span class="hamburger-inner"></span>
-                                </span>
-                            </button>
+                        </div>
+                        <div class="header__navbar" id="navmenuinsert">
+                            <!-- menu will be inserted from menu.js.-->
+                        </div>
+                        <div class="form-inline my-2 my-md-0">
+                            <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
                         </div>
                     </div>
                 </div>
-                <nav class="navbar-mobile">
-                    <div class="container-fluid">
-                        <ul class="navbar-mobile__list list-unstyled" id="navbar-mobile">
-                            <li class="has-sub">
-                                <a class="js-arrow" href="index.html">
-                                    <i class="fas fa-tachometer-alt"></i>Home</a>                                
-                            </li>
-                            <li>
-                                <a href="chart.html">
-                                    <i class="fas fa-chart-bar"></i>Charts</a>
-                            </li>
-                            <li>
-                                <a href="table.html">
-                                    <i class="fas fa-table"></i>Tables</a>
-                            </li>
-                            <li>
-                                <a href="form.html">
-                                    <i class="far fa-check-square"></i>Forms</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-calendar-alt"></i>Calendar</a>
-                            </li>
-                            <li>
-                                <a href="map.html">
-                                    <i class="fas fa-map-marker-alt"></i>Maps</a>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-copy"></i>Pages</a>
-                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="forget-pass.html">Forget Password</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-desktop"></i>GTFS</a>
-                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                    <li>
-                                        <a href="button.html">Button</a>
-                                    </li>
-                                    
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
             </header>
-            <!-- END HEADER MOBILE-->
-    
-            <!-- MENU SIDEBAR-->
-            <aside class="menu-sidebar d-none d-lg-block">
-                <div class="logo">
-                    <a href="#">
-                        <img src="extra_files/GTFS.png" height="44" width="auto" alt="GTFS Manager" />
-                    </a>
-                </div>
-                <div class="menu-sidebar__content js-scrollbar1">
-                    <nav class="navbar-sidebar">
-                        <ul class="list-unstyled navbar__list">
-                                <li class="active">
-                                    <a class="js-arrow" href="index.html">
-                                            <i class="fas fa-home"></i>Home</a>                                        
-                                </li>
-                                <li class="has-sub">
-                                    <a class="js-arrow" href="#">
-                                            <i class="fas fa-bus"></i></i>GTFS</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                        <li>
-                                            <a href="agency.html"><i class="fas fa-building"></i>Agency</a>
-                                        </li>
-                                        <li>
-                                            <a href="stops.html"><i class="fas fa-map-marker-alt"></i>Stops</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="routes.html"><i class="fas fa-road"></i>Routes</a>
-                                        </li>
-                                        <li>
-                                            <a href="calendar.html"><i class="fas fa-calendar"></i>Calendar</a>
-                                        </li>
-                                        <li>
-                                            <a href="tripstimings.html"><i class="fas fa-stopwatch"></i>Trips, Stop_times</a>
-                                        </li>
-                                        <li>
-                                            <a href="frequencies.html"><i class="fas fa-wave-square"></i>Frequencies</a>
-                                        </li>
-                                        <li>
-                                            <a href="fares.html"><i class="fas fa-dollar-sign"></i>Fares</a>
-                                        </li>
-                                        <li>
-                                            <a href="translations.html"><i class="fas fa-language"></i>Translations</a>
-                                        </li>                                            
-                                    </ul>
-                                </li>
-                                <li class="has-sub">
-                                    <a class="js-arrow" href="#">
-                                        <i class="fas fa-tools"></i>Tools</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                        <li>
-                                            <a href="sequence.html"><i class="fas fa-align-justify"></i>Default Route Sequence</a>
-                                        </li>
-                                        <li>
-                                            <a href="renameID.html"><i class="fas fa-pen"></i>Rename ID</a>
-                                        </li>
-                                        <li>
-                                            <a href="deleteID.html"><i class="fas fa-trash"></i>Delete ID</a>
-                                        </li>
-                                                                                    
-                                    </ul>
-                                </li>
-                                <li class="has-sub">
-                                    <a class="js-arrow" href="#">
-                                            <i class="fas fa-database"></i>Data</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                        <li>
-                                            <a href="kmrl.html"><i class="fas fa-file-import"></i>Import KMRL format</a>
-                                        </li>
-                                        <li>
-                                            <a href="hmrl.html"><i class="fas fa-file-import"></i>Import HRML format</a>
-                                        </li>                                   
-                                    </ul>
-                                </li>
-                            </ul>
-                </nav>
-                </div>
-            </aside>
-            <!-- END MENU SIDEBAR-->
-    
-            <!-- PAGE CONTAINER-->
-            <div class="page-container">
-                <!-- HEADER DESKTOP-->
-                <header class="header-desktop">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            <div class="header-wrap">
-                                    An open source tool for managing and creating public transit schedules data in static GTFS format.
-                                <form class="form-header" action="" method="POST">
-                                    <input class="au-input au-input" type="text" name="search" placeholder="pw for edits" id="password" />
-                                    <button class="au-btn--submit" type="submit">
-                                        <i class="zmdi zmdi-search"></i>
-                                    </button>
-                                </form>                                
-                        </div>
-                    </div>
-                </header>
-                <!-- HEADER DESKTOP-->
-    
+            <!-- END HEADER DESKTOP-->
                 <!-- MAIN CONTENT-->
-                <div class="main-content">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
+                <div class="page-content--bgf7">
+                <div class="section__content section__content--p30">
+                    <div class="container p-t-20">                           
 							<div class="row">
 								<div class="col-md-12">
 									<div class="accordion" id="accordionExample">
@@ -300,6 +148,7 @@
         <script src="js/Select2EditorColorPicker.js"></script>	
         <!-- Main JS-->
         <script src="js/main.js"></script>
+        <script src="js/menu.js"></script>
     
     
 

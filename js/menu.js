@@ -7,7 +7,10 @@ function MenuItem(Text, Link, isActive) {
     }
     if (isActive) {
         isActiveText = ' class="active"';
-    }    
+    }
+    if (Link == 'index.html' ) {
+        iconText = '<span class="bot-line"></span>' + iconText;
+    }
     return '<li' + isActiveText + '><a href="' + Link + '">' + iconText + Text + '</a></li>';
 }
 
