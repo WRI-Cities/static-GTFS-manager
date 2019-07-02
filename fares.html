@@ -142,18 +142,15 @@
 													</div>
 													<div class="col-md-5">
 
-														<p>Add new Fare Rule:<br>
-															Origin zone: <select id="originSelect"></select>
-															&nbsp;&nbsp;&nbsp;
-															Destination zone: <select id="destinationSelect"></select>
+														Add new Fare Rule:<br>
+															Origin zone: <select id="originSelect" class="form-control"></select>															
+															Destination zone: <select id="destinationSelect" class="form-control"></select>
 															<br>
-															Route: <select id="routeSelect"></select>
-															&nbsp;&nbsp;&nbsp;
-															Fare Id: <select id="fareSelect"></select>
-															<br></p>
-														<p><button id="addFareRuleButton" class="btn btn-outline-primary btn-sm">Add Fare Rule</button> &nbsp;&nbsp;&nbsp;
-															<small id="addFareRuleStatus"></small>
-														</p>
+															Route: <select id="routeSelect" class="form-control"></select>															
+															Fare Id: <select id="fareSelect" class="form-control"></select>
+															<br>
+														<button id="addFareRuleButton" class="btn btn-primary">Add Fare Rule</button> &nbsp;&nbsp;&nbsp;
+															<small id="addFareRuleStatus"></small>														
 														<hr>
 
 														<p align="center"><button id="saveFareRulesSimpleButton" class="btn btn-outline-success btn-lg">Save Fare Rules</button></p>
@@ -176,11 +173,11 @@
 
 														<h4>Add a Fare Attribute</h4>
 
-														<p>Create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5"></p>
-														<p>Set a price: <input id='price' type="number" style="width:50px;"></p>
-														<p>Currency: <input id='currency' style="width:50px;" value="INR" title="specify currency"> <small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small></p>
+														<p>Create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5" class="form-control"></p>
+														<p>Set a price: <input id='price' type="number" style="width:100px;" class="form-control"></p>
+														<p>Currency: <select id="currency" class="form-control"></select> <small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small></p>
 
-														<p><button id="addEditFare" class="btn btn-outline-primary btn-sm">Add Fare</button>
+														<p><button id="addEditFare" class="btn btn-primary">Add Fare</button>
 															&nbsp; <small><i>if existing fare_id, entry in table will be updated.</i></small></p>
 
 														<small id="fareAttrStatus"></small>
@@ -220,6 +217,7 @@
 	<script src="vendor/circle-progress/circle-progress.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
 	<script src="vendor/select2/js/select2.min.js"></script>
+	<script src="js/Select2EditorCurrency.js"></script>
 
 	<!-- Main JS-->
 	<script src="js/main.js"></script>

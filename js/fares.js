@@ -10,7 +10,7 @@ var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
 
 // set dynamic dropdown for fare_ids, reading from fare attributes table
 var fareList = function(cell){
-	var data = $("#fare-attributes-table").tabulator("getData");
+	var data = simple.getData();
 	var faresList = data.map(a => a.fare_id);
 	var priceList = data.map(a => a.price);
 	faresList.push('');
@@ -49,40 +49,41 @@ var fareattributes = new Tabulator("#fare-attributes-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	//layout:"fitColumns", //fit columns to width of table (optional)
-	index: "fare_id", 
+	index: "fare_id",	
 	history:true,
 	addRowPos: "top",
-	ajaxURL: APIpath + 'tableReadSave?table=fare_attributes', //ajax URL
-	ajaxLoaderLoading: loaderHTML,
+	ajaxURL: APIpath + 'tableReadSave',
+	ajaxParams: {table:"fare_attributes"},	
+	ajaxLoaderLoading: loaderHTML,	
+	layout:"fitDataFill",
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
 		{title:"fare_id", field:"fare_id", editor:"input", headerFilter:"input", width:100, validator:["string", "minLength:2"], bottomCalc:faresTotal },
 		{title:"price", field:"price", editor:"input", headerFilter:"input", width:70, validator:["required","numeric"] },
 		{title:"payment_method", field:"payment_method", editor:"select", editorParams:{0:"0 - on boarding", 1:"1 - before boarding"}, headerSort:false, width:100 },
-		{title:"transfers", field:"transfers", editor:"select", editorParams:{'':'blank - Unlimited transfers', 0:"0 - No transfers", 1:"1 - Once allowed"}, headerSort:false, width:80 },
-		{title:"currency_type", field:"currency_type", editor:"input", headerSort:false, width:120 },
-		{title:"route_id", field:"route_id", headerSort:false, width:120, tooltip:'' }
+		{title:"transfers", field:"transfers", editor:"select", editorParams:{values:{'':'blank - Unlimited transfers', 0:"0 - No transfers", 1:"1 - Once allowed"}}, headerSort:false, width:80 },
+		{title:"currency_type", field:"currency_type", editor:"input", headerSort:false, width:120 }
 	],
 	
 	cellEdited:function(cell){
 		// on editing a cell, log changes 
 		let fare_id = cell.getRow().getIndex(); //get corresponding stop_id for that cell
 		let field = cell.getColumn().getField() ;
-
 		logmessage('Changed fare attribute for ' + fare_id + ', ' + field + ': ' + cell.getOldValue() + ' to ' + cell.getValue() );
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave?table=fare_attributes failed.  Returned status of: ' + errorThrown);
-	},
+	},	
 	dataLoaded: function(data){
+		//fareattributes.setData();
 		console.log('GET request to tableReadSave?table=fare_attributes successful.');
-		// populate Fare id dropdown in simple fare rules tab
-		var dropdown = '';
-		data.forEach(function(row){
-			dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
-		});	
-		$('#fareSelect').html(dropdown);
+		UpdateFareID(data);
+		// console.log(data);
+		// // // populate Fare id dropdown in simple fare rules tab
+		// 
+		// $('#fareSelect').append(newOption).trigger('change');
+		//$('#fareSelect').html(dropdown);
 	},
 	rowSelected:function(row){
 		$('#targetFareid').val(row.getIndex());
@@ -115,6 +116,35 @@ var fareattributes = new Tabulator("#fare-attributes-table", {
 	},*/
 	
 }); // end fare attributes table definition
+
+// On clicking the tab redraw the tabultator info:
+$('.nav-tabs a[href="#Attributes"]').on('shown.bs.tab', function(event){
+    fareattributes.redraw(true);
+});
+
+$('.nav-tabs a[href="#Simple"]').on('shown.bs.tab', function(event){
+    simple.redraw(true);
+});
+
+function UpdateFareID(data) {
+	console.log("Update FareID Select2");
+	$("#fareSelect").select2({		
+			placeholder: "Choice a Fare",
+			theme: 'bootstrap4',							
+		  });
+		  var newOption = new Option("Select Fare", "", false, false);
+		  $('#fareSelect').append(newOption).trigger('change');
+
+		data.forEach(function(row) {
+			var SelectOption = row['fare_id'] + " - " + row['price'] + " - " + row['currency_type'];
+			console.log(SelectOption);
+			var newOption = new Option(SelectOption, row.fare_id, false, false);
+			$('#fareSelect').append(newOption).trigger('change');
+
+		// 	//dropdown += `<option value="${row.fare_id}">${row.fare_id} - ${row.price} ${row.currency_type}</option>`;
+		});	
+}
+
 
 var simple = new Tabulator("#fare-rules-simple-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
@@ -149,6 +179,7 @@ var simple = new Tabulator("#fare-rules-simple-table", {
 // initiating commands
 $(document).ready(function(){
 	// Initiating Fare Rules table.
+
 	getPythonFareRules();
 	getPythonRouteIdList();
 	getPythonZones();
@@ -156,8 +187,14 @@ $(document).ready(function(){
 	// getPythonStopsKeyed();
 	//Initiate fare attributes table
 	//getPythonFareAttributes(); // tabulator will self-load by ajax
-});
+	
+	$("#currency").select2({
+		tags: false,
+		placeholder: 'Select currency',
+		data: CurrencyList
+	  });
 
+});
 
 //####################
 // Button actions
@@ -285,8 +322,8 @@ function getPythonFareRules() {
 function initiateFareRules(rulesData) {
 	// check if already initialized
 	if( $("#fare-rules-table").html().length > 1000 ) {
-		$("#fare-rules-table").tabulator('setData',rulesData);
-		$("#fare-rules-table").tabulator('redraw', true);
+		farerules.setData(rulesData);
+		farerules.redraw(true);
 		return;
 	}
 
@@ -349,8 +386,8 @@ function saveFareAttributes() {
 	}
 	$('#saveFareAttributesStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
 
-	var data = JSON.stringify( $("#fare-attributes-table").tabulator('getData') );
-
+	var data = JSON.stringify( fareattributes.getData() );
+	console.log(data);
 	$.ajax({
 		url : `${APIpath}fareAttributes?pw=${pw}`,
 		type : 'POST',
@@ -361,7 +398,7 @@ function saveFareAttributes() {
 		success : function(returndata) {
 			console.log('API/fareAttributes POST request successfully done.');
 			$('#saveFareAttributesStatus').html('<span class="alert alert-success">' + returndata + '</span>' );
-			logmessage( 'Fare Attributes saved to DB.' );
+			//logmessage( 'Fare Attributes saved to DB.' );
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/fareAttributes POST request failed.')
@@ -378,7 +415,7 @@ function saveFareRulesPivoted() {
 	}
 	$('#saveFareRulesStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
 
-	var data = JSON.stringify( $("#fare-rules-table").tabulator("getData") );
+	var data = JSON.stringify( farerules.getData() );
 	
 	$.ajax({
 		url : `${APIpath}fareRulesPivoted?pw=${pw}`,
@@ -409,7 +446,7 @@ function saveFareRulesSimple() {
 	}
 	$('#saveFareRulesSimpleStatus').html('<span class="alert alert-secondary">Saving data to DB.. please wait..</span>');
 
-	var data = JSON.stringify( $("#fare-rules-simple-table").tabulator("getData") );
+	var data = JSON.stringify( simple.getData() );
 	
 	$.ajax({
 		url : `${APIpath}tableReadSave?table=fare_rules&pw=${pw}`,
