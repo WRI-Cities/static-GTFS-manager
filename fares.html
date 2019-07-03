@@ -15,8 +15,7 @@
 	<!-- Bootstrap CSS-->
 	<link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-	<!-- Vendor CSS-->
-	<link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+	<!-- Vendor CSS-->	
 	<link href="vendor/wow/animate.css" rel="stylesheet" media="all">
 	<link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
 	<link href="vendor/slick/slick.css" rel="stylesheet" media="all">
@@ -31,7 +30,7 @@
 	<!-- Put the CSSs first and JSs next -->
 </head>
 
-<body class="animsition">
+<body>
 	<div class="page-wrapper">
 		<!-- HEADER DESKTOP-->
 		<header class="header-desktop3 d-none d-lg-block">
@@ -163,7 +162,7 @@
 												<div class="row">
 													<div class="col">
 														<h4>Fare Attributes</h4>
-														<div id="fare-attributes-table"></div>														
+														<div id="fare-attributes-table" class="table table-striped table-sm"></div>														
 														<br>
 														<p><small>Each price bracket to have an entry here. See <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank">GTFS reference</a> for more info.<br>
 																See Maintenance section for deleting a fare after saving to DB.</small></p>
@@ -172,15 +171,30 @@
 													<div class="col" id="rightcontainer">
 
 														<h4>Add a Fare Attribute</h4>
-
-														<p>Create a fare_id: <input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5" class="form-control"></p>
-														<p>Set a price: <input id='price' type="number" style="width:100px;" class="form-control"></p>
-														<p>Currency: <select id="currency" class="form-control"></select> <small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small></p>
-
-														<p><button id="addEditFare" class="btn btn-primary">Add Fare</button>
-															&nbsp; <small><i>if existing fare_id, entry in table will be updated.</i></small></p>
-
-														<small id="fareAttrStatus"></small>
+														<div class="form-group">
+															<label for="targetFareid">Create a fare_id</label>
+															<input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5" class="form-control">
+														</div>
+														<div class="form-group">
+															<label for="targetFareid">Set a price</label>
+															<input id='price' type="number" style="width:150px;" class="form-control">															
+														</div>
+														<div class="form-group">
+															<label for="targetFareid">Currency:</label>
+															<select id="currency" class="form-control"></select>
+															<small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small>
+														</div>
+														<div class="form-group">
+															<label for="targetFareid">Payment method:</label>
+															<select id="paymentmethod" class="form-control"><option value="0">On boarding</option><option value="1">Before boarding</option></select>															
+														</div>
+														<div class="form-group">
+															<label for="targetFareid">Transfers:</label>
+															<select id="transfers" class="form-control"><option value="">Unlimited transfers</option><option value="0">No transfers are permitted on this fare</option><option value="1">One transfer is permitted on this fare</option><option value="2">Two transfers are permitted on this fare</option></select>															
+														</div>
+														
+														<button id="addEditFare" class="btn btn-primary">Add Fare</button>&nbsp; <small><i>if existing fare_id, entry in table will be updated.</i></small></p>
+													
 														<hr>
 														<p><button id="saveFareAttributesButton" class="btn btn-outline-success btn-lg">Save Fare Attributes to DB</button>
 															<br><br>
@@ -212,12 +226,12 @@
 	<!-- Vendor JS       -->
 	<script src="vendor/slick/slick.min.js"></script>
 	<script src="vendor/wow/wow.min.js"></script>
-	<script src="vendor/animsition/animsition.min.js"></script>
 	<script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
 	<script src="vendor/circle-progress/circle-progress.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
 	<script src="vendor/select2/js/select2.min.js"></script>
 	<script src="js/Select2EditorCurrency.js"></script>
+	<script src="vendor/toast-0.7.1/toast.min.js"></script>
 
 	<!-- Main JS-->
 	<script src="js/main.js"></script>

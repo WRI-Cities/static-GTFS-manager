@@ -695,6 +695,8 @@ var select2CurrencyEditor = function (cell, onRendered, success, cancel, editorP
     //create input element to hold select
     var editor = document.createElement("select");
     editor.className = "form-control";
+    editor.style.width = "100%";
+    editor.style.height = "100%";
     onRendered(function () {
         var select_2 = $(editor);
 
