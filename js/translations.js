@@ -5,10 +5,14 @@ var translationsTotal = function(values, data, calcParams){
 	return calc + ' translations total';
 }
 
+var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
+    return "<i class='fas fa-trash-alt'></i>";
+};
+
 //####################
 // Tabulator tables
 
-$("#translations-table").tabulator({
+var translations = new Tabulator("#translations-table", {
 	selectable:0,
 	index: 'trans_id',
 	movableRows: true,
@@ -21,12 +25,12 @@ $("#translations-table").tabulator({
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120, bottomCalc:translationsTotal },
-		{title:"lang", field:"lang", editor:"input", headerFilter:"input", headerSort:false },
+		{title:"lang", field:"lang", editor:select2LanguageEditor, headerFilter:"input", headerSort:false },
 		{title:"translation", field:"translation", editor:"input", headerFilter:"input", headerSort:false, width:150, formatter:function(cell, formatterParams){
 			return "<big>" + cell.getValue() + '</big>'; //return the contents of the cell;
 			}
 		},
-		{formatter:"buttonCross", align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
+		{formatter:trashIcon, align:"center", title:"del", headerSort:false, cellClick:function(e, cell){
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
 			}}
@@ -40,7 +44,11 @@ $("#translations-table").tabulator({
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
-	;
+	$("#lang").select2({
+		tags: false,
+		placeholder: 'Select language',
+		data: LanguageList
+	});
 });
 
 // #########################
@@ -73,7 +81,7 @@ function addTranslation() {
 		return;
 	}
 
-	var data = $('#translations-table').tabulator('getData');
+	var data = translations.getData();
 	var translist = []
 	data.forEach(function(row){
 			translist.push(row.trans_id + '|' + row.lang);
@@ -83,7 +91,7 @@ function addTranslation() {
 	if(isPresent){
 		$('#translationAddStatus').html('<span class="alert alert-warning">This translation is already present. Please find it in the table and edit it there.</span>');
 	} else {
-		$('#translations-table').tabulator('addRow', {'trans_id':trans_id, 'lang':lang, 'translation':translation},true );
+		translations.addRow([{'trans_id':trans_id, 'lang':lang, 'translation':translation}]);
 		$('#translationAddStatus').html('<span class="alert alert-success">Added translation.</span>');
 	}
 
@@ -100,7 +108,7 @@ function saveTranslation() {
 		$('#translationSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
 		shakeIt('password'); return;
 	}
-	var data = $('#translations-table').tabulator('getData');
+	var data = translations.getData();
 
 	console.log('sending to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting

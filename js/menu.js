@@ -3,7 +3,7 @@ function MenuItem(Text, Link, isActive) {
     var iconPage = IconPage(Link);
     var isActiveText = '';
     if (iconPage != ''){
-        iconText = '<i class="fas '+ iconPage + '"></i>'; 
+        iconText = '<i class="fas '+ iconPage + ' fa-fw"></i>'; 
     }
     if (isActive) {
         isActiveText = ' class="active"';
@@ -18,7 +18,7 @@ function SubMenu(Text, Icon) {
     var iconText = '';
     var iconSub = IconSub(Text);
     if (iconSub != ''){
-        iconText = '<i class="fas '+ iconSub + '"></i>'; 
+        iconText = '<i class="fas '+ iconSub + ' fa-fw"></i>'; 
     }
     return ' <li class="has-sub"><a href="#">' + iconText +'<span class="bot-line"></span>' + Text + '</a><ul class="header3-sub-list list-unstyled">';
 }

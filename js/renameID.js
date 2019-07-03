@@ -684,9 +684,7 @@ function resetGlobals() {
 	var globalValueTo = '';
 	var globalTableKeys = [];
 	$('#renameTablesInfo').html('');
-	$('#renameStatus').html('');
-	document.getElementById("replaceIDButton").disabled = true;
-	document.getElementById("replaceIDButton").className = "btn";
+	$('#renameStatus').html('');	
 }
 
 
