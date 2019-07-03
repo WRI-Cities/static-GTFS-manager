@@ -24,10 +24,10 @@ var stopsTotal = function(values, data, calcParams){
 var table = new Tabulator("#stops-table", {
 	selectable:1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
-	//layout:"fitColumns", //fit columns to width of table (optional)
+	layout:"fitColumns", //fit columns to width of table (optional)
 	index: "stop_id", 
 	history:true,
-	layout:"fitDataFill",
+	//layout:"fitDataFill",
 	addRowPos: "top",
 	ajaxURL: APIpath + 'tableReadSave?table=stops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
