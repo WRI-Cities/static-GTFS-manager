@@ -15,6 +15,8 @@ var stopsTotal = function(values, data, calcParams){
 	return calc + ' stops total';
 }
 
+
+
 // #################################
 /* 2. Tabulator initiation */
 
@@ -106,6 +108,10 @@ var table = new Tabulator("#stops-table", {
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
 	}
+});
+
+$('.nav-tabs a[href="#home"]').on('shown.bs.tab', function(event){
+    table.redraw(true);
 });
 
 // #################################
@@ -333,7 +339,7 @@ function updateTable() {
 	}
 
 	// reload stop ids list for autocomplete
-	reloadData();
+	// reloadData();
 
 	logmessage('updateOrAddRow done for ' + stop_id);
 
@@ -349,14 +355,14 @@ function updateTable() {
 		//$("#stops-table").tabulator("selectRow", stop_id);
 		table.selectRow(stop_id);
 		//$("#stops-table").tabulator("scrollToRow", stop_id);
-		table.selectRow(stop_id);
+		//table.selectRow(stop_id);
 		// clearing values
-		$("#targetStopid").val('');
-		$('#targetStopid').select2().trigger('change');
-		$("#stop_name").val('');
-		$("#wheelchair").val('');
-		$("#newlatlng").val('');
-		$("#zone_id").val('');
+		// $("#targetStopid").val('');
+		// $('#targetStopid').select2().trigger('change');
+		// $("#stop_name").val('');
+		// $("#wheelchair").val('');
+		// $("#newlatlng").val('');
+		// $("#zone_id").val('');
   }, 1000);		
 }
 
@@ -375,13 +381,19 @@ function reloadData(timeflag='normal') {
 		tags: true,
 		placeholder: "",
 		theme: 'bootstrap4',
-		createTag: function (tag) {
-			return {
-				id: tag.term,
-				text: tag.term,
-				isNew : true
+		createTag: function (params) {
+			var term = $.trim(params.term);
+		
+			if (term === '') {
+			  return null;
 			}
-		},		
+		
+			return {
+			  id: term,
+			  text: term,
+			  newTag: true // add additional parameters
+			}
+		  },
 		data: select2items
 	  });
 
@@ -653,17 +665,41 @@ var geocoder = L.Control.geocoder({
 	defaultMarkGeocode: false,
 	position: 'topleft'
   })
-	.on('markgeocode', function(e) {
-		alert(e.geocode);
-		alert(e.geocode.name);
+	.on('markgeocode', function(e) {		
 		var stop_name = e.geocode.name;
 		var latlng = e.geocode.center;
-		
-		$("#targetStopid").val(null).trigger('change');
+
+		// Generate stop_ID
+		let data = table.getData();
+		stop_id_list = data.map(a => a.stop_id);
+
+		var counter = 1;
+		while ( stop_id_list.indexOf("STOP-" + pad(counter) ) > -1 ) counter++;
+		var stop_id = "STOP-" + pad(counter);
+		var stop_text = stop_id + " - " +stop_name;
+		console.log(stop_id);
+
+
+
+		// Add stop_id to list
+
+		var newOption = new Option(stop_text, stop_id, false, true);
+		$('#targetStopid').append(newOption);
+
+		// Trigger the change
+
+		$('#mySelect2').val(stop_id); // Change the value or make some change to the internal state
+		$('#mySelect2').trigger('change.select2');
+
+		//$("#targetStopid").val(null).trigger('change');
 		$("#stop_name").val(e.geocode.name);
 		$("#wheelchair").val('');
 		$("#newlatlng").val('');
 		$("#zone_id").val('');
+
+		// Show the Edit tab:
+		$('#myTab a[href="#edit"]').tab('show');
+
 		console.log(latlng);
 		dragmarker.setLatLng(e.geocode.center);
 		updateLatLng( dragmarker.getLatLng() );
