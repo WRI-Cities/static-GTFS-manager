@@ -221,12 +221,12 @@
 					</div>
 					<!-- Onward Journey (Direction 0) -->
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col">
 							<div class="card">
 								<div class="card-header">Onward Journey (Direction 0)</div>
 								<div class="card-body">
-									<div class="row">
-										<div class="col-md-6">
+									<div class="row no-gutters">
+										<div class="col">
 											<div id="sequence-0-table"></div>
 											<div class="row">
 												<div class="col-md-10">
@@ -237,7 +237,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col">
 											<div id="map0"></div>
 											<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 												<h6>Shape</h6>
@@ -248,12 +248,12 @@
 								</div>
 								<div class="card-footer">
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col">
 											<p>Mirror onward journey: <button id="flipSequenceReplace" class="btn btn-outline-danger" title="Will turn the return journey (the table below) into a mirror image of the onward journey (the table above)" data-toggle="tooltip" data-placement="top">replace</button>
 												/ <button id="flipSequenceInsert" class="btn btn-outline-info" title="will NOT erase present return journey sequence; a mirror image of onward journey will be inserted at the top of the table below." data-toggle="tooltip" data-placement="top">insert</button>
 											</p>
 										</div>
-										<div class="col-md-6">
+										<div class="col">
 											<p>Want to set a new shape for this route? <button class="btn btn-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal" disabled>Upload Shapefile</button></p>
 											<p><small>
 													<div id="openShapeModalStatus"></div>
@@ -267,23 +267,23 @@
 					</div>
 					<div class="row">
 						<!-- Return Journey (Direction 1) -->
-						<div class="col-md-12">
+						<div class="col">
 							<div class="card">
 								<div class="card-header">Return Journey (Direction 1)</div>
 								<div class="card-body">
-									<div class="row">
-										<div class="col-md-6">
+									<div class="row no-gutters">
+										<div class="col">
 											<div id="sequence-1-table"></div>
 											<div class="row">
-												<div class="col-md-10">
+												<div class="col-10">
 													<select id="stopChooser1" class="form-control"></select>
 												</div>
-												<div class="col-md-2">
+												<div class="col-2">
 													<button class="btn btn-primary" id="add-1" type="button">Add</button>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col">
 											<div id="map1"></div>
 											<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 												<h6>Shape</h6>
@@ -295,10 +295,10 @@
 								</div>
 								<div class="card-footer">
 									<div class="row">
-										<div class="col-md-4">
+										<div class="col-4">
 											<p><button id="saveSequence" class="btn btn-success btn-lg">Save Sequence to DB</button> &nbsp; <span id="sequenceSaveStatus"></span></p>
 										</div>
-										<div class="col-md-8">
+										<div class="col-8">
 
 											<ul>
 												<li>
