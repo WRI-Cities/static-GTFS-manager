@@ -78,12 +78,7 @@ var fareattributes = new Tabulator("#fare-attributes-table", {
 	dataLoaded: function(data){
 		//fareattributes.setData();
 		console.log('GET request to tableReadSave?table=fare_attributes successful.');
-		UpdateFareID(data);
-		// console.log(data);
-		// // // populate Fare id dropdown in simple fare rules tab
-		// 
-		// $('#fareSelect').append(newOption).trigger('change');
-		//$('#fareSelect').html(dropdown);
+		UpdateFareID(data);		
 	},
 	rowSelected:function(row){
 		$('#targetFareid').val(row.getIndex());
@@ -124,11 +119,16 @@ var farerules = new Tabulator("#fare-rules-table", {
 	index: "fare_id",	
 	history:true,
 	addRowPos: "top",
+	placeholder: "There are no rules defined. First create a rule.",
 	ajaxURL: APIpath + 'fareRulesPivoted',		
 	ajaxLoaderLoading: loaderHTML,	
 	layout:"fitDataFill",
 	ajaxResponse:function (url, params, response) {
-
+		console.log("response:");
+		console.log(response);
+		if (response.length == 0) {
+			return response;
+		}
         var colslist = Object.keys(response[0]); // get all the keys, ie, column headers. from https://stackoverflow.com/a/8430501/4355695
 		var columnSettings = [{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 }];
 
@@ -138,7 +138,7 @@ var farerules = new Tabulator("#fare-rules-table", {
 			if(i==0) {
 				columnSettings.push({title:colslist[i], field:colslist[i], headerSort:false, frozen:true /*, headerFilter:"input"*/ });
 			}
-			else columnSettings.push({title:colslist[i], field:colslist[i], headerSort:false, editor:"select", editorParams:fareList });
+			else columnSettings.push({title:colslist[i], field:colslist[i], headerSort:false, editor:"select", editorParams:{values:fareList}});
 		}
 
 		columnSettings.push( {rowHandle:true, formatter:"handle", headerSort:false, width:30, minWidth:30} );
@@ -201,7 +201,7 @@ function UpdateFareID(data) {
 	});	
 }
 
-
+// Fare Rules simple 
 var simple = new Tabulator("#fare-rules-simple-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
@@ -512,8 +512,11 @@ function saveFareRulesPivoted() {
 			console.log('API/fareRulesPivoted POST request successfully done.');
 			$('#saveFareRulesStatus').html('<span class="alert alert-success">' + returndata + '</span>' );
 			logmessage( 'Fare Rules saved to DB.' );
-			getPythonFareRules();
-			getPythonSimpleFareRules();
+			// Reload tables.
+			farerules.setData();
+			farerules.redraw(true);
+			simple.setData();
+			simple.redraw(true);			
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/fareRulesPivoted POST request failed.')
@@ -557,8 +560,11 @@ function saveFareRulesSimple() {
 				delay: 5000
 			  });
 			//logmessage( 'Simple Fare Rules saved to DB.' );
-			getPythonFareRules();
-			//getPythonSimpleFareRules();
+			// Reload tables.
+			farerules.setData();
+			farerules.redraw(true);
+			simple.setData();
+			simple.redraw(true);
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/tableReadSave?table=fare_rules POST request failed.')

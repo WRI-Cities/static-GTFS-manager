@@ -902,3 +902,453 @@ commitExport GET call
 2019-Jun-11 14:02:43 : Added shapes in 0.485 seconds.
 2019-Jun-11 14:02:43 : Generated GTFS feed at export/2019-06-11-test/
 2019-Jun-11 14:02:43 : commitExport GET call took 0.69 seconds.
+2019-Jul-03 09:44:47 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:44:47 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:44:48 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 09:44:48 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:44:48 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:44:48 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:44:48 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 09:44:48 : 
+zoneIdList GET call
+2019-Jul-03 09:44:48 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:44:48 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 09:44:48 : 
+routeIdList GET call
+2019-Jul-03 09:44:48 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:44:48 : routeIdList GET call took 0.03 seconds.
+2019-Jul-03 09:44:48 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:44:48 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:44:48 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:44:49 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 09:45:49 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 09:45:49 : Replaced fare_rules with new data, 1 entries inserted.
+2019-Jul-03 09:45:50 : tableReadSave POST call for table=fare_rules took 0.25 seconds.
+2019-Jul-03 09:47:14 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:47:14 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:47:15 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 09:47:15 : 
+routeIdList GET call
+2019-Jul-03 09:47:15 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:47:15 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 09:47:15 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:47:15 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:47:15 : fareRulesPivoted GET call took 0.04 seconds.
+2019-Jul-03 09:47:15 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:47:15 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:47:16 : tableReadSave GET call for table=fare_rules took 0.03 seconds.
+2019-Jul-03 09:47:16 : 
+zoneIdList GET call
+2019-Jul-03 09:47:16 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:47:16 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 09:47:19 : 
+fareRulesPivoted POST call
+2019-Jul-03 09:47:19 : Replaced fare_rules with new data, 1 entries inserted.
+2019-Jul-03 09:47:19 : API/fareAttributes POST call took 0.28 seconds.
+2019-Jul-03 09:47:22 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:47:22 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:47:23 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 09:47:23 : 
+zoneIdList GET call
+2019-Jul-03 09:47:23 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:47:23 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 09:47:23 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:47:23 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:47:23 : fareRulesPivoted GET call took 0.03 seconds.
+2019-Jul-03 09:47:23 : 
+routeIdList GET call
+2019-Jul-03 09:47:23 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:47:23 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 09:47:23 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:47:23 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:47:24 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 09:47:32 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 09:47:32 : Replaced fare_rules with new data, 0 entries inserted.
+2019-Jul-03 09:47:33 : tableReadSave POST call for table=fare_rules took 0.31 seconds.
+2019-Jul-03 09:47:36 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:47:36 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:47:37 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 09:47:37 : 
+zoneIdList GET call
+2019-Jul-03 09:47:37 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:47:37 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 09:47:37 : 
+routeIdList GET call
+2019-Jul-03 09:47:37 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:47:37 : routeIdList GET call took 0.07 seconds.
+2019-Jul-03 09:47:37 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:47:37 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:47:37 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:47:38 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 09:47:38 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:47:38 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:47:38 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:47:38 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 09:49:57 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:49:57 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:49:58 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 09:49:58 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:49:58 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:49:58 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:49:59 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 09:49:59 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:49:59 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:49:59 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:49:59 : fareRulesPivoted GET call took 0.02 seconds.
+2019-Jul-03 09:49:59 : 
+routeIdList GET call
+2019-Jul-03 09:49:59 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:49:59 : routeIdList GET call took 0.04 seconds.
+2019-Jul-03 09:49:59 : 
+zoneIdList GET call
+2019-Jul-03 09:49:59 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:49:59 : zoneIdList GET call took 0.03 seconds.
+2019-Jul-03 09:50:33 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:50:33 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:50:34 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 09:50:34 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:50:34 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:50:34 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:50:34 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 09:50:34 : 
+routeIdList GET call
+2019-Jul-03 09:50:34 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:50:34 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 09:50:34 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:50:34 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:50:34 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:50:35 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 09:50:35 : 
+zoneIdList GET call
+2019-Jul-03 09:50:35 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:50:35 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 09:51:09 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:51:09 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:51:10 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 09:51:10 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:51:10 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:51:10 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:51:11 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 09:51:11 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:51:11 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:51:11 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:51:11 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 09:51:11 : 
+zoneIdList GET call
+2019-Jul-03 09:51:11 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:51:11 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 09:51:11 : 
+routeIdList GET call
+2019-Jul-03 09:51:11 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:51:11 : routeIdList GET call took 0.03 seconds.
+2019-Jul-03 09:51:54 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:51:54 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:51:55 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 09:51:55 : 
+routeIdList GET call
+2019-Jul-03 09:51:55 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:51:55 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 09:51:55 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:51:55 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:51:55 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:51:56 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 09:51:56 : 
+zoneIdList GET call
+2019-Jul-03 09:51:56 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:51:56 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 09:51:56 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:51:56 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 09:51:56 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 09:51:56 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 09:52:04 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 09:52:04 : Replaced fare_rules with new data, 1 entries inserted.
+2019-Jul-03 09:52:05 : tableReadSave POST call for table=fare_rules took 0.28 seconds.
+2019-Jul-03 09:52:09 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 09:52:09 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 09:52:10 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 09:52:10 : 
+fareRulesPivoted GET call
+2019-Jul-03 09:52:10 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:52:10 : fareRulesPivoted GET call took 0.04 seconds.
+2019-Jul-03 09:52:10 : 
+routeIdList GET call
+2019-Jul-03 09:52:10 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 09:52:10 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 09:52:10 : 
+zoneIdList GET call
+2019-Jul-03 09:52:10 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 09:52:10 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 09:52:10 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 09:52:10 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 09:52:11 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 10:00:41 : 
+fareRulesPivoted POST call
+2019-Jul-03 10:00:42 : Replaced fare_rules with new data, 0 entries inserted.
+2019-Jul-03 10:00:42 : API/fareAttributes POST call took 0.26 seconds.
+2019-Jul-03 10:00:53 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:00:53 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:00:54 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 10:00:54 : 
+zoneIdList GET call
+2019-Jul-03 10:00:54 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:00:54 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 10:00:54 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:00:54 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:00:54 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:00:55 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 10:00:55 : 
+routeIdList GET call
+2019-Jul-03 10:00:55 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:00:55 : routeIdList GET call took 0.04 seconds.
+2019-Jul-03 10:00:55 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:00:55 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:00:55 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:00:55 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 10:02:59 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:02:59 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:03:00 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 10:03:00 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:03:00 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:03:00 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:03:00 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 10:03:00 : 
+routeIdList GET call
+2019-Jul-03 10:03:00 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:03:00 : routeIdList GET call took 0.04 seconds.
+2019-Jul-03 10:03:00 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:03:00 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:03:00 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:03:01 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 10:03:01 : 
+zoneIdList GET call
+2019-Jul-03 10:03:01 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:03:01 : zoneIdList GET call took 0.04 seconds.
+2019-Jul-03 10:03:09 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 10:03:09 : Replaced fare_rules with new data, 1 entries inserted.
+2019-Jul-03 10:03:10 : tableReadSave POST call for table=fare_rules took 0.25 seconds.
+2019-Jul-03 10:07:55 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:07:55 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:07:56 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 10:07:56 : 
+routeIdList GET call
+2019-Jul-03 10:07:56 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:07:56 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 10:07:56 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:07:56 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:07:57 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 10:07:57 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:07:57 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:07:57 : fareRulesPivoted GET call took 0.04 seconds.
+2019-Jul-03 10:07:57 : 
+zoneIdList GET call
+2019-Jul-03 10:07:57 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:07:57 : zoneIdList GET call took 0.06 seconds.
+2019-Jul-03 10:08:08 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 10:08:08 : Replaced fare_rules with new data, 2 entries inserted.
+2019-Jul-03 10:08:09 : tableReadSave POST call for table=fare_rules took 0.27 seconds.
+2019-Jul-03 10:08:09 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:08:09 : readTableDB: Loaded fare_rules, 2 records
+2019-Jul-03 10:08:09 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:08:09 : readTableDB: Loaded fare_rules, 2 records
+2019-Jul-03 10:08:10 : tableReadSave GET call for table=fare_rules took 0.03 seconds.
+2019-Jul-03 10:08:50 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 10:08:50 : Replaced fare_rules with new data, 1 entries inserted.
+2019-Jul-03 10:08:51 : tableReadSave POST call for table=fare_rules took 0.27 seconds.
+2019-Jul-03 10:08:51 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:08:51 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:08:51 : fareRulesPivoted GET call took 0.04 seconds.
+2019-Jul-03 10:08:51 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:08:51 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:08:52 : tableReadSave GET call for table=fare_rules took 0.03 seconds.
+2019-Jul-03 10:10:06 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:10:06 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:10:07 : tableReadSave GET call for table=fare_attributes took 0.02 seconds.
+2019-Jul-03 10:10:07 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:10:07 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:07 : fareRulesPivoted GET call took 0.03 seconds.
+2019-Jul-03 10:10:07 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:10:07 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:08 : tableReadSave GET call for table=fare_rules took 0.03 seconds.
+2019-Jul-03 10:10:08 : 
+routeIdList GET call
+2019-Jul-03 10:10:08 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:10:08 : routeIdList GET call took 0.03 seconds.
+2019-Jul-03 10:10:08 : 
+zoneIdList GET call
+2019-Jul-03 10:10:08 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:10:08 : zoneIdList GET call took 0.03 seconds.
+2019-Jul-03 10:10:20 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:10:20 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:10:21 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 10:10:21 : 
+routeIdList GET call
+2019-Jul-03 10:10:21 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:10:21 : routeIdList GET call took 0.05 seconds.
+2019-Jul-03 10:10:21 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:10:21 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:22 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 10:10:22 : 
+zoneIdList GET call
+2019-Jul-03 10:10:22 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:10:22 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 10:10:22 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:10:22 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:22 : fareRulesPivoted GET call took 0.03 seconds.
+2019-Jul-03 10:10:30 : 
+tableReadSave GET call for table=fare_attributes
+2019-Jul-03 10:10:30 : readTableDB: Loaded fare_attributes, 7 records
+2019-Jul-03 10:10:31 : tableReadSave GET call for table=fare_attributes took 0.03 seconds.
+2019-Jul-03 10:10:31 : 
+zoneIdList GET call
+2019-Jul-03 10:10:31 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:10:31 : zoneIdList GET call took 0.05 seconds.
+2019-Jul-03 10:10:31 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:10:31 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:32 : tableReadSave GET call for table=fare_rules took 0.02 seconds.
+2019-Jul-03 10:10:32 : 
+routeIdList GET call
+2019-Jul-03 10:10:32 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:10:32 : routeIdList GET call took 0.04 seconds.
+2019-Jul-03 10:10:32 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:10:32 : readTableDB: Loaded fare_rules, 1 records
+2019-Jul-03 10:10:32 : fareRulesPivoted GET call took 0.03 seconds.
+2019-Jul-03 10:10:46 : 
+tableReadSave POST call for table=fare_rules
+2019-Jul-03 10:10:46 : Replaced fare_rules with new data, 0 entries inserted.
+2019-Jul-03 10:10:47 : tableReadSave POST call for table=fare_rules took 0.26 seconds.
+2019-Jul-03 10:10:47 : 
+fareRulesPivoted GET call
+2019-Jul-03 10:10:47 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:10:47 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:10:47 : fareRulesPivoted GET call took 0.01 seconds.
+2019-Jul-03 10:10:47 : 
+tableReadSave GET call for table=fare_rules
+2019-Jul-03 10:10:47 : Note: fare_rules.h5 does not have any data.
+2019-Jul-03 10:10:47 : readTableDB: Loaded fare_rules, 0 records
+2019-Jul-03 10:10:48 : tableReadSave GET call for table=fare_rules took 0.01 seconds.
+2019-Jul-03 10:19:45 : 
+tableReadSave GET call for table=frequencies
+2019-Jul-03 10:19:45 : readTableDB: Loaded frequencies, 20 records
+2019-Jul-03 10:19:46 : tableReadSave GET call for table=frequencies took 0.03 seconds.
+2019-Jul-03 10:19:46 : 
+routeIdList GET call
+2019-Jul-03 10:19:46 : 
+tableColumn GET call for table=routes, column=route_id
+2019-Jul-03 10:19:46 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:19:47 : tableColumn GET call took 0.04 seconds.
+2019-Jul-03 10:20:00 : 
+tableReadSave GET call for table=frequencies
+2019-Jul-03 10:20:00 : readTableDB: Loaded frequencies, 20 records
+2019-Jul-03 10:20:01 : tableReadSave GET call for table=frequencies took 0.03 seconds.
+2019-Jul-03 10:20:01 : 
+routeIdList GET call
+2019-Jul-03 10:20:01 : 
+tableColumn GET call for table=routes, column=route_id
+2019-Jul-03 10:20:01 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:20:02 : tableColumn GET call took 0.04 seconds.
+2019-Jul-03 10:20:40 : 
+tableReadSave GET call for table=frequencies
+2019-Jul-03 10:20:40 : readTableDB: Loaded frequencies, 20 records
+2019-Jul-03 10:20:41 : tableReadSave GET call for table=frequencies took 0.03 seconds.
+2019-Jul-03 10:20:41 : 
+routeIdList GET call
+2019-Jul-03 10:20:41 : 
+tableColumn GET call for table=routes, column=route_id
+2019-Jul-03 10:20:41 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:20:42 : tableColumn GET call took 0.04 seconds.
+2019-Jul-03 10:20:57 : 
+routeIdList GET call
+2019-Jul-03 10:20:57 : 
+tableColumn GET call for table=trips, column=trip_id
+2019-Jul-03 10:20:57 : readTableDB: table:trips, column:route_id, value:"R12-CUBA"
+2019-Jul-03 10:20:57 : readTableDB: Loaded trips, 0 records
+2019-Jul-03 10:20:58 : tableColumn GET call took 0.05 seconds.
+2019-Jul-03 10:21:14 : 
+tableReadSave GET call for table=agency
+2019-Jul-03 10:21:14 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 10:21:15 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-03 10:21:15 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-03 10:21:15 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-03 10:21:16 : tableReadSave GET call for table=feed_info took 0.01 seconds.
+2019-Jul-03 10:23:44 : 
+tableReadSave GET call for table=agency
+2019-Jul-03 10:23:44 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 10:23:45 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-03 10:23:45 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-03 10:23:45 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-03 10:23:46 : tableReadSave GET call for table=feed_info took 0.01 seconds.
+2019-Jul-03 10:24:03 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 10:24:03 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 10:24:04 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-03 10:24:11 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 10:24:11 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 10:24:12 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 10:24:12 : 
+agency GET call
+2019-Jul-03 10:24:12 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 10:24:12 : agency GET call took 0.03 seconds.
+2019-Jul-03 10:24:20 : 
+tableReadSave GET call for table=calendar
+2019-Jul-03 10:24:20 : readTableDB: Loaded calendar, 6 records
+2019-Jul-03 10:24:21 : tableReadSave GET call for table=calendar took 0.02 seconds.
+2019-Jul-03 10:24:21 : 
+tableReadSave GET call for table=calendar_dates
+2019-Jul-03 10:24:21 : readTableDB: Loaded calendar_dates, 0 records
+2019-Jul-03 10:24:22 : tableReadSave GET call for table=calendar_dates took 0.0 seconds.
