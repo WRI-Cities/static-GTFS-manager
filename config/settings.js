@@ -21,7 +21,8 @@ const menu = {
 		"Trips, Stop_times": "tripstimings.html",
 		"Frequencies": "frequencies.html",
 		"Fares": "fares.html",
-		"Translations": "translations.html"
+		"Translations": "translations.html",
+		"Feed Info": "feedinfo.html"
 	},
 	"Tools": {
 		// to do: bulk action pages, diagnostic pages etc

@@ -81,7 +81,7 @@
 												<strong class="card-title mb-3">Create a new agency</strong>
 											</div>
 											<div class="card-body">													
-													<div class="form-group" id="Form-AddAgency" data-parsley-validate>
+													<div class="form-group parsley-input" id="Form-AddAgency" data-parsley-validate>
 														<label for="agency2add" aria-required="true">agency_id</label>
 														<input placeholder="agency_id" id="agency2add" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_id, without it it won't work!">
 														<small id="agency2addHelp" class="form-text text-muted">Identifies a transit brand, which is often the same as a transit agency.</small>
@@ -98,98 +98,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="card">
-										<div class="card-header">
-											<strong class="card-title mb-3">Feed_info</strong>
-										</div>
-										<div class="card-body" id="Form-FeedInfo">
-											<p>This is an optional table (only one row), for giving information about the feed. See <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#feed_infotxt" target="_blank">specs document</a> for details.</p>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="file-input" class="form-control-label">feed_publisher_name</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_publisher_name" class="form-control mx-sm-3" required="required" data-parsley-required="true">
-                                                    <small id="feed_publisher_nameHelpInline" class="text-muted">
-                                                    Full name of the organization that publishes the dataset. This may be the same as one of the agency.agency_name values.
-                                                    </small>
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="file-input" class="form-control-label">feed_publisher_url</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_publisher_url" class="form-control" data-parsley-required="true" required="required">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="file-input" class="form-control-label">feed_publisher_url</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_publisher_url" class="form-control" data-parsley-required="true" required="required">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="file-input" class="form-control-label">feed_lang</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_lang" class="form-control">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="feed_start_date" class="form-control-label">feed_start_date</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_start_date" class="form-control">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="feed_end_date" class="form-control-label">feed_end_date</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_end_date" class="form-control">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="feed_version" class="form-control-label">feed_version</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_version" class="form-control">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="feed_contact_email" class="form-control-label">feed_contact_email</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_contact_email" class="form-control">
-												</div>
-											</div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="feed_contact_url " class="form-control-label">feed_contact_url</label>
-												</div>
-												<div class="col-12 col-md-9">
-													<input id="feed_contact_url " class="form-control">
-												</div>
-											</div>																						
-											<p><small>Note: If you are having feed_info table at all, then the top 3 fields are compulsory. Otherwise, leave everything blank.</small></p>
-										</div>
-										<div class="card-footer">
-											<button id="saveFeedInfoButton" class="btn btn-primary float-right">Save Feed_info Changes</button>											
-										</div>
-									</div>
-								</div>
-							</div>
+								</div>							
                         </div>
                     </div>
                 </div>

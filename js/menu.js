@@ -82,6 +82,10 @@ function IconPage(pageurl) {
             // code block
             iconText = 'fa-file-import';
             break;
+        case "feedinfo.html":
+            // code block
+            iconText = 'fa-rss-square';
+            break;
         default:
           iconText = '';
       } 
