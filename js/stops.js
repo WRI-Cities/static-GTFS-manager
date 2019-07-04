@@ -588,7 +588,14 @@ function timestamp() {
 }
 
 function saveStops(){
-	$('#stopSaveStatus').html('<span class="alert alert-info">Sending data, please wait...</span>');
+	$.toast({
+		title: 'Save Stops',
+		subtitle: 'Sending data',
+		content: 'Sending data, please wait...',
+		type: 'info',
+		delay: 3000
+	  });
+	//$('#stopSaveStatus').html('<span class="alert alert-info">Sending data, please wait...</span>');
 
 	var data = table.getData();
 
@@ -607,10 +614,24 @@ function saveStops(){
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server /API/tableReadSave table=stops, resonse received: ' + xhr.responseText);
-			$('#stopSaveStatus').html('<span class="alert alert-success">' + xhr.responseText + '</span>');
+			//$('#stopSaveStatus').html('<span class="alert alert-success">' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Stops',
+				subtitle: 'Success',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 3000
+			  });
 		} else {
 			console.log('Server POST request to API/tableReadSave table=stops failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#stopSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Stops',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 3000
+			  });
+			//$('#stopSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

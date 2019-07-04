@@ -118,7 +118,7 @@ function IconSub(pagename) {
 
 
 var navBarContent = '<ul class="list-unstyled">'
-
+// menu var is definded in the settings.js!
 $(document).ready(function() {
     var pageName = location.pathname.split("/").slice(-1).join();
 	if(pageName == '') pageName = 'index.html';

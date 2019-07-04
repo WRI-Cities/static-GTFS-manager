@@ -47,7 +47,24 @@ $('#saveAgencyButton').on('click', function(){
 });
 
 $('#addAgencyButton').on('click', function(){
-	addAgency();
+	// First validate the form!
+	var $form = $('#Form-AddAgency');
+	$form.parsley({
+		errorClass: 'has-danger',
+		successClass: 'has-success',
+		classHandler: function(ParsleyField) {
+		  return ParsleyField.$element.closest('.form-group');
+		},
+		errorsContainer: function(ParsleyField) {
+		  return ParsleyField.$element.closest('.form-group');
+		},
+		errorsWrapper: '<span class="form-text text-danger"></span>',
+		errorTemplate: '<span></span>'
+	  }).validate()
+	if ( $form.parsley().validate() ) {
+		// Process adding the value
+		addAgency();
+	}       
 });
 
 $("#agency2add").bind("change keyup", function(){
