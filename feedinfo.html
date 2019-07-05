@@ -82,7 +82,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="feed_lang" class="form-control-label">feed_lang</label>
-                                                <input id="feed_lang" class="form-control" required>
+                                                <select id="feed_lang" class="form-control" required></select>
                                                 <small id="feed_publisher_nameHelpInline" class="text-muted">
                                                     Specifies the default language used for the text in this dataset.
                                                 </small>
@@ -110,14 +110,14 @@
                                             </div>												
 											<div class="form-group">
                                                 <label for="feed_contact_email" class="form-control-label">feed_contact_email</label>
-                                                <input id="feed_contact_email" class="form-control">
+                                                <input id="feed_contact_email" class="form-control" data-parsley-type="email">
                                                 <small id="feed_publisher_nameHelpInline" class="text-muted">
                                                     Provides an email address for communication about the GTFS dataset and data publishing practices.
                                                 </small>
                                             </div>
 											<div class="form-group">
                                                 <label for="feed_contact_url " class="form-control-label">feed_contact_url</label>
-                                                <input id="feed_contact_url " class="form-control">
+                                                <input id="feed_contact_url " class="form-control" data-parsley-type="url">
                                                 <small id="feed_publisher_nameHelpInline" class="text-muted">
                                                     Provides a URL for contact information, a web form, support desk, or other tool for communication about the GTFS dataset and data publishing practices.
                                                 </small>
@@ -150,6 +150,7 @@
         <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
         <script src="vendor/chartjs/Chart.bundle.min.js"></script>
         <script src="vendor/select2/js/select2.min.js"></script>
+        <script src="js/select2EditorLanguage.js"></script>
         <script src="js/Select2EditorTimezone.js"></script>		
         <script src="vendor/toast-0.7.1/toast.min.js"></script>
 		<!-- Form validator-->

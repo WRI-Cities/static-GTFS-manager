@@ -5,15 +5,19 @@
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
-	loadFeedInfo();
+    loadFeedInfo();
+    $("#feed_lang").select2({
+        tags: false,
+        placeholder: 'Select Language',
+        data: LanguageList
+      });
 });
 
 // #########################
 // Buttons
 $('#saveFeedInfoButton').on('click', function(){
 	// First validate the form!
-	var $form = $('#Form-FeedInfo');
-	
+	var $form = $('#Form-FeedInfo');	
 	if ( $form.parsley({
 		errorClass: 'has-danger',
 		successClass: 'has-success',
@@ -45,7 +49,13 @@ function loadFeedInfo() {
 
 		for (var p in list[0]) {
 			if( list[0].hasOwnProperty(p) ) {
-				$('#'+p).val(list[0][p]);
+                if (p == 'feed_lang') {
+                    $('#feed_lang').val(list[0][p]);
+                    $('#feed_lang').trigger('change');
+                }
+                else {
+                    $('#'+p).val(list[0][p]);
+                }
 			} 
 		}              
 	})

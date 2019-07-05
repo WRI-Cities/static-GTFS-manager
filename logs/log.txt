@@ -1747,3 +1747,840 @@ tableReadSave GET call for table=agency
 tableReadSave GET call for table=feed_info
 2019-Jul-03 13:23:29 : readTableDB: Loaded feed_info, 0 records
 2019-Jul-03 13:23:30 : tableReadSave GET call for table=feed_info took 0.01 seconds.
+2019-Jul-03 13:29:21 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:29:21 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:29:22 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 13:37:22 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:37:22 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:37:23 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 13:40:24 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:40:25 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:40:25 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 13:44:02 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:44:02 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:44:03 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 13:45:36 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:45:36 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:45:37 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 13:56:14 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 13:56:14 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 13:56:15 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-03 14:09:54 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:09:54 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:09:55 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:09:55 : 
+agency GET call
+2019-Jul-03 14:09:55 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 14:09:55 : agency GET call took 0.02 seconds.
+2019-Jul-03 14:34:54 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 14:34:54 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 14:34:55 : tableReadSave GET call for table=stops took 0.08 seconds.
+2019-Jul-03 14:42:55 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 14:42:55 : readTableDB: Loaded stops, 110 records
+2019-Jul-03 14:42:56 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-03 14:43:41 : 
+tableReadSave POST call for table=stops
+2019-Jul-03 14:43:41 : Replaced stops with new data, 111 entries inserted.
+2019-Jul-03 14:43:42 : tableReadSave POST call for table=stops took 0.3 seconds.
+2019-Jul-03 14:53:20 : 
+tableReadSave GET call for table=stops
+2019-Jul-03 14:53:20 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 14:53:21 : tableReadSave GET call for table=stops took 0.04 seconds.
+2019-Jul-03 14:54:18 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:54:18 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:54:19 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:54:19 : 
+agency GET call
+2019-Jul-03 14:54:19 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 14:54:19 : agency GET call took 0.02 seconds.
+2019-Jul-03 14:54:36 : 
+tableReadSave GET call for table=calendar
+2019-Jul-03 14:54:36 : readTableDB: Loaded calendar, 6 records
+2019-Jul-03 14:54:37 : tableReadSave GET call for table=calendar took 0.02 seconds.
+2019-Jul-03 14:54:37 : 
+tableReadSave GET call for table=calendar_dates
+2019-Jul-03 14:54:37 : readTableDB: Loaded calendar_dates, 0 records
+2019-Jul-03 14:54:38 : tableReadSave GET call for table=calendar_dates took 0.01 seconds.
+2019-Jul-03 14:54:42 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:54:42 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:54:43 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:54:43 : 
+tripIdList GET call
+2019-Jul-03 14:54:43 : readTableDB: Loaded trips, 17 records
+2019-Jul-03 14:54:43 : tripIdList GET call took 0.04 seconds.
+2019-Jul-03 14:54:43 : 
+allShapesList GET call
+2019-Jul-03 14:54:43 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 14:54:43 : 
+calendar GET call
+2019-Jul-03 14:54:43 : readTableDB: Loaded calendar, 6 records
+2019-Jul-03 14:54:43 : 20190703.0
+2019-Jul-03 14:54:43 : calendar GET call took 0.02 seconds.
+2019-Jul-03 14:54:43 : 
+allStopsKeyed GET call
+2019-Jul-03 14:54:43 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 14:54:43 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 14:54:46 : 
+trips GET call
+2019-Jul-03 14:54:46 : readTableDB: table:trips, column:route_id, value:"T2"
+2019-Jul-03 14:54:46 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 14:54:46 : trips GET call took 0.03 seconds.
+2019-Jul-03 14:55:01 : 
+allStopsKeyed GET call
+2019-Jul-03 14:55:01 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 14:55:01 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 14:55:01 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:55:01 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:55:02 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Jul-03 14:55:02 : 
+allShapesList GET call
+2019-Jul-03 14:55:02 : allShapesList GET call took 0.03 seconds.
+2019-Jul-03 14:55:19 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:55:19 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:55:20 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:55:20 : 
+agency GET call
+2019-Jul-03 14:55:20 : readTableDB: Loaded agency, 1 records
+2019-Jul-03 14:55:20 : agency GET call took 0.02 seconds.
+2019-Jul-03 14:55:23 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:55:23 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:55:24 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:55:24 : 
+allStopsKeyed GET call
+2019-Jul-03 14:55:24 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 14:55:24 : allStopsKeyed GET call took 0.02 seconds.
+2019-Jul-03 14:55:24 : 
+tripIdList GET call
+2019-Jul-03 14:55:24 : readTableDB: Loaded trips, 17 records
+2019-Jul-03 14:55:24 : tripIdList GET call took 0.03 seconds.
+2019-Jul-03 14:55:24 : 
+calendar GET call
+2019-Jul-03 14:55:24 : readTableDB: Loaded calendar, 6 records
+2019-Jul-03 14:55:24 : 20190703.0
+2019-Jul-03 14:55:24 : calendar GET call took 0.01 seconds.
+2019-Jul-03 14:55:24 : 
+allShapesList GET call
+2019-Jul-03 14:55:24 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 14:55:26 : 
+allStopsKeyed GET call
+2019-Jul-03 14:55:26 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 14:55:26 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 14:55:26 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 14:55:26 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 14:55:27 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 14:55:27 : 
+allShapesList GET call
+2019-Jul-03 14:55:27 : allShapesList GET call took 0.03 seconds.
+2019-Jul-03 15:07:23 : 
+allStopsKeyed GET call
+2019-Jul-03 15:07:23 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:07:23 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:07:23 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:07:23 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:07:24 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:07:24 : 
+allShapesList GET call
+2019-Jul-03 15:07:24 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:07:50 : 
+allStopsKeyed GET call
+2019-Jul-03 15:07:50 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:07:50 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:07:50 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:07:50 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:07:51 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Jul-03 15:07:51 : 
+allShapesList GET call
+2019-Jul-03 15:07:51 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:07:53 : 
+sequence GET call
+2019-Jul-03 15:07:53 : Got the sequence from sequence db file.
+2019-Jul-03 15:07:53 : sequence GET call took 0.01 seconds.
+2019-Jul-03 15:07:53 : 
+shapesList GET call
+2019-Jul-03 15:07:53 : readTableDB: table:trips, column:route_id, value:"T1"
+2019-Jul-03 15:07:53 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 15:07:53 : shapesList GET call took 0.05 seconds.
+2019-Jul-03 15:07:53 : 
+shape GET call
+2019-Jul-03 15:07:54 : readTableDB: table:shapes, column:shape_id, value:"1243_0"
+2019-Jul-03 15:07:54 : readTableDB: Loaded shapes, 2404 records
+2019-Jul-03 15:07:54 : shape GET call took 0.29 seconds.
+2019-Jul-03 15:12:11 : 
+allStopsKeyed GET call
+2019-Jul-03 15:12:11 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:12:11 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:12:11 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:12:11 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:12:12 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:12:12 : 
+allShapesList GET call
+2019-Jul-03 15:12:12 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:13:43 : 
+allStopsKeyed GET call
+2019-Jul-03 15:13:43 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:13:43 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:13:43 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:13:43 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:13:44 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Jul-03 15:13:44 : 
+allShapesList GET call
+2019-Jul-03 15:13:44 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:16:04 : 
+allStopsKeyed GET call
+2019-Jul-03 15:16:04 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:16:04 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:16:04 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:16:04 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:16:05 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Jul-03 15:16:05 : 
+allShapesList GET call
+2019-Jul-03 15:16:05 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:16:26 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:16:26 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:16:27 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:16:27 : 
+allShapesList GET call
+2019-Jul-03 15:16:27 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:16:27 : 
+allStopsKeyed GET call
+2019-Jul-03 15:16:27 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:16:27 : allStopsKeyed GET call took 0.02 seconds.
+2019-Jul-03 15:17:32 : 
+allStopsKeyed GET call
+2019-Jul-03 15:17:32 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:17:32 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:17:32 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:17:32 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:17:33 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:17:33 : 
+allShapesList GET call
+2019-Jul-03 15:17:33 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:24:33 : 
+allStopsKeyed GET call
+2019-Jul-03 15:24:33 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:24:33 : allStopsKeyed GET call took 0.04 seconds.
+2019-Jul-03 15:24:33 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:24:33 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:24:34 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:24:34 : 
+allShapesList GET call
+2019-Jul-03 15:24:34 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:25:21 : 
+allStopsKeyed GET call
+2019-Jul-03 15:25:21 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:25:21 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:25:21 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:25:21 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:25:22 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:25:22 : 
+allShapesList GET call
+2019-Jul-03 15:25:22 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:29:35 : 
+allStopsKeyed GET call
+2019-Jul-03 15:29:35 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:29:35 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:29:35 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:29:35 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:29:36 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:29:36 : 
+allShapesList GET call
+2019-Jul-03 15:29:36 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:30:01 : 
+allStopsKeyed GET call
+2019-Jul-03 15:30:01 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:30:01 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:30:01 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:30:01 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:30:02 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:30:02 : 
+allShapesList GET call
+2019-Jul-03 15:30:02 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:30:56 : 
+sequence GET call
+2019-Jul-03 15:30:56 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Jul-03 15:30:56 : readTableDB: table:trips, column:route_id, value:"T2"
+2019-Jul-03 15:30:56 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 15:30:56 : readTableDB: No stop_times chunk found for key=T2-I
+2019-Jul-03 15:30:56 : readTableDB: Loaded stop_times, 0 records
+2019-Jul-03 15:30:56 : readColumnDB: Hey, the column stop_id doesn't exist in the chunked table stop_times for trip_id=T2-I
+2019-Jul-03 15:30:56 : extractSequencefromGTFS: Loading sequence for route T2, onward direction from trip T2-I:
+[]
+2019-Jul-03 15:30:56 : readTableDB: No stop_times chunk found for key=T2-R
+2019-Jul-03 15:30:56 : readTableDB: Loaded stop_times, 0 records
+2019-Jul-03 15:30:56 : readColumnDB: Hey, the column stop_id doesn't exist in the chunked table stop_times for trip_id=T2-R
+2019-Jul-03 15:30:56 : extractSequencefromGTFS: Loading sequence for route T2, return direction from trip T2-R:
+[]
+2019-Jul-03 15:30:56 : sequence GET call took 0.08 seconds.
+2019-Jul-03 15:30:56 : 
+shapesList GET call
+2019-Jul-03 15:30:56 : readTableDB: table:trips, column:route_id, value:"T2"
+2019-Jul-03 15:30:56 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 15:30:56 : shapesList GET call took 0.04 seconds.
+2019-Jul-03 15:31:47 : 
+sequence GET call
+2019-Jul-03 15:31:47 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Jul-03 15:31:47 : readTableDB: table:trips, column:route_id, value:"R10-DOS"
+2019-Jul-03 15:31:47 : readTableDB: Loaded trips, 0 records
+2019-Jul-03 15:31:47 : extractSequencefromGTFS: no trips found for R10-DOS. Skipping.
+2019-Jul-03 15:31:47 : sequence GET call took 0.03 seconds.
+2019-Jul-03 15:31:47 : 
+shapesList GET call
+2019-Jul-03 15:31:47 : readTableDB: table:trips, column:route_id, value:"R10-DOS"
+2019-Jul-03 15:31:47 : readTableDB: Loaded trips, 0 records
+2019-Jul-03 15:31:47 : shapesList GET call took 0.04 seconds.
+2019-Jul-03 15:33:45 : 
+allStopsKeyed GET call
+2019-Jul-03 15:33:45 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:33:45 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:33:45 : 
+allShapesList GET call
+2019-Jul-03 15:33:45 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:33:45 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:33:45 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:33:46 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:34:03 : 
+sequence GET call
+2019-Jul-03 15:34:03 : sequence not found in sequence DB file, so extracting from gtfs tables instead.
+2019-Jul-03 15:34:03 : readTableDB: table:trips, column:route_id, value:"T2"
+2019-Jul-03 15:34:03 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 15:34:03 : readTableDB: No stop_times chunk found for key=T2-I
+2019-Jul-03 15:34:03 : readTableDB: Loaded stop_times, 0 records
+2019-Jul-03 15:34:03 : readColumnDB: Hey, the column stop_id doesn't exist in the chunked table stop_times for trip_id=T2-I
+2019-Jul-03 15:34:03 : extractSequencefromGTFS: Loading sequence for route T2, onward direction from trip T2-I:
+[]
+2019-Jul-03 15:34:03 : readTableDB: No stop_times chunk found for key=T2-R
+2019-Jul-03 15:34:03 : readTableDB: Loaded stop_times, 0 records
+2019-Jul-03 15:34:03 : readColumnDB: Hey, the column stop_id doesn't exist in the chunked table stop_times for trip_id=T2-R
+2019-Jul-03 15:34:03 : extractSequencefromGTFS: Loading sequence for route T2, return direction from trip T2-R:
+[]
+2019-Jul-03 15:34:03 : sequence GET call took 0.07 seconds.
+2019-Jul-03 15:34:03 : 
+shapesList GET call
+2019-Jul-03 15:34:03 : readTableDB: table:trips, column:route_id, value:"T2"
+2019-Jul-03 15:34:03 : readTableDB: Loaded trips, 2 records
+2019-Jul-03 15:34:03 : shapesList GET call took 0.04 seconds.
+2019-Jul-03 15:38:08 : 
+allStopsKeyed GET call
+2019-Jul-03 15:38:08 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:38:08 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:38:08 : 
+allShapesList GET call
+2019-Jul-03 15:38:08 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:38:08 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:38:08 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:38:09 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:41:16 : 
+allStopsKeyed GET call
+2019-Jul-03 15:41:16 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:41:16 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:41:16 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:41:16 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:41:17 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:41:17 : 
+allShapesList GET call
+2019-Jul-03 15:41:18 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:43:16 : 
+allStopsKeyed GET call
+2019-Jul-03 15:43:16 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:43:16 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:43:16 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:43:16 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:43:17 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:43:17 : 
+allShapesList GET call
+2019-Jul-03 15:43:17 : allShapesList GET call took 0.02 seconds.
+2019-Jul-03 15:43:52 : 
+allStopsKeyed GET call
+2019-Jul-03 15:43:52 : readTableDB: Loaded stops, 111 records
+2019-Jul-03 15:43:52 : allStopsKeyed GET call took 0.03 seconds.
+2019-Jul-03 15:43:52 : 
+tableReadSave GET call for table=routes
+2019-Jul-03 15:43:52 : readTableDB: Loaded routes, 42 records
+2019-Jul-03 15:43:53 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-03 15:43:53 : 
+allShapesList GET call
+2019-Jul-03 15:43:53 : allShapesList GET call took 0.02 seconds.
+2019-Jul-04 09:18:32 : Loaded dependencies, starting static GTFS Manager program.
+2019-Jul-04 09:18:32 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Jul-04 09:18:34 : 
+stats GET call
+2019-Jul-04 09:18:34 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 09:18:34 : agency              : 1 entries
+2019-Jul-04 09:18:34 : calendar            : 6 entries
+2019-Jul-04 09:18:34 : stops               : 111 entries
+2019-Jul-04 09:18:34 : routes              : 42 entries
+2019-Jul-04 09:18:34 : trips               : 17 entries
+2019-Jul-04 09:18:34 : stop_times          : 238 entries
+2019-Jul-04 09:18:34 : calendar_dates      : 0 entries
+2019-Jul-04 09:18:34 : fare_attributes     : 7 entries
+2019-Jul-04 09:18:34 : Note: fare_rules.h5 does not have any data.
+2019-Jul-04 09:18:34 : fare_rules          : 0 entries
+2019-Jul-04 09:18:34 : shapes              : 51,372 entries
+2019-Jul-04 09:18:34 : frequencies         : 20 entries
+2019-Jul-04 09:18:34 : transfers           : 0 entries
+2019-Jul-04 09:18:34 : feed_info           : 0 entries
+2019-Jul-04 09:18:34 : translations        : 1 entries
+2019-Jul-04 09:18:34 : stats GET call took 0.26 seconds.
+2019-Jul-04 09:18:35 : 
+pastCommits GET call
+2019-Jul-04 09:18:35 : pastCommits GET call took 0.02 seconds.
+2019-Jul-04 09:18:39 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 09:18:39 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 09:18:40 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 09:18:40 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 09:18:40 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 09:18:41 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 09:19:21 : 
+tableReadSave GET call for table=stops
+2019-Jul-04 09:19:21 : readTableDB: Loaded stops, 111 records
+2019-Jul-04 09:19:22 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-04 09:20:16 : 
+tableReadSave POST call for table=stops
+2019-Jul-04 09:20:16 : Replaced stops with new data, 111 entries inserted.
+2019-Jul-04 09:20:17 : tableReadSave POST call for table=stops took 0.3 seconds.
+2019-Jul-04 09:22:48 : 
+tableReadSave POST call for table=stops
+2019-Jul-04 09:22:48 : Replaced stops with new data, 111 entries inserted.
+2019-Jul-04 09:22:49 : tableReadSave POST call for table=stops took 0.25 seconds.
+2019-Jul-04 09:24:29 : 
+tableReadSave GET call for table=stops
+2019-Jul-04 09:24:29 : readTableDB: Loaded stops, 111 records
+2019-Jul-04 09:24:31 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-04 09:24:34 : 
+tableReadSave POST call for table=stops
+2019-Jul-04 09:24:34 : Replaced stops with new data, 111 entries inserted.
+2019-Jul-04 09:24:35 : tableReadSave POST call for table=stops took 0.33 seconds.
+2019-Jul-04 09:24:40 : 
+tableReadSave GET call for table=stops
+2019-Jul-04 09:24:40 : readTableDB: Loaded stops, 111 records
+2019-Jul-04 09:24:41 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-04 09:24:46 : 
+tableReadSave POST call for table=stops
+2019-Jul-04 09:24:46 : Replaced stops with new data, 111 entries inserted.
+2019-Jul-04 09:24:47 : tableReadSave POST call for table=stops took 0.27 seconds.
+2019-Jul-04 09:27:44 : 
+tableReadSave GET call for table=routes
+2019-Jul-04 09:27:44 : readTableDB: Loaded routes, 42 records
+2019-Jul-04 09:27:45 : tableReadSave GET call for table=routes took 0.03 seconds.
+2019-Jul-04 09:27:45 : 
+agency GET call
+2019-Jul-04 09:27:45 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 09:27:45 : agency GET call took 0.02 seconds.
+2019-Jul-04 11:58:46 : 
+tableReadSave GET call for table=routes
+2019-Jul-04 11:58:46 : readTableDB: Loaded routes, 42 records
+2019-Jul-04 11:58:47 : tableReadSave GET call for table=routes took 0.05 seconds.
+2019-Jul-04 11:58:47 : 
+agency GET call
+2019-Jul-04 11:58:47 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 11:58:47 : agency GET call took 0.02 seconds.
+2019-Jul-04 11:59:12 : 
+tableReadSave GET call for table=routes
+2019-Jul-04 11:59:12 : readTableDB: Loaded routes, 42 records
+2019-Jul-04 11:59:13 : tableReadSave GET call for table=routes took 0.02 seconds.
+2019-Jul-04 11:59:13 : 
+agency GET call
+2019-Jul-04 11:59:13 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 11:59:13 : agency GET call took 0.02 seconds.
+2019-Jul-04 11:59:42 : 
+tableReadSave GET call for table=routes
+2019-Jul-04 11:59:42 : readTableDB: Loaded routes, 42 records
+2019-Jul-04 11:59:43 : tableReadSave GET call for table=routes took 0.04 seconds.
+2019-Jul-04 11:59:43 : 
+agency GET call
+2019-Jul-04 11:59:43 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 11:59:43 : agency GET call took 0.02 seconds.
+2019-Jul-04 12:00:24 : 
+tableReadSave POST call for table=routes
+2019-Jul-04 12:00:24 : Replaced routes with new data, 42 entries inserted.
+2019-Jul-04 12:00:25 : tableReadSave POST call for table=routes took 0.25 seconds.
+2019-Jul-04 12:00:29 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:00:29 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:00:31 : tableReadSave GET call for table=agency took 0.04 seconds.
+2019-Jul-04 12:00:31 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:00:31 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:00:32 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 12:16:30 : 
+pastCommits GET call
+2019-Jul-04 12:16:30 : pastCommits GET call took 0.01 seconds.
+2019-Jul-04 12:16:30 : 
+stats GET call
+2019-Jul-04 12:16:30 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:16:30 : agency              : 1 entries
+2019-Jul-04 12:16:30 : calendar            : 6 entries
+2019-Jul-04 12:16:30 : stops               : 111 entries
+2019-Jul-04 12:16:30 : routes              : 42 entries
+2019-Jul-04 12:16:30 : trips               : 17 entries
+2019-Jul-04 12:16:30 : stop_times          : 238 entries
+2019-Jul-04 12:16:30 : calendar_dates      : 0 entries
+2019-Jul-04 12:16:30 : fare_attributes     : 7 entries
+2019-Jul-04 12:16:30 : Note: fare_rules.h5 does not have any data.
+2019-Jul-04 12:16:30 : fare_rules          : 0 entries
+2019-Jul-04 12:16:30 : shapes              : 51,372 entries
+2019-Jul-04 12:16:31 : frequencies         : 20 entries
+2019-Jul-04 12:16:31 : transfers           : 0 entries
+2019-Jul-04 12:16:31 : feed_info           : 0 entries
+2019-Jul-04 12:16:31 : translations        : 1 entries
+2019-Jul-04 12:16:31 : stats GET call took 0.16 seconds.
+2019-Jul-04 12:16:33 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:16:33 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:16:34 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 12:16:34 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:16:34 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:16:35 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 12:26:50 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:26:50 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:26:51 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 12:26:51 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:26:51 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:26:52 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 12:27:04 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:27:04 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:27:05 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 12:27:05 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:27:05 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:27:06 : tableReadSave GET call for table=feed_info took 0.01 seconds.
+2019-Jul-04 12:31:32 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:31:32 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:31:33 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 12:31:33 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:31:33 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:31:34 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 12:31:40 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 12:31:40 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 12:31:41 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 12:31:41 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 12:31:41 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 12:31:42 : tableReadSave GET call for table=feed_info took 0.01 seconds.
+2019-Jul-04 13:01:13 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:01:13 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:01:14 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:01:14 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:01:14 : readTableDB: Loaded feed_info, 0 records
+2019-Jul-04 13:01:15 : tableReadSave GET call for table=feed_info took 0.0 seconds.
+2019-Jul-04 13:01:18 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 13:01:18 : DB file for feed_info not found so created with the new data.
+2019-Jul-04 13:01:19 : tableReadSave POST call for table=feed_info took 0.27 seconds.
+2019-Jul-04 13:01:27 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 13:01:27 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 13:01:28 : tableReadSave POST call for table=feed_info took 0.25 seconds.
+2019-Jul-04 13:03:30 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:03:30 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:03:32 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:03:32 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:03:32 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:03:33 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:03:35 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 13:03:35 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 13:03:36 : tableReadSave POST call for table=feed_info took 0.26 seconds.
+2019-Jul-04 13:14:48 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:14:48 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:14:49 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 13:14:49 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:14:49 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:14:50 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:15:10 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:15:10 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:15:11 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:15:11 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:15:11 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:15:12 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:15:59 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:15:59 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:16:00 : tableReadSave GET call for table=agency took 0.05 seconds.
+2019-Jul-04 13:16:00 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:16:00 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:16:01 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:33:06 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:33:06 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:33:07 : tableReadSave GET call for table=agency took 0.04 seconds.
+2019-Jul-04 13:33:07 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:33:07 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:33:08 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:41:18 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:41:18 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:41:19 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:41:19 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:41:19 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:41:20 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:44:45 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:44:45 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:44:46 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:44:46 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:44:46 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:44:47 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 13:45:48 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:45:48 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:45:49 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 13:45:49 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:45:49 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:45:50 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 13:46:33 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:46:33 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:46:34 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 13:46:34 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:46:34 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:46:35 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 13:51:56 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 13:51:56 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 13:51:57 : tableReadSave GET call for table=agency took 0.02 seconds.
+2019-Jul-04 13:51:57 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 13:51:57 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 13:51:58 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:07:59 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 14:07:59 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 14:08:01 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 14:08:01 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:08:01 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:08:02 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 14:19:11 : 
+tableReadSave GET call for table=agency
+2019-Jul-04 14:19:11 : readTableDB: Loaded agency, 1 records
+2019-Jul-04 14:19:12 : tableReadSave GET call for table=agency took 0.03 seconds.
+2019-Jul-04 14:19:12 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:19:12 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:19:13 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 14:20:47 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:20:48 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:20:49 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:20:50 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:20:50 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:20:51 : tableReadSave POST call for table=feed_info took 0.27 seconds.
+2019-Jul-04 14:22:26 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:22:26 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:22:27 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 14:22:30 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:22:30 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:22:31 : tableReadSave POST call for table=feed_info took 0.26 seconds.
+2019-Jul-04 14:22:37 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:22:37 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:22:38 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:23:55 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:23:55 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:23:56 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:23:59 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:23:59 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:24:00 : tableReadSave POST call for table=feed_info took 0.25 seconds.
+2019-Jul-04 14:25:08 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:25:08 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:25:09 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:25:10 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:25:10 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:25:11 : tableReadSave POST call for table=feed_info took 0.27 seconds.
+2019-Jul-04 14:26:13 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:26:13 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:26:14 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 14:26:16 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:26:16 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:26:17 : tableReadSave POST call for table=feed_info took 0.26 seconds.
+2019-Jul-04 14:52:10 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 14:52:10 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 14:52:11 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 14:52:16 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 14:52:16 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 14:52:17 : tableReadSave POST call for table=feed_info took 0.25 seconds.
+2019-Jul-04 15:42:52 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 15:42:52 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 15:42:53 : tableReadSave POST call for table=feed_info took 0.28 seconds.
+2019-Jul-04 15:46:38 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 15:46:38 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 15:46:39 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 15:51:31 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 15:51:31 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 15:51:32 : tableReadSave GET call for table=feed_info took 0.03 seconds.
+2019-Jul-04 15:52:32 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 15:52:32 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 15:52:33 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 15:52:45 : 
+tableReadSave POST call for table=feed_info
+2019-Jul-04 15:52:45 : Replaced feed_info with new data, 1 entries inserted.
+2019-Jul-04 15:52:46 : tableReadSave POST call for table=feed_info took 0.24 seconds.
+2019-Jul-04 15:52:52 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 15:52:52 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 15:52:53 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 15:55:42 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 15:55:42 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 15:55:43 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-04 16:05:42 : 
+tableReadSave GET call for table=feed_info
+2019-Jul-04 16:05:42 : readTableDB: Loaded feed_info, 1 records
+2019-Jul-04 16:05:43 : tableReadSave GET call for table=feed_info took 0.02 seconds.
+2019-Jul-05 09:31:44 : Loaded dependencies, starting static GTFS Manager program.
+2019-Jul-05 09:31:44 : 
+
+Open http://localhost:5000 in your Web Browser if you don't see it opening automatically in 5 seconds.
+
+Note: If this is through docker, then it's not going to auto-open in browser, don't wait.
+2019-Jul-05 09:31:46 : 
+stats GET call
+2019-Jul-05 09:31:46 : readTableDB: Loaded agency, 1 records
+2019-Jul-05 09:31:46 : agency              : 1 entries
+2019-Jul-05 09:31:46 : calendar            : 6 entries
+2019-Jul-05 09:31:46 : stops               : 111 entries
+2019-Jul-05 09:31:46 : routes              : 42 entries
+2019-Jul-05 09:31:46 : trips               : 17 entries
+2019-Jul-05 09:31:46 : stop_times          : 238 entries
+2019-Jul-05 09:31:46 : calendar_dates      : 0 entries
+2019-Jul-05 09:31:46 : fare_attributes     : 7 entries
+2019-Jul-05 09:31:46 : Note: fare_rules.h5 does not have any data.
+2019-Jul-05 09:31:46 : fare_rules          : 0 entries
+2019-Jul-05 09:31:46 : shapes              : 51,372 entries
+2019-Jul-05 09:31:46 : frequencies         : 20 entries
+2019-Jul-05 09:31:46 : transfers           : 0 entries
+2019-Jul-05 09:31:46 : feed_info           : 1 entries
+2019-Jul-05 09:31:46 : translations        : 1 entries
+2019-Jul-05 09:31:46 : stats GET call took 0.27 seconds.
+2019-Jul-05 09:31:47 : 
+pastCommits GET call
+2019-Jul-05 09:31:47 : pastCommits GET call took 0.03 seconds.
+2019-Jul-05 09:31:49 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:31:49 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:31:50 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-05 09:34:33 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:34:33 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:34:34 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-05 09:35:20 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:35:20 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:35:21 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-05 09:36:02 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:36:02 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:36:03 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-05 09:39:30 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:39:30 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:39:31 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-05 09:44:28 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:44:28 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:44:29 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-05 09:44:44 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:44:44 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:44:45 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-05 09:52:14 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:52:14 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:52:16 : tableReadSave GET call for table=stops took 0.03 seconds.
+2019-Jul-05 09:52:32 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 09:52:32 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 09:52:33 : tableReadSave GET call for table=stops took 0.02 seconds.
+2019-Jul-05 10:55:33 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 10:55:33 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 10:55:34 : tableReadSave GET call for table=stops took 0.05 seconds.
+2019-Jul-05 10:56:35 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 10:56:35 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 10:56:36 : tableReadSave GET call for table=stops took 0.14 seconds.
+2019-Jul-05 10:57:16 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 10:57:16 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 10:57:17 : tableReadSave GET call for table=stops took 0.06 seconds.
+2019-Jul-05 10:59:26 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 10:59:26 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 10:59:27 : tableReadSave GET call for table=stops took 0.08 seconds.
+2019-Jul-05 15:24:54 : 
+tableReadSave GET call for table=stops
+2019-Jul-05 15:24:54 : readTableDB: Loaded stops, 111 records
+2019-Jul-05 15:24:55 : tableReadSave GET call for table=stops took 0.11 seconds.
