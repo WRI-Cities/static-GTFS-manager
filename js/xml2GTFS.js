@@ -46,7 +46,7 @@ stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 
 //#####################
 // Inititate table
-$("#stations-table").tabulator({
+var stations = new Tabulator("#stations-table", {
 	selectable:0, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	index: "stop_id", 
 	history:true,
@@ -110,7 +110,7 @@ $("#addStation").on("click", function(){
 		return;
 	}
 
-	let data = $("#stations-table").tabulator("getData");
+	let data = stations.getData();
 	stop_id_list = data.map(a => a.stop_id); 
 
 	//var index = ;
@@ -118,8 +118,8 @@ $("#addStation").on("click", function(){
 	    $('#stationAddStatus').text('This id is already taken. Try another value.');
 	    return;
 	}
-	$("#stations-table").tabulator('addRow',{stop_id: stop_id},true);
-	$(`#stations-table`).tabulator("redraw", true);
+	stations.addRow([{stop_id: stop_id}],true);
+	stations.redraw(true);
 	$('#station2add').val('');
 	$('#stationAddStatus').text('Station added with id ' + stop_id + '. Fill its info in the table and then proceed.');
 });
@@ -248,7 +248,7 @@ function loadmap(stopsjson) {
 function saveStations() {
 	$('#stationsSaveStatus').text('');
 
-	var data = $("#stations-table").tabulator("getData");
+	var data = stations.getData();
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
@@ -306,7 +306,7 @@ function reDiagnose(){
 }
 
 function populateDepotList(){
-	var data = $("#stations-table").tabulator("getData");
+	var data = stations.getData();
 	var row = '';
 	var options = '<option value="None">None</option>';
 	/* <option>1</option>
