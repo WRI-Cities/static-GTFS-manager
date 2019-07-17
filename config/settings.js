@@ -34,7 +34,8 @@ const menu = {
 		//"Import / Export GTFS": "gtfs.html",
 		"Import KMRL format": "kmrl.html",
 		"Import HMRL format": "hmrl.html"
-	}
+	},
+	"Config": "config.html"
 }
 
 // loader:

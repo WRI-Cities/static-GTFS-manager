@@ -2,13 +2,16 @@ function MenuItem(Text, Link, isActive) {
     var iconText = '';
     var iconPage = IconPage(Link);
     var isActiveText = '';
-    if (iconPage != ''){
-        iconText = '<i class="fas '+ iconPage + ' fa-fw"></i>'; 
+    if (iconPage != '') {
+        iconText = '<i class="fas ' + iconPage + ' fa-fw"></i>';
     }
     if (isActive) {
         isActiveText = ' class="active"';
     }
-    if (Link == 'index.html' ) {
+    if (Link == 'index.html') {
+        iconText = '<span class="bot-line"></span>' + iconText;
+    }
+    if (Link == 'config.html') {
         iconText = '<span class="bot-line"></span>' + iconText;
     }
     return '<li' + isActiveText + '><a href="' + Link + '">' + iconText + Text + '</a></li>';
@@ -17,15 +20,15 @@ function MenuItem(Text, Link, isActive) {
 function SubMenu(Text, Icon) {
     var iconText = '';
     var iconSub = IconSub(Text);
-    if (iconSub != ''){
-        iconText = '<i class="fas '+ iconSub + ' fa-fw"></i>'; 
+    if (iconSub != '') {
+        iconText = '<i class="fas ' + iconSub + ' fa-fw"></i>';
     }
-    return ' <li class="has-sub"><a href="#">' + iconText +'<span class="bot-line"></span>' + Text + '</a><ul class="header3-sub-list list-unstyled">';
+    return ' <li class="has-sub"><a href="#">' + iconText + '<span class="bot-line"></span>' + Text + '</a><ul class="header3-sub-list list-unstyled">';
 }
 // Function for getting the icon with a link adres
 function IconPage(pageurl) {
     var iconText;
-    switch(pageurl) {
+    switch (pageurl) {
         case "index.html":
             // code block
             iconText = 'fa-home';
@@ -53,7 +56,7 @@ function IconPage(pageurl) {
         case "frequencies.html":
             // code block
             iconText = 'fa-wave-square';
-           break;
+            break;
         case "fares.html":
             // code block
             iconText = 'fa-dollar-sign';
@@ -61,7 +64,7 @@ function IconPage(pageurl) {
         case "translations.html":
             // code block
             iconText = 'fa-language';
-           break;
+            break;
         case "sequence.html":
             // code block
             iconText = 'fa-align-justify';
@@ -69,7 +72,7 @@ function IconPage(pageurl) {
         case "renameID.html":
             // code block
             iconText = 'fa-pen';
-           break;
+            break;
         case "deleteID.html":
             // code block
             iconText = 'fa-trash';
@@ -86,9 +89,13 @@ function IconPage(pageurl) {
             // code block
             iconText = 'fa-rss-square';
             break;
+        case "config.html":
+            // code block
+            iconText = 'fa-cogs';
+            break;
         default:
-          iconText = '';
-      } 
+            iconText = '';
+    }
 
     return iconText;
 }
@@ -96,7 +103,7 @@ function IconPage(pageurl) {
 function IconSub(pagename) {
     var iconText;
 
-    switch(pagename) {
+    switch (pagename) {
         case "GTFS":
             // code block
             iconText = 'fa-bus';
@@ -108,14 +115,18 @@ function IconSub(pagename) {
         case "Tools":
             // code block
             iconText = 'fa-tools';
-            break;  
+            break;
         case "Home":
             // code block
             iconText = 'fa-home';
-            break;         
+            break;
+        case "Config":
+            // code block
+            iconText = 'fa-cogs';
+            break;
         default:
-          iconText = '';
-      } 
+            iconText = '';
+    }
 
     return iconText;
 }
@@ -123,31 +134,31 @@ function IconSub(pagename) {
 
 var navBarContent = '<ul class="list-unstyled">'
 // menu var is definded in the settings.js!
-$(document).ready(function() {
+$(document).ready(function () {
     var pageName = location.pathname.split("/").slice(-1).join();
-	if(pageName == '') pageName = 'index.html';
+    if (pageName == '') pageName = 'index.html';
     console.log(pageName);
-    
-    for(key in menu) {
+
+    for (key in menu) {
         if (typeof menu[key] != "object") {
-            if(menu[key] == pageName)
-                navBarContent+= MenuItem(key, menu[key], true);                
+            if (menu[key] == pageName)
+                navBarContent += MenuItem(key, menu[key], true);
             else
-                navBarContent+= MenuItem(key, menu[key], false);
+                navBarContent += MenuItem(key, menu[key], false);
         }
         else { // if its a sub-menu
             // from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp            
             sectionEnd = `</ul></li>`;
-            navBarContent+= SubMenu(key, null);
-            for(subItem in menu[key]) {
-                if(menu[key][subItem] == pageName)
-                    navBarContent+= MenuItem(subItem, menu[key][subItem],true);
+            navBarContent += SubMenu(key, null);
+            for (subItem in menu[key]) {
+                if (menu[key][subItem] == pageName)
+                    navBarContent += MenuItem(subItem, menu[key][subItem], true);
                 else
-                    navBarContent+= MenuItem(subItem, menu[key][subItem],false);
+                    navBarContent += MenuItem(subItem, menu[key][subItem], false);
             }
             navBarContent += sectionEnd;
         }
     }
-    navBarContent += '</ul>';    
-    $( "#navmenuinsert" ).html(navBarContent);
+    navBarContent += '</ul>';
+    $("#navmenuinsert").html(navBarContent);
 });
