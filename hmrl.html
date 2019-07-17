@@ -280,7 +280,7 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 
 
 											<hr>
-											<div class="alert alert-warning" id=CSVUploadStatus">
+											<div class="alert alert-warning" id="CSVUploadStatus">
 												Note: Be sure about which file is for weekdays and which for sunday.. as
 												the files internally have no day information on them.<br><br>
 											</div>
@@ -375,20 +375,20 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 													<p>This table is for setting the correct stop_id's for platforms.
 														Example: At Ameerpet, Blue Line uses platform 4 and Red Line
 														uses platform 2.</p>
-													<div class="smallTables">
-														<h3>Click to expand</h3>
-														<div>
-															<div id="replace-stops-table"></div>
-															<br>
-															<button class="btn btn-primary btn-sm"
-																id="addReplaceStopButton">Add a Row</button>
-														</div>
+														<p>															
+															<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseReplaceStopTable" aria-expanded="false" aria-controls="collapseReplaceStopTable">
+															  Show Table
+															</button>
+														  </p>
+														  <div class="collapse" id="collapseReplaceStopTable">
+															<div class="card card-body">
+																<div id="replace-stops-table"></div>															
+																<button class="btn btn-primary btn-sm"
+																	id="addReplaceStopButton">Add a Row</button>
+															</div>
+														  </div>
 													</div>
-													<!--Accordion over -->
-
-												</div>
 												<div class="col-md-7">
-
 													<h5>Fares <span id="fares-check"></span></h5>
 													<p>Upload Fares Chart CSV : (<a target="_blank"
 															href="hydcsv_related/fares_chart_pivoted.csv">get
@@ -430,10 +430,14 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 													href="https://developers.google.com/transit/gtfs/reference/gtfs-extensions#translations"
 													target="_blank">translations.txt</a> spec in GTFS extensions, that
 												can be used in regions having multiple official languages.</p>
-											<div class="smallTables">
-												<h3>Click to expand</h3>
-												<div>
-													<div id="translations-table"></div>
+												<p>															
+													<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTranslationsTable" aria-expanded="false" aria-controls="collapseTranslationsTable">
+													  Show Table
+													</button>
+												  </p>
+												  <div class="collapse" id="collapseTranslationsTable">
+													<div class="card card-body">
+														<div id="translations-table"></div>
 
 													<p><br>
 														<button class="btn btn-primary btn-sm"
@@ -446,30 +450,32 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 															in other places.
 														</span>
 													</p>
-												</div>
-											</div>
-											<!--Accordion over -->
-
+													</div>
+												  </div>											
 											<hr>
 											<h5>Missing Stops</h5>
 											<p>This table will tell the program what timing calculations to apply in
 												case a stop is missing from the uploaded csv datafile.</p>
-											<div class="smallTables">
-												<h3>Click to expand</h3>
-												<div>
-													<p>There are some default configurations already loaded. Skip this
-														if there's been no major changes since last run.</p>
-													<div id="missing-stops-table"></div>
-													<p><br>
-														<button class="btn btn-primary btn-sm"
-															id="addMissingStopButton">Add a Row</button>
-														&nbsp;&nbsp;&nbsp;&nbsp;
-														<button class="btn btn-warning btn-sm"
-															id="missingStopsDownloadButton">Download this data as
-															CSV</button>
-													</p>
-												</div>
-											</div>
+												<p>															
+													<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMissingStopsTable" aria-expanded="false" aria-controls="collapseMissingStopsTable">
+													  Show Table
+													</button>
+												  </p>
+												  <div class="collapse" id="collapseMissingStopsTable">
+													<div class="card card-body">
+														<p>There are some default configurations already loaded. Skip this
+															if there's been no major changes since last run.</p>
+														<div id="missing-stops-table"></div>
+														<p><br>
+															<button class="btn btn-primary btn-sm"
+																id="addMissingStopButton">Add a Row</button>
+															&nbsp;&nbsp;&nbsp;&nbsp;
+															<button class="btn btn-warning btn-sm"
+																id="missingStopsDownloadButton">Download this data as
+																CSV</button>
+														</p>
+													</div>
+												  </div>											
 										</div>
 										<div class="tab-pane fade" id="Finally" role="tabpanel"
 											aria-labelledby="Finally-tab">
