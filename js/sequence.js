@@ -76,17 +76,11 @@ $("#sequence-1-table").tabulator({
 
 // #################################
 /* Initiate map */
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
-var mapboxUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9teusbbr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmlraGlsc2hldGgiLCJhIjoiQTREVlJuOCJ9.YpMpVVbkxOFZW-bEq1_LIw' ; 
+var carto1 = L.tileLayer.provider('CartoDB.Positron');
+var carto2 = L.tileLayer.provider('CartoDB.Positron');
 
-var MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib });
-var scenic0 = L.tileLayer(scenicUrl, { attribution: MBAttrib });
-var scenic1 = L.tileLayer(scenicUrl, { attribution: MBAttrib });
-
-var mapOptions0 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic0, scrollWheelZoom: false };
-var mapOptions1 = { 	'center': [0,0], 'zoom': 2, 'layers': scenic1, scrollWheelZoom: false };
+var mapOptions0 = { 'center': [0,0], 'zoom': 2, 'layers': carto1, scrollWheelZoom: true };
+var mapOptions1 = { 'center': [0,0], 'zoom': 2, 'layers': carto2, scrollWheelZoom: true };
 //var mapOptionsClone = jQuery.extend(true, {}, mapOptions);
 
 var map = [];

@@ -417,6 +417,7 @@ function populateLists() {
 	$('#stop2Delete').html(content);
 	$('#stop2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Stop'});
 	$('#stop2Delete').trigger('chosen:updated'); // if the function is called again, then update it
+	$("#stop2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#stop2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let stop_id = params.selected;
@@ -436,6 +437,7 @@ function populateLists() {
 	$('#route2Delete').html(content);
 	$('#route2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Route' });
 	$('#route2Delete').trigger('chosen:updated');
+	$("#route2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#route2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let route = params.selected;
@@ -455,6 +457,7 @@ function populateLists() {
 	$('#trip2Delete').html(content);
 	$('#trip2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Trip'});
 	$('#trip2Delete').trigger('chosen:updated');
+	$("#trip2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#trip2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let trip = params.selected;
@@ -473,6 +476,7 @@ function populateLists() {
 	$('#shape2Delete').html(content);
 	$('#shape2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Shape'});
 	$('#shape2Delete').trigger('chosen:updated');
+	$("#shape2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#shape2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let shape = params.selected;
@@ -491,6 +495,7 @@ function populateLists() {
 	$('#service2Delete').html(content);
 	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
 	$('#service2Delete').trigger('chosen:updated');
+	$("#service2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#service2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let service = params.selected;
@@ -510,6 +515,7 @@ function populateLists() {
 	$('#zone2Delete').html(content);
 	$('#zone2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare Zone'});
 	$('#zone2Delete').trigger('chosen:updated');
+	$("#zone2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#zone2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let zone = params.selected;
@@ -529,6 +535,7 @@ function populateLists() {
 	$('#fareID2Delete').html(content);
 	$('#fareID2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare ID'});
 	$('#fareID2Delete').trigger('chosen:updated');
+	$("#fareID2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#fareID2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let fare = params.selected;
@@ -548,6 +555,7 @@ function populateLists() {
 	$('#agency2Delete').html(content);
 	$('#agency2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick an Agency ID'});
 	$('#agency2Delete').trigger('chosen:updated');
+	$("#agency2Delete").off("change"); // 10.5.19 fix for multiple triggers
 	$('#agency2Delete').on('change', function(evt,params) {
 		if(!params) return;
 		let agency = params.selected;

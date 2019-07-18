@@ -27,6 +27,7 @@ import csv
 import numpy as np
 import io # used in hyd csv import
 import requests, platform # used to log user stats
+requests.packages.urllib3.disable_warnings() # suppress warning messages like "InsecureRequestWarning: Unverified HTTPS request is being made." from https://stackoverflow.com/a/44850849/4355695
 
 # setting constants
 root = os.path.dirname(__file__) # needed for tornado
@@ -43,6 +44,8 @@ chunkRulesFile = 'chunkRules.json'
 configFile = 'config.json'
 thisURL = ''
 
+# paths were you must not tread.. see "MyStaticFileHandler" class in apy.py
+forbiddenPaths = ['/pw/']
 debugMode = False # using this flag at various places to do or not do things based on whether we're in development or production
 
 requiredFeeds = ['agency.txt','calendar.txt','stops.txt','routes.txt','trips.txt','stop_times.txt']
@@ -69,7 +72,23 @@ exec(open(os.path.join(root,"hydCSV2GTFS.py"), encoding='utf8').read())
 
 logmessage('Loaded dependencies, starting static GTFS Manager program.')
 
-'''
+#################################
+# Tornado classes : One class = one API call / request
+
+# 22.4.19 Making a custom class/function to control how the user's browser loads normal URLs
+# from https://stackoverflow.com/a/55762431/4355695 : restrict direct browser access to .py files and stuff
+class MyStaticFileHandler(tornado.web.StaticFileHandler):
+    def validate_absolute_path(self, root, absolute_path):
+        if absolute_path.endswith('.py') or any([ (x in absolute_path) for x in forbiddenPaths]):
+            # raise tornado.web.HTTPError(403) # this is the usual thing: raise 403 Forbidden error. But instead..
+            return os.path.join(root,'lib','errorpage.txt')
+        
+        if absolute_path.endswith('favicon.ico'):
+            return os.path.join(root,'lib','favicon.ico')
+
+        return super().validate_absolute_path(root, absolute_path) # you may pass
+
+comment= '''
 # Tornado API functions template:
 class APIHandler(tornado.web.RequestHandler):
 	def get(self):
@@ -1398,7 +1417,9 @@ def make_app():
 		(r"/API/tableReadSave", tableReadSave),
 		(r"/API/tableColumn", tableColumn),
 		#(r"/API/idList", idList),
-		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
+		# (r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
+        (r"/(.*)", MyStaticFileHandler, {"path": root, "default_filename": "index.html"})
+
 	])
 
 # for catching Ctrl+C and exiting gracefully. From https://nattster.wordpress.com/2013/06/05/catch-kill-signal-in-python/

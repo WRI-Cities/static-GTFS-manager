@@ -1667,7 +1667,7 @@ def logUse(action='launch'):
 		cvar['3'] = ['version', platform.release() ]
 	payload['_cvar'] = json.dumps(cvar)
 	try:
-		r = requests.get('http://nikhilvj.co.in/tracking/piwik.php', params=payload, verify=False, timeout=1)
+		r = requests.get('https://nikhilvj.co.in/tracking/piwik.php', params=payload, verify=False, timeout=1)
 	except requests.exceptions.RequestException as e:
 		# print('exception',e)
 		pass

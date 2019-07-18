@@ -114,19 +114,11 @@ $("#stops-table").tabulator({
 
 // #################################
 /* 3. Initiate map */
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
-var mapboxUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9teusbbr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmlraGlsc2hldGgiLCJhIjoiQTREVlJuOCJ9.YpMpVVbkxOFZW-bEq1_LIw' ; 
+var cartoLight = L.tileLayer.provider('CartoDB.Positron');
+var cartoDark = L.tileLayer.provider('CartoDB.DarkMatter');
+var esriSat = L.tileLayer.provider('Esri.WorldImagery');
+var OSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
-var MBstreets = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mlpl2d', attribution: MBAttrib, maxZoom: 20}),
-	MBsatlabel = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmaa87', attribution: MBAttrib, maxZoom: 20}),
-	MBsat = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mni8e7', attribution: MBAttrib, maxZoom: 20}),
-	MBlight = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmobne', attribution: MBAttrib, maxZoom: 20}),
-	MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib, maxZoom: 20}),
-	OsmIndia = L.tileLayer(mapboxUrl, {id: 'openstreetmap.1b68f018', attribution: MBAttrib, maxZoom: 20}),
-	GithubLight = L.tileLayer('https://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png', {attribution: MBAttrib, maxZoom: 20}),
-	scenic = L.tileLayer(scenicUrl, {attribution: MBAttrib, maxZoom: 20}) ; 
 var gStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
 		maxZoom: 20,
 		subdomains:['mt0','mt1','mt2','mt3']
@@ -141,12 +133,19 @@ var gSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
     subdomains:['mt0','mt1','mt2','mt3']
 });
 
-const startLocation = [10.030259357021862, 76.31446838378908];
+var baseLayers = {
+	"CartoDB Positron" : cartoLight,
+	"CartoDB DarkMatter" : cartoDark,
+	"ESRI Sat" : esriSat,
+	"OpenStreetMap" : OSM,
+	"gStreets": gStreets,
+	"gHybrid": gHybrid
+};
 
 var map = new L.Map('map', {
 	center: [0,0],
 	zoom: 2,
-	layers: [MBlight],
+	layers: [cartoLight],
 	scrollWheelZoom: true
 });
 
@@ -163,17 +162,7 @@ var stopsLayer = new L.geoJson(null)
 })
 .on('click',markerOnClick);
 
-var baseLayers = {
-	"Scenic" : scenic,
-	"OpenStreetMap.IN": OsmIndia,
-	"Streets": MBstreets,
-	"Satellite": MBsatlabel ,
-	"Light": MBlight,
-	"Dark" : MBdark,
-	"gStreets": gStreets,
-	"gHybrid": gHybrid,
-	"gSat": gSat
-};
+
 
 var overlays = {
 	'stops': stopsLayer,
@@ -205,7 +194,7 @@ var dragmarkerOptions = {
 };
 var clickedflag = 0;
 
-var dragmarker = L.circleMarker(startLocation, dragmarkerOptions);
+var dragmarker = L.circleMarker(null, dragmarkerOptions);
 /* we're not dragging anymore!
 dragmarker.on('dragend', function(e) {
 	updateLatLng();
@@ -474,9 +463,9 @@ function updateLatLng(latlong, revflag) {
 		dragmarker.setLatLng([lat, lng]);
 		map.panTo([lat, lng]);
 	} else {
-		lat = Math.round(( dragmarker.getLatLng().lat + 0.0000001) * 10000) / 10000;
+		lat = Math.round(( dragmarker.getLatLng().lat + 0.0000001) * 100000) / 100000;
 		// Rounding, from https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary. The +0.000.. is to trip forward a number hinging on x.9999999...
-		lng = Math.round(( dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
+		lng = Math.round(( dragmarker.getLatLng().lng + 0.0000001) * 100000) / 100000;
 		document.getElementById('newlatlng').value = lat + ',' + lng;
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
 		//map.panTo(dragmarker.getLatLng());
@@ -618,9 +607,10 @@ function databank() {
 			console.log(databankCounter,'locations found in databank.');
 			
 			// removing all and adding consecutively so stops are always on top
-			map.removeLayer(stopsLayer);
+			// map.removeLayer(stopsLayer);
 			if(! map.hasLayer(databankLayer)) databankLayer.addTo(map);
-			map.addLayer(stopsLayer);
+			// map.addLayer(stopsLayer);
+			stopsLayer.bringToFront();
 
 			map.flyToBounds(databankLayer.getBounds(), {padding:[10,10], maxZoom:14});
 		}

@@ -61,7 +61,7 @@ function getPythonPastCommits() {
 			var data = JSON.parse(xhr.responseText);
 			var content = '<ol>';
 			for (i in data.commits) {
-				content += '<li>' + data.commits[i] + ' : <a href="GTFS/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
+				content += '<li>' + data.commits[i] + ' : <a href="export/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
 			}
 			content += '</ol>';
 			
@@ -77,7 +77,7 @@ function getPythonPastCommits() {
 
 function exportGTFS() {
 	// lowercase and zap everything that is not a-z, 0-9, - or _  from https://stackoverflow.com/a/4460306/4355695
-	var commit = $("#commitName").val().toLowerCase().replace(/[^a-z0-9-_]/g, "");
+	var commit = $("#commitName").val().toLowerCase().replace(/[^a-z0-9-_.]/g, "");
 	
 	$("#commitName").val(commit); // showing the corrected name to user.
 

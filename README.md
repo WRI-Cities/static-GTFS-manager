@@ -5,7 +5,7 @@
 
 A browser-based user interface for creating, editing, exporting of static GTFS (General Transit Feed Specification Reference) feeds for a public transit authority.
 
-**Release Status** : V 3.4.2 (live branch may be some commits ahead)
+**Release Status** : V 3.4.3 (live branch may be some commits ahead)
 Download from [Releases page](https://github.com/WRI-Cities/static-GTFS-manager/releases/).  
 - Windows binary is available in the repo itself, just double-click GTFSManager.exe to start the program.
 - Mac, Ubuntu users can run by first installing docker, then double-clicking two scripts. See [Running with Docker on any OS](https://github.com/WRI-Cities/static-GTFS-manager/wiki/Running-with-Docker-on-any-OS)
@@ -20,10 +20,12 @@ The GTFS data pre-loaded in the program is of Kochi Metro, Kerala, India which o
 
 See the [KMRL open data portal](https://kochimetro.org/open-data/) and some news articles: [1](http://www.newindianexpress.com/cities/kochi/2018/mar/17/kochi-metro-adopts-open-data-system-to-improve-access-to-its-services-1788342.html), [2](http://indianexpress.com/article/india/kochi-metro-throws-open-transit-data-to-public-on-the-lines-of-london-new-york-5100381/), [3](http://www.thehindu.com/news/cities/Kochi/open-data-to-improve-commuter-experience/article23275844.ece), [4](http://www.thehindu.com/news/cities/Kochi/kmrl-moves-a-step-ahead-to-open-up-transit-data/article23247617.ece).
 
-This program adheres to the static GTFS (General Transit Feed Specification Reference) open transit data specs as published by Google Transit here: <https://developers.google.com/transit/gtfs/reference/>  
-It also implements a [GTFS extension for translations](https://developers.google.com/transit/gtfs/reference/gtfs-extensions#translations) of stops and routes names to facilitate multilingual use of the data.
+This program adheres strictly to the static GTFS (General Transit Feed Specification Reference) open transit data specs as published by Google Transit here: <https://developers.google.com/transit/gtfs/reference/>  
 
-Lead programmer up till November 2018: [Nikhil VJ](https://answerquest.github.io) from Pune, India.
+Note: We have created a second complimentary application **[Payanam](https://github.com/WRI-Cities/payanam)** to address needs where a) the system is simple and routes don't have variations; b) properly mapped stops data is not available to begin with.  
+**[Payanam](https://github.com/WRI-Cities/payanam)** can take you from nothing up to a basic GTFS, and after that you can use this application to edit it. So check it out!
+
+Lead programmer as of July 2019: [Nikhil VJ](https://nikhilvj.co.in) from Pune, India.
 
 See this and many more GTFS related resources listed on **[Awesome Transit](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools)**, a one-stop community listing for all things GTFS.
 
