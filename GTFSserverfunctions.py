@@ -525,11 +525,12 @@ def replaceTableDB(tablename, data, key=None, value=None):
 		# remove entries matching the key and value
 		try:
 			df = pd.read_hdf(dbFolder+h5File).fillna('').astype(str)
+			oldLen = len( df[ df[key] == str(value)])
+			df.query(key + ' != "' + str(value) + '"', inplace=True)
 		except (KeyError, ValueError) as e:
 			df = pd.DataFrame()
 			logmessage('Note: {} does not have any data.'.format(h5File))
-		oldLen = len( df[ df[key] == str(value)])
-		df.query(key + ' != "' + str(value) + '"', inplace=True)
+			oldLen = 0
 		
 		df3 = pd.concat([df,xdf], ignore_index=True)
 		df3.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)

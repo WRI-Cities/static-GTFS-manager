@@ -6,7 +6,7 @@ const CURRENCY = 'INR';
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;
 
-const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service",  };
+const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service", 800:"Trolleybus Service", 717:"Share Taxi Service" };
 //const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
 const route_type_lookup = route_type_options;
 

@@ -100,9 +100,9 @@ class APIHandler(tornado.web.RequestHandler):
 
 	def post(self):
 		user = self.get_argument("username")
-		passwd = self.get_argument("password")
+		data = json.loads( self.request.body.decode('UTF-8') )
 		time.sleep(10)
-		self.write("Your username is %s and password is %s" % (user, passwd))
+		self.write("data:",data)
 '''
 
 class allStops(tornado.web.RequestHandler):
