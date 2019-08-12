@@ -24,8 +24,8 @@
     <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
     <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
 
-    <link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
-    <script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <link href="vendor/tabulator-4.4.0/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.4.0/js/tabulator.min.js"></script>
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
     <!-- Put the CSSs first and JSs next -->
@@ -99,8 +99,14 @@
 												</div>
 											</div>
 											<div class="row">
-													<small id="calendarAddStatus"></small>
-											</div>																																			
+												Fast Add: <div class="btn-group" role="group" aria-label="Basic example">
+														<button type="button" id="AddServiceFullweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a full week service">Full week</button>
+														<button type="button" id="AddServiceWorkweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a work week service">Work week</button>
+														<button type="button" id="AddServiceWeekend" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a weekend service">Weekend</button>
+														<button type="button" id="AddServiceSaterday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Saterday only service">Saterday Only</button>
+														<button type="button" id="AddServiceSunday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Sunday only service">Sunday Only</button>
+													  </div>
+											</div>																																													
 										</div>
 										<div class="card-footer">
 												<button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small>												

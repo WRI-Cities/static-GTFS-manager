@@ -24,8 +24,8 @@
     <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
     <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
 
-    <link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
-    <script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <link href="vendor/tabulator-4.4.0/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.4.0/js/tabulator.min.js"></script>
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
     <!-- Put the CSSs first and JSs next -->
@@ -120,30 +120,43 @@
 															Pick a route
 														</div>
 														<div class="col-md-9">
-															<select id="routeSelect"></select>
+															<select id="routeSelect" class="form-control"><option></option></select>
 														</div>
 													</div>													
 													<h5>Trips</h5>													
 													<div id="trips-table"></div>
 													
 													<div id="newTripHTML">
-													
-														<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
-														<!--<input placeholder="trip_short_name" id="trip2add" size="8">-->
-													
-														<p>Calendar service: <select id="trip_calendar"></select></p>
-														<p>
-															Start time:<input id="trip_time" type="time" name="time">
-															&nbsp;&nbsp;
-															Direction: <select id="trip_direction">
-																<option value="0" selected="selected">Onward</option>
-																<option value="1">Return</option>
-																<option value="none">None</option>
-																<option value="both">Both</option>
-															</select>
-															&nbsp;&nbsp;
-															<button class="btn btn-apple btn-sm	" id="addTripButton" type="button">Add a Trip</button></p>
-													
+															<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
+															<div class="form-group row">
+																	<label for="inputEmail3" class="col-sm-2 col-form-label">Calendar service</label>
+																	<div class="col-sm-10">
+																			<select id="trip_calendar"></select>
+																	</div>
+																  </div>
+																  <div class="form-group row">
+																		<label for="inputEmail3" class="col-sm-2 col-form-label">Start time</label>
+																		<div class="col-sm-10">
+																				<input id="trip_time" type="time" name="time" class="form-control">
+																		</div>
+																	  </div>
+																	  <div class="form-group row">
+																			<label for="inputEmail3" class="col-sm-2 col-form-label">Direction</label>
+																			<div class="col-sm-10">
+																					<select id="trip_direction" class="form-control">
+																							<option value="0" selected="selected">Onward</option>
+																							<option value="1">Return</option>
+																							<option value="none">None</option>
+																							<option value="both">Both</option>
+																						</select>
+																			</div>
+																		  </div>
+																		  <div class="form-group row">
+																				<div class="col-sm-10">
+																						<button class="btn btn-primary" id="addTripButton" type="button">Add a Trip</button></p>
+																				</div>
+																			  </div>
+														
 														<p><small id="addTripStatus"><i>A new row will be added at the top of the table. Please fill in all the values
 																	appropriately and then save to DB.</i></small></p>
 													

@@ -6,12 +6,39 @@ var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 // #########################################
 // Function-variables to be used in tabulator
 
-var agencyListGlobal = {}; // global variable
-var agencyLister = function(cell) {
-	return agencyListGlobal;
-	// needs to be declared earlier but the variable referenced in it is a global one that will change later
-	// this function will get called every time user clicks the dropdown
-	//	getPythonAgency() function will make API call and load agencies listin into this global variable.
+var agencyListGlobal = []; // global variable
+
+var select2AgencyEditor = function(cell, onRendered, success, cancel, editorParams){
+
+    //create input element to hold select
+    var editor = document.createElement("select");
+    editor.className = "form-control";
+    editor.style.width = "100%";
+    editor.style.height = "100%";
+    onRendered(function(){
+        var select_2 = $(editor);
+
+        select_2.select2({
+             placeholder: 'Select',
+             data: agencyListGlobal,             
+             width: 300,
+             minimumInputLength: 0,             
+             theme: 'bootstrap4'
+        });
+
+        select_2.on('change', function (e) {
+            success(select_2.val());
+        });
+
+
+        select_2.on('blur', function (e) {
+            cancel();
+        });
+    });
+
+
+    //add editor to cell
+    return editor;
 }
 
 var routesTotal = function(values, data, calcParams){
@@ -37,10 +64,10 @@ var table = new Tabulator("#routes-table", {
 		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars },
 		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
 		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
-		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
+		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false },
 		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color"},
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color" },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:{values:{agencyLister}}, tooltip:"Needed to fill when there is more than one agency." }
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:select2AgencyEditor, tooltip:"Needed to fill when there is more than one agency." }
 	],
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
@@ -145,16 +172,16 @@ function getPythonAgency() {
 			var data = JSON.parse(xhr.responseText);
 			// var dropdown = '<option value="">Select agency</option>'
 			// var selectedFlag = false;
-			data.forEach(function(row){
-			 	agencyListGlobal[''] = '(None)';
-			 	agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
+			// data.forEach(function(row){
+			//  	agencyListGlobal[''] = '(None)';
+			//  	agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
 			// 	var select = '';
 			// 	if(!selectedFlag) {
 			// 		select = '  selected="selected"'; selectedFlag = true;
 			// 	}
 			// 	dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
-			});
-			var select2items = $.map(data, function (obj) {
+			// });
+			agencyListGlobal = $.map(data, function (obj) {
 				obj.id = obj.id || obj.agency_id; // replace identifier
 				obj.text = obj.text || obj.agency_id + " - " + obj.agency_name
 				return obj;
@@ -163,9 +190,9 @@ function getPythonAgency() {
 			$("#agencySelect").select2({
 				tags: false,
 				placeholder: 'Select agency',
-				data: select2items
+				data: agencyListGlobal
 			  });
-
+			console.log(agencyListGlobal);
 		}
 		else {
 			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);

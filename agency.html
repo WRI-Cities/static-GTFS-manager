@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -7,24 +8,24 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <title>GTFS Manager : Agency info</title>
 
-   <!-- Fontfaces CSS-->
-   <link href="css/font-face.css" rel="stylesheet" media="all">
-   <link href="vendor/font-awesome-5/css/all.min.css" rel="stylesheet" media="all">
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/all.min.css" rel="stylesheet" media="all">
 
-   <!-- Bootstrap CSS-->
-   <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-   <!-- Vendor CSS-->
-   
-   <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-   <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-   <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-   <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
-   <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
-   <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
+    <!-- Vendor CSS-->
 
-   <link href="vendor/tabulator-4.2.7/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
-   <script src="vendor/tabulator-4.2.7/js/tabulator.min.js"></script>
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
+
+    <link href="vendor/tabulator-4.4.0/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.4.0/js/tabulator.min.js"></script>
 
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
@@ -33,14 +34,14 @@
 </head>
 
 <body>
-        <div class="page-wrapper">
-            <!-- HEADER DESKTOP-->
+    <div class="page-wrapper">
+        <!-- HEADER DESKTOP-->
         <header class="header-desktop3 d-none d-lg-block">
             <div class="section__content section__content--p35">
                 <div class="header3-wrap">
                     <div class="header__logo">
                         <a href="#">
-                            <img src="extra_files/GTFS.png" width="52" height="170"  alt="GTFS Manager" />
+                            <img src="extra_files/GTFS.png" width="52" height="170" alt="GTFS Manager" />
                         </a>
                     </div>
                     <div class="header__navbar" id="navmenuinsert">
@@ -53,86 +54,103 @@
             </div>
         </header>
         <!-- END HEADER DESKTOP-->
-            <!-- MAIN CONTENT-->
-            <div class="page-content--bgf7">
-                    <div class="section__content section__content--p30">
-                        <div class="container p-t-20">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="card">
-										<div class="card-header">
-											<strong class="card-title mb-3">Agency</strong>
-										</div>
-										<div class="card-body">
-											<div id="agency-table" class="table table-borderless table-striped table-earning"></div>
-										</div>
-										<div class="card-footer">
-                                            <button id="saveAgencyButton" class="btn btn-primary float-right">Save Agency Changes</button> 											
-										</div>
-									</div>
-								</div>
+        <!-- MAIN CONTENT-->
+        <div class="page-content--bgf7">
+            <div class="section__content section__content--p30">
+                <div class="container p-t-20">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title mb-3">Agency</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div id="agency-table" class="table table-borderless table-striped table-earning"></div>
+                                </div>
+                                <div class="card-footer">
+                                    <button id="saveAgencyButton" class="btn btn-primary float-right">Save Agency Changes</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="container p-t-20">
-							<div class="row">
-									<div class="col-md-12">
-										<div class="card">
-											<div class="card-header">
-												<strong class="card-title mb-3">Create a new agency</strong>
-											</div>
-											<div class="card-body">													
-													<div class="form-group parsley-input" id="Form-AddAgency" data-parsley-validate>
-														<label for="agency2add" aria-required="true">agency_id</label>
-														<input placeholder="agency_id" id="agency2add" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_id, without it it won't work!">
-														<small id="agency2addHelp" class="form-text text-muted">Identifies a transit brand, which is often the same as a transit agency.</small>
-													  </div>																								
-												<div class="alert alert-info" role="alert">
-													<small>
-													Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#agencytxt" target="_blank">See specs</a>.
-													<br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
-													</small>
-												</div>
-											</div>
-											<div class="card-footer">
-                                                <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add</button>													
-											</div>
-										</div>
-									</div>
-								</div>							
                         </div>
                     </div>
                 </div>
-                <!-- END MAIN CONTENT-->
-                <!-- END PAGE CONTAINER-->
+                <div class="container p-t-20">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title mb-3">Create a new agency</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div id="Form-AddAgency" data-parsley-validate>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_id" aria-required="true">agency_id</label>
+                                            <input placeholder="agency_id" id="agency_id" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_id, without it it won't work!">
+                                            <small id="agency_idHelp" class="form-text text-muted">Identifies a transit brand, which is often the same as a transit agency.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_name" aria-required="true">agency_name</label>
+                                            <input placeholder="agency_name" id="agency_name" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_name, without it it won't work!">
+                                            <small id="agency_nameHelp" class="form-text text-muted">Contains the full name of the transit agency.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_url" aria-required="true">agency_name</label>
+                                            <input placeholder="agency_url" id="agency_url" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_url, without it it won't work!">
+                                            <small id="agency_urlHelp" class="form-text text-muted">Contains the URL of the transit agency.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_timezone" aria-required="true">agency_timezone</label>
+                                            <select id="agency_timezone" class="form-control" data-parsley-required-message="You have to add a agency_url, without it it won't work!"></select>
+                                            <small id="agency_timezoneHelp" class="form-text text-muted">Contains the timezone where the transit agency is located. If multiple agencies are specified in the feed, each must have the same agency_timezone.</small>
+                                        </div>
+                                        </divF>
+                                        <div class="alert alert-info" role="alert">
+                                            <small>
+                                                Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://developers.google.com/transit/gtfs/reference/#agencytxt" target="_blank">See specs</a>.
+                                                <br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-    
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
         </div>
-    
-        <!-- Jquery JS-->
-        <script src="vendor/jquery-3.2.1.min.js"></script>
-        <!-- Bootstrap JS-->
-        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-        <!-- Vendor JS       -->
-        <script src="vendor/circle-progress/circle-progress.min.js"></script>
-        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-        <script src="vendor/select2/js/select2.min.js"></script>
-        <script src="js/Select2EditorTimezone.js"></script>		
-        <script src="vendor/toast-0.7.1/toast.min.js"></script>
-		<!-- Form validator-->
-		<script src="vendor/parsley-2.9.1/parsley.min.js"></script>
-		
-		<!-- Main JS-->
-        <script src="js/main.js"></script>
-        <script src="js/menu.js"></script>
-    
-    
 
-<script src="config/settings.js" type="text/javascript"></script>
-<script src="js/commonfuncs.js" type="text/javascript"></script>
-<script src="js/agency.js"></script>
+    </div>
 
-</body>  
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/js/select2.min.js"></script>
+    <script src="js/Select2EditorTimezone.js"></script>
+    <script src="vendor/toast-0.7.1/toast.min.js"></script>
+    <!-- Form validator-->
+    <script src="vendor/parsley-2.9.1/parsley.min.js"></script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+
+
+
+    <script src="config/settings.js" type="text/javascript"></script>
+    <script src="js/commonfuncs.js" type="text/javascript"></script>
+    <script src="js/agency.js"></script>
+
+</body>
+
 </html>
-

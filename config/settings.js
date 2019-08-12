@@ -37,7 +37,8 @@ const menu = {
 	},
 	"Config": "config.html"
 }
-
+// Default timezone used in the application.
+const defaultTimeZone = 'Asia/Kolkata';
 // loader:
 const loaderHTML = '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>';
 

@@ -16,25 +16,28 @@ $(document).ready(function() {
 
 	$('[data-toggle="tooltip"]').tooltip(); 
 
+	// Usage tracker
+	var tracker = `<!-- Matomo Image Tracker-->
+	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
+	<!-- End Matomo -->`;
+
+
 	// Footer
-	var footer = `<section class="p-t-60 p-b-20">
+	var footer = `<section class="p-t-20 p-b-20">
 	<div class="container">
 	<div class="row">
 	<div class="col-md-12">
 	<div class="copyright">
-	<a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a>
+	<a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a> ${tracker}
 	</div>
 	</div>
 	</div>
 	</div>
-	</section>`; 
-
+	</section>`; 	
+	
 	$("div.page-content--bgf7").append(footer);
 	
-	// Usage tracker
-	$("body").append(`<!-- Matomo Image Tracker-->
-	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
-	<!-- End Matomo -->`);
+	
 
 	document.getElementById("password").value = "program";
 });

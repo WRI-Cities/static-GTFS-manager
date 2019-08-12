@@ -73,6 +73,29 @@ $(document).ready(function() {
 	;
 });
 
+// Quick Adds:
+
+$("#AddServiceFullweek").on("click", function(){
+	service.addRow([{ 'service_id': 'FULLWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 1, sunday: 1 }]);
+});
+
+$("#AddServiceWorkweek").on("click", function(){
+	service.addRow([{ 'service_id': 'WORKWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0 }]);
+});
+
+$("#AddServiceWeekend").on("click", function(){
+	service.addRow([{ 'service_id': 'WEEKEND', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 1 }]);
+});
+
+$("#AddServiceSaterday").on("click", function(){
+	service.addRow([{ 'service_id': 'SATERDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0 }]);
+});
+
+$("#AddServiceSunday").on("click", function(){
+	service.addRow([{ 'service_id': 'SUNDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1 }]);
+});
+
+
 // #########################
 // Buttons
 

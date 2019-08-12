@@ -36,6 +36,14 @@ var table = new Tabulator("#agency-table", {
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
+	$("#agency_timezone").select2({				
+		placeholder: "Select a timezone",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: TimeZoneList
+	  });
+	  // Set the default timezone from the settings.js file.
+	  $("#agency_timezone").val(defaultTimeZone).trigger("change");
 });
 
 // #########################
@@ -66,7 +74,7 @@ $('#addAgencyButton').on('click', function(){
 	}       
 });
 
-$("#agency2add").bind("change keyup", function(){
+$("#agency_id").bind("change keyup", function(){
 	if(CAPSLOCK) this.value=this.value.toUpperCase();
 });
 
@@ -125,8 +133,11 @@ function saveAgency() {
 
 function addAgency() {
 	var data = table.getData();
-	var agency_id = $('#agency2add').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
-	$('#agency2add').val(agency_id);
+	var agency_id = $('#agency_id').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
+	var agency_name = $('#agency_name').val();
+	var agency_url = $('#agency_url').val();
+	var agency_timezone = $('#agency_timezone').select2().val();
+	$('#agency_id').val(agency_id);
 	if(! agency_id.length) {
 		$.toast({
 			title: 'Add Agency',
@@ -152,7 +163,7 @@ function addAgency() {
 			delay: 5000
 		  });
 	} else {
-		table.addData([{ 'agency_id': agency_id, 'agency_timezone':'Asia/Kolkata' } ]);
+		table.addData([{ 'agency_id': agency_id, 'agency_name': agency_name, 'agency_url':agency_url, 'agency_timezone': agency_timezone } ]);
 		//$('#agencyAddStatus').html('<span class="alert alert-success">Added agency_id ' + agency_id + '</span>');
 		$.toast({
 			title: 'Add Agency',
@@ -165,24 +176,24 @@ function addAgency() {
 
 }
 
-// ###############
-// feed_info table
+// // ###############
+// // feed_info table
 
-function loadFeedInfo() {
-	var jqxhr = $.get( `${APIpath}tableReadSave?table=feed_info`, function( data ) {
-		list =  JSON.parse(data);
-		console.log('GET request to API/tableReadSave for table=feed_info succesfull.');
+// function loadFeedInfo() {
+// 	var jqxhr = $.get( `${APIpath}tableReadSave?table=feed_info`, function( data ) {
+// 		list =  JSON.parse(data);
+// 		console.log('GET request to API/tableReadSave for table=feed_info succesfull.');
 
-		for (var p in list[0]) {
-			if( list[0].hasOwnProperty(p) ) {
-				$('#'+p).val(list[0][p]);
-			} 
-		}              
-	})
-	.fail( function() {
-		console.log('GET request to API/tableReadSave table=feed_info failed.')
-	});
-}
+// 		for (var p in list[0]) {
+// 			if( list[0].hasOwnProperty(p) ) {
+// 				$('#'+p).val(list[0][p]);
+// 			} 
+// 		}              
+// 	})
+// 	.fail( function() {
+// 		console.log('GET request to API/tableReadSave table=feed_info failed.')
+// 	});
+// }
 
 
 $('#saveFeedInfoButton').on('click', function(){

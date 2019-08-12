@@ -164,13 +164,15 @@
                                                 <button id="gtfsBlankSlateButton" class="btn btn-danger">Create a Blank Slate DB</button> to start making a GTFS feed from scratch.</p>
                                             <p id="gtfsBlankSlateStatus"></p>
                                         </div>
-                                    </div>
+                                    </div>                                    
+                                </div>
+                                <div class="card-footer text-muted">
                                     <div class="alert alert-warning">
                                         <small>Note: All of the above 3 actions will wipe out the current data in the db. A backup
                                             GTFS export will be made just in case you want to revert later. You can find
                                             it from the past commits section after refreshing this page.</small>
                                     </div>
-                                </div>
+                                  </div>
                             </div>
                             <div class="card">
                                 <div class="card-header">
@@ -181,19 +183,15 @@
                                         a freshly minted GTFS feed!</p>
                                     <div class="form-horizontal">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-sm-4">
                                                 <label for="hf-email" class="form-control-label">Choose a filename</label>
                                             </div>
-                                            <div class="col-md-3">
-                                                <p>
+                                            <div class="col-sm-8">                                                
                                                     <input id="commitName" placeholder="choose a name, eg: first-try" data-toggle="popover" data-trigger="hover" data-placement="top"
                                                         data-html="true" title="Pick a name" data-content="So that it's easy for you to identify later, type in a word or so to give your export a name.<br><small>Note: No special characters. Keep lowercase. Can use alphabets, digits, hyphen (-), underscore (_). Spaces will be converted to _"
                                                         class="form-control">
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="" id="exportGTFSlog">Log</div>
-                                            </div>
+                                                
+                                            </div>                                            
                                         </div>
                                         <div class="row">
                                             <div class="col col-md-12">

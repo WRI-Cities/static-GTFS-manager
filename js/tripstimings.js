@@ -49,11 +49,11 @@ var tripsTable = new Tabulator("#trips-table", {
 		{title:"route_id", field:"route_id",headerSort:false, visible:true, frozen:true },
 		{title:"trip_id", field:"trip_id", headerFilter:"input", headerSort:false, frozen:true },
 		{title:"Calendar service", field:"service_id", editor:"select", editorParams:serviceLister, headerFilter:"input", validator:"required", headerSort:false },
-		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{0:"Onward(0)", 1:"Return(1)", '':"None(blank)"}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return','':''} },
+		{title:"direction_id", field:"direction_id", editor:"select", editorParams:{values: {0:"Onward(0)", 1:"Return(1)", '':"None(blank)"}}, headerFilter:"input", headerSort:false, formatter:"lookup", formatterParams:{0:'Onward',1:'Return','':''} },
 		{title:"trip_headsign", field:"trip_headsign", editor:"input", headerFilter:"input", headerSort:false },
 		{title:"trip_short_name", field:"trip_short_name", editor:"input", headerFilter:"input", headerSort:false, bottomCalc:tripsTotal },
 		{title:"block_id", field:"block_id", editor:"input", headerFilter:"input", tooltip:"Vehicle identifier", headerSort:false },
-		{title:"shape_id", field:"shape_id", editor:"select", editorParams:shapeLister, headerFilter:"input", headerSort:false },
+		{title:"shape_id", field:"shape_id", editor:"select", editorParams:{values:{shapeLister}}, headerFilter:"input", headerSort:false },
 		{title:"wheelchair_accessible", field:"wheelchair_accessible", headerSort:false, 
 			editor:"select", editorParams:wheelchairOptions, 
 			formatter:"lookup", formatterParams:wheelchairOptionsFormat },
@@ -109,7 +109,7 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 		// to do: validation for hh:mm:ss and accepting hh>23
 		{title:"arrival_time", field:"arrival_time", editor:"input", headerFilter:"input", validator:"regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort:false },
 		{title:"departure_time", field:"departure_time", editor:"input", headerFilter:"input", validator:"regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort:false },
-		{title:"timepoint", field:"timepoint", headerFilter:"input", editor:"select", editorParams:{0:"0 - Estimated", 1:"1 - Accurate", "":"blank - Accurate"}, headerSort:false},
+		{title:"timepoint", field:"timepoint", headerFilter:"input", editor:"select", editorParams:{values: {0:"0 - Estimated", 1:"1 - Accurate", "":"blank - Accurate"}}, headerSort:false},
 		{title:"shape_dist_traveled", field:"shape_dist_traveled", editor:"input", headerFilter:"input", validator:["numeric", "min:0"], headerSort:false }
 	],
 	initialSort: [
@@ -291,21 +291,28 @@ function populateRouteSelect(data) {
 
 	var select2items = $.map(data, function (obj) {
 		obj.id = obj.id || obj.route_id; // replace identifier
-		obj.text = obj.text || obj.route_short_name + " - " +  obj.route_long_name
+		if( obj.route_long_name ) {
+			obj.text = obj.text || obj.route_short_name + " - " +  obj.route_long_name
+		}
+		else {
+			obj.text = obj.text || obj.route_short_name
+		}		
 		return obj;
 	  });
-	console.log($("#targetStopid").val())
+
+	//console.log($("#targetStopid").val())
 	$("#routeSelect").select2({
 		placeholder: "Pick a Route",
 		theme: 'bootstrap4',
-		createTag: function (tag) {
-			return {
-				id: tag.term,
-				text: tag.term,
-				isNew : true
-			}
-		},		
-		data: select2items
+		// createTag: function (tag) {
+		// 	return {
+		// 		id: tag.term,
+		// 		text: tag.term,
+		// 		isNew : true
+		// 	}
+		// },		
+		data: select2items,
+		allowClear: true
 	  });
 
 	if( data.length == 0) {
@@ -315,6 +322,7 @@ function populateRouteSelect(data) {
 	// 
 	$('#routeSelect').on("select2:select", function(e) { 		
 		let route_id = e.params.data.id;
+		console.log (route_id);
 		if( !route_id.length ) {
 			tripsTable.clearData();
 			chosenRoute = '';
@@ -451,7 +459,7 @@ function setSaveTrips(lock = true) {
 	} else {
 		tripsLock = false;
 		document.getElementById("saveTrips").disabled = true;
-		document.getElementById("saveTrips").className = "btn";
+		document.getElementById("saveTrips").className = "btn btn-primary";
 	}
 }
 
@@ -480,8 +488,8 @@ function loadTimings() {
 }
 
 function addTrip() {
-	route_id = chosenRoute ;
-	if(! chosenRoute.length) return;
+	route_id = $("#routeSelect").val();
+	if(! route_id) return;
 
 	var trip_time = $('#trip_time').val();
 	console.log(trip_time);
@@ -607,14 +615,14 @@ function getPythonCalendar() {
 				//if(!start || !end) continue; // didn't work
 
 				days = '';
-				days += ( row['monday']? 'M':'_')
-				days += ( row['tuesday']? 'T':'_')
-				days += ( row['wednesday']? 'W':'_')
-				days += ( row['thursday']? 'T':'_')
-				days += ( row['friday']? 'F':'_')
+				days += ( (row['monday'] == 1 )? 'M':'_')
+				days += ( (row['tuesday'] == 1 )? 'T':'_')
+				days += ( (row['wednesday'] == 1 )? 'W':'_')
+				days += ( (row['thursday'] == 1 )? 'T':'_')
+				days += ( (row['friday'] == 1 )? 'F':'_')
 				days += ' ';
-				days += ( row['saturday']? 'S':'_')
-				days += ( row['sunday']? 'S':'_')
+				days += ( (row['saturday'] == 1 )? 'S':'_')
+				days += ( (row['sunday'] == 1 )? 'S':'_')
 				
 				serviceListGlobal[row['service_id']] = row['service_id'] + ': ' + days + ', ' + start + '-' + end;
 				

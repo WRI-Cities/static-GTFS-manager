@@ -72,11 +72,11 @@ function getPythonPastCommits() {
 			}
 			content += '</ol>';
 			
-			$('#pastCommits').html('<p>'+content+'</p>');
+			$('#pastCommits').html(content);
 		}
 		else {
-			console.log(`Server request to ${APIpath}pastCommits failed.  Returned status of ` + xhr.status + ', message: ' + xhr.responseText);
-			$('#pastCommits').html('<p><i>' + xhr.responseText + '</i></p>');
+			console.log(`Server request to ${APIpath}pastCommits failed.  Returned status of ` + xhr.status + ', message: ' + xhr.responseText);			
+			$('#pastCommits').html('<div class="alert alert-danger" role="alert">' + xhr.responseText + '</div>');
 		}
 	};
 	xhr.send();
@@ -121,12 +121,25 @@ function exportGTFS() {
 	xhr.open('GET', `${APIpath}commitExport?commit=${commit}`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`Sent commit message to Server API/commitExport .`);
-			$("#exportGTFSlog").html(xhr.responseText);
+			console.log(`Sent commit message to Server API/commitExport .`);			
+			$.toast({
+				title: 'GTFS Export',
+				subtitle: 'Finished',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			  });
+			  getPythonPastCommits();
 		}
 		else {
-			console.log('Server request to API/commitExport for all stops failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
-			$("#exportGTFSlog").html(xhr.responseText);
+			console.log('Server request to API/commitExport for all stops failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);			
+			$.toast({
+				title: 'GTFS Export',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
 		}
 	};
 	xhr.send();
@@ -207,8 +220,13 @@ function gtfsBlankSlate() {
 	if (! confirm('Are you sure you want to do this?') )
 		return;
 	var pw = $("#password").val();
-
-	$("#gtfsBlankSlateStatus").text('Processing, please wait..');
+	$.toast({
+		title: 'GTFS Blank Slate',
+		subtitle: 'Proccessing',
+		content: 'Processing, please wait..',
+		type: 'info',
+		delay: 5000
+	  });	
 
 	$.ajax({
 		url : `${APIpath}gtfsBlankSlate?pw=${pw}`,
@@ -217,11 +235,16 @@ function gtfsBlankSlate() {
 		processData: false,  // tell jQuery not to process the data
 		contentType: false,  // tell jQuery not to set contentType
 		success : function(data) {
-			console.log(data);
-			$("#gtfsBlankSlateStatus").html(data);
+			console.log(data);			
 			// housekeeping: run stats again and clear out GTFS import status text
 			getPythonGTFSstats();
-			$("#importGTFSStatus").html('');
+			$.toast({
+				title: 'GTFS Blank Slate',
+				subtitle: 'Success',
+				content: data,
+				type: 'success',
+				delay: 5000
+			  });
 
 		},
 		error: function(jqXHR, exception) {
