@@ -122,19 +122,7 @@ $('.nav-tabs a[href="#home"]').on('shown.bs.tab', function(event){
 
 // #################################
 /* 3. Initiate map */
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
-var mapboxUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9teusbbr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmlraGlsc2hldGgiLCJhIjoiQTREVlJuOCJ9.YpMpVVbkxOFZW-bEq1_LIw' ; 
-
-var MBstreets = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mlpl2d', attribution: MBAttrib, maxZoom: 20}),
-	MBsatlabel = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmaa87', attribution: MBAttrib, maxZoom: 20}),
-	MBsat = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mni8e7', attribution: MBAttrib, maxZoom: 20}),
-	MBlight = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.m0mmobne', attribution: MBAttrib, maxZoom: 20}),
-	MBdark = L.tileLayer(mapboxUrl, {id: 'nikhilsheth.jme9hi44', attribution: MBAttrib, maxZoom: 20}),
-	OsmIndia = L.tileLayer(mapboxUrl, {id: 'openstreetmap.1b68f018', attribution: MBAttrib, maxZoom: 20}),
-	GithubLight = L.tileLayer('https://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png', {attribution: MBAttrib, maxZoom: 20}),
-	scenic = L.tileLayer(scenicUrl, {attribution: MBAttrib, maxZoom: 20}) ; 
+var LayerOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
 var gStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
 		maxZoom: 20,
 		subdomains:['mt0','mt1','mt2','mt3']
@@ -154,7 +142,7 @@ const startLocation = [10.030259357021862, 76.31446838378908];
 var map = new L.Map('map', {
 	center: [0,0],
 	zoom: 2,
-	layers: [MBlight],
+	layers: [LayerOSM],
 	scrollWheelZoom: true
 });
 
@@ -171,13 +159,8 @@ var stopsLayer = new L.geoJson(null)
 })
 .on('click',markerOnClick);
 
-var baseLayers = {
-	"Scenic" : scenic,
-	"OpenStreetMap.IN": OsmIndia,
-	"Streets": MBstreets,
-	"Satellite": MBsatlabel ,
-	"Light": MBlight,
-	"Dark" : MBdark,
+var baseLayers = {	
+	"OpenStreetMap": LayerOSM,	
 	"gStreets": gStreets,
 	"gHybrid": gHybrid,
 	"gSat": gSat
