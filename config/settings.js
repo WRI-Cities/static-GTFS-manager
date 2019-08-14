@@ -28,7 +28,8 @@ const menu = {
 		// to do: bulk action pages, diagnostic pages etc
 		"Default Route Sequence": "sequence.html",
 		"Rename ID": "renameID.html",
-		"Delete ID": "deleteID.html"
+		"Delete ID": "deleteID.html",
+		"Import Stops": "import-stops.html"
 	},
 	"Data": {
 		//"Import / Export GTFS": "gtfs.html",
@@ -38,10 +39,10 @@ const menu = {
 	"Config": "config.html"
 }
 // Default timezone used in the application.
+
 const defaultTimeZone = 'Asia/Kolkata';
 // loader:
 const loaderHTML = '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>';
-
 
 // from stops.js
 const UID_leastchars = 2;

@@ -124,19 +124,6 @@ $('.nav-tabs a[href="#home"]').on('shown.bs.tab', function (event) {
 // #################################
 /* 3. Initiate map */
 var LayerOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
-var gStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-	maxZoom: 20,
-	subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-});
-
-var gHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-	maxZoom: 20,
-	subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-});
-var gSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-	maxZoom: 20,
-	subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-});
 
 const startLocation = [10.030259357021862, 76.31446838378908];
 
@@ -161,10 +148,7 @@ var stopsLayer = new L.geoJson(null)
 	.on('click', markerOnClick);
 
 var baseLayers = {
-	"OpenStreetMap": LayerOSM,
-	"gStreets": gStreets,
-	"gHybrid": gHybrid,
-	"gSat": gSat
+	"OpenStreetMap": LayerOSM	
 };
 
 var overlays = {
@@ -207,6 +191,17 @@ map.on('click', function (e) {
 	updateLatLng(dragmarker.getLatLng());
 	if (clickedflag == 0) { dragmarker.addTo(map); clickedflag++; }
 });
+//http://overpass-api.de/api/interpreter?data=[out:json];(node[public_transport=stop_position](6.150497418334389,-75.68635940551758,6.332502948324705,-75.47212600708008););out;
+var opl = new L.OverPassLayer({
+	debug: true,
+	endPoint: 'https://overpass-api.de/api/',
+	query: '(node[public_transport=stop_position](6.150497418334389,-75.68635940551758,6.332502948324705,-75.47212600708008););out;',
+	minZoomIndicatorOptions: {
+		position: 'topright',
+		minZoomMessage: 'Current zoom level: CURRENTZOOM - All data at level: MINZOOMLEVEL'
+	}
+});
+map.addLayer(opl);
 
 
 // #################################

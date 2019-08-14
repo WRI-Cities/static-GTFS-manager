@@ -93,6 +93,10 @@ function IconPage(pageurl) {
             // code block
             iconText = 'fa-cogs';
             break;
+        case "import-stops.html":
+            // code block
+            iconText = 'fa-file-csv';
+            break;
         default:
             iconText = '';
     }
