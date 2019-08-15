@@ -288,7 +288,7 @@ function convertToGeoJson(filecontent, extension) {
 			break;
 		default:
 			// geojson
-			parts = [result];
+			parts = [filecontent];
 	}
 	return parts;
 }
