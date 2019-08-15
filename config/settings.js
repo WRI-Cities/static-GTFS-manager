@@ -28,13 +28,14 @@ const menu = {
 		// to do: bulk action pages, diagnostic pages etc
 		"Default Route Sequence": "sequence.html",
 		"Rename ID": "renameID.html",
-		"Delete ID": "deleteID.html",
-		"Import Stops": "import-stops.html"
+		"Delete ID": "deleteID.html"		
 	},
 	"Data": {
 		//"Import / Export GTFS": "gtfs.html",
 		"Import KMRL format": "kmrl.html",
-		"Import HMRL format": "hmrl.html"
+		"Import HMRL format": "hmrl.html",
+		"Import Stops CSV": "import-stops.html",
+		"Import Stops KML/GeoJson": "import-stops-kml.html",
 	},
 	"Config": "config.html"
 }
