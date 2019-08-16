@@ -97,9 +97,13 @@ function IconPage(pageurl) {
             // code block
             iconText = 'fa-file-csv';
             break;
-            case "import-stops-kml.html":
+        case "import-stops-kml.html":
             // code block
             iconText = 'fa-atlas';
+            break;
+        case "import-stops-osm.html":
+            // code block
+            iconText = 'fa-globe';
             break;
         default:
             iconText = '';

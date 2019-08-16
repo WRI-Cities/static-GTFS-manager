@@ -36,6 +36,7 @@ const menu = {
 		"Import HMRL format": "hmrl.html",
 		"Import Stops CSV": "import-stops.html",
 		"Import Stops KML/GeoJson": "import-stops-kml.html",
+		"Import Stops Openstreetmap": "import-stops-osm.html"
 	},
 	"Config": "config.html"
 }
