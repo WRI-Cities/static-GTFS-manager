@@ -1,7 +1,7 @@
 //##############
 // Global constants, variables
 
-var databankLayer = new L.geoJson(null);
+var  databankLayer = new L.geoJson(null);
 
 // SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
 var myRenderer = L.canvas({ padding: 0.5 });
@@ -191,18 +191,6 @@ map.on('click', function (e) {
 	updateLatLng(dragmarker.getLatLng());
 	if (clickedflag == 0) { dragmarker.addTo(map); clickedflag++; }
 });
-//http://overpass-api.de/api/interpreter?data=[out:json];(node[public_transport=stop_position](6.150497418334389,-75.68635940551758,6.332502948324705,-75.47212600708008););out;
-var opl = new L.OverPassLayer({
-	debug: true,
-	endPoint: 'https://overpass-api.de/api/',
-	query: '(node[public_transport=stop_position](6.150497418334389,-75.68635940551758,6.332502948324705,-75.47212600708008););out;',
-	minZoomIndicatorOptions: {
-		position: 'topright',
-		minZoomMessage: 'Current zoom level: CURRENTZOOM - All data at level: MINZOOMLEVEL'
-	}
-});
-map.addLayer(opl);
-
 
 // #################################
 /* 4. Loading stops on map */

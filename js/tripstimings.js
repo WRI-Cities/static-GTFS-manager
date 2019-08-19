@@ -117,10 +117,7 @@ var tripsTable = new Tabulator("#trips-table", {
 		//
 	},
 	dataLoaded: function (data) {
-		// var list = [];
-		// data.forEach(function (row) {
-		// 	list.push(row.trip_id);
-		// });
+		setSaveTrips(false);
 	},
 	dataEdited: function (data) {
 		setSaveTrips(true);
@@ -139,6 +136,7 @@ $('.nav-tabs a[href="#stoptimes"]').on('shown.bs.tab', function (event) {
 	}
 	else {
 		// Check if a row is selected
+		console.log(tripsTable.getSelectedRows());
 		var selectedRows = tripsTable.getSelectedRows(); //get array of currently selected row components.
 		if (selectedRows.length == 0) {
 			alert('Please select a row in the rips table first');
@@ -155,6 +153,7 @@ $('.nav-tabs a[href="#stoptimes"]').on('shown.bs.tab', function (event) {
 			var trip_short_name = row.trip_short_name;
 			console.log(route_id);
 			stoptimesTable.clearData();
+			setSaveTimings(true);
 			// loading stoptimings.
 			getPythonStopTimes(trip_id, route_id, direction);
 
@@ -186,6 +185,7 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 	movableColumns: true,
 	layout: "fitDataFill",
 	persistentFilter: true,
+	footerElement:'<button id="CopyArrivaltoDeparture" class="btn btn-secondary">Copy arrival to departure</button><button id="saveTimings" class="btn btn-primary" disabled>Save Timings to DB</button>',
 	columns: [
 		// fields: trip_id,arrival_time,departure_time,stop_id,stop_sequence,timepoint,shape_dist_traveled
 		{ rowHandle: true, formatter: "handle", frozen: true, width: 30, minWidth: 30, headerSort: false },
@@ -201,11 +201,17 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 	initialSort: [
 		{ column: "stop_sequence", dir: "asc" }
 	],
+	dataLoaded: function(data) {
+		setSaveTimings(true);
+	},
 	dataEdited: function (cell) {
 		setSaveTimings(true);
 	}
 });
 
+$("#CopyArrivaltoDeparture").on("click", function () {
+	CopyArrivaltoDeparture();
+});
 
 // initiate bootstrap / jquery components like tabs, accordions
 $(function () {
@@ -242,6 +248,16 @@ $("#defaultShapesApplyButton").on("click", function () {
 
 // ##########################################
 // Functions:
+
+function CopyArrivaltoDeparture() {
+	// Select all rows
+	var rows = stoptimesTable.getRows();
+	rows.forEach(function(row){		
+		// Copy all the arrival_times to the departure times.
+		stoptimesTable.updateRow(row, {departure_time: row.getData().arrival_time});		
+	});	
+	setSaveTimings(true);
+}
 
 function getPythonTrips(route_id) {
 	tripsTable.clearData();
@@ -324,7 +340,7 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 			var returndata = JSON.parse(xhr.responseText);
 			if (returndata.newFlag) {
 				setSaveTimings(true);
-				populateStopTimesFromSequence(trip_id, direction);				
+				populateStopTimesFromSequence(trip_id, direction);
 			}
 			else {
 				stoptimesTable.setData(returndata.data);
@@ -556,7 +572,6 @@ function setSaveTimings(lock = true) {
 function addTrip() {
 	route_id = $("#routeSelect").val();
 	if (!route_id) return;
-
 	var trip_time = $('#trip_time').val();
 	console.log(trip_time);
 	if (!trip_time.length) { shakeIt('trip_time'); return; }
