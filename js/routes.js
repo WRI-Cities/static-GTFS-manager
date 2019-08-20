@@ -58,6 +58,7 @@ var table = new Tabulator("#routes-table", {
 	layout:"fitDataFill",
 	ajaxURL: APIpath + 'tableReadSave?table=routes', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>",
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
@@ -85,6 +86,10 @@ var table = new Tabulator("#routes-table", {
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=routes failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveRoutes').removeClass().addClass('btn btn-primary');
+		$('#saveRoutes').prop('disabled', false);
 	}
 	
 });
@@ -116,7 +121,13 @@ $("#addRoute").on("click", function(){
 
 	table.addRow([{route_id: route_id, agency_id:agency_id, route_short_name:route_id}],true);
 	$('#route2add').val('');
-	$('#routeAddStatus').html('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
+	$.toast({
+		title: 'Add Route',
+		subtitle: 'Adding',
+		content: 'Route added with id ' + route_id + '. Fill its info in the table and then save changes.',
+		type: 'success',
+		delay: 3000
+	  });	
 });
 
 $("#saveRoutes").on("click", function(){
@@ -129,13 +140,17 @@ $("#saveRoutes").on("click", function(){
 // Save, send data to python server
 
 function saveRoutes() {
-	$('#routeSaveStatus').html('');
-
 	var data=table.getData();
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#routeSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Route',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
 
@@ -148,12 +163,27 @@ function saveRoutes() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API tableReadSave table=routes, response received: ' + xhr.responseText);
-			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes DB.</span>');
+			$.toast({
+				title: 'Save Routes',
+				subtitle: 'Saved',
+				content: 'Saved changes to routes DB',
+				type: 'success',
+				delay: 5000
+			});			
 			// reload routes data from DB, and repopulate route selector for sequence
-			$("#routes-table").tabulator("setData");
-		} else {
+			table.setData();
+			$('#saveRoutes').removeClass().addClass('btn btn-outline-primary');
+			$('#saveRoutes').prop('disabled', true);
+		}
+		 else {
 			console.log('Server POST request to tableReadSave table=routes failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
-			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Routes',
+				subtitle: 'Error saving',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});				
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

@@ -92,27 +92,20 @@
 										</div>
 										<div class="card-body">
 											<p>Listing all the routes. You can click on any of the cells for editing.</p>
-											<div id="routes-table" class="table table-borderless table-striped table-earning"></div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="agency2add" class="form-control-label">Add a new route</label>
-												</div>
-												<div class="col-9 col-md-6">
-													<select id="agencySelect" class="form-control"></select>
-												</div>
-												<div class="col-3 col-md-3">
-													<button class="btn btn-primary" id="addRoute" type="button">Add</button>
-												</div>
-											</div>
-											<div class="row">
-													<small id="routeAddStatus">The system will auto-generate a new route_id.</small>
-											</div>																																			
+											<div id="routes-table" class="table table-borderless table-striped table-earning table-sm"></div>												
 										</div>
 										<div class="card-footer">
-												<button id="saveRoutes" class="btn btn-success btn-lg">Save Routes to DB</button> <small id="routeSaveStatus"></small>
-												<br><small>Be sure to save changes before proceeding to next tabs.</small>
-												</div>
-												</div>
+                                                <div class="row form-group">
+                                                        <div class="col col-md-3">
+                                                            <label for="agency2add" class="form-control-label">Add a new route</label>
+                                                        </div>
+                                                        <div class="col-9 col-md-6">
+                                                            <select id="agencySelect" class="form-control"></select>
+                                                        </div>
+                                                        <div class="col-3 col-md-3">
+                                                            <button class="btn btn-primary" id="addRoute" type="button">Add</button>
+                                                        </div>
+                                                    </div>
 												<br><p><b><i>Recommended :</i></b> After setting up your routes here, assign default stop sequences and shapes to them.
 												<br>Go to the <a href="sequence.html" >Tools > Default Route Sequence page</a>.</p>
 												<p>Note: The GTFS spec natively doesn't store a default sequence for routes (that is managed per trip), but in this tool we introduced it so that it helps to have default sequence/shape when provisioning new trips.</p>
@@ -147,6 +140,7 @@
         <script src="vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
         <script src="js/Select2EditorColorPicker.js"></script>
         <script src="js/Select2EditorRouteTypes.js"></script>
+        <script src="vendor/toast-0.7.1/toast.min.js"></script>
         <!-- Main JS-->
         <script src="js/main.js"></script>
         <script src="js/menu.js"></script>

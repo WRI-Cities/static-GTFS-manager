@@ -19,6 +19,7 @@ var table = new Tabulator("#agency-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=agency`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: "<button id='saveAgencyButton' class='btn btn-outline-primary' disabled>Save Agency Changes</button>",
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false, validator:tabulator_UID_leastchars },
@@ -29,6 +30,10 @@ var table = new Tabulator("#agency-table", {
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to agency failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+		$('#saveAgencyButton').prop('disabled', false);
 	}
 });
 
@@ -82,12 +87,16 @@ $("#agency_id").bind("change keyup", function(){
 // #########################
 // Functions
 
-function saveAgency() {
-	
-	  //$('#agencySaveStatus').html('Sending data to server.. please wait..');
+function saveAgency() {		
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#agencySaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Route',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
 	$.toast({
@@ -115,6 +124,8 @@ function saveAgency() {
 				type: 'success',
 				delay: 5000
 			  });
+			  $('#saveAgencyButton').removeClass().addClass('btn btn-outline-primary');
+			  $('#saveAgencyButton').prop('disabled', true);
 			  //$('#agencySaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
 		} else {
 			console.log('Server POST request to API/tableReadSave table=agency failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );

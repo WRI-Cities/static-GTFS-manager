@@ -15,8 +15,6 @@ var stopsTotal = function (values, data, calcParams) {
 	return calc + ' stops total';
 }
 
-
-
 // #################################
 /* 2. Tabulator initiation */
 
@@ -32,6 +30,7 @@ var table = new Tabulator("#stops-table", {
 	ajaxURL: APIpath + 'tableReadSave?table=stops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	clipboard: true,
+	footerElement:'<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>',
 	//clipboardCopySelector:"table",
 	clipboardPasteAction: "replace",
 	columns: [ //Define Table Columns
@@ -71,23 +70,8 @@ var table = new Tabulator("#stops-table", {
 			reloadData();
 			mapPop(data.data.stop_id);
 		}
-
 		logmessage(message);
-	},
-	/*
-	historyRedo:function(action, component, data){
-		var message = '';
-		if(action == 'cellEdit') {
-			message = 'Redid cellEdit for ' + component.cell.row.data.stop_id + ', ' + JSON.stringify(data);
-			reloadData();
-			mapPop(component.cell.row.data.stop_id);
-		}
-		else if(action == 'rowDelete') {
-			message = 'Redid rowDelete for ' + data.data.stop_id;
-			reloadData();
-		}
-		logmessage(message);
-	},*/
+	},	
 	cellEditing: function (cell) {
 		// pop up the stop on the map when user starts editing
 		mapPop(cell.getRow().getData().stop_id);
@@ -242,6 +226,11 @@ $("#copytable").on("click", function () {
 	table.copyToClipboard();
 });
 
+// On new stop deselect all rows of the table.
+$('.nav-tabs a[href="#new"]').on('shown.bs.tab', function (event) {
+	table.deselectRow();
+});
+
 // Clone zone_id
 $("#targetStopid").bind("change keyup", function () {
 	if (CAPSLOCK) this.value = this.value.toUpperCase();
@@ -251,27 +240,71 @@ $("#targetStopid").bind("change keyup", function () {
 $("#stop2delete").bind("change keyup", function () {
 	if (CAPSLOCK) this.value = this.value.toUpperCase();
 });
-
-
-
-// onkeyup="this.value=this.value.toUpperCase()"
-/*
-//Delete stop
-$("#removeStop").on("click", function(){
-	var stop_id = $("#stop2delete").val();
-	if ( $("#stops-table").tabulator("deleteRow", stop_id) ) {
-		logmessage('Deleted stop: ' + stop_id);
-	} else {
-		logmessage('Delete: Did not find: ' + stop_id);
-	}
-	$("#stop2delete").val('');
-	// reload stop ids list for autocomplete
-	reloadData();
+// Select 2 action targeting.
+$('#targetStopid').on("select2:select", function (e) {		
+	var stop_id = e.params.data.id;
+	populateFields(stop_id);
+	mapPop(stop_id);
 });
-*/
+
+$("#CopyStopIDtoZoneID").on("click", function () {
+	CopyStopIDtoZoneID();
+});
 
 // ##############################
 /* Functions */
+
+function CopyStopIDtoZoneID() {
+	// Select all rows
+	var rows = table.getRows();
+	rows.forEach(function(row){		
+		// Copy all the arrival_times to the departure times.
+		table.updateRow(row, {zone_id: row.getData().stop_id});		
+	});		
+}
+
+function addTable() {
+	latlng = document.getElementById('new_newlatlng').value.split(',');
+	let lat = parseFloat(latlng[0]);
+	let lon = parseFloat(latlng[1]);
+	//console.log('update table, checking',latlng);
+	if (!checklatlng(lat, lon)) {
+		alert('check lat-long values'); return 0;
+	}
+	stop_id = $("#new_stop_id").val();
+	stop_name = $("#new_stop_name").val();
+	zone_id = $("#zone_id").val();
+	if ($("#wheelchair").val() == null) {
+		wheelchair_boarding = '';
+	}
+	else {
+		wheelchair_boarding = parseInt($("#wheelchair").val());
+	}
+
+	if (stop_id.length < UID_leastchars || stop_id.length > UID_maxchars) {
+		alert('check stop_id value, must be all caps, alphabets or numbers and between ' + UID_leastchars + ' and ' + UID_maxchars + ' chars long.'); return 0;
+	}
+
+	try {
+		table.updateOrAddData([{ stop_id: stop_id, stop_lat: lat, stop_lon: lon, stop_name: stop_name, zone_id: zone_id, wheelchair_boarding: wheelchair_boarding }]);
+		reloadData();
+	}
+	catch (e) {
+		console.log("exception caught in updateOrAddRow function call.", e);
+	}
+	logmessage('updateOrAddRow done for ' + stop_id);
+
+	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
+	$(function () {
+		$('#myTab li:first-child a').tab('show');
+	})
+
+	setTimeout(function () {		
+		table.selectRow(stop_id);		
+	}, 1000);
+	// select the newly created stop
+	table.selectRow(stop_id);
+}
 
 // Update or Add to table
 function updateTable() {
@@ -341,25 +374,12 @@ function reloadData(timeflag = 'normal') {
 		obj.id = obj.id || obj.stop_id; // replace identifier
 		obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
 		return obj;
-	});
-	console.log($("#targetStopid").val())
+	});	
 	$("#targetStopid").select2({
 		tags: true,
-		placeholder: "",
-		theme: 'bootstrap4',
-		createTag: function (params) {
-			var term = $.trim(params.term);
-
-			if (term === '') {
-				return null;
-			}
-
-			return {
-				id: term,
-				text: term,
-				newTag: true // add additional parameters
-			}
-		},
+		placeholder: "Pick a stop",
+		allowClear: true,
+		theme: 'bootstrap4',		
 		data: select2items
 	});
 
@@ -368,17 +388,7 @@ function reloadData(timeflag = 'normal') {
 		return;
 	}
 	// 
-	$('#targetStopid').on("select2:select", function (e) {
-		if (e.params.data.isNew) {
-			// New value typed in the select2 box.
-			var newOption = new Option(e.params.data.id, e.params.data.id, false, false);
-			$('#targetStopid').append(newOption).trigger('change');
-			//table.updateOrAddData([{stop_id:e.params.data.id, stop_lat:null, stop_lon:null } ]);
-		}
-		var stop_id = e.params.data.id;
-		populateFields(stop_id);
-		mapPop(stop_id);
-	});
+	
 	console.log($("#targetStopid").val())
 	// Map update
 	reloadMap(timeflag);
@@ -458,6 +468,7 @@ function updateLatLng(latlong, revflag) {
 		// Rounding, from https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary. The +0.000.. is to trip forward a number hinging on x.9999999...
 		lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
 		document.getElementById('newlatlng').value = lat + ',' + lng;
+		document.getElementById('new_newlatlng').value = lat + ',' + lng;
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
 		//map.panTo(dragmarker.getLatLng());
 	}

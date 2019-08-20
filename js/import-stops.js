@@ -110,7 +110,21 @@ $("#ImportToStopsTable").on("click", function(){
             var importcolumn = $("#" + selectcolumn).val();
             var gtfscolumnname = selectcolumn.replace('Column','');
             if (importcolumn != '') {
-                jsonData[gtfscolumnname] = row[importcolumn];
+                if (selectcolumn == "Columnstop_id" && importcolumn == 'GENERATE')
+                {
+                    stop_id_list = [];
+                    let data = StopsTable.getData();
+	                stop_id_list = data.map(a => a.stop_id);
+                    var counter = 1;
+                    var stop_prefix = 'STOP';
+                    while ( stop_id_list.indexOf(stop_prefix + pad(counter) ) > -1 ) counter++;
+
+                    var stop_id = stop_prefix + pad(counter);
+                    jsonData['stop_id'] = stop_id;
+                } 
+                else {
+                    jsonData[gtfscolumnname] = row[importcolumn];
+                }                
             }
         });          
         // True added to add the row to the top of the table. 

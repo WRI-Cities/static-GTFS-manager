@@ -107,21 +107,23 @@
 								</div>
 								<div class="card-body">
 									<div id="frequencies-table"></div>
-									<div class="form-inline">
-										<label for="routeSelect">Select Route:</label>
-										<select id="routeSelect" class="form-control col-sm-10"></select>
-										<label for="tripSelect">Select Trip:</label>
-										<select id="tripSelect" class="form-control col-sm-10"
-											aria-placeholder="First select a route"></select>
-										<button class="btn btn-primary" id="addFreqButton" type="button">Add
-											frequency</button>
-									</div>
-
 								</div>
-
 								<div class="card-footer">
-									<p><button id="saveFreqButton" class="btn btn-outline-success btn-md">Save
-											Frequencies Changes</button> &nbsp; <small id="freqSaveStatus"></small></p>
+										<div class="row">
+												<div class="col">
+														<label for="routeSelect">Select Route:</label>
+														<select id="routeSelect" class="form-control col-sm-10"></select>
+												</div>
+												<div class="col">
+														<label for="tripSelect">Select Trip:</label>
+														<select id="tripSelect" class="form-control col-sm-10"
+															aria-placeholder="First select a route"><option></option></select>
+												</div>
+												<div class="col">
+														<button class="btn btn-primary" id="addFreqButton" type="button">Add
+																frequency</button>
+												</div>
+											  </div>							
 									<p>Note: A frequency-based trip_id defined here needs to have an entry in trips
 										table too, and the sequence of stops in this trip needs to be defined in
 										stop_times table.</p>
@@ -153,6 +155,7 @@
 	<script src="vendor/circle-progress/circle-progress.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
 	<script src="vendor/select2/js/select2.min.js"></script>
+	<script src="vendor/toast-0.7.1/toast.min.js"></script>
 
 	<!-- Main JS-->
 	<script src="js/main.js"></script>

@@ -77,6 +77,7 @@ var tripsTable = new Tabulator("#trips-table", {
 	addRowPos: "top",
 	movableColumns: true,
 	layout: "fitDataFill",
+	footerElement: "<button id='saveTrips' class='btn btn-normal' disabled>Save Trips to DB</button>",
 	//pagination:"local", //enable local pagination.
 	//groupBy: ['service_id','direction_id'],
 	columns: [
@@ -537,11 +538,11 @@ function setSaveTrips(lock = true) {
 	if (lock) {
 		tripsLock = true;
 		document.getElementById("saveTrips").disabled = false;
-		document.getElementById("saveTrips").className = "btn btn-success";
+		document.getElementById("saveTrips").className = "btn btn-primary";
 	} else {
 		tripsLock = false;
 		document.getElementById("saveTrips").disabled = true;
-		document.getElementById("saveTrips").className = "btn btn-primary";
+		document.getElementById("saveTrips").className = "btn btn-outline-primary";
 	}
 }
 
@@ -551,11 +552,11 @@ function setSaveTimings(lock = true) {
 	if (lock) {
 		timingsLock = true;
 		document.getElementById("saveTimings").disabled = false;
-		document.getElementById("saveTimings").className = "btn btn-success";
+		document.getElementById("saveTimings").className = "btn btn-primary";
 	} else {
 		timingsLock = false;
 		document.getElementById("saveTimings").disabled = true;
-		document.getElementById("saveTimings").className = "btn";
+		document.getElementById("saveTimings").className = "btn btn-outline-primary";
 	}
 }
 

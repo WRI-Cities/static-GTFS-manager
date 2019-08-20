@@ -87,29 +87,20 @@
 										</div>
 										<div class="card-body">											
 											<div id="calendar-table"></div>
-											<div class="row form-group">
-												<div class="col col-md-3">
-													<label for="agency2add" class="form-control-label">Create a new calendar service:</label>
-												</div>
-												<div class="col-9 col-md-6">
-													<input placeholder="service_id" id="calendar2add" size="6" class="form-control">
-												</div>
-												<div class="col-3 col-md-3">
-														<button class="btn btn-primary" id="addCalendarButton" type="button">Add</button>
-												</div>
-											</div>
-											<div class="row">
-												Fast Add: <div class="btn-group" role="group" aria-label="Basic example">
-														<button type="button" id="AddServiceFullweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a full week service">Full week</button>
-														<button type="button" id="AddServiceWorkweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a work week service">Work week</button>
-														<button type="button" id="AddServiceWeekend" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a weekend service">Weekend</button>
-														<button type="button" id="AddServiceSaterday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Saterday only service">Saterday Only</button>
-														<button type="button" id="AddServiceSunday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Sunday only service">Sunday Only</button>
-													  </div>
-											</div>																																													
+																																																																		
 										</div>
-										<div class="card-footer">
-												<button id="saveCalendarButton" class="btn btn-outline-success btn-md">Save Calendar Changes</button> &nbsp; <small id="calendarSaveStatus"></small>												
+										<div class="card-footer">												 	
+												 <div class="form-group row">
+													<div class="col">
+														<label for="agency2add" class="form-control-label">Create a new calendar service:</label>
+													</div>
+													<div class="col">
+														<input placeholder="service_id" id="calendar2add" size="6" class="form-control">
+													</div>
+													<div class="col">
+															<button class="btn btn-primary" id="addCalendarButton" type="button">Add</button>
+													</div>
+												</div>									
 										</div>
 									</div>
 								</div>
@@ -121,24 +112,20 @@
 												<strong class="card-title mb-3">Calendar Dates</strong>
 											</div>
 											<div class="card-body">												
-													<div id="calendar-dates-table"></div>
-												<div class="row form-group">
-													<div class="col col-md-3">
+													<div id="calendar-dates-table"></div>																									
+											</div>
+											<div class="card-footer">
+												<div class="form-group row">
+													<div class="col">
 														<label for="agency2add" class="form-control-label">Create a new calendar_dates service:</label>
 													</div>
-													<div class="col-9 col-md-6">
+													<div class="col">
 															<input placeholder="service_id" id="calendarDates2add" size="6" class="form-control">
 													</div>
-													<div class="col-3 col-md-3">
+													<div class="col">
 															<button class="btn btn-primary" id="addCalendarDatesButton" type="button">Add</button>
 													</div>
 												</div>
-												<div class="row">
-													<small id="calendarDatesAddStatus"></small>
-												</div>																																			
-											</div>
-											<div class="card-footer">
-													<button id="saveCalendarDatesButton" class="btn btn-outline-success btn-md">Save Calendar_Dates Changes</button> &nbsp; <small id="calendarDatesSaveStatus"></small>											
 											</div>
 										</div>
 									</div>
@@ -165,7 +152,8 @@
         <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>        
         <script src="vendor/circle-progress/circle-progress.min.js"></script>
         <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="vendor/select2/js/select2.min.js"></script>
+		<script src="vendor/select2/js/select2.min.js"></script>
+		<script src="vendor/toast-0.7.1/toast.min.js"></script>
 
         <!-- Main JS-->
         <script src="js/main.js"></script>

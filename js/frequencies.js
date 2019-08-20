@@ -10,6 +10,10 @@ var freqTotal = function(values, data, calcParams){
 	return calc + ' frequencies total';
 }
 
+var trashIcon = function (cell, formatterParams, onRendered) { //plain text value
+	return "<i class='fas fa-trash-alt'></i>";
+};
+
 var tripListGlobal = {};
 var tripLister = function(cell) {
 	return tripListGlobal;
@@ -27,6 +31,7 @@ var table = new Tabulator("#frequencies-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=frequencies`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: "<button id='saveFreqButton' class='btn btn-outline-primary' disabled>Save Frequencies Changes</button>",
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:freqTotal, width:200, editor:"select", editorParams:tripLister },
@@ -34,10 +39,19 @@ var table = new Tabulator("#frequencies-table", {
 		{title:"end_time", field:"end_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS"},
 		{title:"headway_secs", field:"headway_secs", editor:"input", headerFilter:"input", headerTooltip:"time between departures"},
 		{title:"exact_times", field:"exact_times", editor:"select", editorParams:exact_timesChoices, headerFilter:"input"},
+		{
+			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {				
+				cell.getRow().delete();				
+			}
+		}
 		
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=frequencies failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveFreqButton').removeClass().addClass('btn btn-primary');
+		$('#saveFreqButton').prop('disabled', false);
 	}
 });
 
@@ -65,17 +79,28 @@ $("#addFreqButton").on("click", function(){
 });
 
 
-$("#saveFreqButton").on("click", function(){
-	$('#freqSaveStatus').html('Sending data to server.. Please wait..');
-
-	var data = $("#frequencies-table").tabulator('getData');
-	
+$("#saveFreqButton").on("click", function(){	
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#freqSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Freqencies',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});		
 		shakeIt('password'); return;
 	}
 
+	$.toast({
+		title: 'Saving Frequencies',
+		subtitle: 'Saving',
+		content: 'Sending data to server.. please wait..',
+		type: 'info',
+		delay: 5000
+	  });
+	var data = table.getData();
+	
 	console.log('sending frequencies data to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
@@ -85,10 +110,27 @@ $("#saveFreqButton").on("click", function(){
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('<span class="alert alert-success">Successfully sent data via POST to server API/tableReadSave?table=frequencies, response received: ' + xhr.responseText + '</span>');
-			$('#freqSaveStatus').html('Success. Message: ' + xhr.responseText);
+			$.toast({
+				title: 'Saved Frenquencies',
+				subtitle: 'Saved',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			  });			
+			$('#saveFreqButton').removeClass().addClass('btn btn-outline-primary');
+			$('#saveFreqButton').prop('disabled', true);
+			
 		} else {
 			console.log('Server POST request to API/tableReadSave?table=frequencies failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
-			$('#freqSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+ '</span>');
+			$.toast({
+				title: 'Error saving Frenquencies',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });
+			$('#saveFreqButton').removeClass().addClass('btn btn-outline-primary');
+			$('#saveFreqButton').prop('disabled', true);			
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.

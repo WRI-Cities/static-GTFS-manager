@@ -178,6 +178,7 @@ $(document).ready(function () {
 	//getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
 	getPythonRoutes(); // load routes.. for routes management.
 	getPythonAllShapesList();
+	
 
 });
 
@@ -466,7 +467,15 @@ function add2sequence(stop_id, direction_id = 0) {
 // ####################
 // Save, send data to python server
 function saveSequence() {
-	$('#sequenceSaveStatus').html('<span class="alert alert-info">Saving sequence to DB, please wait...</span>');
+
+	$.toast({
+		title: 'Default route sequence',
+		subtitle: 'Saving',
+		content: 'Saving sequence to DB, please wait...',
+		type: 'info',
+		delay: 1000
+	});	
+	//$('#sequenceSaveStatus').html('<span class="alert alert-info">Saving sequence to DB, please wait...</span>');
 
 	// forget global sequences, retrieve latest sequence data straight from tables.
 	var sequence0 = sequence0table.getData();
@@ -505,7 +514,16 @@ function saveSequence() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API/sequence, resonse received: ' + xhr.responseText);
-			$('#sequenceSaveStatus').html('<span class="alert alert-success">Success: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Default route sequence',
+				subtitle: 'Saved',
+				content: xhr.responseText ,
+				type: 'success',
+				delay: 4000
+			});
+			
+			
+			//$('#sequenceSaveStatus').html('<span class="alert alert-success">Success: ' + xhr.responseText + '</span>');
 			uploadedShapePrefix = ''; // clearing uploaded shape global variable if any.
 
 			console.log('Re-firing getPythonAllShapesList function after saving sequence to DB.');
@@ -514,7 +532,14 @@ function saveSequence() {
 
 		} else {
 			console.log('Server POST request to API/sequence failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
-			$('#sequenceSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Default route sequence',
+				subtitle: 'Error',
+				content: 'Failed to save. Message: ' + xhr.responseText ,
+				type: 'error',
+				delay: 4000
+			});
+			//$('#sequenceSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
@@ -999,26 +1024,7 @@ function getPythonRoutes() {
 				allowClear: true,
 				theme: 'bootstrap4',
 				data: select2items
-			});
-			$('#routeSelect').val(null).trigger('change');
-
-			$('#routeSelect').on('select2:select', function (e) {
-				// Do something
-
-			});
-
-			// populating route select for sequence:
-			// var dropdown = '<option value="">Select a route</option>';
-			// dropdown += '<option value="">{id}: {short name}: {long name}</option>';
-			// data.forEach(function(row){
-			// 	let title = `${row['route_id'] || ''}: ${row['route_short_name'] || ''}: ${row['route_long_name'] || ''}`;
-			// 	dropdown += '<option value="' + row['route_id'] + '">' + title + '</option>';
-			// });
-
-			// $("#routeSelect").html(dropdown);
-			// $('#routeSelect').trigger('chosen:updated'); // update if re-populating
-			// $('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
+			});						
 		}
 		else {
 			console.log('Server request to API/tableReadSave?table=routes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);

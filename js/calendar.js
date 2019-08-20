@@ -27,9 +27,10 @@ var service = new Tabulator("#calendar-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=calendar`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: '<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups"><div class="btn-group" role="group" aria-label="Fast Add"><button type="button" id="AddServiceFullweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a full week service">Full week</button><button type="button" id="AddServiceWorkweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a work week service">Work week</button><button type="button" id="AddServiceWeekend" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a weekend service">Weekend</button><button type="button" id="AddServiceSaterday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Saterday only service">Saterday Only</button><button type="button" id="AddServiceSunday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Sunday only service">Sunday Only</button></div><div class="input-group"><button id="saveCalendarButton" class="btn btn-outline-primary" disabled>Save Calendar Changes</button></div></div>',
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal, validator:tabulator_UID_leastchars },
+		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal, validator:"unique" },
 		{title:"monday", field:"monday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
 		{title:"tuesday", field:"tuesday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
 		{title:"wednesday", field:"wednesday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
@@ -38,10 +39,14 @@ var service = new Tabulator("#calendar-table", {
 		{title:"saturday", field:"saturday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
 		{title:"sunday", field:"sunday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
 		{title:"start_date", field:"start_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" },
-		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" }
+		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" }		
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to calendar failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveCalendarButton').removeClass().addClass('btn btn-primary');
+		$('#saveCalendarButton').prop('disabled', false);
 	}
 });
 
@@ -53,6 +58,7 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
+	footerElement: "<button id='saveCalendarDatesButton' class='btn btn-outline-primary' disabled>Save Calendar_Dates Changes</button>",
 	ajaxURL: `${APIpath}tableReadSave?table=calendar_dates`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	columns:[
@@ -63,6 +69,10 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to calendar_dates failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveCalendarDatesButton').removeClass().addClass('btn btn-primary');
+		$('#saveCalendarDatesButton').prop('disabled', false);
 	}
 });
 
@@ -137,17 +147,27 @@ $('#addCalendarButton').on('click', function(){
 // #########################
 // Functions
 
-function saveCalendar() {
-	$('#calendarSaveStatus').html('Sending data to server.. Please wait..');
-
+function saveCalendar() {	
+	$.toast({
+		title: 'Save Calendar',
+		subtitle: 'Sending data',
+		content: 'Sending data, please wait...',
+		type: 'info',
+		delay: 1000
+	});
 	var data = service.getData();
 	
 	var pw = $("#password").val();
-	if ( ! pw ) { 
-		$('#calendarSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+	if ( ! pw ) { 		
+		$.toast({
+			title: 'Save Calendar',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
-
 	console.log('sending calendar data to server via POST');
 	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
 	var xhr = new XMLHttpRequest();
@@ -157,14 +177,26 @@ function saveCalendar() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('<span class="alert alert-success">Successfully sent data via POST to server /API/tableReadSave for table=calendar, response received: ' + xhr.responseText + '</span>');
-			$('#calendarSaveStatus').html('Success. Message: ' + xhr.responseText);
+			$.toast({
+				title: 'Save Calendar',
+				subtitle: 'Success',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			});
+			
 		} else {
 			console.log('Server POST request to API/tableReadSave for table=calendar failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#calendarSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+ '</span>');
+			$.toast({
+				title: 'Save Calendar',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});			
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
-	
 }
 
 function addCalendar(table="calendar-table") {
@@ -218,13 +250,24 @@ $('#addCalendarDatesButton').on('click', function(){
 });
 
 $("#saveCalendarDatesButton").on("click", function(){
-	$('#calendarDatesSaveStatus').html('Sending data to server.. Please wait..');
-
+	$.toast({
+		title: 'Save Calendar dates',
+		subtitle: 'Sending data',
+		content: 'Sending data, please wait...',
+		type: 'info',
+		delay: 1000
+	});	
 	var data = calendarDates.getData();
 	
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#calendarSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Calendar',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
 
@@ -237,10 +280,22 @@ $("#saveCalendarDatesButton").on("click", function(){
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('<span class="alert alert-success">Successfully sent data via POST to server /API/tableReadSave&table=calendar_dates, response received: ' + xhr.responseText + '</span>');
-			$('#calendarDatesSaveStatus').html('Success. Message: ' + xhr.responseText);
+			$.toast({
+				title: 'Save Calendar dates',
+				subtitle: 'Success',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			});
 		} else {
 			console.log('Server POST request to API/tableReadSave failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText );
-			$('#calendarDatesSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+ '</span>');
+			$.toast({
+				title: 'Save Calendar dates',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});			
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
