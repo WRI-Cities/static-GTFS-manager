@@ -295,15 +295,11 @@ function addTable() {
 	logmessage('updateOrAddRow done for ' + stop_id);
 
 	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
-	$(function () {
-		$('#myTab li:first-child a').tab('show');
-	})
-
+	
 	setTimeout(function () {		
 		table.selectRow(stop_id);		
-	}, 1000);
-	// select the newly created stop
-	table.selectRow(stop_id);
+	}, 1000);	
+	
 }
 
 // Update or Add to table
