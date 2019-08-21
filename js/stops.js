@@ -1,6 +1,6 @@
 //##############
 // Global constants, variables
-
+var NewStopColumnsList = ["new_stop_id","new_stop_code","new_stop_name","new_stop_desc","new_stop_lat","new_stop_lon","new_zone_id","new_stop_url","new_location_type","new_parent_station","new_stop_timezone","new_wheelchair_boarding","new_platform_code"];
 var  databankLayer = new L.geoJson(null);
 
 // SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
@@ -88,6 +88,24 @@ var table = new Tabulator("#stops-table", {
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`Loaded all stops data from Server API/tableReadSave table=stops .`);
 		reloadData('firstTime');
+		// create new optons for parentstation selection
+		// Filter only stattions
+		var Stations = data.filter(function (stop) {
+			return stop.location_type === "1";
+		  });
+		  console.log(Stations);
+		var stationsselect2 = $.map(Stations, function (obj) {
+			obj.id = obj.id || obj.stop_id; // replace identifier
+			obj.text = obj.text || obj.stop_name
+			return obj;
+		  });
+		  console.log(stationsselect2);
+		$("#new_parent_station").select2({				
+			placeholder: "Select a parent station",
+			allowClear: true,
+			theme: 'bootstrap4',
+			data: stationsselect2
+		  });
 	},
 	ajaxError: function (xhr, textStatus, errorThrown) {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
@@ -222,9 +240,52 @@ $("#savetable").on("click", function () {
 	saveStops();
 });
 
+$("#AddStopButton").on("click", function () {
+	var $form = $('#Form-AddAgency');
+	$form.parsley({
+		errorClass: 'has-danger',
+		successClass: 'has-success',
+		classHandler: function(ParsleyField) {
+		  return ParsleyField.$element.closest('.form-group');
+		},
+		errorsContainer: function(ParsleyField) {
+		  return ParsleyField.$element.closest('.form-group');
+		},
+		errorsWrapper: '<span class="form-text text-danger"></span>',
+		errorTemplate: '<span></span>'
+	  }).validate()
+	if ( $form.parsley().validate() ) {
+		// Process adding the value
+		addTable();
+	}       
+	
+});
+
 $("#copytable").on("click", function () {
 	table.copyToClipboard();
 });
+
+$(document).ready(function() {
+	// executes when HTML-Document is loaded and DOM is ready
+	$("#new_stop_timezone").select2({				
+		placeholder: "Select a timezone",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: TimeZoneList
+	  });
+	  // Set the default timezone from the settings.js file.
+	  $("#new_stop_timezone").val(defaultTimeZone).trigger("change");
+
+	  // Hide columns logic:
+	  var ColumnSelectionContent = "";
+	  NewStopColumnsList.forEach(function(selectcolumn) {            
+		// get the column selectbox value
+		var columnname = selectcolumn.replace('new_','');
+		ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'"><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);
+});
+
 
 // On new stop deselect all rows of the table.
 $('.nav-tabs a[href="#new"]').on('shown.bs.tab', function (event) {
@@ -241,14 +302,47 @@ $("#stop2delete").bind("change keyup", function () {
 	if (CAPSLOCK) this.value = this.value.toUpperCase();
 });
 // Select 2 action targeting.
-$('#targetStopid').on("select2:select", function (e) {		
+$('#targetStopid').on("select2:select", function (e) {
+	// change the selected edit stop.	
 	var stop_id = e.params.data.id;
 	populateFields(stop_id);
 	mapPop(stop_id);
+	// table.deselectRow();
+	// table.selectRow(stop_id);
 });
 
 $("#CopyStopIDtoZoneID").on("click", function () {
 	CopyStopIDtoZoneID();
+});
+
+// Form validations
+
+$("#new_location_type").on('change', function() {
+	console.log($(this).val());
+	if ($(this).val() === '0' || $(this).val() === '1' || $(this).val()=== '2') {
+		// location type = 0,1,2 then lat,lon is required
+		$("#new_stop_lat").attr('data-parsley-required', 'true');
+		//$("#new_stop_lat").attr('data-parsley-pattern','^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$');
+		$("#new_stop_lon").attr('data-parsley-required', 'true');
+		//$("#new_stop_lon").attr('data-parsley-pattern','^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$');
+		// location type = 0,1,2 then stop_name is required
+		$("new_stop_name").attr('data-parsley-required', 'true');
+	}
+	else {
+		$("#new_stop_lat").attr('data-parsley-required', 'false');
+		$("#new_stop_lat").removeAttr("data-parsley-pattern");
+		$("#new_stop_lon").attr('data-parsley-required', 'false');
+		$("#new_stop_lon").removeAttr("data-parsley-pattern");
+		$("#new_stop_name").attr('data-parsley-required', 'false');
+	}
+	if ($(this).val() === '0') {
+		// parent_station can't be different than 0
+		$("#new_parent_station").val('0');
+	}
+	if ($(this).val() === '1') {
+		// parent_station must be filled
+		$("#new_parent_station").attr('data-parsley-required', 'true');
+	}
 });
 
 // ##############################
@@ -264,29 +358,19 @@ function CopyStopIDtoZoneID() {
 }
 
 function addTable() {
-	latlng = document.getElementById('new_newlatlng').value.split(',');
-	let lat = parseFloat(latlng[0]);
-	let lon = parseFloat(latlng[1]);
-	//console.log('update table, checking',latlng);
-	if (!checklatlng(lat, lon)) {
-		alert('check lat-long values'); return 0;
-	}
-	stop_id = $("#new_stop_id").val();
-	stop_name = $("#new_stop_name").val();
-	zone_id = $("#zone_id").val();
-	if ($("#wheelchair").val() == null) {
-		wheelchair_boarding = '';
-	}
-	else {
-		wheelchair_boarding = parseInt($("#wheelchair").val());
-	}
-
-	if (stop_id.length < UID_leastchars || stop_id.length > UID_maxchars) {
-		alert('check stop_id value, must be all caps, alphabets or numbers and between ' + UID_leastchars + ' and ' + UID_maxchars + ' chars long.'); return 0;
-	}
-
+	// Loop through all stops columns and add it tho a temp object for insert.
+	var stop_id = $("#new_stop_id").val();
+	var jsonData = {};
+	NewStopColumnsList.forEach(function(selectcolumn) {            
+		// get the column selectbox value
+		var importcolumn = $("#" + selectcolumn).val();
+		var gtfscolumnname = selectcolumn.replace('new_','');
+		jsonData[gtfscolumnname] = importcolumn;
+		                
+	});
+	console.log(jsonData);
 	try {
-		table.updateOrAddData([{ stop_id: stop_id, stop_lat: lat, stop_lon: lon, stop_name: stop_name, zone_id: zone_id, wheelchair_boarding: wheelchair_boarding }]);
+		table.addData(jsonData);
 		reloadData();
 	}
 	catch (e) {
@@ -464,7 +548,8 @@ function updateLatLng(latlong, revflag) {
 		// Rounding, from https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary. The +0.000.. is to trip forward a number hinging on x.9999999...
 		lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
 		document.getElementById('newlatlng').value = lat + ',' + lng;
-		document.getElementById('new_newlatlng').value = lat + ',' + lng;
+		$("#new_stop_lon").val(lng);
+		$("#new_stop_lat").val(lat);		
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
 		//map.panTo(dragmarker.getLatLng());
 	}
