@@ -41,7 +41,10 @@ var table = new Tabulator("#stops-table", {
 		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float" },
 		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float" },
 		{ title: "zone_id", field: "zone_id", editor: "input" },
-		{ title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } }
+		{ title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } },
+		{ title: "location_type", field: "location_type", editor: "input", visible:false },
+        { title: "parent_station", field: "parent_station", editor: "input", visible:false },
+        { title: "stop_timezone", field: "stop_timezone", editor: "input", visible:false },
 	],
 
 	rowSelected: function (row) { //when a row is selected
@@ -265,6 +268,174 @@ $("#copytable").on("click", function () {
 	table.copyToClipboard();
 });
 
+// Toggles for show hide columns in stop table.
+
+$('#checkstop_id').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_id");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_id");
+        table.redraw();
+    }
+});
+
+$('#checkstop_code').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_code");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_code");
+        table.redraw();
+    }
+});
+
+$('#checkstop_name').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_name");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_name");
+        table.redraw();
+    }
+});
+
+$('#checkstop_desc').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_desc");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_desc");
+        table.redraw();
+    }
+});
+
+$('#checkstop_lat').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_lat");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_lat");
+        table.redraw();
+    }
+});
+
+$('#checkstop_lon').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_lon");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_lon");
+        table.redraw();
+    }
+});
+
+$('#checkstop_lon').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_lon");
+        table.redraw();;
+    }
+    else {
+        table.showColumn("stop_lon");
+        table.redraw();
+    }
+});
+
+$('#checkzone_id').change(function() {
+    if(this.checked) {
+        table.hideColumn("zone_id");
+        table.redraw();
+    }
+    else {
+        table.showColumn("zone_id");
+        table.redraw();
+    }
+});
+
+$('#checkstop_url').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_url");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_url");
+        table.redraw();
+    }
+});
+
+$('#checklocation_type').change(function() {
+    if(this.checked) {
+        table.hideColumn("location_type");
+        table.redraw();
+    }
+    else {
+        table.showColumn("location_type");
+        table.redraw();
+    }
+});
+
+$('#checkparent_station').change(function() {
+    if(this.checked) {
+        table.hideColumn("parent_station");
+        table.redraw();
+    }
+    else {
+        table.showColumn("parent_station");
+        table.redraw();
+    }
+});
+
+$('#checkstop_timezone').change(function() {
+    if(this.checked) {
+        table.hideColumn("stop_timezone");
+        table.redraw();
+    }
+    else {
+        table.showColumn("stop_timezone");
+        table.redraw();
+    }
+});
+
+$('#checkwheelchair_boarding').change(function() {
+    if(this.checked) {
+        table.hideColumn("wheelchair_boarding");
+        table.redraw();
+    }
+    else {
+        table.showColumn("wheelchair_boarding");
+        table.redraw();
+    }
+});
+
+$('#checklevel_id').change(function() {
+    if(this.checked) {
+        table.hideColumn("level_id");
+        table.redraw();
+    }
+    else {
+        table.showColumn("level_id");
+        table.redraw();
+    }
+});
+
+$('#checkplatform_code').change(function() {
+    if(this.checked) {
+        table.hideColumn("platform_code");
+        table.redraw();
+    }
+    else {
+        table.showColumn("platform_code");
+        table.redraw();
+    }
+});
+
+
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
 	$("#new_stop_timezone").select2({				
@@ -277,6 +448,13 @@ $(document).ready(function() {
 	  $("#new_stop_timezone").val(defaultTimeZone).trigger("change");
 
 	  // Hide columns logic:
+
+	  //var colshown = table.getColumnLayout();
+	  var colshownfilter = table.getColumnLayout().filter(function (col) {
+		return col.visible == true;
+	  });
+	  console.log(colshownfilter);
+	  //console.log(colshown);
 	  var ColumnSelectionContent = "";
 	  NewStopColumnsList.forEach(function(selectcolumn) {            
 		// get the column selectbox value
@@ -284,6 +462,14 @@ $(document).ready(function() {
 		ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'"><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
 	});
 	$("#SelectColumnsMenu").html(ColumnSelectionContent);
+	colshownfilter.forEach(function(visiblecolumn) {		
+		if (visiblecolumn.field) {
+			console.log('check');
+			$( "#check"+visiblecolumn.field ).prop( "checked", true );
+		}
+		
+	});
+	
 });
 
 
