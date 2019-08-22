@@ -6,6 +6,10 @@ var agencyTotal = function(values, data, calcParams){
 	return calc + ' agencies total';
 }
 
+var footerHTML = DefaultTableFooter;
+const saveButton = `<button id='saveAgencyButton' class='btn btn-outline-primary' disabled>Save Agency Changes</button>`;
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+
 //####################
 // Tabulator tables
 
@@ -19,14 +23,18 @@ var table = new Tabulator("#agency-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=agency`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
-	footerElement: "<button id='saveAgencyButton' class='btn btn-outline-primary' disabled>Save Agency Changes</button>",
+	placeholder:"No Data Available",
+	footerElement: footerHTML,
 	columns:[
-		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false, validator:tabulator_UID_leastchars },
-		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false, bottomCalc:agencyTotal },
-		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false },
-		{title:"agency_timezone", field:"agency_timezone", editor: select2TZEditor,width: 300, headerSort:false, tooltip:'Get your timezone from TZ column in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' }
-		
+		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30,download:true },
+		{title:"agency_id", field:"agency_id", editor:"input", headerSort:false, validator:tabulator_UID_leastchars,download:true },
+		{title:"agency_name", field:"agency_name", editor:"input", headerSort:false, bottomCalc:agencyTotal,download:true },
+		{title:"agency_url", field:"agency_url", editor:"input", headerSort:false,download:true },
+		{title:"agency_timezone", field:"agency_timezone", editor: select2TZEditor,width: 300, headerSort:false,download:true },
+		{title:"agency_lang", field:"agency_lang", editor:"input", headerSort:false,download:true,visible:false},
+		{title:"agency_phone", field:"agency_phone", editor:"input", headerSort:false,download:true,visible:false},
+		{title:"agency_fare_url", field:"agency_fare_url", editor:"input", headerSort:false,download:true,visible:false},
+		{title:"agency_email", field:"agency_email", editor:"input", headerSort:false,download:true,visible:false}
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to agency failed.  Returned status of: ' + errorThrown);
@@ -36,6 +44,31 @@ var table = new Tabulator("#agency-table", {
 		$('#saveAgencyButton').prop('disabled', false);
 	}
 });
+
+
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		table.showColumn(column);
+        table.redraw();
+    }
+    else {		
+		table.hideColumn(column);
+        table.redraw();
+       
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	table.download("csv", "agency.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	table.download("json", "agency.json");
+});
+
 
 // ###################
 // commands to run on page load
@@ -49,6 +82,27 @@ $(document).ready(function() {
 	  });
 	  // Set the default timezone from the settings.js file.
 	  $("#agency_timezone").val(defaultTimeZone).trigger("change");
+
+	  // Hide columns logic:
+	var ColumnSelectionContent = "";
+	table.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
 });
 
 // #########################

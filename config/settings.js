@@ -42,6 +42,31 @@ const menu = {
 }
 // Default timezone used in the application.
 
+// default table footer
+var DownloadLinks = ["CSV","JSON"];
+const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+<div class="btn-toolbar">
+<div class="btn-group dropup" role="group">
+	<div class="btn-group" role="group">
+		<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Uncheck the box te hide the column">
+			Shown / Hide Columns
+		</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="SelectColumnsMenu"></div>
+	</div>
+</div>
+<div class="btn-group dropup mr-2" role="group">
+	<button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Download the content of the table">
+		Download
+	</button>
+	<div class="dropdown-menu" aria-labelledby="btnGroupDrop2" id="DownloadsMenu">		
+	</div>
+</div>
+</div>
+<div class="btn-group" role="group" aria-label="Save Button" id="SaveButtonPosition">{SaveButton}</div>
+</div>
+ `;
+
+
 const defaultTimeZone = 'Asia/Kolkata';
 // loader:
 const loaderHTML = '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>';

@@ -65,6 +65,15 @@
             font-size: 10px;
             font-weight: 600;
         }
+        #colstwo {           
+    -moz-column-count: 3;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 20px;
+    column-count: 3;
+    column-gap: 20px;
+        }
+       
     </style>
 </head>
 
@@ -161,24 +170,12 @@
                                             <a class="nav-link" id="edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="false">Edit stop</a>
                                         </li>
                                         <li class="nav-item">
-                                                <a class="nav-link" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="false">Add stop</a>
-                                            </li>
+                                            <a class="nav-link" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="false">Add stop</a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content pl-3 p-1" id="myTabContent">
                                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                            <div id="stops-table"></div>
-                                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                
-                                              
-                                                <div class="btn-group" role="group">
-                                                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Shown / Hide Columns
-                                                  </button>
-                                                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="SelectColumnsMenu">
-                                                   
-                                                  </div>
-                                                </div>
-                                              </div>
+                                            <div id="stops-table" class="table table-striped"></div>                                            
                                             <br>
                                             <p>
                                                 <small>Note: Auto-zooming-in or out is disabled because it was disorienting users
@@ -193,7 +190,9 @@
                                                     <label for="targetStopid" class="form-control-label">Pick a stop_id</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <select class="form-control" id='targetStopid'><option></option></select>
+                                                    <select class="form-control" id='targetStopid'>
+                                                        <option></option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -238,149 +237,151 @@
                                         <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="new-tab">
                                             <h3>Add a new stop</h3>
                                             <div id="Form-AddAgency" data-parsley-validate>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_id" class="form-control-label">stop_id</label>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_id" class="form-control-label">stop_id</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_id' placeholder="Give a stop_id" type="text" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a stop_id, without it it won't work!">
+                                                        <small id="new_stop_idHelp" class="form-text text-muted">Identifies a stop, station, or station entrance</small>
+                                                    </div>
                                                 </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_id' placeholder="Give a stop_id" type="text" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a stop_id, without it it won't work!">
-                                                    <small id="new_stop_idHelp" class="form-text text-muted">Identifies a stop, station, or station entrance</small>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_code" class="form-control-label">stop_code</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_code' placeholder="Give a stop_code" type="text" class="form-control">
+                                                        <small id="new_stop_codeHelp" class="form-text text-muted">Contains some short text or a number that uniquely identifies the stop for riders. Stop codes are often used in phone-based transit information systems or printed on stop signage to make it easier for riders to get information for a particular stop.</small>
+                                                    </div>
                                                 </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_name" class="form-control-label">stop_name</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_name' placeholder="full name" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_nameHelp" class="form-text text-muted">Contains the name of a location. Use a name that people understand in the local and tourist vernacular.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_desc" class="form-control-label">stop_desc</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_desc' type="text" class="form-control">
+                                                        <small id="new_stop_descHelp" class="form-text text-muted">Describes a location. Provide useful, quality information. Don't simply duplicate the name of the location.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_lat" class="form-control-label">stop_lat</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_lat' placeholder="Latitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_latHelp" class="form-text text-muted">Contains the latitude of a stop, station, or station entrance.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_lon" class="form-control-label">stop_lon</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_lon' placeholder="Longitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_lonHelp" class="form-text text-muted">Contains the longitude of a stop, station, or station entrance.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_zone_id" class="form-control-label">zone_id</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_zone_id' placeholder="usually same as stop_id" title="used for fare rules; usually same as stop_id" type="text" class="form-control">
+                                                        <small id="new_zone_idHelp" class="form-text text-muted">Defines the fare zone for a stop. This field is required if you want to provide fare information with <a href="/fares.html">fares</a>.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_url" class="form-control-label">stop_url</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_url' placeholder="full name" type="text" class="form-control">
+                                                        <small id="new_stop_urlHelp" class="form-text text-muted">Contains the URL of a web page about a particular stop.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_location_type" class="form-control-label">location_type</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <select id="new_location_type" class="form-control">
+                                                            <option selected value="0">Stop (or "Platform")</option>
+                                                            <option value="1">Station</option>
+                                                            <option value="2">Station entrance or exit</option>
+                                                            <option value="3">Generic node</option>
+                                                            <option value="4">Boarding area</option>
+                                                        </select>
+                                                        <small id="new_location_typeHelp" class="form-text text-muted">Defines the type of the location.</small>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <li><b>Stop (or "Platform"):</b> <small class="form-text text-muted">A location where passengers board or disembark from a transit vehicle. Stops are called a "platform" when they're defined within a parent_station.</small></li>
+                                                            <li><b>Station:</b> <small class="form-text text-muted">A physical structure or area that contains one or more platforms.</small></li>
+                                                            <li><b>Station entrance or exit:</b> <small class="form-text text-muted">A location where passengers can enter or exit a station from the street. The stop entry must also specify a parent_station value that references the stop_id of the parent station for the entrance. If an entrance/exit belongs to multiple stations, it's linked by pathways to both, and the data provider can either pick one station as parent, or put no parent station at all.</small></li>
+                                                            <li><b>Generic node:</b> <small class="form-text text-muted">A location within a station that doesn't match any other location_type. Generic nodes are used to link together the pathways defined in pathways.txt.</small></li>
+                                                            <li><b>Boarding area:</b> <small class="form-text text-muted">A specific location on a platform where passengers can board or exit vehicles.</small></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_parent_station" class="form-control-label">parent_station</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_parent_station" class="form-control">
+                                                            <option selected value="0">No</option>
+                                                        </select>
+                                                        <small id="new_parent_stationHelp" class="form-text text-muted">For stops that are physically located inside stations, the parent_station field identifies the station associated with the stop.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_timezone" class="form-control-label">stop_timezone</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_stop_timezone" class="form-control">
+                                                            <option></option>
+                                                        </select>
+                                                        <small id="new_stop_timezoneHelp" class="form-text text-muted">Contains the timezone of this location. If omitted, it's assumed that the stop is located in the timezone specified by the <a href="/agency.html">agency_timezone</a>.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_wheelchair_boarding" class="form-control-label">Wheelchair boarding</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_wheelchair_boarding" name="wheelchair" class="form-control">
+                                                            <option selected value="0">No</option>
+                                                            <option value="1">Yes</option>
+                                                        </select>
+                                                        <small id="new_wheelchair_boardingHelp" class="form-text text-muted">Identifies whether wheelchair boardings are possible from the specified stop, station, or station entrance</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_platform_code" class="form-control-label">platform_code</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id="new_platform_code" size="10" type="text" class="form-control">
+                                                        <small id="new_platform_code" class="form-text text-muted">Provides the platform identifier for a platform stop, which is a stop that belongs to a station. Just include the platform identifier, such as G or 3. Don't include words like "platform" or "track" or the feed's language-specific equivalent.</small>
+                                                    </div>
+                                                </div>
+
+                                                <p>
+                                                    <button class="btn btn-primary" id="AddStopButton" type="button">Add Stop to List</button>
+                                                </p>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_code" class="form-control-label">stop_code</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_code' placeholder="Give a stop_code" type="text" class="form-control">
-                                                    <small id="new_stop_codeHelp" class="form-text text-muted">Contains some short text or a number that uniquely identifies the stop for riders. Stop codes are often used in phone-based transit information systems or printed on stop signage to make it easier for riders to get information for a particular stop.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_name" class="form-control-label">stop_name</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_name' placeholder="full name" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
-                                                    <small id="new_stop_nameHelp" class="form-text text-muted">Contains the name of a location. Use a name that people understand in the local and tourist vernacular.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_desc" class="form-control-label">stop_desc</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_desc' type="text" class="form-control">
-                                                    <small id="new_stop_descHelp" class="form-text text-muted">Describes a location. Provide useful, quality information. Don't simply duplicate the name of the location.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_lat" class="form-control-label">stop_lat</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_lat' placeholder="Latitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
-                                                    <small id="new_stop_latHelp" class="form-text text-muted">Contains the latitude of a stop, station, or station entrance.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_lon" class="form-control-label">stop_lon</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_lon' placeholder="Longitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
-                                                    <small id="new_stop_lonHelp" class="form-text text-muted">Contains the longitude of a stop, station, or station entrance.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_zone_id" class="form-control-label">zone_id</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_zone_id' placeholder="usually same as stop_id" title="used for fare rules; usually same as stop_id" type="text" class="form-control">
-                                                    <small id="new_zone_idHelp" class="form-text text-muted">Defines the fare zone for a stop. This field is required if you want to provide fare information with <a href="/fares.html">fares</a>.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_url" class="form-control-label">stop_url</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id='new_stop_url' placeholder="full name" type="text" class="form-control">
-                                                    <small id="new_stop_urlHelp" class="form-text text-muted">Contains the URL of a web page about a particular stop.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_location_type" class="form-control-label">location_type</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <select id="new_location_type" class="form-control">
-                                                        <option selected value="0">Stop (or "Platform")</option>
-                                                        <option value="1">Station</option>
-                                                        <option value="2">Station entrance or exit</option>
-                                                        <option value="3">Generic node</option>
-                                                        <option value="4">Boarding area</option>
-                                                    </select>
-                                                    <small id="new_location_typeHelp" class="form-text text-muted">Defines the type of the location.</small>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <ul>
-                                                        <li><b>Stop (or "Platform"):</b> <small class="form-text text-muted">A location where passengers board or disembark from a transit vehicle. Stops are called a "platform" when they're defined within a parent_station.</small></li>
-                                                        <li><b>Station:</b> <small class="form-text text-muted">A physical structure or area that contains one or more platforms.</small></li>
-                                                        <li><b>Station entrance or exit:</b> <small class="form-text text-muted">A location where passengers can enter or exit a station from the street. The stop entry must also specify a parent_station value that references the stop_id of the parent station for the entrance. If an entrance/exit belongs to multiple stations, it's linked by pathways to both, and the data provider can either pick one station as parent, or put no parent station at all.</small></li>
-                                                        <li><b>Generic node:</b> <small class="form-text text-muted">A location within a station that doesn't match any other location_type. Generic nodes are used to link together the pathways defined in pathways.txt.</small></li>
-                                                        <li><b>Boarding area:</b> <small class="form-text text-muted">A specific location on a platform where passengers can board or exit vehicles.</small></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_parent_station" class="form-control-label">parent_station</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select id="new_parent_station" class="form-control">
-                                                        <option selected value="0">No</option>
-                                                    </select>
-                                                    <small id="new_parent_stationHelp" class="form-text text-muted">For stops that are physically located inside stations, the parent_station field identifies the station associated with the stop.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_stop_timezone" class="form-control-label">stop_timezone</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select id="new_stop_timezone" class="form-control"><option></option></select>
-                                                    <small id="new_stop_timezoneHelp" class="form-text text-muted">Contains the timezone of this location. If omitted, it's assumed that the stop is located in the timezone specified by the <a href="/agency.html">agency_timezone</a>.</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_wheelchair_boarding" class="form-control-label">Wheelchair boarding</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select id="new_wheelchair_boarding" name="wheelchair" class="form-control">
-                                                        <option selected value="0">No</option>
-                                                        <option value="1">Yes</option>
-                                                    </select>
-                                                    <small id="new_wheelchair_boardingHelp" class="form-text text-muted">Identifies whether wheelchair boardings are possible from the specified stop, station, or station entrance</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="new_platform_code" class="form-control-label">platform_code</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input id="new_platform_code" size="10" type="text" class="form-control">
-                                                    <small id="new_platform_code" class="form-text text-muted">Provides the platform identifier for a platform stop, which is a stop that belongs to a station. Just include the platform identifier, such as G or 3. Don't include words like "platform" or "track" or the feed's language-specific equivalent.</small>
-                                                </div>
-                                            </div>
-                                            
-                                            <p>
-                                                <button class="btn btn-primary" id="AddStopButton" type="button">Add Stop to List</button>
-                                            </p>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -404,16 +405,16 @@
                                 <div class="card-body">
                                     <div class="map-wrap m-b-20">
                                         <div id="map"></div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 <div class="card-footer">
-                                        <p>Got another data source of point locations?
-                                                <br>
-                                                <input type="file" id="databank" name="databank" class="btn btn-sm btn-outline-secondary" accept=".csv">
-                                                <button class="btn btn-secondary" onclick="databank()">Load databank</button>
-                                            </p>
-                                            <small>Will appear as small brown points. The CSV databank file needs to have at least a stop_name,
-                                                stop_lat and stop_lon column.</small>
+                                    <p>Got another data source of point locations?
+                                        <br>
+                                        <input type="file" id="databank" name="databank" class="btn btn-sm btn-outline-secondary" accept=".csv">
+                                        <button class="btn btn-secondary" onclick="databank()">Load databank</button>
+                                    </p>
+                                    <small>Will appear as small brown points. The CSV databank file needs to have at least a stop_name,
+                                        stop_lat and stop_lon column.</small>
                                 </div>
                             </div>
                         </div>
@@ -437,7 +438,7 @@
         <!-- END PAGE CONTAINER-->
     </div>
 
-    
+
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
