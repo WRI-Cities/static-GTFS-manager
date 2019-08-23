@@ -46,6 +46,11 @@ var routesTotal = function(values, data, calcParams){
 	return calc + ' routes total';
 }
 
+var footerHTML = DefaultTableFooter;
+const saveButton = "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>";
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+
+
 // #########################################
 // Construct tables
 var table = new Tabulator("#routes-table", {
@@ -58,31 +63,21 @@ var table = new Tabulator("#routes-table", {
 	layout:"fitDataFill",
 	ajaxURL: APIpath + 'tableReadSave?table=routes', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
-	footerElement: "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>",
+	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
-		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars },
-		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
-		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
-		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false },
-		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color"},
-		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color" },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:select2AgencyEditor, tooltip:"Needed to fill when there is more than one agency." }
+		{title:"Num", width:40, formatter: "rownum",  frozen:true,download:true}, // row numbering
+		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars,download:true },
+		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name",download:true },
+		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal,download:true },
+		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false,download:true },
+		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true},
+		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true },
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:select2AgencyEditor, tooltip:"Needed to fill when there is more than one agency.",download:true }
 	],
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`GET request to tableReadSave table=routes successfull.`);
-		
-		// var dropdown = '<option value="">Select a route</option>';
-		// data.forEach(function(row){
-		// 	dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-		// });
-
-		// $("#routeSelect").html(dropdown);
-		// $('#routeSelect').trigger('chosen:updated'); // update if re-populating
-		// $('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=routes failed.  Returned status of: ' + errorThrown);
@@ -90,9 +85,31 @@ var table = new Tabulator("#routes-table", {
 	dataEdited:function(data){
 		$('#saveRoutes').removeClass().addClass('btn btn-primary');
 		$('#saveRoutes').prop('disabled', false);
-	}
-	
+	}	
 });
+
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		table.showColumn(column);
+        table.redraw();
+    }
+    else {		
+		table.hideColumn(column);
+        table.redraw();
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	table.download("csv", "routes.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	table.download("json", "routes.json");
+});
+
 
 // #########################################
 // Run initiating commands
@@ -101,6 +118,28 @@ $(document).ready(function() {
 	getPythonAgency(); // load agencies, for making the agency picker dropdown in routes table
 	//getPythonRoutes(); // load routes.. for routes management.
 	//getPythonAllShapesList();
+
+	// Hide columns logic:
+	var ColumnSelectionContent = "";
+	table.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
+
 
 });
 

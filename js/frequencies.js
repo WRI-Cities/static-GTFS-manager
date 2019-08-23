@@ -20,6 +20,10 @@ var tripLister = function(cell) {
 }
 
 
+var footerHTML = DefaultTableFooter;
+const saveButton = "<button id='saveFreqButton' class='btn btn-outline-primary' disabled>Save Frequencies Changes</button>";
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+
 //####################
 // Tabulator tables
 var table = new Tabulator("#frequencies-table", {
@@ -31,7 +35,7 @@ var table = new Tabulator("#frequencies-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=frequencies`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
-	footerElement: "<button id='saveFreqButton' class='btn btn-outline-primary' disabled>Save Frequencies Changes</button>",
+	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:freqTotal, width:200, editor:"select", editorParams:tripLister },
@@ -55,12 +59,55 @@ var table = new Tabulator("#frequencies-table", {
 	}
 });
 
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		table.showColumn(column);
+        table.redraw();
+    }
+    else {		
+		table.hideColumn(column);
+        table.redraw();       
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	table.download("csv", "agency.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	table.download("json", "agency.json");
+});
+
+
 // ###################
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
 	getPythonRoutesList();
-	$("#tripSelect").select2();
+	$("#tripSelect").select2({placeholder: "First select a route",
+	theme: 'bootstrap4'});
+	var ColumnSelectionContent = "";
+	table.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
 });
 
 // #########################

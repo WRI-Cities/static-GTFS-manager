@@ -56,8 +56,7 @@ $('body').on('change', 'input[type="checkbox"]', function() {
     }
     else {		
 		table.hideColumn(column);
-        table.redraw();
-       
+        table.redraw();       
     }
 });
 

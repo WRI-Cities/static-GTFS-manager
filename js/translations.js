@@ -9,6 +9,11 @@ var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
     return "<i class='fas fa-trash-alt'></i>";
 };
 
+
+var footerHTML = DefaultTableFooter;
+const saveButton = '<button id="saveTranslationButton" class="btn btn-outline-primary">Save Translation Changes</button>';
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+
 //####################
 // Tabulator tables
 
@@ -22,6 +27,7 @@ var translations = new Tabulator("#translations-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=translations`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120, bottomCalc:translationsTotal },
@@ -37,6 +43,10 @@ var translations = new Tabulator("#translations-table", {
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=translations failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#saveTranslationButton').removeClass().addClass('btn btn-primary');
+		$('#saveTranslationButton').prop('disabled', false);
 	}
 });
 
@@ -47,12 +57,54 @@ $(document).ready(function() {
 	$("#lang").select2({
 		tags: false,
 		placeholder: 'Select language',
+		theme: 'bootstrap4',
 		data: LanguageList
 	});
+	var ColumnSelectionContent = "";
+	translations.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
 });
 
 // #########################
 // Buttons
+
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		translations.showColumn(column);
+        translations.redraw();
+    }
+    else {		
+		translations.hideColumn(column);
+        translations.redraw();       
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	translations.download("csv", "translations.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	translations.download("json", "translations.json");
+});
 
 $('#addTranslationButton').on('click', function(){
 	addTranslation();
@@ -66,7 +118,6 @@ $('#saveTranslationButton').on('click', function(){
 // Functions
 
 function addTranslation() {
-	$('#translationSaveStatus').html('&nbsp;');
 	
 	var trans_id = $('#trans_id').val().trim();
 	var lang = $('#lang').val().trim();
@@ -95,8 +146,6 @@ function addTranslation() {
 		$('#translationAddStatus').html('<span class="alert alert-success">Added translation.</span>');
 	}
 
-	//$('#translations-table').tabulator('addRow', );
-	// translationAddStatus
 }
 
 function saveTranslation() {

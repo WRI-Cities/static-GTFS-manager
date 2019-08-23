@@ -40,21 +40,21 @@ var table = new Tabulator("#stops-table", {
 	clipboardPasteAction: "replace",
 	columns: [ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
-		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
-		{ title: "stop_id", field: "stop_id", frozen: true, headerFilter: "input", validator: ["string", 3] },
-        { title: "stop_code", field: "stop_code", editor: "input"},
-        { title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", 3] },
-        { title: "stop_desc", field: "stop_desc", editor: "input"},
-		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float" },
-		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float" },
-        { title: "zone_id", field: "zone_id", editor: "input" },
-        { title: "stop_url", field: "stop_url", editor: "input" },
-        { title: "location_type", field: "location_type", editor: "input" },
-        { title: "parent_station", field: "parent_station", editor: "input" },
-        { title: "stop_timezone", field: "stop_timezone", editor: "input" },
-        { title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } },
-        { title: "level_id", field: "level_id", editor: "input" },
-        { title: "platform_code", field: "platform_code", editor: "input" }
+		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30},
+		{ title: "stop_id", field: "stop_id", frozen: true, headerFilter: "input", validator: ["string", 3],download:true },
+        { title: "stop_code", field: "stop_code", editor: "input",download:true},
+        { title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", 3] ,download:true},
+        { title: "stop_desc", field: "stop_desc", editor: "input",download:true},
+		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float",download:true },
+		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float",download:true },
+        { title: "zone_id", field: "zone_id", editor: "input",download:true },
+        { title: "stop_url", field: "stop_url", editor: "input",download:true },
+        { title: "location_type", field: "location_type", editor: "input",download:true },
+        { title: "parent_station", field: "parent_station", editor: "input",download:true },
+        { title: "stop_timezone", field: "stop_timezone", editor: "input" ,download:true},
+        { title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } ,download:true},
+        { title: "level_id", field: "level_id", editor: "input",download:true },
+        { title: "platform_code", field: "platform_code", editor: "input",download:true }
 	],
 
 	rowSelected: function (row) { //when a row is selected

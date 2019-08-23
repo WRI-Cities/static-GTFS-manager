@@ -15,6 +15,12 @@ var calendarDatesTotal = function(values, data, calcParams){
 	return calc + ' services total';
 }
 
+
+var footerHTML = DefaultTableFooter;
+const saveButtoncalendarDates = "<button id='saveCalendarDatesButton' class='btn btn-outline-primary' disabled>Save Calendar_Dates Changes</button>"
+footerHTMLcalendarDates = footerHTML.replace('{SaveButton}', saveButtoncalendarDates);
+
+
 //####################
 // Tabulator tables
 var service = new Tabulator("#calendar-table", {
@@ -58,7 +64,7 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 	addRowPos: "top",
 	movableColumns: true,
 	layout:"fitDataFill",
-	footerElement: "<button id='saveCalendarDatesButton' class='btn btn-outline-primary' disabled>Save Calendar_Dates Changes</button>",
+	footerElement: footerHTMLcalendarDates,
 	ajaxURL: `${APIpath}tableReadSave?table=calendar_dates`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	columns:[
@@ -80,7 +86,49 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
-	;
+	// Hide columns logic:
+	var ColumnSelectionContent = "";
+	calendarDates.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
+});
+
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		calendarDates.showColumn(column);
+        calendarDates.redraw();
+    }
+    else {		
+		calendarDates.hideColumn(column);
+        calendarDates.redraw();
+       
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	calendarDates.download("csv", "stops.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	calendarDates.download("json", "stops.json");
 });
 
 // Quick Adds:
