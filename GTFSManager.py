@@ -7,6 +7,8 @@ import tornado.ioloop
 import json
 import os
 import time, datetime
+from handlers.config import APIKeys
+
 
 import xmltodict
 import pandas as pd
@@ -1397,6 +1399,7 @@ def make_app():
 		(r"/API/frequencies", frequencies),
 		(r"/API/tableReadSave", tableReadSave),
 		(r"/API/tableColumn", tableColumn),
+		(r"/API/Config/ApiKeys", APIKeys),
 		#(r"/API/idList", idList),
 		(r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
 	])
