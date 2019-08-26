@@ -4,6 +4,13 @@ var NewStops = [];
 var trashIcon = function (cell, formatterParams, onRendered) { //plain text value
 	return "<i class='fas fa-trash-alt'></i>";
 };
+
+
+var footerHTML = DefaultTableFooter;
+const saveButton = `<button type="button" class="btn btn-primary" id="ImportToSystem">Import in the system</button>`;
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+footerHTML = footerHTML.replace('{FastAdd}','');
+
 // MAP Init
 var LayerOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
@@ -81,13 +88,30 @@ var opl = new L.OverPassLayer({
 });
 map.addLayer(opl);
 
-// var TempTable = new Tabulator("#TempTable", {
-//     selectable: 1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
-// 	movableRows: true, //enable user movable rows
-//     layout:"fitColumns",
-//     placeholder:"No Data Available",    
-//     height:400 // Height is needed for virtual dom, without virtual dom performance is slowwwww
-// });
+$(document).ready(function() {
+	// executes when HTML-Document is loaded and DOM is ready	
+	// Hide columns logic:
+	var ColumnSelectionContent = "";
+	StopsTable.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
+});
+
 
 var StopsTable = new Tabulator("#StopsTable", {
     selectable: 1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
@@ -95,7 +119,8 @@ var StopsTable = new Tabulator("#StopsTable", {
     layout:"fitColumns",
     index:"stop_id",    
     placeholder:"No Data Available",
-    height:400, // Height is needed for virtual dom, without virtual dom performance is slowwwww    
+    height:400, // Height is needed for virtual dom, without virtual dom performance is slowwwww   
+    footerElement: footerHTML, 
     columns: [ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
@@ -279,167 +304,22 @@ const isUrl = string => {
 
 // Toggles for show hide columns in stop table.
 
-$('#checkstop_id').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_id");
+$('body').on('change', 'input[type="checkbox"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		StopsTable.showColumn(column);
         StopsTable.redraw();
     }
-    else {
-        StopsTable.showColumn("stop_id");
-        StopsTable.redraw();
+    else {		
+		StopsTable.hideColumn(column);
+        StopsTable.redraw();       
     }
 });
 
-$('#checkstop_code').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_code");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_code");
-        StopsTable.redraw();
-    }
+$(document).on("click","#LinkDownloadCSV", function () {
+	StopsTable.download("csv", "importstops.csv");
 });
 
-$('#checkstop_name').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_name");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_name");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_desc').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_desc");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_desc");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_lat').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_lat");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_lat");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_lon').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_lon");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_lon");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_lon').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_lon");
-        StopsTable.redraw();;
-    }
-    else {
-        StopsTable.showColumn("stop_lon");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkzone_id').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("zone_id");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("zone_id");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_url').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_url");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_url");
-        StopsTable.redraw();
-    }
-});
-
-$('#checklocation_type').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("location_type");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("location_type");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkparent_station').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("parent_station");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("parent_station");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkstop_timezone').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("stop_timezone");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("stop_timezone");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkwheelchair_boarding').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("wheelchair_boarding");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("wheelchair_boarding");
-        StopsTable.redraw();
-    }
-});
-
-$('#checklevel_id').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("level_id");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("level_id");
-        StopsTable.redraw();
-    }
-});
-
-$('#checkplatform_code').change(function() {
-    if(this.checked) {
-        StopsTable.hideColumn("platform_code");
-        StopsTable.redraw();
-    }
-    else {
-        StopsTable.showColumn("platform_code");
-        StopsTable.redraw();
-    }
+$(document).on("click","#LinkDownloadJSON", function () {
+	StopsTable.download("json", "importstops.json");
 });

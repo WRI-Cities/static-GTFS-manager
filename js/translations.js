@@ -13,7 +13,7 @@ var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
 var footerHTML = DefaultTableFooter;
 const saveButton = '<button id="saveTranslationButton" class="btn btn-outline-primary">Save Translation Changes</button>';
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-
+footerHTML = footerHTML.replace('{FastAdd}','');
 //####################
 // Tabulator tables
 

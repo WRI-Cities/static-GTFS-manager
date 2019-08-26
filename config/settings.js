@@ -58,6 +58,7 @@ const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" rol
 		</button>
 		<div class="dropdown-menu" aria-labelledby="btnGroupDrop2" id="DownloadsMenu"></div>
 	</div>
+	{FastAdd}
 </div>
 <div class="btn-group" role="group" aria-label="Save Button" id="SaveButtonPosition">{SaveButton}</div>
 </div>`;

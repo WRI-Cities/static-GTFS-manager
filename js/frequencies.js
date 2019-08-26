@@ -19,11 +19,10 @@ var tripLister = function(cell) {
 	return tripListGlobal;
 }
 
-
 var footerHTML = DefaultTableFooter;
 const saveButton = "<button id='saveFreqButton' class='btn btn-outline-primary' disabled>Save Frequencies Changes</button>";
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-
+footerHTML = footerHTML.replace('{FastAdd}','');
 //####################
 // Tabulator tables
 var table = new Tabulator("#frequencies-table", {
@@ -38,11 +37,11 @@ var table = new Tabulator("#frequencies-table", {
 	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:freqTotal, width:200, editor:"select", editorParams:tripLister },
-		{title:"start_time", field:"start_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS" },
-		{title:"end_time", field:"end_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS"},
-		{title:"headway_secs", field:"headway_secs", editor:"input", headerFilter:"input", headerTooltip:"time between departures"},
-		{title:"exact_times", field:"exact_times", editor:"select", editorParams:exact_timesChoices, headerFilter:"input"},
+		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:freqTotal, width:200, editable: false},
+		{title:"start_time", field:"start_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS", validator:"required"},
+		{title:"end_time", field:"end_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS", validator:"required"},
+		{title:"headway_secs", field:"headway_secs", editor:"input", headerFilter:"input", headerTooltip:"time between departures", validator:"required"},
+		{title:"exact_times", field:"exact_times", editor:"select", editorParams:{values:exact_timesChoices}, headerFilter:"input"},
 		{
 			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {				
 				cell.getRow().delete();				
@@ -73,12 +72,14 @@ $('body').on('change', 'input[type="checkbox"]', function() {
     }
 });
 
+// functions for the download of the table.
+
 $(document).on("click","#LinkDownloadCSV", function () {
-	table.download("csv", "agency.csv");
+	table.download("csv", "frequencies.csv");
 });
 
 $(document).on("click","#LinkDownloadJSON", function () {
-	table.download("json", "agency.json");
+	table.download("json", "frequencies.json");
 });
 
 
@@ -115,14 +116,10 @@ $(document).ready(function() {
 
 $("#addFreqButton").on("click", function(){
 	let trip_id = $("#tripSelect").val();
-	if(!trip_id) {
-		$("#freqAddStatus").html('Please choose a valid trip_id value.');
-		setTimeout(function(){ $("#freqAddStatus").html(''); },10000);
+	if(!trip_id) {		
 		return;
 	}
 	table.addRow([{trip_id:trip_id}], true);
-	$("#freqAddStatus").html('Added.');
-	setTimeout(function(){ $("#freqAddStatus").html(''); },10000);
 });
 
 
@@ -156,7 +153,7 @@ $("#saveFreqButton").on("click", function(){
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('<span class="alert alert-success">Successfully sent data via POST to server API/tableReadSave?table=frequencies, response received: ' + xhr.responseText + '</span>');
+			console.log('Successfully sent data via POST to server API/tableReadSave?table=frequencies, response received: ' + xhr.responseText);
 			$.toast({
 				title: 'Saved Frenquencies',
 				subtitle: 'Saved',
@@ -225,49 +222,23 @@ $('#routeSelect').on('select2:select', function (e) {
 		return;
 	}
 	var jqxhr = $.get( `${APIpath}tableColumn?table=trips&column=trip_id&key=route_id&value=${route_id}`, function( data ) {
-		trip_id_list =  JSON.parse(data);
+		trip_id_list =  JSON.parse(data);		
 		var select2Tripsitems = [];
 		console.log('GET request to API/tableColumn table=trips successful.');
-		// Clean Trip Options
-		$("#tripSelect").select2("destroy");
-		//$("#tripSelect").val(null).trigger("change");
-		// var newOption = new Option('Select a trip', null, false, true);
-		// $('#tripSelect').append(newOption);
-		// console.log('added default option');
-		for(key in trip_id_list) {			
-			// var newOption = new Option(trip_id_list[key], trip_id_list[key], false, false);
-			// $('#tripSelect').append(newOption);
-			select2Tripsitems.push({id : route_id_list[key], text: route_id_list[key]})
-		}		
-		//$('#tripSelect').trigger('change');
-		$("#tripSelect").select2({				
+		// Clean Trip Options		
+		$("#tripSelect").select2('data', null);
+		$("#tripSelect").empty().trigger("change");		
+		trip_id_list.forEach(function (item, index) {
+			console.log(item);
+			select2Tripsitems.push({id : item, text: item})			
+		});		
+		$("#tripSelect").select2({
 			placeholder: "Choose a trip",
 			theme: 'bootstrap4',
 			data: select2Tripsitems
 		  });
-		// var content = '<option value="">Choose a Trip</option>';
-		// trip_id_list.forEach(element => {
-		// 	//tripListGlobal[element] = element;
-		// 	content += `<option value="${element}">${element}</option>`;
-		// });
-		// $('#tripSelect').html(content);
-		// $('#tripSelect').trigger('chosen:updated'); // update if re-populating
-		// $('#tripSelect').chosen({search_contains:true, width:200, placeholder_text_single:'Pick a Trip'});
 	})
 	.fail( function() {
 		console.log('GET request to API/tableColumn table=trips failed.')
 	});
 });
-
-
-
-// function getPythonTripsList() {
-// 	var route_id = $('#routeSelect').val();
-// 	if(!route_id.length) {
-// 		$("#freqAddStatus").html('Please choose a valid route_id to load its trips.');
-// 		//shakeIt('routeSelect'); // doesn't seem to work well on chosen dropdowns
-// 		return;
-// 	}
-
-	
-// }

@@ -6,40 +6,11 @@ var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 // #########################################
 // Function-variables to be used in tabulator
 
-var agencyListGlobal = []; // global variable
+var agencyListGlobal ={};
 
-var select2AgencyEditor = function(cell, onRendered, success, cancel, editorParams){
-
-    //create input element to hold select
-    var editor = document.createElement("select");
-    editor.className = "form-control";
-    editor.style.width = "100%";
-    editor.style.height = "100%";
-    onRendered(function(){
-        var select_2 = $(editor);
-
-        select_2.select2({
-             placeholder: 'Select',
-             data: agencyListGlobal,             
-             width: 300,
-             minimumInputLength: 0,             
-             theme: 'bootstrap4'
-        });
-
-        select_2.on('change', function (e) {
-            success(select_2.val());
-        });
-
-
-        select_2.on('blur', function (e) {
-            cancel();
-        });
-    });
-
-
-    //add editor to cell
-    return editor;
-}
+var agencyLister = function(cell) {
+	return agencyListGlobal;
+} 
 
 var routesTotal = function(values, data, calcParams){
 	var calc = values.length;
@@ -49,7 +20,7 @@ var routesTotal = function(values, data, calcParams){
 var footerHTML = DefaultTableFooter;
 const saveButton = "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>";
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-
+footerHTML = footerHTML.replace('{FastAdd}','');
 
 // #########################################
 // Construct tables
@@ -73,7 +44,7 @@ var table = new Tabulator("#routes-table", {
 		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false,download:true },
 		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true},
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:select2AgencyEditor, tooltip:"Needed to fill when there is more than one agency.",download:true }
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:{values:agencyListGlobal}, tooltip:"Needed to fill when there is more than one agency.",download:true }
 	],
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
@@ -239,29 +210,10 @@ function getPythonAgency() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded agency data from Server API/agency .`);
 			var data = JSON.parse(xhr.responseText);
-			// var dropdown = '<option value="">Select agency</option>'
-			// var selectedFlag = false;
-			// data.forEach(function(row){
-			//  	agencyListGlobal[''] = '(None)';
-			//  	agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
-			// 	var select = '';
-			// 	if(!selectedFlag) {
-			// 		select = '  selected="selected"'; selectedFlag = true;
-			// 	}
-			// 	dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
-			// });
-			agencyListGlobal = $.map(data, function (obj) {
-				obj.id = obj.id || obj.agency_id; // replace identifier
-				obj.text = obj.text || obj.agency_id + " - " + obj.agency_name
-				return obj;
-			  });
-				
-			$("#agencySelect").select2({
-				tags: false,
-				placeholder: 'Select agency',
-				data: agencyListGlobal
-			  });
-			console.log(agencyListGlobal);
+			data.forEach(function(row){
+				// Push the list of agencies for use in column agency_id
+				agencyListGlobal[ row.agency_id ] = row.agency_name;				
+			});				
 		}
 		else {
 			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);

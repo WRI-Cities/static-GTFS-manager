@@ -16,9 +16,35 @@ var calendarDatesTotal = function(values, data, calcParams){
 }
 
 
+var FastAddCalendar = `
+<div class="btn-group dropup mr-2" role="group" id="FastAddGroup">
+    <button id="btnGroupFastAdd" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Fast add a calendar service">
+      Fast Add
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupFastAdd">
+      <a class="dropdown-item" href="#" id="AddServiceFullweek" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a full week service">Full week</a>
+	  <a class="dropdown-item" href="#" id="AddServiceWorkweek" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a work week service">Work week</a>
+	  <a class="dropdown-item" href="#" id="AddServiceWeekend" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a weekend service">Weekend</a>
+	  <a class="dropdown-item" href="#" id="AddServiceSaterday" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Saterday only service">Saterday Only</a>
+	  <a class="dropdown-item" href="#" id="AddServiceSunday" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Sunday only service">Sunday Only</a>
+    </div>
+</div>`;
+
 var footerHTML = DefaultTableFooter;
 const saveButtoncalendarDates = "<button id='saveCalendarDatesButton' class='btn btn-outline-primary' disabled>Save Calendar_Dates Changes</button>"
 footerHTMLcalendarDates = footerHTML.replace('{SaveButton}', saveButtoncalendarDates);
+footerHTMLcalendarDates = footerHTMLcalendarDates.replace('{FastAdd}','');
+
+const saveButtoncalendar = '<button id="saveCalendarButton" class="btn btn-outline-primary" disabled>Save Calendar Changes</button>';
+footerHTMLcalendar = footerHTML.replace('{SaveButton}', saveButtoncalendar);
+footerHTMLcalendar = footerHTMLcalendar.replace('{FastAdd}',FastAddCalendar);
+// To workaround double footer menu's in onepage.
+// Menu id
+footerHTMLcalendar = footerHTMLcalendar.replace('btnGroupDrop1','btnGroupDrop1Calendar');
+footerHTMLcalendar = footerHTMLcalendar.replace('btnGroupDrop2','btnGroupDrop2Calendar');
+// Menu insertings ID's
+footerHTMLcalendar = footerHTMLcalendar.replace('SelectColumnsMenu','SelectColumnsMenuCalendar');
+footerHTMLcalendar = footerHTMLcalendar.replace('DownloadsMenu','DownloadsMenuCalendar');
 
 
 //####################
@@ -33,7 +59,7 @@ var service = new Tabulator("#calendar-table", {
 	layout:"fitDataFill",
 	ajaxURL: `${APIpath}tableReadSave?table=calendar`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
-	footerElement: '<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups"><div class="btn-group" role="group" aria-label="Fast Add"><button type="button" id="AddServiceFullweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a full week service">Full week</button><button type="button" id="AddServiceWorkweek" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a work week service">Work week</button><button type="button" id="AddServiceWeekend" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a weekend service">Weekend</button><button type="button" id="AddServiceSaterday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Saterday only service">Saterday Only</button><button type="button" id="AddServiceSunday" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="false" data-content="Add a Sunday only service">Sunday Only</button></div><div class="input-group"><button id="saveCalendarButton" class="btn btn-outline-primary" disabled>Save Calendar Changes</button></div></div>',
+	footerElement: footerHTMLcalendar,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal, validator:"unique" },
@@ -97,7 +123,7 @@ $(document).ready(function() {
 			if (selectcolumn.visible == true) {
 				checked = 'checked';
 			}
-			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="calender_dates" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
 		}
 	});
 	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
@@ -106,29 +132,70 @@ $(document).ready(function() {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
 	});
 	$("#DownloadsMenu").html(DownloadContent);
+	// Calender menu's
+	var ColumnSelectionContent = "";
+	service.getColumnLayout().forEach(function(selectcolumn) {            
+	// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			console.log(columnname);
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="calender" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
+		}
+	});
+	$("#SelectColumnsMenuCalendar").html(ColumnSelectionContent);	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownloadCalendar'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenuCalendar").html(DownloadContent);
 });
 
 // Toggles for show hide columns in stop table.
 
 $('body').on('change', 'input[type="checkbox"]', function() {
 	var column = this.id.replace('check','');
-	if(this.checked) {		
-		calendarDates.showColumn(column);
-        calendarDates.redraw();
-    }
-    else {		
-		calendarDates.hideColumn(column);
-        calendarDates.redraw();
-       
-    }
+	if (this.value == 'calendar_dates' ){
+		if(this.checked) {		
+			calendarDates.showColumn(column);
+			calendarDates.redraw();
+		}
+		else {		
+			calendarDates.hideColumn(column);
+			calendarDates.redraw();
+		
+		}
+	}
+	else {
+		if(this.checked) {		
+			service.showColumn(column);
+			service.redraw();
+		}
+		else {		
+			service.hideColumn(column);
+			service.redraw();
+		
+		}
+	}
 });
 
 $(document).on("click","#LinkDownloadCSV", function () {
-	calendarDates.download("csv", "stops.csv");
+	calendarDates.download("csv", "calendar_dates.csv");
 });
 
 $(document).on("click","#LinkDownloadJSON", function () {
-	calendarDates.download("json", "stops.json");
+	calendarDates.download("json", "calendar_dates.json");
+});
+
+$(document).on("click","#LinkDownloadCalendarCSV", function () {
+	service.download("csv", "calendar.csv");
+});
+
+$(document).on("click","#LinkDownloadCalendarJSON", function () {
+	service.download("json", "calendar.json");
 });
 
 // Quick Adds:

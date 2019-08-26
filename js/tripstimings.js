@@ -86,7 +86,7 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false, frozen: true }, // row numbering
 		{ title: "route_id", field: "route_id", headerSort: false, visible: true, frozen: true },
 		{ title: "trip_id", field: "trip_id", headerFilter: "input", headerSort: false, frozen: true },
-		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: serviceLister, headerFilter: "input", validator: "required", headerSort: false },
+		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: {values: serviceLister}, headerFilter: "input", validator: "required", headerSort: false },
 		{ title: "direction_id", field: "direction_id", editor: "select", editorParams: { values: { 0: "Onward (0)", 1: "Return (1)", '': "None(blank)" } }, headerFilter: "input", headerSort: false, formatter: "lookup", formatterParams: { 0: 'Onward', 1: 'Return', '': '' } },
 		{ title: "trip_headsign", field: "trip_headsign", editor: "input", headerFilter: "input", headerSort: false },
 		{ title: "trip_short_name", field: "trip_short_name", editor: "input", headerFilter: "input", headerSort: false, bottomCalc: tripsTotal },

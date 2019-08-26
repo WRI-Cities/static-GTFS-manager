@@ -19,7 +19,7 @@ var stopsTotal = function (values, data, calcParams) {
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-
+footerHTML = footerHTML.replace('{FastAdd}','');
 // #################################
 /* 2. Tabulator initiation */
 
@@ -44,17 +44,17 @@ var table = new Tabulator("#stops-table", {
 		{ title: "stop_id", field: "stop_id", frozen: true, headerFilter: "input", validator: ["string", 3],download:true },
         { title: "stop_code", field: "stop_code", editor: "input",download:true},
         { title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", 3] ,download:true},
-        { title: "stop_desc", field: "stop_desc", editor: "input",download:true},
+        { title: "stop_desc", field: "stop_desc", editor: "input",download:true,visible:false},
 		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float",download:true },
 		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float",download:true },
         { title: "zone_id", field: "zone_id", editor: "input",download:true },
-        { title: "stop_url", field: "stop_url", editor: "input",download:true },
-        { title: "location_type", field: "location_type", editor: "input",download:true },
-        { title: "parent_station", field: "parent_station", editor: "input",download:true },
-        { title: "stop_timezone", field: "stop_timezone", editor: "input" ,download:true},
+        { title: "stop_url", field: "stop_url", editor: "input",download:true,visible:false },
+        { title: "location_type", field: "location_type", editor: "input",download:true,visible:false },
+        { title: "parent_station", field: "parent_station", editor: "input",download:true,visible:false },
+        { title: "stop_timezone", field: "stop_timezone", editor: "input" ,download:true,visible:false},
         { title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } ,download:true},
-        { title: "level_id", field: "level_id", editor: "input",download:true },
-        { title: "platform_code", field: "platform_code", editor: "input",download:true }
+        { title: "level_id", field: "level_id", editor: "input",download:true,visible:false },
+        { title: "platform_code", field: "platform_code", editor: "input",download:true,visible:false }
 	],
 
 	rowSelected: function (row) { //when a row is selected
