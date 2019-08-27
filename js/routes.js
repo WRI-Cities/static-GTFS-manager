@@ -213,7 +213,20 @@ function getPythonAgency() {
 			data.forEach(function(row){
 				// Push the list of agencies for use in column agency_id
 				agencyListGlobal[ row.agency_id ] = row.agency_name;				
-			});				
+			});			
+			var select2items = $.map(data, function (obj) {
+				obj.id = obj.id || obj.agency_id; // replace identifier
+				obj.text = obj.text || obj.agency_id + " - " + obj.agency_name
+				return obj;
+			});
+							
+			$("#agencySelect").select2({
+				tags: false,
+				placeholder: 'Select agency',
+				data: select2items,
+				theme: "bootstrap4"
+			});
+
 		}
 		else {
 			console.log('Server request to API/agency failed.  Returned status of ' + xhr.status);

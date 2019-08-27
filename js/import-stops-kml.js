@@ -9,7 +9,7 @@ var trashIcon = function (cell, formatterParams, onRendered) { //plain text valu
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button type="button" class="btn btn-primary" id="ImportToSystem">Import in the system</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}','');
+footerHTML = footerHTML.replace('{FastAdd}','<button type="button" class="btn btn-primary" id="Split" data-toggle="modal" data-target="#SplitModal">Split Columns</button>');
 
 
 var TempTable = new Tabulator("#TempTable", {
@@ -238,6 +238,40 @@ function SaveStops(datatosave) {
 	xhr.send(JSON.stringify(datatosave)); // this is where POST differs from GET : we can send a payload instead of just url arguments.    
 };
 
+$('#SplitModal').on('show.bs.modal', function (event) {
+    StopsTable.getColumnLayout().forEach(function(selectcolumn) { 
+        if (selectcolumn.field) {          
+            var newOptionSoource = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            var newOptionDestination = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            // add the option to the selectbox. We have to use 2 vars, because with 1 it will populate only the last.
+            $("#SplitSourceColumn").append(newOptionSoource);
+            $("#SplitDestinationColumn").append(newOptionDestination);
+        }
+    });
+});
+
+$(document).on('click', '#SplitButton', function () {
+    alert('splitbutton');
+    // Select all rows
+    var SourceColumn = $("#SplitSourceColumn").val();
+    var DestinationColumn = $("#SplitDestinationColumn").val();
+    var NumberofChar = $("#SplitFirst").val(); 
+    var SplitPostition = $("#SplitPostition").val();
+    if (NumberofChar) {
+        var rows = StopsTable.getRows();
+        rows.forEach(function(row){
+            var jsonData = {};	
+            var sourcestring = row.getData();
+            var splitstring = sourcestring[SourceColumn];
+            // create json with the changes.
+            jsonData[DestinationColumn] = splitstring.substring(SplitPostition,NumberofChar);	
+            // update the tables.
+            StopsTable.updateRow(row, jsonData);
+        });
+    }
+});
+
+
 $("#ImportToSystem").on("click", function(){
     if (StopsTable.getDataCount() == 0) {
         alert('There are no stops to add to the stops file in the system');
@@ -254,7 +288,7 @@ $("#ImportToSystem").on("click", function(){
         var CombinedStops = CurrentStops.concat(NewStops);        
         // Save the combined stops
         SaveStops(CombinedStops);
-      });    
+      });
 });
 
 function ProcessResults(results) {
