@@ -9,7 +9,7 @@ var trashIcon = function (cell, formatterParams, onRendered) { //plain text valu
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button type="button" class="btn btn-primary" id="ImportToSystem">Import in the system</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}','<button type="button" class="btn btn-primary" id="Split" data-toggle="modal" data-target="#SplitModal">Split Columns</button>');
+footerHTML = footerHTML.replace('{FastAdd}','<button type="button" class="btn btn-primary" id="Split" data-toggle="modal" data-target="#SplitModal">Split Columns</button><button type="button" class="btn btn-primary" id="Splice" data-toggle="modal" data-target="#SpliceModal">Splice</button>');
 
 
 var TempTable = new Tabulator("#TempTable", {
@@ -250,8 +250,16 @@ $('#SplitModal').on('show.bs.modal', function (event) {
     });
 });
 
+$('#SpliceModal').on('show.bs.modal', function (event) {
+    StopsTable.getColumnLayout().forEach(function(selectcolumn) { 
+        if (selectcolumn.field) {          
+            var newOptionSoource = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            $("#SpliceSourceColumn").append(newOptionSoource);            
+        }
+    });
+});
+
 $(document).on('click', '#SplitButton', function () {
-    alert('splitbutton');
     // Select all rows
     var SourceColumn = $("#SplitSourceColumn").val();
     var DestinationColumn = $("#SplitDestinationColumn").val();
@@ -265,6 +273,31 @@ $(document).on('click', '#SplitButton', function () {
             var splitstring = sourcestring[SourceColumn];
             // create json with the changes.
             jsonData[DestinationColumn] = splitstring.substring(SplitPostition,NumberofChar);	
+            // update the tables.
+            StopsTable.updateRow(row, jsonData);
+        });
+    }
+});
+
+$(document).on('click', '#SpliceButton', function () {
+     // Select all rows
+     alert('splice');
+    var SourceColumn = $("#SpliceSourceColumn").val();
+    var SplitPostition = $("#SpliceFirst").val();
+    var NumberofChar = $("#SplicePostition").val();
+    if (NumberofChar) {
+        var rows = StopsTable.getRows();
+        rows.forEach(function(row){
+            var jsonData = {};	
+            var sourcestring = row.getData();
+            var splitstring = sourcestring[SourceColumn];
+            if ($('#SpliceStringLength').attr('checked'))
+            {
+                NumberofChar = splitstring.length;
+            }            
+            // create json with the changes.
+            jsonData[SourceColumn] = splitstring.slice(5,splitstring.length);	
+            console.log(jsonData);
             // update the tables.
             StopsTable.updateRow(row, jsonData);
         });

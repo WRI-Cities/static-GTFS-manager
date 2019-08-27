@@ -274,10 +274,53 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <p align="center" id="uploadShapeStatus"></p>
+                <div class="modal-footer">                    
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="SplitButton" class="btn btn-primary">Split</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End The Modal -->
+    <!-- The Modals -->
+    <div class="modal" tabindex="-1" role="dialog" id="SpliceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remove Chars from Column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="SplitSourceColumn" class="col-sm-6 col-form-label">Source Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SpliceSourceColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitFirst" class="col-sm-6 col-form-label">Start position</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SpliceFirst" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitPostition" class="col-sm-6 col-form-label">... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SplicePostition" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitDestinationColumn" class="col-sm-6 col-form-label">End of string:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="SpliceStringLength">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SpliceButton" class="btn btn-primary">Remove Chars</button>
                 </div>
             </div>
         </div>
