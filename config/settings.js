@@ -1,7 +1,17 @@
+const APIpath = 'API/';
+
+var cfg = {};
+$.ajax({
+  url: APIpath + 'Config/ApiKeys',
+  success: function(data) {
+	cfg = data;
+	console.log(cfg.GOOGLEAPI);
+  }
+});
 // from commonfuncs.js
 
 const VERSION = 'v3.4.3';
-const APIpath = 'API/';
+
 const CURRENCY = 'COP';
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;

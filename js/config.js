@@ -86,3 +86,33 @@ $("#Mapprovider").select2({
           // code block
       }
  });
+
+ $(document).ready(function() {
+	$.getJSON( "http://localhost:5000/API/Config/ApiKeys", function( data ) {
+		console.log(data);
+		$("#ApiKeyGoogle").val(data.GOOGLEAPI);
+		$("#ApiKeyMapbox").val(data.MAPBOXAPI);
+      }); 
+});
+
+$("#SaveApiKeys").click(function () {
+
+	var url = 'http://localhost:5000/API/Config/ApiKeys';
+
+	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val()};
+
+	// jQuery .post method is used to send post request.
+	// $.post(url, postData, function (data, status) {
+	// 	alert("Ajax post status is " + status);
+	// 	alert(data);
+	// });
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: JSON.stringify(postData), // or JSON.stringify ({name: 'jonas'}),
+		success: function(data) { alert('data: ' + data); },
+		contentType: "application/json",
+		dataType: 'json'
+	});
+
+});
