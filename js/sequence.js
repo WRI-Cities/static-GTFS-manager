@@ -241,6 +241,7 @@ $('#routeSelect').on('select2:select', function (e) {
 		return;
 	}
 	$('#openShapeModal').prop('disabled', false);
+	$('#openKMLModal').prop('disabled', false);
 	let route_id = valueSelected;
 	// clear present sequence tables.. passing to a function to handle "save changes" action later.
 	clearSequences();

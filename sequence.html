@@ -128,7 +128,6 @@
 		.sequence-1-divicon {
 			background-color: rgba(128, 0, 128, 0.7);
 		}
-		
 	</style>
 </head>
 
@@ -195,7 +194,9 @@
 							<div class="card">
 								<div class="card-header">Select a route:</div>
 								<div class="card-body">
-									<select id="routeSelect" class="form-control"><option></option></select>									
+									<select id="routeSelect" class="form-control">
+										<option></option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -211,7 +212,9 @@
 											<div id="sequence-0-table"></div>
 											<div class="row">
 												<div class="col-md-10">
-													<select id="stopChooser0" class="form-control"><option></option></select>
+													<select id="stopChooser0" class="form-control">
+														<option></option>
+													</select>
 												</div>
 												<div class="col-md-2">
 													<button class="btn btn-primary" id="add-0" type="button">Add</button>
@@ -222,7 +225,9 @@
 											<div id="map0"></div>
 											<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 												<h6>Shape</h6>
-												<select id="shapes0List" class="form-control col-sm-2"><option></option></select>
+												<select id="shapes0List" class="form-control col-sm-2">
+													<option></option>
+												</select>
 											</div>
 										</div>
 									</div>
@@ -235,7 +240,8 @@
 											</p>
 										</div>
 										<div class="col">
-											<p>Want to set a new shape for this route? <button class="btn btn-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal" disabled>Upload Shapefile</button></p>											
+											<button class="btn btn-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal" disabled title="Want to set a new shape for this route?">Upload Shapefile</button>
+											<button class="btn btn-primary" id="openKMLModal" data-toggle="modal" data-target="#ParseKMLModal" disabled title="Use KML for Journey">Parse KML</button>
 											<p><small>
 													<div id="openShapeModalStatus"></div>
 												</small></p>
@@ -257,7 +263,9 @@
 											<div id="sequence-1-table"></div>
 											<div class="row">
 												<div class="col-10">
-													<select id="stopChooser1" class="form-control"><option></option></select>
+													<select id="stopChooser1" class="form-control">
+														<option></option>
+													</select>
 												</div>
 												<div class="col-2">
 													<button class="btn btn-primary" id="add-1" type="button">Add</button>
@@ -268,7 +276,9 @@
 											<div id="map1"></div>
 											<div class="shapeOverlay" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Shape" data-content="<p>Pick which will be the default shape for this route and direction.<br>&#10004; - Currently saved default shape<br>^ - Just uploaded.<br># - Also being used by some or all trips on this route and direction. (see Schedules section)</p>">
 												<h6>Shape</h6>
-												<select id="shapes1List" class="form-control col-sm-2"><option></option></select>
+												<select id="shapes1List" class="form-control col-sm-2">
+													<option></option>
+												</select>
 											</div>
 										</div>
 
@@ -342,7 +352,7 @@
 	<script src="config/settings.js" type="text/javascript"></script>
 	<script src="js/commonfuncs.js" type="text/javascript"></script>
 	<script src="js/sequence.js"></script>
-	
+
 	<!-- The Modals -->
 	<div class="modal" tabindex="-1" role="dialog" id="UploadShapeModal">
 		<div class="modal-dialog modal-lg" role="document">
@@ -413,30 +423,46 @@
 		</div>
 	</div>
 	<!-- End The Modal -->
-	<div class="modal" tabindex="-1" role="dialog" id="RoutingModal">
-			<div class="modal-dialog modal-lg" role="document">
-			  <div class="modal-content">
+	<div class="modal" tabindex="-1" role="dialog" id="ParseKMLModal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
 				<div class="modal-header">
-				  <h5 class="modal-title">Create shape based on stops.</h5>
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				  </button>
+					<h5 class="modal-title">Create shape based on stops.</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
-						<div class="btn-group" role="group" aria-label="Basic example">
-							<button type="button" class="btn btn-secondary" id="routingOnward">Calculate Onward Journey</button>
-							<button type="button" class="btn btn-secondary" id="routingReturn">Calculate Return Journey</button>							
-							</div>
-						<div id="maprouting">						
+					<div class="form-group row">
+						<label for="KMlFile" class="col-sm-2 col-form-label">File:</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control-file" id="KMlFile">
 						</div>
+					</div>
+					<div class="form-group row">
+						<label for="KMLDirection" class="col-sm-2 col-form-label">Direction:</label>
+						<div class="col-sm-10">
+							<select id="KMLDirection" class="form-control">
+								<option value="sequence0table">Onward Journey (Direction 0)</option>
+								<option value="sequence1table">Return Journey (Direction 1)</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="KMLDirection" class="col-sm-2 col-form-label">Match Column:</label>
+						<div class="col-sm-10">
+							<select id="KMLMatchColumn" class="form-control"></select>
+							<small id="KMLMatchColumnHelp" class="form-text text-muted">Where always matching the name field of the KML with the selected column above.</small>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				  <button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
 				</div>
-			  </div>
 			</div>
-		  </div>
+		</div>
+	</div>
 </body>
 
 </html>

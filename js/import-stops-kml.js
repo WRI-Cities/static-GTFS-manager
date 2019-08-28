@@ -60,6 +60,8 @@ $(document).ready(function() {
 	StopsTable.getColumnLayout().forEach(function(selectcolumn) {            
 	// get the column selectbox value
 		if (selectcolumn.field) {
+            var newOptionSoource = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            $("#DuplicateCheck").append(newOptionSoource);    
 			var columnname = selectcolumn.field;
 			console.log(columnname);
 			var checked = '';
@@ -199,9 +201,20 @@ $("#ImportToStopsTable").on("click", function(){
                     jsonData[gtfscolumnname] = row[importcolumn];
                 }                
             }
-        });          
-        // True added to add the row to the top of the table. 
-        StopsTable.addData(jsonData);
+        });
+        if ($("#DuplicateCheck").val() == 'NO-Check') {
+            // True added to add the row to the top of the table. 
+            StopsTable.addData(jsonData);
+        }
+        else {
+            // Check for duplicates.
+            var checkfor = jsonData[$("#DuplicateCheck").val()];
+            var SearchResults = StopsTable.searchRows($("#DuplicateCheck").val(), "=", checkfor)
+            if (SearchResults.length == 0) {                
+                // Not found
+                StopsTable.addData(jsonData);
+            }            
+        }
         progressBar.css("width", pcg+ '%').attr("aria-valuenow", pcg+ '%').text(pcg+ '%');         
     });        
 });
