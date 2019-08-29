@@ -264,21 +264,22 @@ $('#routeSelect').on('select2:select', function (e) {
 // Functions
 
 function getPythonStops() {
-	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
+	// loading stops.txt data, keyed by stop_id.
+	
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allStopsKeyed`);
+	xhr.open('GET', `API/tableReadSave?table=stops`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded data from Server API/allStopsKeyed .`);
-			var data = JSON.parse(xhr.responseText);
-			console.log(data);
+			console.log(`Loaded data from Server API/tableReadSave?table=stops .`);
+			var data = JSON.parse(xhr.responseText);			
 			allStops = data;
-			var select2items = [];
-			for (key in allStops) {
-				var searchtext = key + " : " + allStops[key]['stop_name']
-				select2items.push({ id: key, text: searchtext })
-				//content += `<option value="${key}">${key}-${allStops[key]['stop_name']}</option>`;
-			}
+						
+			var select2items = $.map(data, function (obj) {
+				obj.id = obj.id || obj.route_id; // replace identifier
+				obj.text = obj.text || obj.stop_id + " : " + obj.stop_name
+				return obj;
+			});
+
 			$("#stopChooser0").select2({
 				placeholder: "Pick a stop",
 				theme: 'bootstrap4',
@@ -288,13 +289,10 @@ function getPythonStops() {
 				placeholder: "Pick a stop",
 				theme: 'bootstrap4',
 				data: select2items
-			});
-
-			//stopidAutocomplete();
-
+			});	
 		}
 		else {
-			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+			console.log('Server request to API/tableReadSave?table=stops failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
@@ -315,6 +313,7 @@ function getPythonSequence(route_id) {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/sequence for route_id ${route_id}.`);
 			var response = JSON.parse(xhr.responseText);
+			console.log(response.data);
 			initiateSequence(response.data);
 			$.toast({
 				title: 'Default Sequence',
@@ -349,23 +348,28 @@ function initiateSequence(sequenceData) {
 	for (stop in sequenceData[0]) {
 		let stop_id = sequenceData[0][stop];
 		// check if stop_id is present in the sequence or not, and console log but errorlessly skip to next stop in loop if not present.
-		if (!allStops[stop_id]) {
+		var searchstop = allStops.find(x => x.stop_id === stop_id);
+		console.log(searchstop);
+		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
 		}
-		let row = allStops[stop_id];
-		row['stop_id'] = stop_id;
-		sequence0.push(row);
+		else {			
+			sequence0.push(searchstop);
+		}
 	}
 	for (stop in sequenceData[1]) {
 		let stop_id = sequenceData[1][stop];
-		if (!allStops[stop_id]) {
+		var searchstop = allStops.find(x => x.stop_id === stop_id);
+		console.log(searchstop);
+		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
 		}
-		let row = allStops[stop_id];
-		row['stop_id'] = stop_id;
-		sequence1.push(row);
+		else {			
+			sequence1.push(searchstop);
+		}
+		
 	}
 
 	sequence0table.setData(sequence0);
@@ -474,17 +478,13 @@ function add2sequence(stop_id, direction_id = 0) {
 		return false;
 	}
 	console.log('add2sequence function: Adding stop_id ' + stop_id + ' to direction ' + direction_id);
-
-	var row = jQuery.extend(true, {}, allStops[stop_id]); //make a copy
-	//console.log(row);
-	row['stop_id'] = stop_id;
-
+	var searchstop = allStops.find(x => x.stop_id === stop_id);
 	if (direction_id == 0) {
-		sequence0table.addRow(row);
+		sequence0table.addRow(searchstop);
 		mapsUpdate('firsttime'); // using firsttime as on new routes, on adding a stop, it needs to show on the map. Else it is staying invisible.
 	}
 	else {
-		sequence1table.addRow(row);
+		sequence1table.addRow(searchstop);
 		mapsUpdate('firsttime');
 	}
 }
@@ -887,17 +887,16 @@ function KMLAddSequence() {
 			if (Feature.geometry.type == "Point"){
 				points = points + 1;
 				var name = Feature.properties.name;
-				for (key in allStops) {
-					if (allStops[key]['stop_name'] == name) {
-						// stop found
-						found = found + 1;	
-						if (KMLDirection == 'sequence0table') {
-							add2sequence(key, 0);
-						}
-						else {
-							add2sequence(key, 1);
-						}
-					}					
+				var searchstop = allStops.find(x => x.stop_name === name);
+				if (searchstop){
+					// stop found
+					found = found + 1;	
+					if (KMLDirection == 'sequence0table') {
+						add2sequence(searchstop.stop_id, 0);
+					}
+					else {
+						add2sequence(searchstop.stop_id, 1);
+					}										
 				}
 			}
 		});
@@ -927,7 +926,13 @@ function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filena
 			reader.onload = () => storeResultsWithReverse(result, reader.result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension, backextension);
 		}
 		else {
-			$('#uploadShapeStatus').html('Please select the file for reverse direction, or check off that box.');
+			$.toast({
+				title: 'Upload Shapes',
+				subtitle: 'Error',
+				content: 'Please select the file for reverse direction, or check off that box.',
+				type: 'error',
+				delay: 5000
+			});				
 			shakeIt('uploadShape1');
 			shakeIt('reverseCheck');
 			return;
@@ -955,7 +960,13 @@ function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filena
 			contentType: false,  // tell jQuery not to set contentType
 			success: function (returndata) {
 				console.log('API/shape POST request with file upload successfully done.');
-				$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');
+				$.toast({
+					title: 'Upload Shapes',
+					subtitle: 'Success',
+					content: returndata,
+					type: 'success',
+					delay: 5000
+				});					
 				uploadedShapePrefix = shape_id_prefix; //assign to global variable
 				$("#uploadShapeId").val('');
 				//modal.style.display = "none";
@@ -964,7 +975,13 @@ function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filena
 			},
 			error: function (jqXHR, exception) {
 				console.log('API/shape POST request failed.')
-				$('#uploadShapeStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>');
+				$.toast({
+					title: 'Upload Shapes',
+					subtitle: 'Error',
+					content: jqXHR.responseText,
+					type: 'error',
+					delay: 5000
+				});				
 			}
 		});
 	}
@@ -1002,7 +1019,13 @@ function storeResultsWithReverse(resultforward, resultback, pw, route_id, shape_
 		contentType: false,  // tell jQuery not to set contentType
 		success: function (returndata) {
 			console.log('API/shape POST request with file upload successfully done.');
-			$('#openShapeModalStatus').html('<span class="alert alert-success">Upload successful. ' + returndata + '</span>');
+			$.toast({
+				title: 'Upload Shapes',
+				subtitle: 'Success',
+				content: returndata,
+				type: 'success',
+				delay: 5000
+			});				
 			uploadedShapePrefix = shape_id_prefix; //assign to global variable
 			$("#uploadShapeId").val('');
 			//modal.style.display = "none";
@@ -1011,7 +1034,13 @@ function storeResultsWithReverse(resultforward, resultback, pw, route_id, shape_
 		},
 		error: function (jqXHR, exception) {
 			console.log('API/shape POST request failed.')
-			$('#uploadShapeStatus').html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>');
+			$.toast({
+				title: 'Upload Shapes',
+				subtitle: 'Error',
+				content: jqXHR.responseText,
+				type: 'error',
+				delay: 5000
+			});	
 		}
 	});
 }
