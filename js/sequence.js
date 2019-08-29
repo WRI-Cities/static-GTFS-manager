@@ -213,6 +213,10 @@ $(document).on('click', '#uploadShapeButton', function () {
 	uploadShape();
 });
 
+$(document).on('click', '#KMLAddSequence', function () {
+	KMLAddSequence();
+});
+
 $('#shapes0List').on('select2:select', function (e) {
 	var valueSelected = e.params.data.id;
 	if (valueSelected == '') {
@@ -267,6 +271,7 @@ function getPythonStops() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/allStopsKeyed .`);
 			var data = JSON.parse(xhr.responseText);
+			console.log(data);
 			allStops = data;
 			var select2items = [];
 			for (key in allStops) {
@@ -863,6 +868,52 @@ function uploadShape() {
 
 }
 
+function KMLAddSequence() {
+	var KMLDirection = $("#KMLDirection").val();
+	var backfilename = $('#KMlFile')[0].files[0].name;
+	var points = 0;
+	var found = 0;
+	var backextension = backfilename.substring(backfilename.lastIndexOf('.') + 1, backfilename.length);
+	// Go and read contents of second file.
+	const reader = new FileReader();
+	reader.readAsText($('#KMlFile')[0].files[0]);
+	reader.onload = function(e) {
+		// The file's text will be printed here
+		var parts = [e.target.result];
+    	parts = convertToGeoJson(e.target.result, backextension);
+		var geojson = JSON.parse(parts[0]);
+		geojson.features.forEach(function(Feature)  {
+			// Only process points			
+			if (Feature.geometry.type == "Point"){
+				points = points + 1;
+				var name = Feature.properties.name;
+				for (key in allStops) {
+					if (allStops[key]['stop_name'] == name) {
+						// stop found
+						found = found + 1;	
+						if (KMLDirection == 'sequence0table') {
+							add2sequence(key, 0);
+						}
+						else {
+							add2sequence(key, 1);
+						}
+					}					
+				}
+			}
+		});
+		$('#ParseKMLModal').modal('hide');
+		$.toast({
+			title: 'Processed KML',
+			subtitle: 'Matching',
+			content: 'Points in KML: '+points + '<br />Matched: '+found,
+			type: 'info',
+			delay: 4000
+		});
+	};
+	
+	
+}
+
 function storeResults(result, pw, route_id, shape_id_prefix, reverseFlag, filename, extension) {
 	var parts = [result];
 	// first check if the reverse is checked
@@ -1057,7 +1108,9 @@ function getPythonRoutes() {
 
 			var select2items = $.map(data, function (obj) {
 				obj.id = obj.id || obj.route_id; // replace identifier
-				obj.text = obj.text || obj.route_id + " : " + obj.route_short_name + " : " + obj.route_long_name
+				var longname = "";
+				if(obj.route_long_name) {longname = " : " + obj.route_long_name}
+				obj.text = obj.text || obj.route_id + " : " + obj.route_short_name + longname
 				return obj;
 			});
 			//console.log($("#targetStopid").val())

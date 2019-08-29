@@ -448,17 +448,11 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="KMLDirection" class="col-sm-2 col-form-label">Match Column:</label>
-						<div class="col-sm-10">
-							<select id="KMLMatchColumn" class="form-control"></select>
-							<small id="KMLMatchColumnHelp" class="form-text text-muted">Where always matching the name field of the KML with the selected column above.</small>
-						</div>
-					</div>
+					Matching will always be done on the kml name attribue and the stop tables stop_name field. 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-primary" id="KMLAddSequence">Try to add stops to sequence</button>
 				</div>
 			</div>
 		</div>
