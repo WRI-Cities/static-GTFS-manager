@@ -13,8 +13,7 @@ var trashIcon = function (cell, formatterParams, onRendered) { //plain text valu
 
 // Format Select 2 ShapeBoxes
 
-function ShapeformatState(state) {
-	console.log(state);
+function ShapeformatState(state) {	
 	// Used to put a google icon for the gogle supported services.
 	if (!state.id) {
 		return state.text;
@@ -188,14 +187,11 @@ $(document).ready(function () {
 // Listeners for button presses etc
 
 $("#add-0").on("click", function () {
-	//$('#stopChooser0').select2().val();
-	add2sequence($('#stopChooser0').find(':selected').val(), 0);
-	//$('#stop2add-0').val('');
+	add2sequence($('#stopChooser0').val(), 0);
 });
 
 $("#add-1").on("click", function () {
-	add2sequence($('#stopChooser1').select2().val(), 1);
-	//$('#stop2add-1').val('');
+	add2sequence($('#stopChooser1').val(), 1);
 });
 
 $("#saveSequence").on("click", function () {
@@ -216,6 +212,10 @@ $(document).on('click', '#uploadShapeButton', function () {
 
 $(document).on('click', '#KMLAddSequence', function () {
 	KMLAddSequence();
+});
+
+$(document).on('click', '#OnlineRoute', function () {
+	OnlineRoute();
 });
 
 $('#shapes0List').on('select2:select', function (e) {
@@ -247,6 +247,7 @@ $('#routeSelect').on('select2:select', function (e) {
 	}
 	$('#openShapeModal').prop('disabled', false);
 	$('#openKMLModal').prop('disabled', false);
+	$('#openUseRoutingModal').prop('disabled', false);
 	let route_id = valueSelected;
 	// clear present sequence tables.. passing to a function to handle "save changes" action later.
 	clearSequences();
@@ -275,7 +276,7 @@ function getPythonStops() {
 			allStops = data;
 						
 			var select2items = $.map(data, function (obj) {
-				obj.id = obj.id || obj.route_id; // replace identifier
+				obj.id = obj.id || obj.stop_id; // replace identifier
 				obj.text = obj.text || obj.stop_id + " : " + obj.stop_name
 				return obj;
 			});
@@ -1137,4 +1138,99 @@ function getPythonRoutes() {
 		}
 	};
 	xhr.send();
+}
+
+function OnlineRoute() {
+	if ($("#RoutingUseService").val() == 'Mapbox') {
+		if (!cfg.MAPBOXAPI) {
+			$.toast({
+				title: 'Online Routing',
+				subtitle: 'Mapbox',
+				content: 'No API Key configured in the config page!',
+				type: 'error',
+				delay: 1000
+			});	
+		return;
+		}
+		mapboxrouting(sequence0table.getData());
+	}
+	alert('Online Route!')
+	// first check the onward journey
+	//var Direction0 = sequence0table.getData();
+	// if (sequence0table.getDataCount() > 0) {
+	// 	var allstops = sequence0table.getData()
+	// 	var depart = allstops[0];
+	// 	var arrival = allstops[allstops.length-1];
+	// 	var between = allstops;
+	// 	between.shift(); // remove first entry
+	// 	between.pop(); // remove last entry
+	// 	console.log(depart);
+	// 	console.log(arrival);
+	// 	console.log(between);
+	// }
+	// else {
+	// 	console.log('direction 0 no data')
+	// }
+	// var Direction1 = sequence1table.getData();
+	// if (sequence1table.getDataCount() > 0) {
+	// 	// got data
+	// }
+	// else {
+	// 	console.log('direction 1 no data')
+	// }
+	
+	// second check the reverse journey
+
+}
+
+function mapboxrouting(data) {
+	// get array data
+	if (data.length > 0) {
+		var allstops = sequence0table.getData()
+		var depart = allstops[0];
+		var arrival = allstops[allstops.length-1];
+		var between = allstops;
+		between.shift(); // remove first entry
+		between.pop(); // remove last entry		
+		// if (between.length > 23) {
+		// 	$.toast({
+		// 		title: 'Online Routing',
+		// 		subtitle: 'Mapbox',
+		// 		content: 'More than 25 stops is not allowed...',
+		// 		type: 'error',
+		// 		delay: 5000
+		// 	});
+		// }
+		// else {
+			var from = depart.stop_lon + "," + depart.stop_lat;
+			var to = arrival.stop_lon + "," + arrival.stop_lat;
+			var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
+			var MapboxApiKey = "";
+			GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
+			GenerateUrl = GenerateUrl.replace(";;", ";");
+			$.get( GenerateUrl, function( data ) {				
+				//console.log(data);
+				if (data.code == 'Ok') {
+					var Polyline  = data.routes[0].geometry;
+					console.log(Polyline);
+					polyline.decode(Polyline);
+					// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
+					//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
+					// returns a GeoJSON LineString feature
+					polyline.toGeoJSON(Polyline);
+					var myLayer = L.geoJSON().addTo(map[0]);
+					myLayer.addData(polyline.toGeoJSON(Polyline));
+				}
+				else {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Mapbox',
+						content: 'There was not a correct result!',
+						type: 'error',
+						delay: 5000
+					});
+				}
+			  });
+		// }
+	}
 }
