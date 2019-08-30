@@ -80,7 +80,7 @@ $(document).ready(function() {
 		data: TimeZoneList
 	  });
 	  // Set the default timezone from the settings.js file.
-	  $("#agency_timezone").val(defaultTimeZone).trigger("change");
+	  $("#agency_timezone").val(cfg.GTFS.Timezone).trigger("change");
 
 	  // Hide columns logic:
 	var ColumnSelectionContent = "";

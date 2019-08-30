@@ -257,6 +257,7 @@ $(document).ready(function(){
 		data: CurrencyList,
 		theme: "bootstrap4"
 	  });
+	  $("#currency").val(cfg.GTFS.Currency).trigger("change");
 		// Hide columns logic:
 		var ColumnSelectionContent = "";
 		fareattributes.getColumnLayout().forEach(function(selectcolumn) {            
@@ -434,7 +435,7 @@ function AddFare() {
 	
 	var price = $('#price').val().replace(/[^0-9.-]/g, ""); //n1b3rs only
 	$('#price').val(price);
-	var currencyChosen = $('#currency').val() || CURRENCY;
+	var currencyChosen = $('#currency').val() || cfg.GTFS.currency;
 	var transfers = $('#transfers').val();
 	var payment_method = $('#paymentmethod').val()
 	console.log(transfers);

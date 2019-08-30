@@ -15,7 +15,7 @@
 	<!-- Bootstrap CSS-->
 	<link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-	<!-- Vendor CSS-->	
+	<!-- Vendor CSS-->
 	<link href="vendor/wow/animate.css" rel="stylesheet" media="all">
 	<link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
 	<link href="vendor/slick/slick.css" rel="stylesheet" media="all">
@@ -29,19 +29,19 @@
 	<link href="css/theme.css" rel="stylesheet" media="all">
 	<!-- Put the CSSs first and JSs next -->
 	<style>
-			/* Always set a height for the tabulator tables to imporve performance! */
-			#fare-rules-table {
-				height: 400px;
-			}
+		/* Always set a height for the tabulator tables to imporve performance! */
+		#fare-rules-table {
+			height: 400px;
+		}
 
-			#fare-rules-simple-table {
-				height: 400px;
-			}
+		#fare-rules-simple-table {
+			height: 400px;
+		}
 
-			#fare-attributes-table {
-				height: 400px;
-			}
-		</style>
+		#fare-attributes-table {
+			height: 400px;
+		}
+	</style>
 </head>
 
 <body>
@@ -136,87 +136,87 @@
 										</ul>
 										<div class="tab-content" id="myTabContent">
 											<div id="Pivoted" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-Pivoted">
-
 												<h4>Fare Rules - Pivoted</h4>
 												<div id="fare-rules-table" class="table table-striped">Loading Fare Rules from backend, please wait..</div><br>
 												<p align="center">Changes: <button class="btn btn-outline-warning btn-sm" id="rules-undo">Undo</button> | <button class="btn btn-outline-info btn-sm" id="rules-redo">Redo</button> | <button id="saveFareRulesPivotedButton" class="btn btn-outline-success btn-lg">Save Fare Rules to DB</button></p>
 												<p align="center"><span id="saveFareRulesStatus"></span></p>
-
-
-
 											</div>
 											<div id="Simple" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-Simple">
-
 												<h4>Fare Rules - Simple</h4>
 												<div class="row">
 													<div class="col-md-7">
-														<div id="fare-rules-simple-table" class="table table-striped"></div><br>
-
+														<div id="fare-rules-simple-table" class="table table-striped"></div>
 													</div>
 													<div class="col-md-5">
-															<div id="Form-AddFareRule" data-parsley-validate>
-														Add new Fare Rule:<br>
-															Origin zone: <select id="originSelect" class="form-control"></select>															
+														<div id="Form-AddFareRule" data-parsley-validate>
+															Add new Fare Rule:<br>
+															Origin zone: <select id="originSelect" class="form-control"></select>
 															Destination zone: <select id="destinationSelect" class="form-control"></select>
 															Contains zone: <select id="containsSelect" class="form-control"></select>
 															<br>
-															Route: <select id="routeSelect" class="form-control"></select>															
+															Route: <select id="routeSelect" class="form-control"></select>
 															Fare Id: <select id="fareSelect" class="form-control" required autocomplete="off" data-parsley-required-message="You have to fare, without it it won't work!"></select>
 															<br>
-														<button id="addFareRuleButton" class="btn btn-primary">Add Fare Rule</button>
+															<button id="addFareRuleButton" class="btn btn-primary">Add Fare Rule</button>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div id="Attributes" id="Simple" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-Attributes">
 												<div class="row">
-													<div class="col-8">
+													<div class="col-md-7">
 														<h4>Fare Attributes</h4>
-														<div id="fare-attributes-table" class="table table-striped"></div>														
+														<div id="fare-attributes-table" class="table table-striped"></div>
 														<br>
 														<p><small>Each price bracket to have an entry here. See <a href="https://developers.google.com/transit/gtfs/reference/#fare_attributestxt" target="_blank">GTFS reference</a> for more info.<br>
 																See Maintenance section for deleting a fare after saving to DB.</small></p>
 
 													</div>
-													<div class="col" id="rightcontainer">
-
+													<div class="col-md-5">
 														<h4>Add a Fare Attribute</h4>
 														<div id="Form-AddFareAttributes" data-parsley-validate>
-														<div class="form-group">
-															<label for="targetFareid">Create a fare_id</label>
-															<input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a fare_id, without it it won't work!">
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">Set a price</label>
-															<input id='price' type="number" style="width:150px;" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a price, without it it won't work!">															
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">Currency:</label>
-															<select id="currency" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select a currency, without it it won't work!"></select>
-															<small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small>
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">Payment method:</label>
-															<select id="paymentmethod" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select Payment method, without it it won't work!"><option value="0">On boarding</option><option value="1">Before boarding</option></select>															
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">Transfers:</label>
-															<select id="transfers" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select the number of Transfers, without it it won't work!"><option value="">Unlimited transfers</option><option value="0">No transfers are permitted on this fare</option><option value="1">One transfer is permitted on this fare</option><option value="2">Two transfers are permitted on this fare</option></select>															
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">Agency:</label>
-															<select id="agency_id" class="form-control"></select>															
-														</div>
-														<div class="form-group">
-															<label for="targetFareid">transfer_duration</label>
-															<input id='transfer_duration' type="number" style="width:150px;" class="form-control">															
-														</div>
+															<div class="form-group">
+																<label for="targetFareid">Create a fare_id</label>
+																<input autocapitalize="characters" id='targetFareid' placeholder='fare_id' size="5" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a fare_id, without it it won't work!">
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">Set a price</label>
+																<input id='price' type="number" style="width:150px;" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a price, without it it won't work!">
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">Currency:</label>
+																<select id="currency" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select a currency, without it it won't work!"></select>
+																<small><a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">(ISO4217 codes only)</a></small>
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">Payment method:</label>
+																<select id="paymentmethod" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select Payment method, without it it won't work!">
+																	<option value="0">On boarding</option>
+																	<option value="1">Before boarding</option>
+																</select>
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">Transfers:</label>
+																<select id="transfers" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select the number of Transfers, without it it won't work!">
+																	<option value="">Unlimited transfers</option>
+																	<option value="0">No transfers are permitted on this fare</option>
+																	<option value="1">One transfer is permitted on this fare</option>
+																	<option value="2">Two transfers are permitted on this fare</option>
+																</select>
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">Agency:</label>
+																<select id="agency_id" class="form-control"></select>
+															</div>
+															<div class="form-group">
+																<label for="targetFareid">transfer_duration</label>
+																<input id='transfer_duration' type="number" style="width:150px;" class="form-control">
+															</div>
 
-													</div>
+														</div>
 														<button id="addEditFare" class="btn btn-primary">Add Fare</button>&nbsp; <small><i>if existing fare_id, entry in table will be updated.</i></small></p>
 													</div>
 												</div> <!-- end of columns row -->
-
 											</div>
 										</div>
 									</div>
@@ -247,7 +247,7 @@
 	<script src="js/Select2EditorCurrency.js"></script>
 	<script src="vendor/toast-0.7.1/toast.min.js"></script>
 	<!-- Form validator-->
-    <script src="vendor/parsley-2.9.1/parsley.min.js"></script>
+	<script src="vendor/parsley-2.9.1/parsley.min.js"></script>
 
 	<!-- Main JS-->
 	<script src="js/main.js"></script>

@@ -1,18 +1,28 @@
 const APIpath = 'API/';
-
-var cfg = {};
-$.ajax({
-  url: APIpath + 'Config/ApiKeys',
-  success: function(data) {
-	cfg = data;
-	console.log(cfg.GOOGLEAPI);
-  }
-});
-// from commonfuncs.js
-
 const VERSION = 'v3.4.3';
 
-const CURRENCY = 'COP';
+var cfg = {};
+// Pure javascript because jquery is not loaded yet.
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open('GET', APIpath + 'Config/ApiKeys', true);
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {
+        if(xmlhttp.status == 200) {
+            cfg = JSON.parse(xmlhttp.responseText);            
+		 }
+		 else {
+			 console.log('Error Loading settings...');
+			 alert('Error Loading settings, loaded fallback settings!');
+			 cfg = {"GOOGLEAPI":"","MAPBOXAPI":"","MapProviders":[{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"}}
+		 }
+
+		 
+    }
+};
+xmlhttp.send(null);
+
+// from commonfuncs.js
+
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;
 
@@ -74,7 +84,6 @@ const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" rol
 </div>`;
 
 
-const defaultTimeZone = 'Asia/Kolkata';
 // loader:
 const loaderHTML = '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>';
 

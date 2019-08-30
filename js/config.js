@@ -6,17 +6,17 @@ var ConfigMapProvider = new Tabulator("#SettingsMaps", {
 	selectable:1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
 	layout:"fitColumns", //fit columns to width of table (optional)
-	index: "Id",	
+	index: "id",	
     addRowPos: "top",
-    data:LeafLetProviders,	
+    data:cfg.MapProviders,	
 	columns:[ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"id", field:"Id", frozen:true, headerFilter:"input" },
-		{title:"name", field:"Text", editor:"input"},
-		{title:"default", field:"Default", headerSort:false, formatter:"tickCross" },
-		{title:"variant", field:"Variant", headerSort:false, editor:"input" },
-		{title:"apikey", field:"Apikey", editor:"input" },
+		{title:"id", field:"id", frozen:true, headerFilter:"input" },
+		{title:"name", field:"name", editor:"input"},
+		{title:"default", field:"default", headerSort:false, formatter:"tickCross", editor:true },
+		{title:"variant", field:"variant", headerSort:false, editor:"input", editor:true },
+		{title:"apikey", field:"apikey", editor:"input", editor:true },
 		{formatter:trashIcon, width:40, align:"center", title:"del", headerSort:false, minWidth:30, cellClick:function(e, cell){
 			if(confirm('Are you sure you want to delete this entry?'))
 				cell.getRow().delete();
@@ -55,6 +55,9 @@ var ConfigMapProvider = new Tabulator("#SettingsMaps", {
 	}
 });
 
+$('#MapSettings').on('show.bs.collapse', function () {
+	ConfigMapProvider.redraw(true);
+});
 
 var select2LeafLetProviders = $.map(LeafLetProviders, function (obj) {
     obj.id = obj.Id; // replace identifier
@@ -65,7 +68,9 @@ var select2LeafLetProviders = $.map(LeafLetProviders, function (obj) {
 $("#Mapprovider").select2({    
     placeholder: "Choose a Provider",
     theme: 'bootstrap4',    
-    data: select2LeafLetProviders
+	data: select2LeafLetProviders,
+	templateResult: MapsformatState,
+	templateSelection: MapsformatState
   });
 
   $('#Mapprovider').on("select2:select", function(e) { 		    
@@ -88,19 +93,30 @@ $("#Mapprovider").select2({
  });
 
  $(document).ready(function() {
-	$.getJSON( "http://localhost:5000/API/Config/ApiKeys", function( data ) {
-		console.log(data);
-		$("#ApiKeyGoogle").val(data.GOOGLEAPI);
-		$("#ApiKeyMapbox").val(data.MAPBOXAPI);
-      }); 
+	$("#ApiKeyGoogle").val(cfg.GOOGLEAPI);
+	$("#ApiKeyMapbox").val(cfg.MAPBOXAPI);
+	$("#GTFSTimezone").select2({				
+		placeholder: "Select a timezone",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: TimeZoneList
+	  });
+	  $("#GTFSTimezone").val(cfg.GTFS.Timezone).trigger("change");
+	  $("#GTFSCurrency").select2({				
+		placeholder: "Select a Currency",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: CurrencyList
+	  });
+	  $("#GTFSCurrency").val(cfg.GTFS.Currency).trigger("change");
 });
 
 $("#SaveApiKeys").click(function () {
+	var url = 'API/Config/ApiKeys';
+	var MapProviders = ConfigMapProvider.getData();
+	var GTFS = {Timezone: $("#GTFSTimezone").val(),Currency: $("#GTFSCurrency").val()}
 
-	var url = 'http://localhost:5000/API/Config/ApiKeys';
-
-	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val()};
-
+	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val(), MapProviders: MapProviders, GTFS: GTFS};
 	// jQuery .post method is used to send post request.
 	// $.post(url, postData, function (data, status) {
 	// 	alert("Ajax post status is " + status);
@@ -116,3 +132,11 @@ $("#SaveApiKeys").click(function () {
 	});
 
 });
+$("#AddMapProvider").click(function () {
+	var MapproviderSelected = $("#Mapprovider").val();
+	var Variant = $("#Variant").val();
+	var Apikey = $("#ApiKey").val();
+	console.log(MapproviderSelected);
+	ConfigMapProvider.addRow([{id: MapproviderSelected, name: MapproviderSelected, variant: Variant, apikey: Apikey, default: false}]);
+});
+

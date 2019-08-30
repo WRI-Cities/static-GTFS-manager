@@ -9,7 +9,8 @@ $(document).ready(function() {
     $("#feed_lang").select2({
         tags: false,
         placeholder: 'Select Language',
-        data: LanguageList
+		data: LanguageList,
+		theme: 'bootstrap4'
       });
 });
 

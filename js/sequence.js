@@ -14,12 +14,13 @@ var trashIcon = function (cell, formatterParams, onRendered) { //plain text valu
 // Format Select 2 ShapeBoxes
 
 function ShapeformatState(state) {
+	console.log(state);
 	// Used to put a google icon for the gogle supported services.
 	if (!state.id) {
 		return state.text;
 	}
 	var $state = state.text;
-	switch ($state.ShapeState) {
+	switch (state.ShapeState) {
 		case "uploaded":
 			$state = $(
 				'<span><i class="fas fa-upload"></i> ' + state.text + '</span>'
@@ -27,12 +28,12 @@ function ShapeformatState(state) {
 			break;
 		case "other":
 			$state = $(
-				'<span><i class="fas fa-shapes"></i> ' + state.text + '</span>'
+				'<span><i class="fas fa-hashtag"></i> ' + state.text + '</span>'
 			);
 			break;
 		case "current":
 			$state = $(
-				'<span><i class="fas fa-check"></i> ' + state.text + '</span>'
+				'<span><i class="fas fa-save"></i> ' + state.text + '</span>'
 			);
 			break;
 		default: 
@@ -255,8 +256,7 @@ $('#routeSelect').on('select2:select', function (e) {
 
 	// shapes related:
 	uploadedShapePrefix = ''; // reset global shape uploaded variable.
-	getPythonShapesList(route_id);
-	$('#openShapeModalStatus').html('');
+	getPythonShapesList(route_id);	
 
 });
 
@@ -349,7 +349,6 @@ function initiateSequence(sequenceData) {
 		let stop_id = sequenceData[0][stop];
 		// check if stop_id is present in the sequence or not, and console log but errorlessly skip to next stop in loop if not present.
 		var searchstop = allStops.find(x => x.stop_id === stop_id);
-		console.log(searchstop);
 		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
@@ -361,7 +360,6 @@ function initiateSequence(sequenceData) {
 	for (stop in sequenceData[1]) {
 		let stop_id = sequenceData[1][stop];
 		var searchstop = allStops.find(x => x.stop_id === stop_id);
-		console.log(searchstop);
 		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
@@ -507,7 +505,13 @@ function saveSequence() {
 
 	//var selected = $("#routes-table").tabulator("getSelectedData");
 	if (!selected_route_id.length) {
-		$('#sequenceSaveStatus').html('Please select a route at the top table.');
+		$.toast({
+			title: 'Default route sequence',
+			subtitle: 'Error',
+			content: 'Please select a route at the top table.',
+			type: 'error',
+			delay: 1000
+		});			
 		return;
 	}
 	var sequence0_list = sequence0.map(a => a.stop_id);
@@ -643,102 +647,84 @@ function populateShapesLists(shapes) {
 	// clearing the shape layers
 	shapeLayer[0].clearLayers();
 	shapeLayer[1].clearLayers();
+	var select2listshape0 = [];
+	var select2listshape1 = [];
 
 	if (!selected_route_id.length) return; //quietly exit if no route selected.
 
 	var allShapesList = globalShapesList['all']; //global variable
 	var thisRouteSaved = globalShapesList['saved'][selected_route_id];
 
-	// direction 0:
-	var content = '<option value="">No Shape</option>';
+	// direction 0:	
 	var alreadySelected = false;
 	var shapesSoFar = [];
-	var Select2shapeList = [];
-	//Select2shapeList.push({id: "", text: "No Shape"});
-	//console.log(Select2shapeList);
-	$("#shapes0List").select2({
-		placeholder: "",
-		theme: 'bootstrap4',
-		data: Select2shapeList
-	});
-	var newOption = new Option("No Shape", "", false, false);
-	$('#shapes0List').append(newOption).trigger('change');
-
+	
 	// check if there's just been a shape uploaded
 	if (uploadedShapePrefix.length) {
 		var valueid = uploadedShapePrefix + "_0";
 		var valuetext = uploadedShapePrefix + "_0";
-		var newOption = new Option(valueid, valuetext, false, true);
-		$('#shapes0List').append(newOption);
-		//content += `<option value="${uploadedShapePrefix}_0"  selected="selected">^ ${uploadedShapePrefix}_0</option>`;
-		alreadySelected = true;
+		var newOption = new Option(valueid, valuetext, false, true);		
+		alreadySelected = true;		
 		shapesSoFar.push(uploadedShapePrefix + '_0');
 		// load up the shape from backend
 		loadShape(uploadedShapePrefix + '_0', 0);
+		select2listshape0.push({id: valueid, text: valuetext, selected: true, ShapeState: 'uploaded'});
 	}
 	if (thisRouteSaved) {
 		if (thisRouteSaved[0]) {
 			if (!alreadySelected) {
-				selectFlag = true;;
+				selectFlag = true;
 				alreadySelected = true;
 			}
 			else selectFlag = false;
 			var valueid = thisRouteSaved[0];
-			var valuetext = "&#10004;" + thisRouteSaved[0];
-			var newOption = new Option(valuetext, valueid, false, selectFlag);
-			$('#shapes0List').append(newOption);
-			//content += `<option value="${thisRouteSaved[0]}" ${selectFlag}>&#10004;${thisRouteSaved[0]}</option>`;
+			var valuetext = thisRouteSaved[0];
 			shapesSoFar.push(thisRouteSaved[0]);
 			loadShape(thisRouteSaved[0], 0);
+			select2listshape0.push({id: valueid, text: valuetext, selected: selectFlag, ShapeState: 'current'});
 		}
 	}
-	for (i in shapes[0]) {
-		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+	for (i in shapes[0]) {		
 		selectFlag = false;
 		if (shapesSoFar.indexOf(shapes[0][i]) < 0) {
 			var valueid = shapes[0][i];
-			var valuetext = "# " + shapes[0][i];
-			var newOption = new Option(valuetext, valueid, false, selectFlag);
-			$('#shapes0List').append(newOption);
-			//content += `<option value="${shapes[0][i]}"${selectFlag}># ${shapes[0][i]}</option>`;
+			var valuetext = "# " + shapes[0][i];			
 			shapesSoFar.push(shapes[0][i]);
+			select2listshape0.push({id: valueid, text: valuetext, selected: selectFlag, ShapeState: 'other'});
 		}
 	}
 	for (i in allShapesList) {
 		if (shapesSoFar.indexOf(allShapesList[i]) < 0) {
 			var valueid = allShapesList[i];
-			var valuetext = allShapesList[i];
-			var newOption = new Option(valuetext, valueid, false, false);
-			$('#shapes0List').append(newOption);
-		}
-		//content += `<option value="${allShapesList[i]}">${allShapesList[i]}</option>`;
+			var valuetext = allShapesList[i];			
+			select2listshape0.push({id: valueid, text: valuetext, selected: false, ShapeState: 'all'});
+		}		
 	}
-	$('#shapes0List').trigger('change');
-	//$('#shapes0List').html(content);
-	//$('#shapes0List').trigger('chosen:updated'); // need to check if this errors on first run when .chosen not initialized yet.
-	//fire chosen autocomplete after populating. 
-	//$('#shapes0List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
-
+	$("#shapes0List").select2({
+		placeholder: "",
+		theme: 'bootstrap4',
+		data: select2listshape0,
+		templateResult: ShapeformatState,
+		templateSelection: ShapeformatState
+	});
+	
+	$('#shapes0List').trigger('change');	
 	//#######################
 	// direction 1:
 	var content = '<option value="">No Shape</option>';
 	var alreadySelected = false;
 	var shapesSoFar = [];
-	$("#shapes1List").select2({
-		placeholder: "",
-		theme: 'bootstrap4'
-	});
+	
 	var newOption = new Option("No Shape", "", false, false);
 	$('#shapes1List').append(newOption).trigger('change');
 	// check if there's just been a shape uploaded
 	if (uploadedShapePrefix.length) {
 		var valueid = uploadedShapePrefix + "_1";
 		var valuetext = uploadedShapePrefix + "_1";
-		var newOption = new Option(valuetext, valueid, false, true);
-		//content += `<option value="${uploadedShapePrefix}_1"  selected="selected">^ ${uploadedShapePrefix}_1</option>`;
 		alreadySelected = true;
 		shapesSoFar.push(uploadedShapePrefix + '_1');
 		loadShape(uploadedShapePrefix + '_1', 1);
+		select2listshape1.push({id: valueid, text: valuetext, selected: true, ShapeState: 'uploaded'});
 	}
 
 	if (thisRouteSaved) {
@@ -749,26 +735,20 @@ function populateShapesLists(shapes) {
 			}
 			else selectFlag = false;
 			var valueid = thisRouteSaved[1];
-			var valuetext = "&#10004;" + thisRouteSaved[1];
-			var newOption = new Option(valuetext, valueid, false, selectFlag);
-			$('#shapes1List').append(newOption);
-			//content += `<option value="${thisRouteSaved[1]}"${selectFlag}>&#10004; ${thisRouteSaved[1]}</option>`;
+			var valuetext = thisRouteSaved[1];			
 			alreadySelected = true;
 			shapesSoFar.push(thisRouteSaved[1]);
 			loadShape(thisRouteSaved[1], 1);
+			select2listshape1.push({id: valueid, text: valuetext, selected: selectFlag, ShapeState: 'current'});
 		}
 	}
-	for (i in shapes[1]) {
-		// selectFlag = ( ( !alreadySelected && i==0) ? ' selected="selected"' : '');
+	for (i in shapes[1]) {		
 		selectFlag = false;
-
-		if (shapesSoFar.indexOf(shapes[1][i]) < 0) {
-			//content += `<option value="${shapes[1][i]}"${selectFlag}># ${shapes[1][i]}</option>`;
+		if (shapesSoFar.indexOf(shapes[1][i]) < 0) {			
 			var valueid = shapes[1][i];
 			var valuetext = shapes[1][i];
-			var newOption = new Option(valuetext, valueid, false, selectFlag);
-			$('#shapes1List').append(newOption);
 			shapesSoFar.push(shapes[1][i]);
+			select2listshape1.push({id: valueid, text: valuetext, selected: selectFlag, ShapeState: 'other'});
 		}
 	}
 	for (i in allShapesList) {
@@ -778,15 +758,17 @@ function populateShapesLists(shapes) {
 			var valuetext = allShapesList[i];
 			var newOption = new Option(valuetext, valueid, false, false);
 			$('#shapes1List').append(newOption);
+			select2listshape1.push({id: valueid, text: valuetext, selected: false, ShapeState: 'all'});
 		}
-
 	}
-	$('#shapes1List').trigger('change');
-	//$('#shapes1List').html(content);
-	//$('#shapes1List').trigger('chosen:updated');
-
-	//fire chosen autocomplete after populating.
-	//$('#shapes1List').chosen({disable_search_threshold: 1, search_contains:true, width:100});
+	$("#shapes1List").select2({
+		placeholder: "",
+		theme: 'bootstrap4',
+		data: select2listshape1,
+		templateResult: ShapeformatState,
+		templateSelection: ShapeformatState
+	});
+	$('#shapes1List').trigger('change');	
 }
 
 //###############

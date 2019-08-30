@@ -1,1 +1,1 @@
-{"GOOGLEAPI":"TEST-Google34654654","MAPBOXAPI":"TEST-Mapbox23"}
+{"GOOGLEAPI":"TEST-Google346546544343","MAPBOXAPI":"TEST-Mapbox233534345","MapProviders":[{"id":"OpenStreetMap.DE","name":"OpenStreetMap.DE","variant":"","apikey":"","default":false},{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"}}

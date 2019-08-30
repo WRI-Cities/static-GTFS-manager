@@ -17,9 +17,9 @@ var stopsTotal = function (values, data, calcParams) {
 
 
 var footerHTML = DefaultTableFooter;
-const saveButton = `<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>`;
+const saveButton = `<button class="btn btn-outline-primary" id="savetable" name="savetable" disabled>Save Stops to DB</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}','');
+footerHTML = footerHTML.replace('{FastAdd}','<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>');
 // #################################
 /* 2. Tabulator initiation */
 
@@ -122,7 +122,12 @@ var table = new Tabulator("#stops-table", {
 	},
 	ajaxError: function (xhr, textStatus, errorThrown) {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited:function(data){
+		$('#savetable').removeClass().addClass('btn btn-primary');
+		$('#savetable').prop('disabled', false);
 	}
+
 });
 
 // redraw is needed for the table to get layout correct.
@@ -138,7 +143,12 @@ $('.nav-tabs a[href="#home"]').on('shown.bs.tab', function (event) {
 
 // #################################
 /* 3. Initiate map */
-var LayerOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+// find default map layer
+var defaultlayer = cfg.MapProviders.find(x => x.default === true);
+// Set openstreetmap as the defaultlayer if nothing is defined as default.
+var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
+
+var LayerOSM = L.tileLayer.provider(defaultlayer);
 
 const startLocation = [10.030259357021862, 76.31446838378908];
 
@@ -310,7 +320,7 @@ $(document).ready(function() {
 		data: TimeZoneList
 	  });
 	  // Set the default timezone from the settings.js file.
-	  $("#new_stop_timezone").val(defaultTimeZone).trigger("change");
+	  $("#new_stop_timezone").val(cfg.GTFS.Timezone).trigger("change");
 
 	// Hide columns logic:
 	var ColumnSelectionContent = "";
@@ -504,8 +514,7 @@ function reloadData(timeflag = 'normal') {
 		obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
 		return obj;
 	});	
-	$("#targetStopid").select2({
-		tags: true,
+	$("#targetStopid").select2({		
 		placeholder: "Pick a stop",
 		allowClear: true,
 		theme: 'bootstrap4',		
@@ -706,7 +715,13 @@ function saveStops() {
 
 	var pw = $("#password").val();
 	if (!pw) {
-		$('#stopSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Stops',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
 
@@ -829,14 +844,6 @@ var geocoder = L.Control.geocoder({
 		console.log(latlng);
 		dragmarker.setLatLng(e.geocode.center);
 		updateLatLng(dragmarker.getLatLng());
-		dragmarker.addTo(map);
-		//var bbox = e.geocode.bbox;
-		//   var poly = L.polygon([
-		// 	bbox.getSouthEast(),
-		// 	bbox.getNorthEast(),
-		// 	bbox.getNorthWest(),
-		// 	bbox.getSouthWest()
-		//   ]).addTo(map);
-		//map.fitBounds(bbox);
+		dragmarker.addTo(map);		
 	})
 	.addTo(map);
