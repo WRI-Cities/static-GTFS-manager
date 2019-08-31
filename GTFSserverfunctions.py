@@ -248,7 +248,7 @@ def importGTFS(zipname):
 				# print('last ID: ' + IDList[-1])
 				workChunk = chunk[ chunk[IDcol].isin(IDList[:-1]) ]
 				if len(carryOverChunk):
-					workChunk = pd.concat([carryOverChunk, workChunk],ignore_index=True)
+					workChunk = pd.concat([carryOverChunk, workChunk],ignore_index=True, sort=False)
 				carryOverChunk = chunk[ chunk[IDcol] == IDList[-1] ]
 
 				fileCounter += 1
@@ -532,7 +532,7 @@ def replaceTableDB(tablename, data, key=None, value=None):
 			logmessage('Note: {} does not have any data.'.format(h5File))
 			oldLen = 0
 		
-		df3 = pd.concat([df,xdf], ignore_index=True)
+		df3 = pd.concat([df,xdf], ignore_index=True, sort=False)
 		df3.to_hdf(dbFolder+h5File, 'df', format='table', mode='w', complevel=1)
 
 		logmessage('Replaced {} entries for {}={} with {} new entries in {}.'\
@@ -1298,7 +1298,6 @@ def replaceChunkyTableDB(xdf, value, tablename='stop_times'):
 			logmessage('Note: {} does not exist yet, so we will likely create it.'.format(chunkFile))
 	
 	# next 3 lines to be done in either case
-	# newdf = pd.concat([df,xdf],ignore_index=True)
 	newdf = df.append(xdf, ignore_index=True, sort=False)
 	logmessage('{} new entries for id {} added. Now writing to {}.'.format( str( len(xdf) ),value, chunkFile ))
 	newdf.to_hdf(dbFolder+chunkFile, 'df', format='table', mode='w', complevel=1)
@@ -1461,7 +1460,7 @@ def readChunkTableDB(tablename, key, value):
 		del df
 
 	if len(collect): 
-		collectDF = pd.concat(collect, ignore_index=True)
+		collectDF = pd.concat(collect, ignore_index=True, sort=False)
 		logmessage('readChunkTableDB: Collected {} rows from table {} for {}={}'\
 			.format(len(collectDF),tablename,key,value),\
 			'\nChunks having entries:',chunksHaving)
@@ -1485,7 +1484,7 @@ def deleteID(column,value):
 		message = 'deleteID: Deleting {} trips first under {}="{}"'.format(len(tripsList),column,value) 
 		logmessage(message)
 		content += message + '<br>'
-		content += ''.join([deleteID('trip_id',trip_id) for trip_id in tripsList]) + '<br>'
+		content += ''.join([deleteID('trip_id',trip_id) for trip_id in tripsList]) + '<br>' # recursive funtion call
 
 	# load deleteRules csv from config folder
 	deleteRulesDF = pd.read_csv(configFolder + 'deleteRules.csv', dtype=str).fillna('')
@@ -1523,6 +1522,12 @@ def deleteInTable(tablename, key, value, action="delete"):
 		# its a chunked table
 		if key == chunkRules[tablename].get('key'):
 			h5Files = [findChunk(value, tablename)]
+			
+			# intervention : if no chunks found, skip. Ref: https://github.com/WRI-Cities/static-GTFS-manager/issues/150
+			if h5Files == [None]:
+				returnMessage = '{}={} is not present in any {} chunk.<br>'.format(key,value,tablename)
+				logmessage(returnMessage)
+				return returnMessage
 			
 			# delete it in the lookup json too.
 			lookupJSONFile = chunkRules[tablename]['lookup']

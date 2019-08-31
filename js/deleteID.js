@@ -630,7 +630,7 @@ function deleteByKey() {
 	console.log(key,value);
 
 	if( ! (key.length && value.length ) ) {
-		$('#deepActionsStatus').html('All values have not been properly set. Please check and try again.');
+		$('#deepActionsStatus').html('<div class="alert alert-danger">All values have not been properly set. Please check and try again.</div>');
 		shakeIt('deepActionsButton'); return;
 	}
 	var jqxhr = $.get( `${APIpath}deleteByKey?pw=${pw}&key=${key}&value=${value}`, function( returndata ) {
