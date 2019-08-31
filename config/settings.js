@@ -1,6 +1,6 @@
 // from commonfuncs.js
 
-const VERSION = 'v3.4.3';
+const VERSION = 'v3.4.4';
 const APIpath = 'API/';
 const CURRENCY = 'INR';
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
