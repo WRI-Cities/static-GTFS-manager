@@ -260,6 +260,8 @@ function addColumntoTable() {
 	// Check 
 	if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
 		table.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
+		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+		$('#saveAgencyButton').prop('disabled', false);
 	}
 	else {
 		$.toast({
@@ -313,6 +315,9 @@ function DeleteExtraColumns() {
 		// delete them one by one.
 		table.deleteColumn($(this).val());
 	});
+	$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+	$('#saveAgencyButton').prop('disabled', false);
+	$('#DeleteColumnModal').modal('hide');
 	$.toast({
 		title: 'Delete Column',
 		subtitle: 'Columns Deleted',
@@ -337,7 +342,7 @@ function AddExtraColumns(loadeddata) {
 	filtered.forEach(function (addcolumn) {
 		//add the column to the table.
 		table.addColumn({ title: addcolumn, field: addcolumn, editor: true });
-	});
+	});	
 }
 
 function ColumnButtonsSetup() {
