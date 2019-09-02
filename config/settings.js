@@ -65,10 +65,20 @@ const menu = {
 // default table footer
 var DownloadLinks = ["CSV","JSON"];
 const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-<div class="btn-toolbar">	
+<div class="btn-toolbar">
+<div class="btn-group dropup" role="group" id="SelectionButtons">
+		<button id="btnGroupDrop3" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Config columns">
+			<i class="fas fa-cogs"></i>	
+		</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop3" id="SelectConfigMenu">
+			<a class="dropdown-item" href="#" id="LinkAddColumn">Add Column</a>
+			<a class="dropdown-item" href="#" id="LinkDeleteColumn">Delete Column</a>
+		</div>
+	</div>	
+
 	<div class="btn-group dropup" role="group" id="SelectionButtons">
 		<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Uncheck the box te hide the column">
-			Shown / Hide Columns
+		<i class="fas fa-eye"></i> Columns
 		</button>
 		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="SelectColumnsMenu"></div>
 	</div>	

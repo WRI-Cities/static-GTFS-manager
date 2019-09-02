@@ -108,22 +108,19 @@
                                         </small>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add Agency</button>
-                            </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add Agency</button>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
         </div>
-        <!-- END MAIN CONTENT-->
-        <!-- END PAGE CONTAINER-->
     </div>
-
-    </div>
-
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -143,12 +140,28 @@
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
 
-
-
-
     <script src="js/commonfuncs.js" type="text/javascript"></script>
     <script src="js/agency.js"></script>
 
+    <!-- Modal -->
+    <div class="modal fade" id="DeleteColumnModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete Non standard columns</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="DeleteColumnModalBody">          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="DeleteColumnButton">Remove columns</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
