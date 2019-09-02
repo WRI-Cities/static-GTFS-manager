@@ -1,6 +1,8 @@
 // #########################################
 // Function-variables to be used in tabulator
 
+var GTFSDefinedColumns = ["agency_id","agency_name","agency_url","agency_timezone","agency_lang","agency_phone","agency_fare_url","agency_email"];
+
 var agencyTotal = function(values, data, calcParams){
 	var calc = values.length;
 	return calc + ' agencies total';
@@ -8,8 +10,9 @@ var agencyTotal = function(values, data, calcParams){
 
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button id='saveAgencyButton' class='btn btn-outline-primary' disabled>Save Agency Changes</button>`;
+const FastAdd = "<button id='AddColumntoTableButton' class='btn btn-primary'>Add Column</button>"
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}','');
+footerHTML = footerHTML.replace('{FastAdd}',FastAdd);
 //####################
 // Tabulator tables
 
@@ -42,6 +45,15 @@ var table = new Tabulator("#agency-table", {
 	dataEdited:function(data){
 		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
 		$('#saveAgencyButton').prop('disabled', false);
+	},
+	dataLoaded:function(data){		
+		// parse the first row keys if data exists.
+		if (data.length > 0){ 
+			AddExtraColumns(Object.keys(data[0]));
+		  }
+		  else{
+			  console.log("No data so no columns");
+		  }
 	}
 });
 
@@ -67,6 +79,11 @@ $(document).on("click","#LinkDownloadCSV", function () {
 $(document).on("click","#LinkDownloadJSON", function () {
 	table.download("json", "agency.json");
 });
+
+$(document).on("click","#AddColumntoTableButton", function () {
+	addColumntoTable();
+});
+
 
 
 // ###################
@@ -238,4 +255,26 @@ function addAgency() {
 		  });
 	}
 
+}
+
+function addColumntoTable () {
+	table.addColumn({title:"Age", field:"age",editor:true});
+}
+
+function AddExtraColumns(loadeddata) {
+	var filtered = loadeddata;
+	GTFSDefinedColumns.forEach(function(element) {
+		for( var i = 0; i < filtered.length; i++){ 
+			if ( filtered[i] === element) {
+				// Remove the predefined columns.
+				filtered.splice(i, 1); 
+			  i--;
+			}
+		 }
+	  });
+	// Filtered contains now the columns that aren't in the gtfs specs.	
+	filtered.forEach(function(addcolumn) {
+		//add the column to the table.
+		table.addColumn({title:addcolumn, field:addcolumn, editor:true});
+	});
 }

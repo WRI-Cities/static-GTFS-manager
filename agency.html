@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -29,7 +30,7 @@
             height: 250px;
         }
     </style>
-
+    <script src="config/settings.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -99,27 +100,27 @@
                                             <select id="agency_timezone" class="form-control" data-parsley-required-message="You have to add a agency_url, without it it won't work!"></select>
                                             <small id="agency_timezoneHelp" class="form-text text-muted">Contains the timezone where the transit agency is located. If multiple agencies are specified in the feed, each must have the same agency_timezone.</small>
                                         </div>
-                                        </divF>
-                                        <div class="alert alert-info" role="alert">
-                                            <small>
-                                                Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://developers.google.com/transit/gtfs/reference/#agencytxt" target="_blank">See specs</a>.
-                                                <br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
-                                            </small>
-                                        </div>
+                                    </div>
+                                    <div class="alert alert-info" role="alert">
+                                        <small>
+                                            Used for the feed's metadata, and in Routes section if there are multiple agencies and the route has to be shown to operate under an agency. <a href="https://developers.google.com/transit/gtfs/reference/#agencytxt" target="_blank">See specs</a>.
+                                            <br>Note: To delete an agency, please go to <a href="deleteID.html">Tools > Delete ID</a>.
+                                        </small>
                                     </div>
                                 </div>
-                                    <div class="card-footer">
-                                        <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add Agency</button>
-                                    </div>
-                                
                             </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary float-right" id="addAgencyButton" type="button">Add Agency</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
         </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
 
     </div>
 
@@ -144,7 +145,7 @@
 
 
 
-    <script src="config/settings.js" type="text/javascript"></script>
+
     <script src="js/commonfuncs.js" type="text/javascript"></script>
     <script src="js/agency.js"></script>
 
