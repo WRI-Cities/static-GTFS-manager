@@ -73,9 +73,9 @@ const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" rol
 		<div class="dropdown-menu" aria-labelledby="btnGroupDrop3" id="SelectConfigMenu">
 			<a class="dropdown-item" href="#" id="LinkAddColumn">Add Column</a>
 			<a class="dropdown-item" href="#" id="LinkDeleteColumn">Delete Column</a>
+			<a class="dropdown-item" href="#" id="LinkShowHideColumn">Show / Hide Column</a>
 		</div>
-	</div>	
-
+	</div>
 	<div class="btn-group dropup" role="group" id="SelectionButtons">
 		<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Uncheck the box te hide the column">
 		<i class="fas fa-eye"></i> Columns
