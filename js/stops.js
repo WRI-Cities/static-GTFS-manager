@@ -3,6 +3,8 @@
 var NewStopColumnsList = ["new_stop_id","new_stop_code","new_stop_name","new_stop_desc","new_stop_lat","new_stop_lon","new_zone_id","new_stop_url","new_location_type","new_parent_station","new_stop_timezone","new_wheelchair_boarding","new_platform_code"];
 var  databankLayer = new L.geoJson(null);
 
+var GTFSDefinedColumns = ["stop_id","stop_code","stop_name","stop_desc","stop_lat","stop_lon","zone_id","stop_url","location_type","parent_station","stop_timezone","wheelchair_boarding","platform_code","level_id"];
+
 // SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
 var myRenderer = L.canvas({ padding: 0.5 });
 
@@ -60,7 +62,7 @@ var table = new Tabulator("#stops-table", {
 	rowSelected: function (row) { //when a row is selected
 		//console.log("Row " + row.getData().stop_id + " Clicked, index: " + row.getIndex() );
 		// Change tab on select
-		$('.nav-tabs a[href="#edit"]').tab('show');
+		//$('.nav-tabs a[href="#edit"]').tab('show');
 		mapPop(row.getData().stop_id);
 	},
 	rowDeselected: function (row) { //when a row is deselected
@@ -119,6 +121,13 @@ var table = new Tabulator("#stops-table", {
 			theme: 'bootstrap4',
 			data: stationsselect2
 		  });
+		  // parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]));			
+		}
+		else {
+			console.log("No data so no columns");
+		}
 	},
 	ajaxError: function (xhr, textStatus, errorThrown) {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
@@ -127,13 +136,29 @@ var table = new Tabulator("#stops-table", {
 		$('#savetable').removeClass().addClass('btn btn-primary');
 		$('#savetable').prop('disabled', false);
 	}
-
 });
 
 // redraw is needed for the table to get layout correct.
 $('.nav-tabs a[href="#home"]').on('shown.bs.tab', function (event) {
 	table.redraw(true);
 });
+
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable();
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns();
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	DeleteExtraColumns();
+});
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn();
+});
+
 
 // #################################
 // . load stops
@@ -322,21 +347,6 @@ $(document).ready(function() {
 	  // Set the default timezone from the settings.js file.
 	  $("#new_stop_timezone").val(cfg.GTFS.Timezone).trigger("change");
 
-	// Hide columns logic:
-	var ColumnSelectionContent = "";
-	table.getColumnLayout().forEach(function(selectcolumn) {            
-	// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			console.log(columnname);
-			var checked = '';
-			if (selectcolumn.visible == true) {
-				checked = 'checked';
-			}
-			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
-		}
-	});
-	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
 	var DownloadContent = "";
 	DownloadLinks.forEach(function(downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
@@ -352,22 +362,9 @@ $('.nav-tabs a[href="#new"]').on('shown.bs.tab', function (event) {
 });
 
 // Clone zone_id
-$("#targetStopid").bind("change keyup", function () {
-	if (CAPSLOCK) this.value = this.value.toUpperCase();
-	$("#zone_id").val(this.value);
-});
 
 $("#stop2delete").bind("change keyup", function () {
 	if (CAPSLOCK) this.value = this.value.toUpperCase();
-});
-// Select 2 action targeting.
-$('#targetStopid').on("select2:select", function (e) {
-	// change the selected edit stop.	
-	var stop_id = e.params.data.id;
-	populateFields(stop_id);
-	mapPop(stop_id);
-	// table.deselectRow();
-	// table.selectRow(stop_id);
 });
 
 $("#CopyStopIDtoZoneID").on("click", function () {
@@ -506,28 +503,28 @@ function updateTable() {
 
 
 function reloadData(timeflag = 'normal') {
-	var data = table.getData();
-	;// stop_id_list = data.map(a => a.stop_id); 
+	// var data = table.getData();
+	// ;// stop_id_list = data.map(a => a.stop_id); 
 
-	var select2items = $.map(data, function (obj) {
-		obj.id = obj.id || obj.stop_id; // replace identifier
-		obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
-		return obj;
-	});	
-	$("#targetStopid").select2({		
-		placeholder: "Pick a stop",
-		allowClear: true,
-		theme: 'bootstrap4',		
-		data: select2items
-	});
+	// var select2items = $.map(data, function (obj) {
+	// 	obj.id = obj.id || obj.stop_id; // replace identifier
+	// 	obj.text = obj.text || obj.stop_id + " - " + obj.stop_name
+	// 	return obj;
+	// });	
+	// $("#targetStopid").select2({		
+	// 	placeholder: "Pick a stop",
+	// 	allowClear: true,
+	// 	theme: 'bootstrap4',		
+	// 	data: select2items
+	// });
 
-	if (data.length == 0) {
-		console.log('No data!');
-		return;
-	}
+	// if (data.length == 0) {
+	// 	console.log('No data!');
+	// 	return;
+	// }
 	// 
 	
-	console.log($("#targetStopid").val())
+	// console.log($("#targetStopid").val())
 	// Map update
 	reloadMap(timeflag);
 
@@ -602,10 +599,19 @@ function updateLatLng(latlong, revflag) {
 		dragmarker.setLatLng([lat, lng]);
 		map.panTo([lat, lng]);
 	} else {
+		// Check if row is selected in table.
+		var selectedRows = table.getSelectedData();
+		if (selectedRows.length > 0) {
+			// If a row is selected update the lat en lon
+			var rowdata = selectedRows[0];			
+			stop_lat = Math.round((dragmarker.getLatLng().lat + 0.0000001) * 10000) / 10000;
+			stop_lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
+			table.updateRow(rowdata.stop_id, {stop_lat:stop_lat, stop_lon:stop_lng});			
+		}
 		lat = Math.round((dragmarker.getLatLng().lat + 0.0000001) * 10000) / 10000;
 		// Rounding, from https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary. The +0.000.. is to trip forward a number hinging on x.9999999...
 		lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
-		document.getElementById('newlatlng').value = lat + ',' + lng;
+		// document.getElementById('newlatlng').value = lat + ',' + lng;
 		$("#new_stop_lon").val(lng);
 		$("#new_stop_lat").val(lat);		
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
@@ -631,8 +637,8 @@ function mapPop(stop_id) {
 	});
 
 	// load editing and deleting panes too
-	$("#targetStopid").val(stop_id).trigger('change');
-	populateFields(stop_id);
+	//$("#targetStopid").val(stop_id).trigger('change');
+	//populateFields(stop_id);
 	$("#stop2delete").val(stop_id);
 }
 
@@ -644,7 +650,7 @@ function markerOnClick(e) {
 	row.toggleSelect();
 	// load editing and deleting panes too
 	$("#targetStopid").val(stop_id).trigger('change');;
-	populateFields(stop_id);
+	//populateFields(stop_id);
 	$("#stop2delete").val(stop_id);
 }
 
@@ -847,3 +853,156 @@ var geocoder = L.Control.geocoder({
 		dragmarker.addTo(map);		
 	})
 	.addTo(map);
+
+
+	function addColumntoTable() {
+		var CurrentColumns = [];
+		var ColumntoAdd = prompt("Please enter are title for the column you ant to add", "Column Add");
+		// replace special chars and spaces.
+		ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
+		// Current Columns
+		table.getColumnLayout().forEach(function (selectcolumn) {
+			// get the column selectbox value
+			if (selectcolumn.field) {
+				CurrentColumns.push(selectcolumn.field);
+			}
+		});
+		// Check 
+		if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
+			table.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
+			$.toast({
+				title: 'Add Column',
+				subtitle: 'Columns Added',
+				content: "Please add values to the newly added column. Without it it won't save it to the database.",
+				type: 'success',
+				delay: 5000
+			});
+			$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+			$('#saveAgencyButton').prop('disabled', false);
+		}
+		else {
+			$.toast({
+				title: 'Add Column',
+				subtitle: 'Failed to Add',
+				content: ColumntoAdd + ' is already there.',
+				type: 'error',
+				delay: 5000
+			});
+		}
+	}
+	
+
+function ShowHideColumn() {
+	var ColumnSelectionContent = "";
+	table.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check' + columnname + '" ' + checked + '><label class="form-check-label" for="check' + columnname + '">' + columnname + '</label></div>';
+		}
+	});
+	$("#DeleteColumnButton").hide();
+	$("#DeleteColumnModalTitle").html("Show / Hide columns");
+	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
+	// Show the Modal
+	$('#DeleteColumnModal').modal('show');
+}
+
+function RemoveExtraColumns() {
+	// first load all the columns currenty active in the tabel.
+	var CurrentColumns = [];
+	table.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			CurrentColumns.push(columnname);
+		}
+	});
+	// Remove gtfs columns:
+	GTFSDefinedColumns.forEach(function (element) {
+		for (var i = 0; i < CurrentColumns.length; i++) {
+			if (CurrentColumns[i] === element) {
+				// Remove the predefined columns.
+				CurrentColumns.splice(i, 1);
+				i--;
+			}
+		}
+	});
+	// Currentcolumns now holds all defined columns.
+	var ColumnSelectionContent = "";
+	CurrentColumns.forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn) {
+			var columnname = selectcolumn;
+			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="' + columnname + '" name="DeleteColumns" id="DeleteColumns' + columnname + '"><label class="form-check-label" for="DeleteColumns' + columnname + '">' + columnname + '</label></div>';
+		}
+	});
+	$("#DeleteColumnButton").show();
+	$("#DeleteColumnModalTitle").html("Delete Non standard columns");
+	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
+	// Show the Modal
+	$('#DeleteColumnModal').modal('show');
+
+}
+
+function DeleteExtraColumns() {
+	// The getdata funtion will not delete the column from the data but only hides it. 
+	var data = table.getData();	
+	var filteredData = [];
+	var columns = table.getColumns();
+	data.forEach(function (row) {
+		var outputRow = {};
+
+		columns.forEach(function (col) {
+			var field = col.getField();
+			if (field) {
+				$("input[name=DeleteColumns]:checked").each(function () {
+					if (field != $(this).val()) {
+						outputRow[field] = row[field];
+					}
+				});
+			}
+		});
+		// Now we have the row without the delete columns.
+		filteredData.push(outputRow);
+	});
+	$("input[name=DeleteColumns]:checked").each(function () {
+		// Efectifly delete the columns from the table. But this will not delete the columns from the data!
+		table.deleteColumn($(this).val());
+	});
+	// Replace all of the table data with the new json array. This will not contain the deleted columns!
+	table.replaceData(filteredData);
+	table.redraw();	
+	$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+	$('#saveAgencyButton').prop('disabled', false);
+	$('#DeleteColumnModal').modal('hide');
+	$.toast({
+		title: 'Delete Column',
+		subtitle: 'Columns Deleted',
+		content: 'Save the table save the changes to the database.',
+		type: 'success',
+		delay: 5000
+	});
+}
+
+function AddExtraColumns(loadeddata) {
+	var filtered = loadeddata;
+	GTFSDefinedColumns.forEach(function (element) {
+		for (var i = 0; i < filtered.length; i++) {
+			if (filtered[i] === element) {
+				// Remove the predefined columns.
+				filtered.splice(i, 1);
+				i--;
+			}
+		}
+	});
+	// Filtered contains now the columns that aren't in the gtfs specs.	
+	filtered.forEach(function (addcolumn) {
+		//add the column to the table.
+		table.addColumn({ title: addcolumn, field: addcolumn, editor: true });
+	});
+}
