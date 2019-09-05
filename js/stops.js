@@ -1,9 +1,9 @@
 //##############
 // Global constants, variables
-var NewStopColumnsList = ["new_stop_id","new_stop_code","new_stop_name","new_stop_desc","new_stop_lat","new_stop_lon","new_zone_id","new_stop_url","new_location_type","new_parent_station","new_stop_timezone","new_wheelchair_boarding","new_platform_code"];
-var  databankLayer = new L.geoJson(null);
-
-var GTFSDefinedColumns = ["stop_id","stop_code","stop_name","stop_desc","stop_lat","stop_lon","zone_id","stop_url","location_type","parent_station","stop_timezone","wheelchair_boarding","platform_code","level_id"];
+var NewStopColumnsList = ["new_stop_id", "new_stop_code", "new_stop_name", "new_stop_desc", "new_stop_lat", "new_stop_lon", "new_zone_id", "new_stop_url", "new_location_type", "new_parent_station", "new_stop_timezone", "new_wheelchair_boarding", "new_platform_code"];
+var databankLayer = new L.geoJson(null);
+var markerList = [];
+var GTFSDefinedColumns = ["stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station", "stop_timezone", "wheelchair_boarding", "platform_code", "level_id"];
 
 // SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
 var myRenderer = L.canvas({ padding: 0.5 });
@@ -21,7 +21,7 @@ var stopsTotal = function (values, data, calcParams) {
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button class="btn btn-outline-primary" id="savetable" name="savetable" disabled>Save Stops to DB</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}','<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>');
+footerHTML = footerHTML.replace('{FastAdd}', '<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>');
 // #################################
 /* 2. Tabulator initiation */
 
@@ -37,26 +37,26 @@ var table = new Tabulator("#stops-table", {
 	ajaxURL: APIpath + 'tableReadSave?table=stops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	clipboard: true,
-	footerElement:footerHTML,
+	footerElement: footerHTML,
 	//clipboardCopySelector:"table",
 	clipboardPasteAction: "replace",
 	columns: [ //Define Table Columns
 		// stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding
-		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30},
-		{ title: "stop_id", field: "stop_id", frozen: true, headerFilter: "input", validator: ["string", 3],download:true },
-        { title: "stop_code", field: "stop_code", editor: "input",download:true},
-        { title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", 3] ,download:true},
-        { title: "stop_desc", field: "stop_desc", editor: "input",download:true,visible:false},
-		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float",download:true },
-		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float",download:true },
-        { title: "zone_id", field: "zone_id", editor: "input",download:true },
-        { title: "stop_url", field: "stop_url", editor: "input",download:true,visible:false },
-        { title: "location_type", field: "location_type", editor: "input",download:true,visible:false },
-        { title: "parent_station", field: "parent_station", editor: "input",download:true,visible:false },
-        { title: "stop_timezone", field: "stop_timezone", editor: "input" ,download:true,visible:false},
-        { title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } } ,download:true},
-        { title: "level_id", field: "level_id", editor: "input",download:true,visible:false },
-        { title: "platform_code", field: "platform_code", editor: "input",download:true,visible:false }
+		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
+		{ title: "stop_id", field: "stop_id", frozen: true, headerFilter: "input", validator: ["string", 3], download: true },
+		{ title: "stop_code", field: "stop_code", editor: "input", download: true },
+		{ title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", 3], download: true },
+		{ title: "stop_desc", field: "stop_desc", editor: "input", download: true, visible: false },
+		{ title: "stop_lat", field: "stop_lat", headerSort: false, validator: "float", download: true },
+		{ title: "stop_lon", field: "stop_lon", headerSort: false, validator: "float", download: true },
+		{ title: "zone_id", field: "zone_id", editor: "input", download: true },
+		{ title: "stop_url", field: "stop_url", editor: "input", download: true, visible: false },
+		{ title: "location_type", field: "location_type", editor: "select", editorParams: { values: { 0: 'Stop (or "Platform")', 1: "Station", 2: "Station entrance or exit", 3:  "Generic node", 4: "Boarding area"} }, download: true, visible: false },
+		{ title: "parent_station", field: "parent_station", editor: "input", download: true, visible: false },
+		{ title: "stop_timezone", field: "stop_timezone", editor: select2TZEditor, download: true, visible: false },
+		{ title: "wheelchair_boarding", field: "wheelchair_boarding", editor: "select", headerSort: false, editorParams: { values: { 0: "No (0)", 1: "Yes (1)" } }, download: true },
+		{ title: "level_id", field: "level_id", editor: "input", download: true, visible: false },
+		{ title: "platform_code", field: "platform_code", editor: "input", download: true, visible: false }
 	],
 
 	rowSelected: function (row) { //when a row is selected
@@ -66,7 +66,7 @@ var table = new Tabulator("#stops-table", {
 		mapPop(row.getData().stop_id);
 	},
 	rowDeselected: function (row) { //when a row is deselected
-		depopulateFields();
+		//depopulateFields();
 		map.closePopup();
 	},
 	historyUndo: function (action, component, data) {
@@ -86,7 +86,7 @@ var table = new Tabulator("#stops-table", {
 			mapPop(data.data.stop_id);
 		}
 		logmessage(message);
-	},	
+	},
 	cellEditing: function (cell) {
 		// pop up the stop on the map when user starts editing
 		mapPop(cell.getRow().getData().stop_id);
@@ -107,23 +107,23 @@ var table = new Tabulator("#stops-table", {
 		// Filter only stattions
 		var Stations = data.filter(function (stop) {
 			return stop.location_type === "1";
-		  });
-		  console.log(Stations);
+		});
+		console.log(Stations);
 		var stationsselect2 = $.map(Stations, function (obj) {
 			obj.id = obj.id || obj.stop_id; // replace identifier
 			obj.text = obj.text || obj.stop_name
 			return obj;
-		  });
-		  console.log(stationsselect2);
-		$("#new_parent_station").select2({				
+		});
+		console.log(stationsselect2);
+		$("#new_parent_station").select2({
 			placeholder: "Select a parent station",
 			allowClear: true,
 			theme: 'bootstrap4',
 			data: stationsselect2
-		  });
-		  // parse the first row keys if data exists.
+		});
+		// parse the first row keys if data exists.
 		if (data.length > 0) {
-			AddExtraColumns(Object.keys(data[0]));			
+			AddExtraColumns(Object.keys(data[0]));
 		}
 		else {
 			console.log("No data so no columns");
@@ -132,7 +132,7 @@ var table = new Tabulator("#stops-table", {
 	ajaxError: function (xhr, textStatus, errorThrown) {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
 	},
-	dataEdited:function(data){
+	dataEdited: function (data) {
 		$('#savetable').removeClass().addClass('btn btn-primary');
 		$('#savetable').prop('disabled', false);
 	}
@@ -188,17 +188,17 @@ $('.leaflet-container').css('cursor', 'crosshair'); // from https://stackoverflo
 
 L.control.scale({ metric: true, imperial: false }).addTo(map);
 
-var stopsLayer = new L.geoJson(null)
-	.bindTooltip(function (layer) {
-		return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-	}, { sticky: false })
-	.bindPopup(function (layer) {
-		return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-	})
+var stopsLayer = L.markerClusterGroup()
+	// .bindTooltip(function (layer) {
+	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+	// }, { sticky: false })
+	// .bindPopup(function (layer) {
+	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+	// })
 	.on('click', markerOnClick);
 
 var baseLayers = {
-	"OpenStreetMap": LayerOSM	
+	"OpenStreetMap": LayerOSM
 };
 
 var overlays = {
@@ -293,20 +293,20 @@ $("#AddStopButton").on("click", function () {
 	$form.parsley({
 		errorClass: 'has-danger',
 		successClass: 'has-success',
-		classHandler: function(ParsleyField) {
-		  return ParsleyField.$element.closest('.form-group');
+		classHandler: function (ParsleyField) {
+			return ParsleyField.$element.closest('.form-group');
 		},
-		errorsContainer: function(ParsleyField) {
-		  return ParsleyField.$element.closest('.form-group');
+		errorsContainer: function (ParsleyField) {
+			return ParsleyField.$element.closest('.form-group');
 		},
 		errorsWrapper: '<span class="form-text text-danger"></span>',
 		errorTemplate: '<span></span>'
-	  }).validate()
-	if ( $form.parsley().validate() ) {
+	}).validate()
+	if ($form.parsley().validate()) {
 		// Process adding the value
 		addTable();
-	}       
-	
+	}
+
 });
 
 $("#copytable").on("click", function () {
@@ -315,41 +315,41 @@ $("#copytable").on("click", function () {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function() {
-	var column = this.id.replace('check','');
-	if(this.checked) {		
+$('body').on('change', 'input[type="checkbox"]', function () {
+	var column = this.id.replace('check', '');
+	if (this.checked) {
 		table.showColumn(column);
-        table.redraw();
-    }
-    else {		
+		table.redraw();
+	}
+	else {
 		table.hideColumn(column);
-        table.redraw();
-       
-    }
+		table.redraw();
+
+	}
 });
 
-$(document).on("click","#LinkDownloadCSV", function () {
+$(document).on("click", "#LinkDownloadCSV", function () {
 	table.download("csv", "stops.csv");
 });
 
-$(document).on("click","#LinkDownloadJSON", function () {
+$(document).on("click", "#LinkDownloadJSON", function () {
 	table.download("json", "stops.json");
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
 	// executes when HTML-Document is loaded and DOM is ready
-	$("#new_stop_timezone").select2({				
+	$("#new_stop_timezone").select2({
 		placeholder: "Select a timezone",
 		allowClear: true,
 		theme: 'bootstrap4',
 		data: TimeZoneList
-	  });
-	  // Set the default timezone from the settings.js file.
-	  $("#new_stop_timezone").val(cfg.GTFS.Timezone).trigger("change");
+	});
+	// Set the default timezone from the settings.js file.
+	$("#new_stop_timezone").val(cfg.GTFS.Timezone).trigger("change");
 
 	var DownloadContent = "";
-	DownloadLinks.forEach(function(downloadtype) {
-		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	DownloadLinks.forEach(function (downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload' + downloadtype + '">Download ' + downloadtype + '</a>';
 	});
 	$("#DownloadsMenu").html(DownloadContent);
 
@@ -373,9 +373,9 @@ $("#CopyStopIDtoZoneID").on("click", function () {
 
 // Form validations
 
-$("#new_location_type").on('change', function() {
+$("#new_location_type").on('change', function () {
 	console.log($(this).val());
-	if ($(this).val() === '0' || $(this).val() === '1' || $(this).val()=== '2') {
+	if ($(this).val() === '0' || $(this).val() === '1' || $(this).val() === '2') {
 		// location type = 0,1,2 then lat,lon is required
 		$("#new_stop_lat").attr('data-parsley-required', 'true');
 		//$("#new_stop_lat").attr('data-parsley-pattern','^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$');
@@ -407,22 +407,22 @@ $("#new_location_type").on('change', function() {
 function CopyStopIDtoZoneID() {
 	// Select all rows
 	var rows = table.getRows();
-	rows.forEach(function(row){		
+	rows.forEach(function (row) {
 		// Copy all the arrival_times to the departure times.
-		table.updateRow(row, {zone_id: row.getData().stop_id});		
-	});		
+		table.updateRow(row, { zone_id: row.getData().stop_id });
+	});
 }
 
 function addTable() {
 	// Loop through all stops columns and add it tho a temp object for insert.
 	var stop_id = $("#new_stop_id").val();
 	var jsonData = {};
-	NewStopColumnsList.forEach(function(selectcolumn) {            
+	NewStopColumnsList.forEach(function (selectcolumn) {
 		// get the column selectbox value
 		var importcolumn = $("#" + selectcolumn).val();
-		var gtfscolumnname = selectcolumn.replace('new_','');
+		var gtfscolumnname = selectcolumn.replace('new_', '');
 		jsonData[gtfscolumnname] = importcolumn;
-		                
+
 	});
 	console.log(jsonData);
 	try {
@@ -435,11 +435,11 @@ function addTable() {
 	logmessage('updateOrAddRow done for ' + stop_id);
 
 	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
-	
-	setTimeout(function () {		
-		table.selectRow(stop_id);		
-	}, 1000);	
-	
+
+	setTimeout(function () {
+		table.selectRow(stop_id);
+	}, 1000);
+
 }
 
 // Update or Add to table
@@ -523,7 +523,7 @@ function reloadData(timeflag = 'normal') {
 	// 	return;
 	// }
 	// 
-	
+
 	// console.log($("#targetStopid").val())
 	// Map update
 	reloadMap(timeflag);
@@ -548,7 +548,7 @@ function reloadMap(timeflag = 'normal', filterFlag = false) {
 }
 
 function loadonmap(stopsjson, stopsLayer) {
-	var renderFlag = (stopsjson.length > MARKERSLIMIT ? true : false);
+	// var renderFlag = (stopsjson.length > MARKERSLIMIT ? true : false);
 	console.log('total stops: ' + stopsjson.length);
 	// if there's too many stops, then use the SVG renderer way. Else if not too many stops, then use the divIcon way.
 
@@ -560,11 +560,11 @@ function loadonmap(stopsjson, stopsLayer) {
 			continue;
 		}
 
-		if (renderFlag) {
-			// renderFlag is set earlier. If too many stops, then use the lighter custom SVG renderer.
-			var stopmarker = L.circleMarker([lat, lon], circleMarkerOptions);
-		}
-		else {
+		// if (renderFlag) {
+		// 	// renderFlag is set earlier. If too many stops, then use the lighter custom SVG renderer.
+		// 	var stopmarker = L.circleMarker([lat, lon], circleMarkerOptions);
+		// }
+		// else {
 			// making label as initial of stop name, and handling in case its a number.
 			var label = stopsjson[stoprow]['stop_name'];
 			var labelShort;
@@ -585,9 +585,9 @@ function loadonmap(stopsjson, stopsLayer) {
 					html: labelShort
 				})
 			});
-		}
+		// }
 		stopmarker.properties = stopsjson[stoprow];
-		//console.log( JSON.stringify(stopmarker) );
+		//markerList.push(stopmarker);
 		stopmarker.addTo(stopsLayer);
 	}
 }
@@ -603,17 +603,17 @@ function updateLatLng(latlong, revflag) {
 		var selectedRows = table.getSelectedData();
 		if (selectedRows.length > 0) {
 			// If a row is selected update the lat en lon
-			var rowdata = selectedRows[0];			
+			var rowdata = selectedRows[0];
 			stop_lat = Math.round((dragmarker.getLatLng().lat + 0.0000001) * 10000) / 10000;
 			stop_lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
-			table.updateRow(rowdata.stop_id, {stop_lat:stop_lat, stop_lon:stop_lng});			
+			table.updateRow(rowdata.stop_id, { stop_lat: stop_lat, stop_lon: stop_lng });
 		}
 		lat = Math.round((dragmarker.getLatLng().lat + 0.0000001) * 10000) / 10000;
 		// Rounding, from https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary. The +0.000.. is to trip forward a number hinging on x.9999999...
 		lng = Math.round((dragmarker.getLatLng().lng + 0.0000001) * 10000) / 10000;
 		// document.getElementById('newlatlng').value = lat + ',' + lng;
 		$("#new_stop_lon").val(lng);
-		$("#new_stop_lat").val(lat);		
+		$("#new_stop_lat").val(lat);
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
 		//map.panTo(dragmarker.getLatLng());
 	}
@@ -624,15 +624,15 @@ function updateLatLng(latlong, revflag) {
 /* Interlinking between table and map */
 function mapPop(stop_id) {
 	//console.log('Looking for ' + stop_id);
+	console.log(stopsLayer);
 	stopsLayer.eachLayer(function (layer) {
 		if (layer.properties && (layer.properties.stop_id == stop_id)) {
 			layer.bindPopup(function (layer) {
 				return layer.properties.stop_id + ': ' + layer.properties.stop_name;
 			});
-			layer.openPopup();
-			// decideZoom = map.getZoom() > 13 ? 16 : 13; // if zoomed in more, take it to 16. Else if very much out, zoom in to 13.
-			// map.flyTo(layer.getLatLng(), decideZoom, {duration:1, animate:true});
-			map.panTo(layer.getLatLng(), { duration: 1, animate: true });
+			stopsLayer.zoomToShowLayer(layer, function () {
+				layer.openPopup();
+			});			
 		}
 	});
 
@@ -715,8 +715,7 @@ function saveStops() {
 		type: 'info',
 		delay: 3000
 	});
-	//$('#stopSaveStatus').html('<span class="alert alert-info">Sending data, please wait...</span>');
-
+	
 	var data = table.getData();
 
 	var pw = $("#password").val();
@@ -739,8 +738,7 @@ function saveStops() {
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 	xhr.onload = function () {
 		if (xhr.status === 200) {
-			console.log('Successfully sent data via POST to server /API/tableReadSave table=stops, resonse received: ' + xhr.responseText);
-			//$('#stopSaveStatus').html('<span class="alert alert-success">' + xhr.responseText + '</span>');
+			console.log('Successfully sent data via POST to server /API/tableReadSave table=stops, resonse received: ' + xhr.responseText);			
 			$.toast({
 				title: 'Save Stops',
 				subtitle: 'Success',
@@ -756,8 +754,7 @@ function saveStops() {
 				content: xhr.responseText,
 				type: 'error',
 				delay: 3000
-			});
-			//$('#stopSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
+			});			
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
@@ -850,47 +847,48 @@ var geocoder = L.Control.geocoder({
 		console.log(latlng);
 		dragmarker.setLatLng(e.geocode.center);
 		updateLatLng(dragmarker.getLatLng());
-		dragmarker.addTo(map);		
+		dragmarker.addTo(map);
 	})
 	.addTo(map);
 
 
-	function addColumntoTable() {
-		var CurrentColumns = [];
-		var ColumntoAdd = prompt("Please enter are title for the column you ant to add", "Column Add");
-		// replace special chars and spaces.
-		ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
-		// Current Columns
-		table.getColumnLayout().forEach(function (selectcolumn) {
-			// get the column selectbox value
-			if (selectcolumn.field) {
-				CurrentColumns.push(selectcolumn.field);
-			}
+function addColumntoTable() {
+	var CurrentColumns = [];
+	var ColumntoAdd = prompt("Please enter a title for the column you want to add", "");
+	if (!ColumntoAdd) { return;}
+	// replace special chars and spaces.
+	ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
+	// Current Columns
+	table.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			CurrentColumns.push(selectcolumn.field);
+		}
+	});
+	// Check 
+	if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
+		table.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
+		$.toast({
+			title: 'Add Column',
+			subtitle: 'Columns Added',
+			content: "Please add values to the newly added column. Without it it won't save it to the database.",
+			type: 'success',
+			delay: 5000
 		});
-		// Check 
-		if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
-			table.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
-			$.toast({
-				title: 'Add Column',
-				subtitle: 'Columns Added',
-				content: "Please add values to the newly added column. Without it it won't save it to the database.",
-				type: 'success',
-				delay: 5000
-			});
-			$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
-			$('#saveAgencyButton').prop('disabled', false);
-		}
-		else {
-			$.toast({
-				title: 'Add Column',
-				subtitle: 'Failed to Add',
-				content: ColumntoAdd + ' is already there.',
-				type: 'error',
-				delay: 5000
-			});
-		}
+		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+		$('#saveAgencyButton').prop('disabled', false);
 	}
-	
+	else {
+		$.toast({
+			title: 'Add Column',
+			subtitle: 'Failed to Add',
+			content: ColumntoAdd + ' is already there.',
+			type: 'error',
+			delay: 5000
+		});
+	}
+}
+
 
 function ShowHideColumn() {
 	var ColumnSelectionContent = "";
@@ -932,6 +930,17 @@ function RemoveExtraColumns() {
 			}
 		}
 	});
+	if (CurrentColumns.length == 0) {
+		$.toast({
+			title: 'Delete Column',
+			subtitle: 'No custom Columns',
+			content: 'There are no custom columns to delete',
+			type: 'info',
+			delay: 5000
+		});
+		return;
+	}
+
 	// Currentcolumns now holds all defined columns.
 	var ColumnSelectionContent = "";
 	CurrentColumns.forEach(function (selectcolumn) {
@@ -951,7 +960,7 @@ function RemoveExtraColumns() {
 
 function DeleteExtraColumns() {
 	// The getdata funtion will not delete the column from the data but only hides it. 
-	var data = table.getData();	
+	var data = table.getData();
 	var filteredData = [];
 	var columns = table.getColumns();
 	data.forEach(function (row) {
@@ -976,7 +985,7 @@ function DeleteExtraColumns() {
 	});
 	// Replace all of the table data with the new json array. This will not contain the deleted columns!
 	table.replaceData(filteredData);
-	table.redraw();	
+	table.redraw();
 	$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
 	$('#saveAgencyButton').prop('disabled', false);
 	$('#DeleteColumnModal').modal('hide');

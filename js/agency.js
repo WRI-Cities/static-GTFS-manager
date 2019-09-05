@@ -254,7 +254,8 @@ function addAgency() {
 
 function addColumntoTable() {
 	var CurrentColumns = [];
-	var ColumntoAdd = prompt("Please enter are title for the column you ant to add", "Column Add");
+	var ColumntoAdd = prompt("Please enter a title for the column you want to add", "");
+	if (!ColumntoAdd) { return;}
 	// replace special chars and spaces.
 	ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
 	// Current Columns
