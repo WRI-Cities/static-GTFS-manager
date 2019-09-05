@@ -2,7 +2,6 @@
 // Global constants, variables
 var NewStopColumnsList = ["new_stop_id", "new_stop_code", "new_stop_name", "new_stop_desc", "new_stop_lat", "new_stop_lon", "new_zone_id", "new_stop_url", "new_location_type", "new_parent_station", "new_stop_timezone", "new_wheelchair_boarding", "new_platform_code"];
 var databankLayer = new L.geoJson(null);
-var markerList = [];
 var GTFSDefinedColumns = ["stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station", "stop_timezone", "wheelchair_boarding", "platform_code", "level_id"];
 
 // SVG rendered from https://stackoverflow.com/a/43019740/4355695 : A way to enable adding more points without crashing the browser. Will be useful in future if number of stops is above 500, 1000 or so.
@@ -20,8 +19,20 @@ var stopsTotal = function (values, data, calcParams) {
 
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button class="btn btn-outline-primary" id="savetable" name="savetable" disabled>Save Stops to DB</button>`;
+const FastAdd = `<div class="btn-group dropup" role="group" id="ToolsButtons">
+<button id="btnGroupDropTools" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Tools">
+<i class="fas fa-tools"></i>
+</button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDropTools" id="SelectToolsMenu">
+<a class="dropdown-item" href="#" id="CopyStopIDtoZoneID" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</a>
+<a class="dropdown-item" href="#" id="CopyTimeZones" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Copy the timezone of the selected to all other stops.">Copy Timezone to all stops</a>
+<a class="dropdown-item" href="#" id="SplitStops" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Split column number of chars to a new column">Split Column</a>
+<a class="dropdown-item" href="#" id="SpliceStops" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Remove Chars from Column">Splice Column</a>
+</div>
+</div>`;
+
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
-footerHTML = footerHTML.replace('{FastAdd}', '<button id="CopyStopIDtoZoneID" class="btn btn-secondary" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" title="Copy stop_id to zone_id" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</button>');
+footerHTML = footerHTML.replace('{FastAdd}', FastAdd);
 // #################################
 /* 2. Tabulator initiation */
 
@@ -586,7 +597,6 @@ function loadonmap(stopsjson, stopsLayer) {
 			});
 		// }
 		stopmarker.properties = stopsjson[stoprow];
-		//markerList.push(stopmarker);
 		stopmarker.addTo(stopsLayer);
 	}
 }

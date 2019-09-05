@@ -16,7 +16,7 @@
 	<link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
 	<!-- Vendor CSS-->
-	
+
 	<link href="vendor/wow/animate.css" rel="stylesheet" media="all">
 	<link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
 	<link href="vendor/slick/slick.css" rel="stylesheet" media="all">
@@ -66,7 +66,7 @@
 	</style>
 </head>
 
-<body>
+<body class="page-content--bgf7">
 	<div class="page-wrapper">
 		<!-- HEADER DESKTOP-->
 		<header class="header-desktop3 d-none d-lg-block">
@@ -81,7 +81,8 @@
 						<!-- menu will be inserted from menu.js.-->
 					</div>
 					<div class="form-inline my-2 my-md-0">
-						<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
+						<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits"
+							style="width:200px;" id="password">
 					</div>
 				</div>
 			</div>
@@ -90,7 +91,7 @@
 		<!-- MAIN CONTENT-->
 		<div class="page-content--bgf7">
 			<div class="section__content section__content--p30">
-				<div class="container p-t-20">
+				<div class="container-fluid p-t-20">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -113,7 +114,8 @@
 										done in the <b>large
 											text box</b>. <br>
 										3. <i>No actual changes to the database will be made at this time.</i><br>
-										4. After reviewing and approving the changes to be done, you can click on <b class="btn-danger">the
+										4. After reviewing and approving the changes to be done, you can click on <b
+											class="btn-danger">the
 											big red button</b> to make the changes to the database.<br>
 										5. After clicking the final button for making the changes, please <u>stay</u> on
 										the page and wait
@@ -129,7 +131,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="container p-t-20">
+				<div class="container-fluid p-t-20">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -141,38 +143,56 @@
 
 								<div class="card-body">
 									<ul class="nav nav-tabs" id="myTab" role="tablist">
-										<li class="nav-item"><a class="nav-link active" href="#delStopDiv" id="tab-StopDiv" role="tab" aria-controls="delStopDiv" aria-selected="true" data-toggle="tab">Stop</a>
+										<li class="nav-item"><a class="nav-link active" href="#delStopDiv"
+												id="tab-StopDiv" role="tab" aria-controls="delStopDiv"
+												aria-selected="true" data-toggle="tab">Stop</a>
 										</li>
-										<li class="nav-item"><a class="nav-link" href="#delRouteDiv" id="tab-RouteDiv" role="tab" aria-controls="delRouteDiv" aria-selected="false" data-toggle="tab">Route</a>
+										<li class="nav-item"><a class="nav-link" href="#delRouteDiv" id="tab-RouteDiv"
+												role="tab" aria-controls="delRouteDiv" aria-selected="false"
+												data-toggle="tab">Route</a>
 										</li>
-										<li class="nav-item"><a class="nav-link" href="#delTripDiv" id="tab-TripDiv" role="tab" aria-controls="delTripDiv" aria-selected="false" data-toggle="tab">Trip</a>
+										<li class="nav-item"><a class="nav-link" href="#delTripDiv" id="tab-TripDiv"
+												role="tab" aria-controls="delTripDiv" aria-selected="false"
+												data-toggle="tab">Trip</a>
 										</li>
-										<li class="nav-item"><a class="nav-link" href="#delShapeDiv" id="tab-ShapeDiv" role="tab" aria-controls="delShapeDiv" aria-selected="false" data-toggle="tab">Shape</a>
+										<li class="nav-item"><a class="nav-link" href="#delShapeDiv" id="tab-ShapeDiv"
+												role="tab" aria-controls="delShapeDiv" aria-selected="false"
+												data-toggle="tab">Shape</a>
 										</li>
-										<li class="nav-item"><a class="nav-link" href="#delCalendarDiv" id="tab-CalendarDiv" role="tab" aria-controls="delCalendarDiv" aria-selected="false" data-toggle="tab">Calendar
+										<li class="nav-item"><a class="nav-link" href="#delCalendarDiv"
+												id="tab-CalendarDiv" role="tab" aria-controls="delCalendarDiv"
+												aria-selected="false" data-toggle="tab">Calendar
 												Service</a></li>
-										<li class="nav-item"><a class="nav-link" href="#delZoneDiv" id="tab-ZoneDiv" role="tab" aria-controls="delZoneDiv" aria-selected="false" data-toggle="tab">Fare
+										<li class="nav-item"><a class="nav-link" href="#delZoneDiv" id="tab-ZoneDiv"
+												role="tab" aria-controls="delZoneDiv" aria-selected="false"
+												data-toggle="tab">Fare
 												Zone</a></li>
-										<li class="nav-item"><a class="nav-link" href="#delFareIDDiv" id="tab-FareIDDiv" role="tab" aria-controls="delFareIDDiv" aria-selected="false" data-toggle="tab">Fare
+										<li class="nav-item"><a class="nav-link" href="#delFareIDDiv" id="tab-FareIDDiv"
+												role="tab" aria-controls="delFareIDDiv" aria-selected="false"
+												data-toggle="tab">Fare
 												ID</a></li>
-										<li class="nav-item"><a class="nav-link" href="#delAgencyDiv" id="tab-AgencyDiv" role="tab" aria-controls="delAgencyDiv" aria-selected="false" data-toggle="tab">Agency</a>
+										<li class="nav-item"><a class="nav-link" href="#delAgencyDiv" id="tab-AgencyDiv"
+												role="tab" aria-controls="delAgencyDiv" aria-selected="false"
+												data-toggle="tab">Agency</a>
 										</li>
 									</ul>
 									<div class="tab-content" id="myTabContent">
-										<div class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-StopDiv" id="delStopDiv">
+										<div class="tab-pane fade show active" role="tabpanel"
+											aria-labelledby="tab-StopDiv" id="delStopDiv">
 
 											<h4>Delete a Stop</h4>
-											<select id="stop2Delete"></select>
+											<select id="stop2Delete" class="form-control"></select>
 
 										</div> <!-- END delStopDiv -->
 
 										<!-- delRouteDiv Delete Route -->
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-RouteDiv" id="delRouteDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-RouteDiv"
+											id="delRouteDiv">
 
 											<div class="row">
 												<div class="col-md-5">
 													<h4>Delete a Route</h4>
-													<select id="route2Delete"></select>
+													<select id="route2Delete" class="form-control"></select>
 												</div>
 												<div class="col col-md-7 alert alert-warning">
 													<small>Note: Deleting a route will result in deleting all the trips
@@ -190,30 +210,33 @@
 										</div> <!-- END delRouteDiv -->
 
 										<!-- delTripDiv Delete Trip -->
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-TripDiv" id="delTripDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-TripDiv"
+											id="delTripDiv">
 
 											<h4>Delete a Trip</h4>
-											<select id="trip2Delete"></select>
+											<select id="trip2Delete" class="form-control"></select>
 
 										</div> <!-- END delTripDiv -->
 
 										<!-- delShapeDiv Delete Shape -->
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-ShapeDiv" id="delShapeDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-ShapeDiv"
+											id="delShapeDiv">
 
 											<h4>Delete a Shape</h4>
-											<select id="shape2Delete"></select>
+											<select id="shape2Delete" class="form-control"></select>
 
 										</div> <!-- END delShapeDiv -->
 
 										<!-- delCalendarDiv Delete Calendar Service -->
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-CalendarDiv" id="delCalendarDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-CalendarDiv"
+											id="delCalendarDiv">
 
 
 
 											<div class="row">
 												<div class="col-md-5">
 													<h4>Delete a Calendar Service</h4>
-													<select id="service2Delete"></select>
+													<select id="service2Delete" class="form-control"></select>
 												</div>
 												<div class="col col-md-7 alert alert-warning">
 													<small>Note: Deleting a calendar service will result in deleting all
@@ -233,54 +256,62 @@
 
 										<!-- delZoneDiv Delete Fares Zone -->
 
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-ZoneDiv" id="delZoneDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-ZoneDiv"
+											id="delZoneDiv">
 
 											<h4>Delete a Fare Zone</h4>
 											<p>Used in Fares > Fare Rules (the origin and destination id's are fare zone
 												id's).
 												Created in Stops
 												page (zone_id) column.</p>
-											<select id="zone2Delete"></select>
+											<select id="zone2Delete" class="form-control"></select>
 
 										</div> <!-- END delZoneDiv -->
 
 										<!-- delFareIDDiv Delete Fares Zone -->
 
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-FareIDDiv" id="delFareIDDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-FareIDDiv"
+											id="delFareIDDiv">
 
 											<h4>Delete a Fare ID</h4>
 											<p>Created in Fares > Fare Attributes. Each fare_id represents an amount.
 												Used in
 												Fare Rules tabs under
 												Fares page to set the fare amount.</p>
-											<select id="fareID2Delete"></select>
+											<select id="fareID2Delete" class="form-control"></select>
 
 										</div> <!-- END delFareIDDiv -->
 
 
 										<!-- delAgencyDiv Delete Fares Zone -->
 
-										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-AgencyDiv" id="delAgencyDiv">
+										<div class="tab-pane fade" role="tabpanel" aria-labelledby="tab-AgencyDiv"
+											id="delAgencyDiv">
 
 											<h4>Delete an Agency ID</h4>
 											<p>Created in Misc > Agency Info. Used in Routes.</p>
-											<select id="agency2Delete"></select>
+											<select id="agency2Delete" class="form-control"></select>
 
 										</div> <!-- END delAgencyDiv -->
 										<hr />
 										<h4>Dry Run:</h4>
-					<small>Showing the data in tab-separated form. Copy-paste the contents below into an excel doc for
-						better viewing.</small><br>
-					<textarea id="dryRunResults" rows=10></textarea>
+										<small>Showing the data in tab-separated form. Copy-paste the contents below
+											into an excel doc for
+											better viewing.</small><br>
+										<textarea id="dryRunResults" rows=10></textarea>
 
-					<p><label><input type="checkbox" name="deepActionsConfirm" value="deepActionsConfirm" id="deepActionsConfirm">Check this ON to confirm that you understand the risks to your
-							data
-							and have taken proper precautions before proceeding.</label></p>
-					<p><button class="btn btn-danger btn-bg" id="deepActionsButton">Alright Let's DELETE It</button><br>
-						<span id="deepActionsStatus"></span></p>
-					<p>Note: Please reload the page after doing a delete / rename operation to make the updated lists
-						show
-						in the selection menu.</p>
+										<p><label><input type="checkbox" name="deepActionsConfirm"
+													value="deepActionsConfirm" id="deepActionsConfirm">Check this ON to
+												confirm that you understand the risks to your
+												data
+												and have taken proper precautions before proceeding.</label></p>
+										<p><button class="btn btn-danger btn-bg" id="deepActionsButton">Alright Let's
+												DELETE It</button><br>
+											<span id="deepActionsStatus"></span></p>
+										<p>Note: Please reload the page after doing a delete / rename operation to make
+											the updated lists
+											show
+											in the selection menu.</p>
 
 									</div>
 								</div>
@@ -289,12 +320,6 @@
 					</div>
 				</div>
 
-
-
-				<div class="container-fluid">
-
-					
-				</div>
 
 
 
@@ -314,7 +339,7 @@
 	<!-- Vendor JS       -->
 	<script src="vendor/slick/slick.min.js"></script>
 	<script src="vendor/wow/wow.min.js"></script>
-	
+
 	<script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
 	<script src="vendor/circle-progress/circle-progress.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>

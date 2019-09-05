@@ -6,7 +6,9 @@ var ColorEditor = function(cell, onRendered, success, cancel, editorParams){
     editor.style.width = "100%";
     editor.style.height = "100%";
     //editor.className = "jscolor";
-    editor.value = cell.getValue().replace('#','');
+    if (cell.getValue()) {
+        editor.value = cell.getValue().replace('#','');
+    }
     var ColorEditor = new jscolor(editor);
 
     // Current value

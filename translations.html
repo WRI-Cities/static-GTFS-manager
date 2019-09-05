@@ -30,7 +30,7 @@
 	<!-- Put the CSSs first and JSs next -->
 </head>
 
-<body>
+<body class="page-content--bgf7">
 	<div class="page-wrapper">
 		<!-- HEADER DESKTOP-->
 		<header class="header-desktop3 d-none d-lg-block">
@@ -54,7 +54,7 @@
 		<!-- MAIN CONTENT-->
 		<div class="page-content--bgf7">
 			<div class="section__content section__content--p30">
-				<div class="container p-t-20">
+				<div class="container-fluid p-t-20">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -79,38 +79,39 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="container p-t-20">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-header" id="headingOne">
-								Add Translation
-							</div>
-							<div class="card-body">
-								<div class="form-group">
-									<label for="transid_label">trnas_id:</label>
-									<input id="trans_id" placeholder="trans_id" class="form-control" aria-describedby="transid_label">
-									<small id="transid_help" class="form-text text-muted">The name entered in trans_id should exactly match with the stop_name or other value whose translation is being provided.</small>
-								</div>								
-								<div class="form-group">
-									<label for="lang">Language:</label>
-									<select id="lang" placeholder="lang" title="language code" class="form-control"></select>
+				<div class="container-fluid p-t-20">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									Add Translation
 								</div>
-								<div class="form-group">
-									<label for="translation">Translation:</label>
-									<input id="translation" placeholder="translation" class="form-control">
+								<div class="card-body">
+									<div class="form-group">
+										<label for="transid_label">trnas_id:</label>
+										<input id="trans_id" placeholder="trans_id" class="form-control" aria-describedby="transid_label">
+										<small id="transid_help" class="form-text text-muted">The name entered in trans_id should exactly match with the stop_name or other value whose translation is being provided.</small>
+									</div>								
+									<div class="form-group">
+										<label for="lang">Language:</label>
+										<select id="lang" placeholder="lang" title="language code" class="form-control"></select>
+									</div>
+									<div class="form-group">
+										<label for="translation">Translation:</label>
+										<input id="translation" placeholder="translation" class="form-control">
+									</div>
+									<button class="btn btn-primary" id="addTranslationButton" type="button">Add</button></p>
+									<p><small><span id="translationAddStatus">&nbsp;</span></small></p>
 								</div>
-								<button class="btn btn-primary" id="addTranslationButton" type="button">Add</button></p>
-								<p><small><span id="translationAddStatus">&nbsp;</span></small></p>
-							</div>
-							<div class="card-footer">								
-								<p><small><span id="translationSaveStatus"></span></small></p>
+								<div class="card-footer">								
+									<p><small><span id="translationSaveStatus"></span></small></p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 
 		</div>
 	</div>
