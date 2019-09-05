@@ -422,7 +422,6 @@ function addTable() {
 		var importcolumn = $("#" + selectcolumn).val();
 		var gtfscolumnname = selectcolumn.replace('new_', '');
 		jsonData[gtfscolumnname] = importcolumn;
-
 	});
 	console.log(jsonData);
 	try {

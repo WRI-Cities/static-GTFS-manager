@@ -13,9 +13,8 @@ xmlhttp.onreadystatechange = function() {
 		 else {
 			 console.log('Error Loading settings...');
 			 alert('Error Loading settings, loaded fallback settings!');
-			 cfg = {"GOOGLEAPI":"","MAPBOXAPI":"","MapProviders":[{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"}}
-		 }
-
+			 cfg = {"GOOGLEAPI":"","MAPBOXAPI":"","MapProviders":[{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"}, "APP":{WideScreen:false}}
+		 }	 
 		 
     }
 };
@@ -102,11 +101,6 @@ const UID_leastchars = 2;
 const tabulator_UID_leastchars = "minLength:2";
 const UID_maxchars = 20;
 const MARKERSLIMIT = 100;
-
-// from routes.js
-const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:true, width:100};
-
-const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
 
 // from tripstimings.js , formerly schedules.js
 const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};

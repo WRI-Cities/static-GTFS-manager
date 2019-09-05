@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-	<title>GTFS Manager : KRML Import</title>
+	<title>GTFS Manager : Config Page</title>
 
 
 	<!-- Fontfaces CSS-->
@@ -64,7 +64,7 @@
 		<!-- MAIN CONTENT-->
 		<div class="page-content--bgf7">
 			<div class="section__content section__content--p30">
-				<div class="container">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="accordion" id="accordionInstructions">
@@ -122,41 +122,41 @@
 									</div>
 								</div>
 								<div class="accordion" id="accordionGTFSDefaults">
-								<div class="card">
-									<div class="card-header" id="headingGTFSDefaults">
-										<h2 class="mb-0">
-											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#GTFSDefaults" aria-expanded="false" aria-controls="GTFSDefaults">
-												GTFS Defaults
-											</button>
-										</h2>
-									</div>
-									<div id="GTFSDefaults" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionGTFSDefaults">
-										<div class="card-body">
+									<div class="card">
+										<div class="card-header" id="headingGTFSDefaults">
+											<h2 class="mb-0">
+												<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#GTFSDefaults" aria-expanded="false" aria-controls="GTFSDefaults">
+													GTFS Defaults
+												</button>
+											</h2>
+										</div>
+										<div id="GTFSDefaults" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionGTFSDefaults">
+											<div class="card-body">
 												<div class="form-group row">
-														<label for="GTFSCurrecy" class="col-sm-2 col-form-label" id="label-apikey">GTFS Default Currency</label>
-														<div class="col-sm-10">
-																<select type="text" class="form-control" id="GTFSCurrency"></select>
-														</div>
+													<label for="GTFSCurrecy" class="col-sm-2 col-form-label" id="label-apikey">GTFS Default Currency</label>
+													<div class="col-sm-10">
+														<select type="text" class="form-control" id="GTFSCurrency"></select>
 													</div>
-													<div class="form-group row">
-															<label for="GTFSTimezone" class="col-sm-2 col-form-label" id="label-apikey">GTFS Default TimeZone</label>
-															<div class="col-sm-10">
-																<select class="form-control" id="GTFSTimezone"></select>
-															</div>
-														</div>
+												</div>
+												<div class="form-group row">
+													<label for="GTFSTimezone" class="col-sm-2 col-form-label" id="label-apikey">GTFS Default TimeZone</label>
+													<div class="col-sm-10">
+														<select class="form-control" id="GTFSTimezone"></select>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 								<div class="card">
-									<div class="card-header" id="headingThree">
+									<div class="card-header" id="headingAPIKeys">
 										<h2 class="mb-0">
-											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseAPIKeys" aria-expanded="false" aria-controls="collapseAPIKeys">
 												API Key online services (Mapbox, Google)
 											</button>
 										</h2>
 									</div>
-									<div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+									<div id="collapseAPIKeys" class="collapse show" aria-labelledby="headingAPIKeys" data-parent="#headingAPIKeys">
 										<div class="card-body">
 											<div class="form-group row">
 												<label for="ApiKey" class="col-sm-2 col-form-label" id="label-apikey">API Key Google</label>
@@ -171,6 +171,25 @@
 												</div>
 											</div>
 											<button class="btn btn-primary" id="SaveApiKeys">Save the API Keys</button>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" id="headingConfigApp">
+										<h2 class="mb-0">
+											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseConfigApp" aria-expanded="false" aria-controls="collapseConfigApp">
+												Application Configuration
+											</button>
+										</h2>
+									</div>
+									<div id="collapseConfigApp" class="collapse show" aria-labelledby="headingConfigApp" data-parent="#headingConfigApp">
+										<div class="card-body">
+											<div class="form-group row">
+												<label for="WideScreen" class="col-sm-2 col-form-label" id="label-apikey">Use Wide screen</label>
+												<div class="col-sm-10">
+													<select id="WideScreen" class="form-control"><option value="false">No</option><option value="true">Yes</option></select>
+												</div>
+											</div>											
 										</div>
 									</div>
 								</div>

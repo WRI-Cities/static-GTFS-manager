@@ -115,8 +115,9 @@ $("#SaveApiKeys").click(function () {
 	var url = 'API/Config/ApiKeys';
 	var MapProviders = ConfigMapProvider.getData();
 	var GTFS = {Timezone: $("#GTFSTimezone").val(),Currency: $("#GTFSCurrency").val()}
+	var APP = {WideScreen: $("WideScreen").val()}
 
-	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val(), MapProviders: MapProviders, GTFS: GTFS};
+	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val(), MapProviders: MapProviders, GTFS: GTFS,APP: APP};
 	// jQuery .post method is used to send post request.
 	// $.post(url, postData, function (data, status) {
 	// 	alert("Ajax post status is " + status);
