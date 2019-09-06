@@ -14,7 +14,8 @@ var calendarDatesTotal = function(values, data, calcParams){
 	var calc = values.length;
 	return calc + ' services total';
 }
-
+var GTFSDefinedColumnsCalendar = ["service_id","monday","tuesday","wednesday","thursday","friday","saturday","sunday","start_date","end_date"];
+var GTFSDefinedColumnsDates = ["service_id","date","exception_type"];
 
 var FastAddCalendar = `
 <div class="btn-group dropup mr-2" role="group" id="FastAddGroup">
@@ -46,6 +47,10 @@ footerHTMLcalendar = footerHTMLcalendar.replace('btnGroupDrop2','btnGroupDrop2Ca
 footerHTMLcalendar = footerHTMLcalendar.replace('SelectColumnsMenu','SelectColumnsMenuCalendar');
 footerHTMLcalendar = footerHTMLcalendar.replace('DownloadsMenu','DownloadsMenuCalendar');
 
+// Menu insertings ID's
+footerHTMLcalendar = footerHTMLcalendar.replace('LinkAddColumn','LinkAddColumnCalendar');
+footerHTMLcalendar = footerHTMLcalendar.replace('LinkDeleteColumn','LinkDeleteColumnCalendar');
+footerHTMLcalendar = footerHTMLcalendar.replace('LinkShowHideColumn','LinkShowHideColumnCalendar');
 
 //####################
 // Tabulator tables
@@ -56,20 +61,20 @@ var service = new Tabulator("#calendar-table", {
 	history:true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout:"fitDataFill",
+	layout: "fitColumns", //fit columns to width of table (optional)
 	ajaxURL: `${APIpath}tableReadSave?table=calendar`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	footerElement: footerHTMLcalendar,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
 		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal, validator:"unique" },
-		{title:"monday", field:"monday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"tuesday", field:"tuesday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"wednesday", field:"wednesday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"thursday", field:"thursday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"friday", field:"friday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"saturday", field:"saturday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
-		{title:"sunday", field:"sunday", editor:"select", editorParams:calendar_operationalChoices, headerSort:false },
+		{title:"monday", field:"monday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"tuesday", field:"tuesday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"wednesday", field:"wednesday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"thursday", field:"thursday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"friday", field:"friday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"saturday", field:"saturday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
+		{title:"sunday", field:"sunday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
 		{title:"start_date", field:"start_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" },
 		{title:"end_date", field:"end_date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd" }		
 	],
@@ -112,41 +117,12 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
-	// Hide columns logic:
-	var ColumnSelectionContent = "";
-	calendarDates.getColumnLayout().forEach(function(selectcolumn) {            
-	// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			console.log(columnname);
-			var checked = '';
-			if (selectcolumn.visible == true) {
-				checked = 'checked';
-			}
-			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="calender_dates" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
-		}
-	});
-	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	// Hide columns logic:	
 	var DownloadContent = "";
 	DownloadLinks.forEach(function(downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
 	});
 	$("#DownloadsMenu").html(DownloadContent);
-	// Calender menu's
-	var ColumnSelectionContent = "";
-	service.getColumnLayout().forEach(function(selectcolumn) {            
-	// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			console.log(columnname);
-			var checked = '';
-			if (selectcolumn.visible == true) {
-				checked = 'checked';
-			}
-			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="calender" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
-		}
-	});
-	$("#SelectColumnsMenuCalendar").html(ColumnSelectionContent);	
 	var DownloadContent = "";
 	DownloadLinks.forEach(function(downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownloadCalendar'+downloadtype+'">Download '+downloadtype+'</a>';		                
@@ -156,7 +132,40 @@ $(document).ready(function() {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function() {
+$(document).on("click", "#LinkAddColumnCalendar", function () {
+	addColumntoTable(service);
+});
+
+$(document).on("click", "#LinkDeleteColumnCalendar", function () {
+	RemoveExtraColumns(service, GTFSDefinedColumnsCalendar, 'service');
+});
+
+$(document).on("click", "#LinkShowHideColumnCalendar", function () {
+	ShowHideColumn(service, 'service');
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	SelectTableForDeleteExtraColumns();
+});
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable(calendarDates);
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns(calendarDates, GTFSDefinedColumnsDates, 'calendarDates');
+});
+
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn(calendarDates,'calendar_dates');
+});
+
+// $(document).on("click", "#DeleteColumnButton", function () {
+// 	DeleteExtraColumns(calendarDates);
+// });
+
+
+$('body').on('change', 'input[id^="check"]', function() {
 	var column = this.id.replace('check','');
 	if (this.value == 'calendar_dates' ){
 		if(this.checked) {		
@@ -201,50 +210,98 @@ $(document).on("click","#LinkDownloadCalendarJSON", function () {
 // Quick Adds:
 
 $("#AddServiceFullweek").on("click", function(){
-	service.addRow([{ 'service_id': 'FULLWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 1, sunday: 1 }]);
+	var filteredEvents = service.getData().filter(function(service){
+		return service.service_id == 'FULLWEEK';
+	});
+	if (filteredEvents.length == 0) {
+		service.addRow([{ 'service_id': 'FULLWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 1, sunday: 1 }]);
+	}
+	else {
+		$.toast({
+			title: 'Fast Add',
+			subtitle: 'Full Week',
+			content: 'There is already a service with the service_id FULLWEEK',
+			type: 'error',
+			delay: 3000
+		});
+	}	
 });
 
 $("#AddServiceWorkweek").on("click", function(){
-	service.addRow([{ 'service_id': 'WORKWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0 }]);
+	var filteredEvents = service.getData().filter(function(service){
+		return service.service_id == 'WORKWEEK';
+	});
+	if (filteredEvents.length == 0) {
+		service.addRow([{ 'service_id': 'WORKWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0 }]);
+	}
+	else {
+		$.toast({
+			title: 'Fast Add',
+			subtitle: 'Work Week',
+			content: 'There is already a service with the service_id WORKWEEK',
+			type: 'error',
+			delay: 3000
+		});
+	}	
 });
 
 $("#AddServiceWeekend").on("click", function(){
-	service.addRow([{ 'service_id': 'WEEKEND', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 1 }]);
+	var filteredEvents = service.getData().filter(function(service){
+		return service.service_id == 'WEEKEND';
+	});
+	if (filteredEvents.length == 0) {
+		service.addRow([{ 'service_id': 'WEEKEND', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 1 }]);
+	}
+	else {
+		$.toast({
+			title: 'Fast Add',
+			subtitle: 'Weekend',
+			content: 'There is already a service with the service_id WEEKEND',
+			type: 'error',
+			delay: 3000
+		});
+	}	
 });
 
 $("#AddServiceSaterday").on("click", function(){
-	service.addRow([{ 'service_id': 'SATERDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0 }]);
+	var filteredEvents = service.getData().filter(function(service){
+		return service.service_id == 'SATERDAY';
+	});
+	if (filteredEvents.length == 0) {
+		service.addRow([{ 'service_id': 'SATERDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0 }]);
+	}
+	else {
+		$.toast({
+			title: 'Fast Add',
+			subtitle: 'Saterday',
+			content: 'There is already a service with the service_id SATERDAY',
+			type: 'error',
+			delay: 3000
+		});
+	}	
 });
 
 $("#AddServiceSunday").on("click", function(){
-	service.addRow([{ 'service_id': 'SUNDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1 }]);
+	var filteredEvents = service.getData().filter(function(service){
+		return service.service_id == 'SUNDAY';
+	});
+	if (filteredEvents.length == 0) {
+		service.addRow([{ 'service_id': 'SUNDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1 }]);
+	}
+	else {
+		$.toast({
+			title: 'Fast Add',
+			subtitle: 'Sunday',
+			content: 'There is already a service with the service_id SUNDAY',
+			type: 'error',
+			delay: 3000
+		});
+	}	
 });
 
 
 // #########################
 // Buttons
-
-/*
-$("#addService").on("click", function(){
-	var service_id = $('#service2add').val();
-	
-	if(service_id.length < 1) { //validation
-		$('#serviceAdfunctiondStatus').text('Invalid entry, try again');
-		return;
-	}
-
-	let data = $("#calendar-table").tabulator("getData");
-	service_id_list = data.map(a => a.service_id); 
-	
-	if ( service_id_list.indexOf(service_id) > -1) {
-		$('#serviceAddStatus').text('This id is already taken. Try another value.');
-		return;
-	}
-	$("#calendar-table").tabulator('addRow',{service_id: service_id},true);
-	$('#service2add').val('');
-	$('#serviceAddStatus').text('Calendar service added with id ' + service_id + '. Fill its info in the table and then save changes.');
-});
-*/
 
 $("#saveCalendarButton").on("click", function(){
 	saveCalendar();
@@ -256,7 +313,14 @@ $("#calendar2add").bind("change keyup", function(){
 
 
 $('#addCalendarButton').on('click', function(){
-	addCalendar();
+	addCalendar(service, $("#calendar2add").val(),'service');
+});
+
+// ############################
+// 23.10.18: Calendar_dates:
+
+$('#addCalendarDatesButton').on('click', function(){
+	addCalendar(calendarDates, $("#calendarDates2add").val(),'');
 });
 
 // #########################
@@ -314,55 +378,36 @@ function saveCalendar() {
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
 }
 
-function addCalendar(table="calendar-table") {
-	var data;
-
-	if(table == 'calendar-table') {
-		data = service.getData();
-		statusHolder = 'calendarAddStatus';
-		inputHolder = 'calendar2add';
-	}
-	else {
-		data = calendarDates.getData();
-		statusHolder = 'calendarDatesAddStatus';
-		inputHolder = 'calendarDates2add';
-	}
-
-	//var data = $('#'+table).tabulator('getData');
-
-	//var service_id = $('#calendar2add').val().toUpperCase().replace(/[^A-Z0-9-_]/g, "");
-	var service_id = $('#'+inputHolder).val().replace(/[ `,]/g, "");
-
+function addCalendar(tablename, inputvalue, table) {
+	var data = tablename.getData();
+	var service_id = inputvalue.replace(/[ `,]/g, "");
 	
-	$('#calendar2add').val(service_id);
 	if(! service_id.length) {
-		$('#'+statusHolder).html('<span class="alert alert-warning">Give a valid id please.</span>');
+		$.toast({
+			title: 'Add Calendar or Service',
+			subtitle: 'Error',
+			content: 'Give a valid id please.',
+			type: 'error',
+			delay: 5000
+		});			
 		return;
 	}
 	
 	var service_id_list = data.map(a => a.service_id);
 	var isPresent = service_id_list.indexOf(service_id) > -1;
-	if(table=="calendar-table" && isPresent) {
+	if(table=="service" && isPresent) {
 		// 17.4.19 made the unique-only condition only for calendar table and not calendar-dates.
-		$('#'+statusHolder).html('<span class="alert alert-danger">Sorry, ' + service_id + ' is already taken. Please try another value.</span>');
-	} else {
-		if(table == 'calendar-table') {
-			service.addRow([{ 'service_id': service_id }]);
-		 }
-		else {
-			calendarDates.addRow([{ 'service_id': service_id }]);
-		}
-		//$('#'+table).tabulator("addRow",{ 'service_id': service_id } );
-		$('#'+statusHolder).html('<span class="alert alert-success">Added service_id ' + service_id + '</span>');
+		$.toast({
+			title: 'Add Calendar',
+			subtitle: 'Error',
+			content: 'Sorry, ' + service_id + ' is already taken. Please try another value.',
+			type: 'error',
+			delay: 5000
+		});			
+	} else {		
+			tablename.addRow([{ 'service_id': service_id }]);		
 	}
 }
-
-// ############################
-// 23.10.18: Calendar_dates:
-
-$('#addCalendarDatesButton').on('click', function(){
-	addCalendar(table="calendar-dates-table");
-});
 
 $("#saveCalendarDatesButton").on("click", function(){
 	$.toast({
@@ -416,3 +461,166 @@ $("#saveCalendarDatesButton").on("click", function(){
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
 	
 });
+
+
+function addColumntoTable(tablename) {
+	var CurrentColumns = [];
+	var ColumntoAdd = prompt("Please enter a title for the column you want to add", "");
+	if (!ColumntoAdd) { return;}
+	// replace special chars and spaces.
+	ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
+	// Current Columns
+	tablename.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			CurrentColumns.push(selectcolumn.field);
+		}
+	});
+	// Check 
+	if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
+		tablename.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
+		$.toast({
+			title: 'Add Column',
+			subtitle: 'Columns Added',
+			content: "Please add values to the newly added column. Without it it won't save it to the database.",
+			type: 'success',
+			delay: 5000
+		});
+		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+		$('#saveAgencyButton').prop('disabled', false);
+	}
+	else {
+		$.toast({
+			title: 'Add Column',
+			subtitle: 'Failed to Add',
+			content: ColumntoAdd + ' is already there.',
+			type: 'error',
+			delay: 5000
+		});
+	}
+}
+
+function ShowHideColumn(tablename, table) {
+	var ColumnSelectionContent = "";
+	tablename.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			var checked = '';
+			if (selectcolumn.visible == true) {
+				checked = 'checked';
+			}
+			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+table+'" id="check' + columnname + '" ' + checked + '><label class="form-check-label" for="check' + columnname + '">' + columnname + '</label></div>';
+		}
+	});
+	$("#DeleteColumnButton").hide();
+	$("#DeleteColumnModalTitle").html("Show / Hide columns");
+	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
+	// Show the Modal
+	$('#DeleteColumnModal').modal('show');
+}
+
+function RemoveExtraColumns(tablename, GTFSDefinedColumns, table) {
+	// first load all the columns currenty active in the tabel.
+	var CurrentColumns = [];
+	tablename.getColumnLayout().forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn.field) {
+			var columnname = selectcolumn.field;
+			CurrentColumns.push(columnname);
+		}
+	});
+	// Remove gtfs columns:
+	GTFSDefinedColumns.forEach(function (element) {
+		for (var i = 0; i < CurrentColumns.length; i++) {
+			if (CurrentColumns[i] === element) {
+				// Remove the predefined columns.
+				CurrentColumns.splice(i, 1);
+				i--;
+			}
+		}
+	});
+	// Currentcolumns now holds all defined columns.
+	var ColumnSelectionContent = "";
+	CurrentColumns.forEach(function (selectcolumn) {
+		// get the column selectbox value
+		if (selectcolumn) {
+			var columnname = selectcolumn;
+			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="' + columnname + '" name="DeleteColumns" id="DeleteColumns' + columnname + '"data-tablename='+table+'><label class="form-check-label" for="DeleteColumns' + columnname + '">' + columnname + '</label></div>';
+		}
+	});
+	$("#DeleteColumnButton").show();
+	$("#DeleteColumnModalTitle").html("Delete Non standard columns");
+	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
+	// Show the Modal
+	$('#DeleteColumnModal').modal('show');
+
+}
+
+function SelectTableForDeleteExtraColumns() {
+	var tablenameselected
+
+	$("input[name=DeleteColumns]:checked").each(function () {
+		tablenameselected = $(this).data("tablename");
+	});
+
+	DeleteExtraColumns(eval(tablenameselected));
+
+}
+
+function DeleteExtraColumns(tablename) {
+	// The getdata funtion will not delete the column from the data but only hides it. 
+	var data = tablename.getData();	
+	var filteredData = [];
+	var columns = tablename.getColumns();
+	data.forEach(function (row) {
+		var outputRow = {};
+		columns.forEach(function (col) {
+			var field = col.getField();
+			if (field) {
+				$("input[name=DeleteColumns]:checked").each(function () {
+					if (field != $(this).val()) {
+						outputRow[field] = row[field];
+					}
+				});
+			}
+		});
+		// Now we have the row without the delete columns.
+		filteredData.push(outputRow);
+	});
+	$("input[name=DeleteColumns]:checked").each(function () {
+		// Efectifly delete the columns from the table. But this will not delete the columns from the data!
+		tablename.deleteColumn($(this).val());
+	});
+	// Replace all of the table data with the new json array. This will not contain the deleted columns!
+	tablename.replaceData(filteredData);
+	tablename.redraw();	
+	$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
+	$('#saveAgencyButton').prop('disabled', false);
+	$('#DeleteColumnModal').modal('hide');
+	$.toast({
+		title: 'Delete Column',
+		subtitle: 'Columns Deleted',
+		content: 'Save the table save the changes to the database.',
+		type: 'success',
+		delay: 5000
+	});
+}
+
+function AddExtraColumns(loadeddata) {
+	var filtered = loadeddata;
+	GTFSDefinedColumns.forEach(function (element) {
+		for (var i = 0; i < filtered.length; i++) {
+			if (filtered[i] === element) {
+				// Remove the predefined columns.
+				filtered.splice(i, 1);
+				i--;
+			}
+		}
+	});
+	// Filtered contains now the columns that aren't in the gtfs specs.	
+	filtered.forEach(function (addcolumn) {
+		//add the column to the table.
+		tablename.addColumn({ title: addcolumn, field: addcolumn, editor: true });
+	});
+}

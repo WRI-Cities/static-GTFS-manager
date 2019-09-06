@@ -22,7 +22,7 @@ var table = new Tabulator("#agency-table", {
 	history: true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	ajaxURL: `${APIpath}tableReadSave?table=agency`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	placeholder: "No Data Available",
@@ -60,7 +60,7 @@ var table = new Tabulator("#agency-table", {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function () {
+$('body').on('change', 'input[id^="check"]', function () {
 	var column = this.id.replace('check', '');
 	if (this.checked) {
 		table.showColumn(column);

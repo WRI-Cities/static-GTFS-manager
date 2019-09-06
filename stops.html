@@ -350,19 +350,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="logaccordion" class="container" style="visibility: hidden;">
-                                <h3>Changes Log</h3>
-
-                                <p>
-                                    <textarea id="trackChanges" rows=10></textarea>
-                                </p>
-
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -370,6 +358,114 @@
         <!-- END PAGE CONTAINER-->
     </div>
 
+    <!-- Modal No tabindex for select2 -->
+    <div class="modal fade" id="DeleteColumnModal" role="dialog" aria-labelledby="DeleteColumnModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DeleteColumnModalTitle">Delete Non standard columns</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="DeleteColumnModalBody">          
+            </div>
+            <div class="modal-footer" id="DeleteColumnModalFooter">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="DeleteColumnButton">Remove columns</button>
+              <button type="button" class="btn btn-primary" id="ApplyTimeZoneButton">Apply the selected timezone</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- The Modals -->
+    <div class="modal" tabindex="-1" role="dialog" id="SplitModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Split Column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="SplitSourceColumn" class="col-sm-6 col-form-label">Source Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SplitSourceColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitFirst" class="col-sm-6 col-form-label">SplitFirst ... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SplitFirst" placeholder="4">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitPostition" class="col-sm-6 col-form-label">... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SplitPostition" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitDestinationColumn" class="col-sm-6 col-form-label">Destination Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SplitDestinationColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SplitButton" class="btn btn-primary">Split</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- The Modals -->
+     <div class="modal" tabindex="-1" role="dialog" id="SpliceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remove Chars from Column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                     <p>This method extracts parts of a string and returns the extracted parts in a new string.</p>
+                    <div class="form-group row">
+                        <label for="SplitSourceColumn" class="col-sm-6 col-form-label">Source Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SpliceSourceColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitFirst" class="col-sm-6 col-form-label">Start position</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SliceStart">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitPostition" class="col-sm-6 col-form-label">... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SliceEnd">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitDestinationColumn" class="col-sm-6 col-form-label">End of string:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="SliceTillEndofString">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SpliceButton" class="btn btn-primary">Remove Chars</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End The Modal -->
 
 
     <!-- Jquery JS-->
@@ -403,26 +499,6 @@
     <script src="js/menu.js"></script>    
     <script src="js/commonfuncs.js" type="text/javascript"></script>
     <script src="js/stops.js"></script>
-
-    <!-- Modal -->
-    <div class="modal fade" id="DeleteColumnModal" tabindex="-1" role="dialog" aria-labelledby="DeleteColumnModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="DeleteColumnModalTitle">Delete Non standard columns</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="DeleteColumnModalBody">          
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="DeleteColumnButton">Remove columns</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
 </body>
 

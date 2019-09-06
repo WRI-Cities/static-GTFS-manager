@@ -25,9 +25,9 @@ const FastAdd = `<div class="btn-group dropup" role="group" id="ToolsButtons">
 </button>
 <div class="dropdown-menu" aria-labelledby="btnGroupDropTools" id="SelectToolsMenu">
 <a class="dropdown-item" href="#" id="CopyStopIDtoZoneID" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Use this to copy the stop_id to zone_id for every row in the table.">Copy stop_id to zone_id</a>
-<a class="dropdown-item" href="#" id="CopyTimeZones" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Copy the timezone of the selected to all other stops.">Copy Timezone to all stops</a>
-<a class="dropdown-item" href="#" id="SplitStops" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Split column number of chars to a new column">Split Column</a>
-<a class="dropdown-item" href="#" id="SpliceStops" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Remove Chars from Column">Splice Column</a>
+<a class="dropdown-item" href="#" id="LinkCopyTimeZones" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Copy the timezone of the selected to all other stops.">Copy Timezone to all stops</a>
+<a class="dropdown-item" href="#"  id="Split" data-toggle="modal" data-target="#SplitModal">Split Column</a>
+<a class="dropdown-item" href="#" id="Splice" data-toggle="modal" data-target="#SpliceModal">Splice Column</a>
 </div>
 </div>`;
 
@@ -43,7 +43,6 @@ var table = new Tabulator("#stops-table", {
 	layout: "fitColumns", //fit columns to width of table (optional)
 	index: "stop_id",
 	history: true,
-	//layout:"fitDataFill",
 	addRowPos: "top",
 	ajaxURL: APIpath + 'tableReadSave?table=stops', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
@@ -95,8 +94,7 @@ var table = new Tabulator("#stops-table", {
 			message = 'Undid rowAdd for ' + data.data.stop_id;
 			reloadData();
 			mapPop(data.data.stop_id);
-		}
-		logmessage(message);
+		}		
 	},
 	cellEditing: function (cell) {
 		// pop up the stop on the map when user starts editing
@@ -106,8 +104,7 @@ var table = new Tabulator("#stops-table", {
 		// on editing a cell, display updated info 
 		reloadData();
 		var stop_id = cell.getRow().getData().stop_id; //get corresponding stop_id for that cell. Can also use cell.getRow().getIndex()
-		mapPop(stop_id);
-		logmessage('Changed "' + cell.getOldValue() + '" to "' + cell.getValue() + '" for stop_id: ' + stop_id);
+		mapPop(stop_id);		
 		$("#undoredo").show('slow');
 	},
 	dataLoaded: function (data) {
@@ -144,6 +141,12 @@ var table = new Tabulator("#stops-table", {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);
 	},
 	dataEdited: function (data) {
+		// The dataEdited callback is triggered whenever the table data is changed by the user. Triggers for this include editing any cell in the table, adding a row and deleting a row.
+		$('#savetable').removeClass().addClass('btn btn-primary');
+		$('#savetable').prop('disabled', false);
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
 		$('#savetable').removeClass().addClass('btn btn-primary');
 		$('#savetable').prop('disabled', false);
 	}
@@ -168,6 +171,10 @@ $(document).on("click", "#DeleteColumnButton", function () {
 });
 $(document).on("click", "#LinkShowHideColumn", function () {
 	ShowHideColumn();
+});
+
+$(document).on("click", "#LinkCopyTimeZones", function () {
+	CopyTimeZone();
 });
 
 
@@ -326,7 +333,7 @@ $("#copytable").on("click", function () {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function () {
+$('body').on('change', 'input[id^="check"]', function () {
 	var column = this.id.replace('check', '');
 	if (this.checked) {
 		table.showColumn(column);
@@ -442,7 +449,7 @@ function addTable() {
 	catch (e) {
 		console.log("exception caught in updateOrAddRow function call.", e);
 	}
-	logmessage('updateOrAddRow done for ' + stop_id);
+	
 
 	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
 
@@ -486,7 +493,7 @@ function updateTable() {
 	// reload stop ids list for autocomplete
 	// reloadData();
 
-	logmessage('updateOrAddRow done for ' + stop_id);
+	
 
 
 	// switch to first tab. from https://getbootstrap.com/docs/4.0/components/navs/#via-javascript
@@ -632,8 +639,7 @@ function updateLatLng(latlong, revflag) {
 // ##############################
 /* Interlinking between table and map */
 function mapPop(stop_id) {
-	//console.log('Looking for ' + stop_id);
-	console.log(stopsLayer);
+	//console.log('Looking for ' + stop_id);	
 	stopsLayer.eachLayer(function (layer) {
 		if (layer.properties && (layer.properties.stop_id == stop_id)) {
 			layer.bindPopup(function (layer) {
@@ -704,10 +710,6 @@ function depopulateFields() {
 // Smaller functions
 function isInArray(value, array) {
 	return array.indexOf(value) > -1;
-}
-
-function logmessage(message) {
-	document.getElementById('trackChanges').value += timestamp() + ': ' + message + '\n';
 }
 
 function timestamp() {
@@ -913,6 +915,7 @@ function ShowHideColumn() {
 		}
 	});
 	$("#DeleteColumnButton").hide();
+	$("#ApplyTimeZoneButton").hide();
 	$("#DeleteColumnModalTitle").html("Show / Hide columns");
 	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
 	// Show the Modal
@@ -960,6 +963,7 @@ function RemoveExtraColumns() {
 		}
 	});
 	$("#DeleteColumnButton").show();
+	$("#ApplyTimeZoneButton").hide();
 	$("#DeleteColumnModalTitle").html("Delete Non standard columns");
 	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
 	// Show the Modal
@@ -1024,3 +1028,151 @@ function AddExtraColumns(loadeddata) {
 		table.addColumn({ title: addcolumn, field: addcolumn, editor: true });
 	});
 }
+
+function CopyTimeZone() {
+	// if not selected the popup
+	var selectedData = table.getSelectedData();
+	if (selectedData.length > 0) {
+		// there is a row selected
+		// Get the value.
+		var selected_timezone = selectedData[0].stop_timezone;
+		if (selected_timezone) {
+			// there is a value.
+			var rows = table.getRows();
+			rows.forEach(function (row) {
+				// Copy all the arrival_times to the departure times.
+				table.updateRow(row, { stop_timezone: selected_timezone });
+			});
+			$.toast({
+				title: 'Copy Timezone',
+				subtitle: 'Copy OK',
+				content: 'The selected timezone ' + selected_timezone + ' has been copied to all the stops in table',
+				type: 'success',
+				delay: 5000
+			});
+		}
+		else {
+			$.toast({
+				title: 'Copy Timezone',
+				subtitle: 'No value',
+				content: 'There is no timezone in the selected row.',
+				type: 'error',
+				delay: 5000
+			});
+		}
+	}
+	else {
+		$("#ApplyTimeZoneButton").show();
+		$("#DeleteColumnButton").hide();
+		$("#DeleteColumnModalTitle").html("Select a timezone to use");
+		$("#DeleteColumnModalBody").html(`<div class="form-group row">
+		<label for="DynamicTimzeZone" class="col-sm-2 col-form-label">Timezone</label>
+		<div class="col-sm-10">
+		 <select id="DynamicTimzeZone"><option></option></select>
+		</div>
+	  </div>`);
+	  $("#DynamicTimzeZone").select2({
+		placeholder: "Select a timezone",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: TimeZoneList
+	  });
+	  	// Show the Modal
+		$('#DeleteColumnModal').modal('show');
+		
+	}
+}
+
+$(document).on("click", "#ApplyTimeZoneButton", function () {
+	var selected_timezone = $("#DynamicTimzeZone").val();
+	if (selected_timezone) {
+		// there is a value.
+		var rows = table.getRows();
+		rows.forEach(function (row) {
+			// Copy all the arrival_times to the departure times.
+			table.updateRow(row, { stop_timezone: selected_timezone });
+		});
+		$.toast({
+			title: 'Copy Timezone',
+			subtitle: 'Copy OK',
+			content: 'The selected timezone ' + selected_timezone + ' has been copied to all the stops in table',
+			type: 'success',
+			delay: 5000
+		});		
+	}
+	else {
+		$.toast({
+			title: 'Copy Timezone',
+			subtitle: 'No value',
+			content: 'There is no timezone in the selected row.',
+			type: 'error',
+			delay: 5000
+		});
+	}
+	$('#DeleteColumnModal').modal('hide');
+  });
+
+
+// Split Functions
+$('#SplitModal').on('show.bs.modal', function (event) {
+    table.getColumnLayout().forEach(function(selectcolumn) {
+        if (selectcolumn.field) {          
+            var newOptionSoource = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            var newOptionDestination = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            // add the option to the selectbox. We have to use 2 vars, because with 1 it will populate only the last.
+            $("#SplitSourceColumn").append(newOptionSoource);
+            $("#SplitDestinationColumn").append(newOptionDestination);
+        }
+    });
+});
+
+  $(document).on('click', '#SplitButton', function () {
+    // Select all rows
+    var SourceColumn = $("#SplitSourceColumn").val();
+    var DestinationColumn = $("#SplitDestinationColumn").val();
+    var NumberofChar = $("#SplitFirst").val(); 
+    var SplitPostition = $("#SplitPostition").val();
+    if (NumberofChar) {
+        var rows = table.getRows();
+        rows.forEach(function(row){
+            var jsonData = {};	
+            var sourcestring = row.getData();
+            var splitstring = sourcestring[SourceColumn];
+            // create json with the changes.
+            jsonData[DestinationColumn] = splitstring.substring(SplitPostition,NumberofChar);	
+            // update the tables.
+            table.updateRow(row, jsonData);
+        });
+    }
+});
+
+$('#SpliceModal').on('show.bs.modal', function (event) {
+    table.getColumnLayout().forEach(function(selectcolumn) { 
+        if (selectcolumn.field) {          
+            var newOptionSoource = new Option(selectcolumn.field, selectcolumn.field, false, false);
+            $("#SpliceSourceColumn").append(newOptionSoource);            
+        }
+    });
+});
+
+$(document).on('click', '#SpliceButton', function () {
+	// Select all rows
+	alert('splice');
+   var SourceColumn = $("#SpliceSourceColumn").val();
+   var SliceStart = $("#SliceStart").val();
+   var NumberofChar = $("#SliceEnd").val();   
+	   var rows = table.getRows();
+	   rows.forEach(function(row){
+		   var jsonData = {};	
+		   var sourcestring = row.getData();
+		   var splitstring = sourcestring[SourceColumn];		   
+		   if ($('#SliceTillEndofString').is(':checked')) {
+		   	   NumberofChar = splitstring.length;
+		   }		   
+		   // create json with the changes.
+		   var tempstring = splitstring.slice(SliceStart,NumberofChar)
+		   jsonData[SourceColumn] = tempstring;		  
+		   // update the tables.
+		   table.updateRow(row, jsonData);
+	   });
+});

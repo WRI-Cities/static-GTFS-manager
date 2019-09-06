@@ -33,7 +33,7 @@ var table = new Tabulator("#routes-table", {
 	//history:true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout:"fitDataFill",
+	layout: "fitColumns", //fit columns to width of table (optional)
 	ajaxURL: APIpath + 'tableReadSave?table=routes', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	footerElement: footerHTML,
@@ -72,7 +72,7 @@ var table = new Tabulator("#routes-table", {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function() {
+$('body').on('change', 'input[id^="check"]', function() {
 	var column = this.id.replace('check','');
 	if(this.checked) {		
 		table.showColumn(column);
