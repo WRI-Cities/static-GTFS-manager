@@ -1,5 +1,7 @@
 // schedules
-
+var editIcon = function (cell, formatterParams, onRendered) { //plain text value
+	return '<i class="fas fa-edit"></i>';
+};
 // global variables
 var tripsLock = false;
 var timingsLock = false;
@@ -98,6 +100,14 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false, frozen: true }, // row numbering
 		{ title: "route_id", field: "route_id", headerSort: false, visible: true, frozen: true },
 		{ title: "trip_id", field: "trip_id", headerFilter: "input", headerSort: false, frozen: true },
+		{
+			formatter: editIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
+				//map[0].closePopup();
+				console.log(cell.getRow());
+				CopySelectedRowToNewStopTime(cell.getRow());
+				//mapsUpdate();
+			}
+		},
 		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: { values: serviceLister }, headerFilter: "input", validator: "required", headerSort: false },
 		{ title: "direction_id", field: "direction_id", editor: "select", editorParams: { values: { 0: "Onward (0)", 1: "Return (1)", '': "None(blank)" } }, headerFilter: "input", headerSort: false, formatter: "lookup", formatterParams: { 0: 'Onward', 1: 'Return', '': '' } },
 		{ title: "trip_headsign", field: "trip_headsign", editor: "input", headerFilter: "input", headerSort: false },
@@ -259,9 +269,9 @@ $("#CopyArrivaltoDeparture").on("click", function () {
 	CopyArrivaltoDeparture();
 });
 
-// $(document).on("click", "#LinkCopyShapeToAllTrips", function () {
-// 	CopyShapeToAllTrips();
-// });
+$(document).on("click", "#CopySelectedRowButton", function () {
+	CopySelectedRowToNew();
+});
 
 
 $('body').on('change', 'input[id^="check"]', function () {
@@ -882,4 +892,70 @@ function defaultShapesApply() {
 
 	$("#defaultShapesApplyStatus").html('<font color="green"><b><font size="5">&#10004;</font></b> Done!</font> Save Changes to save to DB.');
 	setSaveTrips(true);
+}
+
+function CopySelectedRowToNewStopTime(row) {
+	// This function will load the selected stoptimes and calculate based on added time from the modal window the new times and save it to the database. 
+	console.log(row);
+
+	var direction = row.direction_id;
+	var route_id = row.route_id;
+	var trip_id = row.trip_id;
+
+	let xhr = new XMLHttpRequest();
+	//make API call from with this as get parameter name
+	xhr.open('GET', `${APIpath}stopTimes?trip=${trip_id}&route=${route_id}&direction=${direction}`);
+	xhr.onload = function () {
+		if (xhr.status === 200) { //we have got a Response
+			console.log(`Loaded timings data for the chosen trip from Server API/stopTimes .`);
+			var returndata = JSON.parse(xhr.responseText);
+			if (returndata.newFlag) {
+				$.toast({
+					title: 'Loading stoptimes',
+					subtitle: 'This is a new trip!',
+					content: 'You have to select a trip that has at least defined times!',
+					type: 'error',
+					delay: 5000
+				});
+			}
+			else {
+				var oldstoptime = returndata.data;
+				$('.nonstandardbutton').hide();	
+				$("#CopySelectedRowButton").show();		
+				$("#DeleteColumnModalTitle").html("Add Time or Enter new starttime");
+				$("#DeleteColumnModalBody").html(`<small>You can enter a amount of minutes to add OR you can define a new starttime. It will be used to calculate the new times.</small>
+				<div class="form-group row">
+				<label for="AddMinutes" class="col-sm-2 col-form-label">Add Minutes</label>
+				<div class="col-sm-10">
+					<input type="text" id="AddMinutes" class="form-control">
+				</div>
+				</div>
+				<div class="form-group row">
+				<label for="NewTime" class="col-sm-2 col-form-label">OR New starttime</label>
+				<div class="col-sm-10">
+					<input type="text" id="NewTime" class="form-control" placeholder="HH:MM:SS">
+				</div>
+				</div>`);				
+				// Show the Modal
+				$('#DeleteColumnModal').modal('show');	
+			}
+		}
+		else {
+			console.log('Server request to API/stopTimes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText + '\nLoading backup.');
+			$.toast({
+				title: 'Loading stoptimes',
+				subtitle: 'There is no data!',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});
+			setSaveTimings(false);
+		}
+	};
+	xhr.send();
+
+}
+
+function CopySelectedRowToNew () {
+	// This function will copy the row 
 }
