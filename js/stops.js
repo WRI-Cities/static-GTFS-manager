@@ -11,12 +11,6 @@ var myRenderer = L.canvas({ padding: 0.5 });
 // #########################################
 // Function-variables to be used in tabulator
 
-var stopsTotal = function (values, data, calcParams) {
-	var calc = values.length;
-	return calc + ' stops total';
-}
-
-
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button class="btn btn-outline-primary" id="savetable" name="savetable" disabled>Save Stops to DB</button>`;
 const FastAdd = `<div class="btn-group dropup" role="group" id="ToolsButtons">
@@ -136,6 +130,8 @@ var table = new Tabulator("#stops-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' row(s)';
+		$("#NumberofRows").html(NumberofRows);
 	},
 	ajaxError: function (xhr, textStatus, errorThrown) {
 		console.log('GET request to tableReadSave table=stops failed.  Returned status of: ' + errorThrown);

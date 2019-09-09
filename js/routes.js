@@ -14,11 +14,6 @@ var agencyLister = function(cell) {
 	return agencyListGlobal;
 } 
 
-var routesTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' routes total';
-}
-
 var footerHTML = DefaultTableFooter;
 const saveButton = "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>";
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
@@ -42,7 +37,7 @@ var table = new Tabulator("#routes-table", {
 		{title:"Num", width:40, formatter: "rownum",  frozen:true,download:true}, // row numbering
 		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars,download:true },
 		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name",download:true },
-		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal,download:true },
+		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name",download:true },
 		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false,download:true },
 		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true},
 		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true },
@@ -73,6 +68,8 @@ var table = new Tabulator("#routes-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' row(s)';
+		$("#NumberofRows").html(NumberofRows);
 	}
 });
 

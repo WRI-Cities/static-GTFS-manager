@@ -157,10 +157,12 @@ function storeResults(result, extension) {
             TempTable.addData(jsonData);            
         }
     });
-    $("#Columnstop_id").val("GENERATE").change();;
+    $("#Columnstop_id").val("GENERATE").change();
+    $("#Columnstop_name").val("Name").change();
+    $("#Columnstop_desc").val("Description").change();
+    $("#Columnstop_lat").val("Lat").change();
+    $("#Columnstop_lon").val("Lon").change();
 }
-
-
 
 $("#ImportToStopsTable").on("click", function(){
     //var TempJsonTable = [];

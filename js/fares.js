@@ -21,10 +21,12 @@ var footerHTML = DefaultTableFooter;
 const saveButtonFareAttributes = '<button id="saveFareAttributesButton" class="btn btn-outline-primary" disabled>Save Fare Attributes to DB</button>';
 footerHTMLFareAttributes = footerHTML.replace('{SaveButton}', saveButtonFareAttributes);
 footerHTMLFareAttributes = footerHTMLFareAttributes.replace('{FastAdd}', '');
+footerHTMLFareAttributes = footerHTMLFareAttributes.replace('NumberofRows','NumberofRowsFareAttributes');
 
 const saveButtonFareRules = '<button id="saveFareRulesSimpleButton" class="btn btn-outline-primary" disabled>Save Fare Rules</button>';
 footerHTMLFareRules = footerHTML.replace('{SaveButton}', saveButtonFareRules);
 footerHTMLFareRules = footerHTMLFareRules.replace('{FastAdd}', '');
+
 // To workaround double footer menu's in onepage.
 // Menu id
 footerHTMLFareRules = footerHTMLFareRules.replace('btnGroupDrop1', 'btnGroupDrop1FareRules');
@@ -37,6 +39,7 @@ footerHTMLFareRules = footerHTMLFareRules.replace('DownloadsMenu', 'DownloadsMen
 footerHTMLFareRules = footerHTMLFareRules.replace('LinkAddColumn', 'LinkAddColumnFareRules');
 footerHTMLFareRules = footerHTMLFareRules.replace('LinkDeleteColumn', 'LinkDeleteColumnFareRules');
 footerHTMLFareRules = footerHTMLFareRules.replace('LinkShowHideColumn', 'LinkShowHideColumnFareRules');
+footerHTMLFareRules = footerHTMLFareRules.replace('NumberofRows','NumberofRowsSimple');
 
 
 // set dynamic dropdown for fare_ids, reading from fare attributes table
@@ -56,16 +59,6 @@ var zoneIdLister = function (cell) {
 	return zoneIdListGlobal;
 }
 
-var faresTotal = function (values, data, calcParams) {
-	var calc = values.length;
-	return calc + ' fares total';
-}
-
-var fareRulesTotal = function (values, data, calcParams) {
-	var calc = values.length;
-	return calc + ' rules total';
-}
-
 //#########################
 // defining tables
 var fareattributes = new Tabulator("#fare-attributes-table", {
@@ -83,7 +76,7 @@ var fareattributes = new Tabulator("#fare-attributes-table", {
 	columns: [ //Define Table Columns		
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{
-			title: "fare_id", field: "fare_id", editor: "input", headerFilter: "input", validator: ["string", "minLength:2"], bottomCalc: faresTotal, cellClick: function (e, cell) {
+			title: "fare_id", field: "fare_id", editor: "input", headerFilter: "input", validator: ["string", "minLength:2"], cellClick: function (e, cell) {
 				var farerulesdefined = simple.searchData("fare_id", "=", cell.getRow().getData().fare_id);
 				console.log('fare_id defined: ' + farerulesdefined);
 				if (farerulesdefined.length > 0) {
@@ -129,6 +122,8 @@ var fareattributes = new Tabulator("#fare-attributes-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRowsFareAttributes").html(NumberofRows);
 	},
 	rowSelected: function (row) {
 		//$('#targetFareid').val(row.getIndex());
@@ -208,7 +203,7 @@ var simple = new Tabulator("#fare-rules-simple-table", {
 	footerElement: footerHTMLFareRules,
 	columns: [ //Define Table Columns		
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
-		{ title: "fare_id", field: "fare_id", headerFilter: "input", width: 120, editor: "select", editorParams: { values: fareList }, tooltip: "Fare Id. Corresponds to a price set in Fare Attributes tab.", bottomCalc: fareRulesTotal },
+		{ title: "fare_id", field: "fare_id", headerFilter: "input", width: 120, editor: "select", editorParams: { values: fareList }, tooltip: "Fare Id. Corresponds to a price set in Fare Attributes tab." },
 		{ title: "origin_id", field: "origin_id", editor: "select", editorParams: { values: zoneIdLister }, headerFilter: "input", tooltip: "Origin Zone Id. Journey starting from this zone. Zones defined in Stops page." },
 		{ title: "destination_id", field: "destination_id", editor: "select", editorParams: { values: zoneIdLister }, headerFilter: "input", tooltip: "Desitnation Zone Id. Journey ending in this zone. Zones defined in Stops page." },
 		{ title: "contains_id", field: "contains_id", editor: "select", editorParams: { values: zoneIdLister }, headerFilter: "input", tooltip: "Identifies the zones that a rider enters for a given fare class. Used in some systems to calculate the correct fare class.", download: true, visible: false },
@@ -232,6 +227,8 @@ var simple = new Tabulator("#fare-rules-simple-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRowsSimple").html(NumberofRows);
 	},
 	dataEdited: function (data) {
 		$('#saveFareRulesSimpleButton').removeClass().addClass('btn btn-primary');
@@ -321,13 +318,12 @@ $(document).ready(function () {
 		theme: "bootstrap4"
 	});
 	$("#currency").val(cfg.GTFS.Currency).trigger("change");
+
 	var DownloadContent = "";
 	DownloadLinks.forEach(function (downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload' + downloadtype + '">Download ' + downloadtype + '</a>';
 	});
 	$("#DownloadsMenu").html(DownloadContent);
-
-	$("#SelectColumnsMenuFareRules").html(ColumnSelectionContent);
 	var DownloadContent = "";
 	DownloadLinks.forEach(function (downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownloadFareRules' + downloadtype + '">Download ' + downloadtype + '</a>';

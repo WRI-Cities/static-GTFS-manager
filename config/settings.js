@@ -25,9 +25,9 @@ xmlhttp.send(null);
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;
 
-const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service",  };
-//const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
-const route_type_lookup = route_type_options;
+// const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service",  };
+// //const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
+// const route_type_lookup = route_type_options;
 
 // this json holds the different pages. If you want to add/remove/rename a page, do so here.
 const menu = {
@@ -74,12 +74,6 @@ const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" rol
 			<a class="dropdown-item" href="#" id="LinkDeleteColumn">Delete Column</a>
 			<a class="dropdown-item" href="#" id="LinkShowHideColumn">Show / Hide Column</a>
 		</div>
-	</div>
-	<div class="btn-group dropup" role="group" id="SelectionButtons">
-		<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Uncheck the box te hide the column">
-		<i class="fas fa-eye"></i> Columns
-		</button>
-		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="SelectColumnsMenu"></div>
 	</div>	
 	<div class="btn-group dropup mr-2" role="group" id="DownloadButtons">
 		<button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Download the content of the table">
@@ -89,6 +83,7 @@ const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" rol
 	</div>
 	{FastAdd}
 </div>
+<div class="btn-group"><div id="NumberofRows"></div></div>
 <div class="btn-group" role="group" aria-label="Save Button" id="SaveButtonPosition">{SaveButton}</div>
 </div>`;
 
@@ -103,14 +98,14 @@ const UID_maxchars = 20;
 const MARKERSLIMIT = 100;
 
 // from tripstimings.js , formerly schedules.js
-const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
-const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
-const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
-const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+// const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
+// const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+// const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
+// const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
 
 // from calendar.js:
-const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
-const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};
+// const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
+// const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};
 
 
 // Leaflet Map related

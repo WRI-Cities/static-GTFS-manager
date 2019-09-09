@@ -5,15 +5,6 @@ var service_id_list = [];
 // note: constants moved to config/settings.js
 // #########################################
 // Function-variables to be used in tabulator
-var calendarTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' services total';
-}
-
-var calendarDatesTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' services total';
-}
 var GTFSDefinedColumnsCalendar = ["service_id","monday","tuesday","wednesday","thursday","friday","saturday","sunday","start_date","end_date"];
 var GTFSDefinedColumnsDates = ["service_id","date","exception_type"];
 
@@ -35,10 +26,12 @@ var footerHTML = DefaultTableFooter;
 const saveButtoncalendarDates = "<button id='saveCalendarDatesButton' class='btn btn-outline-primary' disabled>Save Calendar_Dates Changes</button>"
 footerHTMLcalendarDates = footerHTML.replace('{SaveButton}', saveButtoncalendarDates);
 footerHTMLcalendarDates = footerHTMLcalendarDates.replace('{FastAdd}','');
+footerHTMLcalendarDates = footerHTMLcalendarDates.replace('NumberofRows','NumberofRowsCalendarDates');
 
 const saveButtoncalendar = '<button id="saveCalendarButton" class="btn btn-outline-primary" disabled>Save Calendar Changes</button>';
 footerHTMLcalendar = footerHTML.replace('{SaveButton}', saveButtoncalendar);
 footerHTMLcalendar = footerHTMLcalendar.replace('{FastAdd}',FastAddCalendar);
+footerHTMLcalendar = footerHTMLcalendar.replace('{NumberofRows}',FastAddCalendar);
 // To workaround double footer menu's in onepage.
 // Menu id
 footerHTMLcalendar = footerHTMLcalendar.replace('btnGroupDrop1','btnGroupDrop1Calendar');
@@ -46,11 +39,13 @@ footerHTMLcalendar = footerHTMLcalendar.replace('btnGroupDrop2','btnGroupDrop2Ca
 // Menu insertings ID's
 footerHTMLcalendar = footerHTMLcalendar.replace('SelectColumnsMenu','SelectColumnsMenuCalendar');
 footerHTMLcalendar = footerHTMLcalendar.replace('DownloadsMenu','DownloadsMenuCalendar');
+footerHTMLcalendar = footerHTMLcalendar.replace('NumberofRows','NumberofRowsService');
 
 // Menu insertings ID's
 footerHTMLcalendar = footerHTMLcalendar.replace('LinkAddColumn','LinkAddColumnCalendar');
 footerHTMLcalendar = footerHTMLcalendar.replace('LinkDeleteColumn','LinkDeleteColumnCalendar');
 footerHTMLcalendar = footerHTMLcalendar.replace('LinkShowHideColumn','LinkShowHideColumnCalendar');
+
 
 //####################
 // Tabulator tables
@@ -67,7 +62,7 @@ var service = new Tabulator("#calendar-table", {
 	footerElement: footerHTMLcalendar,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarTotal, validator:"unique" },
+		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id",validator:"unique" },
 		{title:"monday", field:"monday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
 		{title:"tuesday", field:"tuesday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
 		{title:"wednesday", field:"wednesday", editor:"select", editorParams:{values:calendar_operationalChoices}, headerSort:false },
@@ -98,6 +93,8 @@ var service = new Tabulator("#calendar-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRowsService").html(NumberofRows);
 	}
 });
 
@@ -114,9 +111,9 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 	ajaxLoaderLoading: loaderHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:calendarDatesTotal, validator:tabulator_UID_leastchars },
+		{title:"service_id", field:"service_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars },
 		{title:"date", field:"date", editor:"input", headerFilter:"input", headerFilterPlaceholder:"yyyymmdd", width: 150 },
-		{title:"exception_type", field:"exception_type", editor:"select", editorParams:calendar_exception_type_choices, headerFilter:"input", headerTooltip: "indicates whether service is available on the date specified in the date field."  }
+		{title:"exception_type", field:"exception_type", editor:"select", editorParams:{ values: {1:"1 - Operating on this day", 0:"0 - Not operating"}}, headerFilter:"input", headerTooltip: "indicates whether service is available on the date specified in the date field."  }
 	],
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to calendar_dates failed.  Returned status of: ' + errorThrown);
@@ -138,6 +135,8 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRowsCalendarDates").html(NumberofRows);
 	}
 });
 

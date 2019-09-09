@@ -53,7 +53,7 @@ var sequence0table = new Tabulator("#sequence-0-table", {
 	movableRows: true,
 	history: true,
 	movableColumns: true,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
@@ -88,7 +88,7 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 	movableRows: true,
 	history: true,
 	movableColumns: true,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
@@ -96,6 +96,7 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false },
 		{
 			formatter: trashIcon, width: 40, align: "center", headerSort: false, cellClick: function (e, cell) {
+				map[1].closePopup();
 				cell.getRow().delete();
 				mapsUpdate();
 			}
@@ -204,6 +205,18 @@ $("#flipSequenceReplace").on("click", function () {
 
 $("#flipSequenceInsert").on("click", function () {
 	flipSequence(false);
+});
+
+$("#EmptyDirection0").on("click", function () {
+	EmptyDirection(0);
+});
+
+$("#CopySelectedDirection0").on("click", function () {
+	CopySelectedDirection0();
+});
+
+$("#EmptyDirection1").on("click", function () {
+	EmptyDirection(1);
 });
 
 $(document).on('click', '#uploadShapeButton', function () {
@@ -370,7 +383,6 @@ function initiateSequence(sequenceData) {
 		}
 		
 	}
-
 	sequence0table.setData(sequence0);
 	sequence1table.setData(sequence1);
 	mapsUpdate('firsttime'); //this would be an all-round full refresh of the maps based on the data in the global varibles.
@@ -592,6 +604,36 @@ function flipSequence(overwrite = false) {
 	}
 	mapsUpdate('firsttime');
 	//$("#sequence-1-table").tabulator('addRow',row);
+}
+
+function EmptyDirection(direction) {
+	if (direction == 0) {
+		sequence0table.setData([]);
+		mapsUpdate('firsttime');
+	}
+	else {
+		sequence1table.setData([]);	
+		mapsUpdate('firsttime');
+	}
+}
+
+function CopySelectedDirection0() {
+	// get the selected row:
+	var selectedRows = sequence0table.getSelectedRows();	
+	if (selectedRows.length == 0) {
+		alert('Please select a row first');
+		// select the trips tab
+		return;
+	}
+	else {		// var rowPosition = row.getPosition(true);
+		var rowPosition = selectedRows[0].getPosition();		
+		var onwarddata = sequence0table.getData();		
+		var returndata = onwarddata.slice(rowPosition);		
+		var onwarddata1 = onwarddata.slice(0,rowPosition);
+		sequence1table.replaceData(returndata);
+		sequence0table.replaceData(onwarddata1);	
+		mapsUpdate('firsttime');
+	}
 }
 
 function clearSequences() {

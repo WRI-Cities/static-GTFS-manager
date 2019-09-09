@@ -3,11 +3,6 @@
 
 var GTFSDefinedColumns = ["agency_id", "agency_name", "agency_url", "agency_timezone", "agency_lang", "agency_phone", "agency_fare_url", "agency_email"];
 
-var agencyTotal = function (values, data, calcParams) {
-	var calc = values.length;
-	return calc + ' agencies total';
-}
-
 var footerHTML = DefaultTableFooter;
 const saveButton = `<button id='saveAgencyButton' class='btn btn-outline-primary' disabled>Save Agency Changes</button>`;
 footerHTML = footerHTML.replace('{SaveButton}', saveButton);
@@ -30,7 +25,7 @@ var table = new Tabulator("#agency-table", {
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30, download: true },
 		{ title: "agency_id", field: "agency_id", editor: "input", headerSort: false, validator: tabulator_UID_leastchars, download: true },
-		{ title: "agency_name", field: "agency_name", editor: "input", headerSort: false, bottomCalc: agencyTotal, download: true },
+		{ title: "agency_name", field: "agency_name", editor: "input", headerSort: false, download: true },
 		{ title: "agency_url", field: "agency_url", editor: "input", headerSort: false, download: true },
 		{ title: "agency_timezone", field: "agency_timezone", editor: select2TZEditor, width: 300, headerSort: false, download: true },
 		{ title: "agency_lang", field: "agency_lang", editor: "input", headerSort: false, download: true, visible: false },
@@ -59,7 +54,8 @@ var table = new Tabulator("#agency-table", {
 		else {
 			console.log("No data so no columns");
 		}
-
+		var NumberofRows = data.length + ' row(s)';
+		$("#NumberofRows").html(NumberofRows);
 	}
 });
 

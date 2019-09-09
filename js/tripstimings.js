@@ -13,8 +13,27 @@ var sequenceHolder = '';
 var allStopsKeyed = '';
 var TripsTableEdited = false;
 
+const pickup_type = {0:"0 or (empty): Regularly scheduled pickup", 1:"1 - No pickup available", 2: "Must phone agency to arrange pickup", 3: "Must coordinate with driver to arrange pickup"};
+
+const drop_off_type = {0:"0 or (empty): Regularly scheduled drop off", 1:"1 - No dropoff available", 2: "Must phone agency to arrange dropoff", 3: "Must coordinate with driver to arrange dropoff"};
+
 // #########################################
 // Function-variables to be used in tabulator
+
+var GTFSDefinedColumns = ["route_id", "service_id", "trip_id", "trip_headsign", "trip_short_name", "direction_id", "block_id", "shape_id", "wheelchair_accessible", "bikes_allowed"];
+var footerHTML = DefaultTableFooter;
+const saveButton = "<button id='saveTrips' class='btn btn-normal' disabled>Save Trips to DB</button>";
+// const FastAdd = `<div class="btn-group dropup" role="group" id="ToolsButtons">
+// <button id="btnGroupDropTools" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Tools">
+// <i class="fas fa-tools"></i>
+// </button>
+// <div class="dropdown-menu" aria-labelledby="btnGroupDropTools" id="SelectToolsMenu">
+// <a class="dropdown-item" href="#" id="LinkCopyShapeToAllTrips" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" data-content="Copy the shape_id to the other trips.">Copy shape_id to all other trips</a>
+// </div>
+// </div>`;
+
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+footerHTML = footerHTML.replace('{FastAdd}', '');
 
 var serviceListGlobal = {};
 var serviceLister = function (cell) {
@@ -29,30 +48,29 @@ var shapeLister = function (cell) {
 var Shapeselect = $("<select></select>");
 
 var ShapeselectEditor = function (cell, onRendered, success, cancel, editorParams) {
-    Shapeselect.css({
-        "padding":"3px",
-        "width":"100%",
-        "box-sizing":"border-box",
-    });
+	Shapeselect.css({
+		"padding": "3px",
+		"width": "100%",
+		"box-sizing": "border-box",
+	});
 
-    //Set value of select to the current value of the cell
-    Shapeselect.val(cell.getValue());
+	//Set value of select to the current value of the cell
+	Shapeselect.val(cell.getValue());
 
-    //set focus on the select box when the select is selected (timeout allows for select to be added to DOM)
-    onRendered(function(){
-        Shapeselect.focus();
-        Shapeselect.css("height","100%");
-    });
+	//set focus on the select box when the select is selected (timeout allows for select to be added to DOM)
+	onRendered(function () {
+		Shapeselect.focus();
+		Shapeselect.css("height", "100%");
+	});
 
-    //when the value has been set, trigger the cell to update
-    Shapeselect.on("change blur", function(e){
-        success(Shapeselect.val());
-    });
+	//when the value has been set, trigger the cell to update
+	Shapeselect.on("change blur", function (e) {
+		success(Shapeselect.val());
+	});
 
-    //return the select element not the jquery wrapper.
-    return Shapeselect[0];
+	//return the select element not the jquery wrapper.
+	return Shapeselect[0];
 }
-
 
 var wheelchairLister = function (cell) {
 	return wheelchairOptions;
@@ -60,11 +78,6 @@ var wheelchairLister = function (cell) {
 
 var bikesAllowedLister = function (cell) {
 	return bikesAllowedOptions;
-}
-
-var tripsTotal = function (values, data, calcParams) {
-	var calc = values.length;
-	return calc + ' trips total';
 }
 
 // #########################################
@@ -76,9 +89,8 @@ var tripsTable = new Tabulator("#trips-table", {
 	history: true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout: "fitDataFill",
-	footerElement: "<button id='saveTrips' class='btn btn-normal' disabled>Save Trips to DB</button>",
-	//pagination:"local", //enable local pagination.
+	layout: "fitColumns",
+	footerElement: footerHTML,
 	//groupBy: ['service_id','direction_id'],
 	columns: [
 		// route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id,wheelchair_accessible
@@ -86,19 +98,19 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false, frozen: true }, // row numbering
 		{ title: "route_id", field: "route_id", headerSort: false, visible: true, frozen: true },
 		{ title: "trip_id", field: "trip_id", headerFilter: "input", headerSort: false, frozen: true },
-		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: {values: serviceLister}, headerFilter: "input", validator: "required", headerSort: false },
+		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: { values: serviceLister }, headerFilter: "input", validator: "required", headerSort: false },
 		{ title: "direction_id", field: "direction_id", editor: "select", editorParams: { values: { 0: "Onward (0)", 1: "Return (1)", '': "None(blank)" } }, headerFilter: "input", headerSort: false, formatter: "lookup", formatterParams: { 0: 'Onward', 1: 'Return', '': '' } },
 		{ title: "trip_headsign", field: "trip_headsign", editor: "input", headerFilter: "input", headerSort: false },
-		{ title: "trip_short_name", field: "trip_short_name", editor: "input", headerFilter: "input", headerSort: false, bottomCalc: tripsTotal },
+		{ title: "trip_short_name", field: "trip_short_name", editor: "input", headerFilter: "input", headerSort: false },
 		{ title: "block_id", field: "block_id", editor: "input", headerFilter: "input", tooltip: "Vehicle identifier", headerSort: false },
-		{ title: "shape_id", field: "shape_id", editor:ShapeselectEditor, headerFilter: "input", headerSort: false },
+		{ title: "shape_id", field: "shape_id", editor: ShapeselectEditor, headerFilter: "input", headerSort: false },
 		{
 			title: "wheelchair_accessible", field: "wheelchair_accessible", headerSort: false,
-			editor: "select", editorParams: wheelchairLister			
+			editor: "select", editorParams: { values:{"":"blank-No info", 1:"1-Yes", 2:"2-No"}}
 		},
 		{
 			title: "bikes_allowed", field: "bikes_allowed", headerSort: false,
-			editor: "select", editorParams: bikesAllowedLister			
+			editor: "select", editorParams: {  values:{"":"blank-No info", 1:"1-Yes", 2:"2-No"}}
 		}
 	],
 	rowSelected: function (row) {
@@ -119,14 +131,19 @@ var tripsTable = new Tabulator("#trips-table", {
 	},
 	dataLoaded: function (data) {
 		setSaveTrips(false);
+		// parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]), GTFSDefinedColumns, tripsTable);
+		}
+		else {
+			console.log("No data so no columns");
+		}
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRows").html(NumberofRows);
 	},
 	dataEdited: function (data) {
 		setSaveTrips(true);
 		TripsTableEdited = true;
-		// var list = [];
-		// data.forEach(function (row) {
-		// 	list.push(row.trip_id);
-		// });
 	}
 });
 // Tab seletion 
@@ -140,7 +157,7 @@ $('.nav-tabs a[href="#stoptimes"]').on('shown.bs.tab', function (event) {
 		console.log(tripsTable.getSelectedRows());
 		var selectedRows = tripsTable.getSelectedRows(); //get array of currently selected row components.
 		if (selectedRows.length == 0) {
-			alert('Please select a row in the rips table first');
+			alert('Please select a row in the trips table first');
 			// select the trips tab
 			$('.nav-tabs a[href="#trips"]').tab('show');
 		}
@@ -186,7 +203,7 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 	movableColumns: true,
 	layout: "fitDataFill",
 	persistentFilter: true,
-	footerElement:'<button id="CopyArrivaltoDeparture" class="btn btn-secondary">Copy arrival to departure</button><button id="saveTimings" class="btn btn-primary" disabled>Save Timings to DB</button>',
+	footerElement: '<button id="CopyArrivaltoDeparture" class="btn btn-secondary">Copy arrival to departure</button><button id="saveTimings" class="btn btn-primary" disabled>Save Timings to DB</button>',
 	columns: [
 		// fields: trip_id,arrival_time,departure_time,stop_id,stop_sequence,timepoint,shape_dist_traveled
 		{ rowHandle: true, formatter: "handle", frozen: true, width: 30, minWidth: 30, headerSort: false },
@@ -197,12 +214,14 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 		{ title: "arrival_time", field: "arrival_time", editor: "input", headerFilter: "input", validator: "regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort: false },
 		{ title: "departure_time", field: "departure_time", editor: "input", headerFilter: "input", validator: "regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort: false },
 		{ title: "timepoint", field: "timepoint", headerFilter: "input", editor: "select", editorParams: { values: { 0: "0 - Estimated", 1: "1 - Accurate", "": "blank - Accurate" } }, headerSort: false },
-		{ title: "shape_dist_traveled", field: "shape_dist_traveled", editor: "input", headerFilter: "input", validator: ["numeric", "min:0"], headerSort: false }
+		{ title: "shape_dist_traveled", field: "shape_dist_traveled", editor: "input", headerFilter: "input", validator: ["numeric", "min:0"], headerSort: false },
+		{ title: "pickup_type", field: "pickup_type", editor:"select", editorParams:{values: pickup_type} },
+		{ title: "drop_off_type", field: "drop_off_type", editor:"select", editorParams:{values:drop_off_type} }
 	],
 	initialSort: [
 		{ column: "stop_sequence", dir: "asc" }
 	],
-	dataLoaded: function(data) {
+	dataLoaded: function (data) {
 		setSaveTimings(true);
 	},
 	dataEdited: function (cell) {
@@ -210,9 +229,6 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 	}
 });
 
-$("#CopyArrivaltoDeparture").on("click", function () {
-	CopyArrivaltoDeparture();
-});
 
 // initiate bootstrap / jquery components like tabs, accordions
 $(function () {
@@ -239,6 +255,61 @@ $("#loadTimingsButton").on("click", function () {
 	loadTimings();
 });
 
+$("#CopyArrivaltoDeparture").on("click", function () {
+	CopyArrivaltoDeparture();
+});
+
+// $(document).on("click", "#LinkCopyShapeToAllTrips", function () {
+// 	CopyShapeToAllTrips();
+// });
+
+
+$('body').on('change', 'input[id^="check"]', function () {
+	var column = this.id.replace('check', '');
+	if (this.checked) {
+		tripsTable.showColumn(column);
+		tripsTable.redraw();
+	}
+	else {
+		tripsTable.hideColumn(column);
+		tripsTable.redraw();
+	}
+});
+
+$(document).ready(function () {
+	// executes when HTML-Document is loaded and DOM is ready	
+	var DownloadContent = "";
+	DownloadLinks.forEach(function (downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload' + downloadtype + '">Download ' + downloadtype + '</a>';
+	});
+	$("#DownloadsMenu").html(DownloadContent);
+});
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable(tripsTable);
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns(tripsTable, GTFSDefinedColumns, 'tripsTable');
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	DeleteExtraColumns(tripsTable);
+});
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn(tripsTable);
+});
+
+
+$(document).on("click", "#LinkDownloadCSV", function () {
+	tripsTable.download("csv", "trips-partly.csv");
+});
+
+$(document).on("click", "#LinkDownloadJSON", function () {
+	tripsTable.download("json", "trips-partly.json");
+});
+
+
 $("#addTripButton").on("click", function () {
 	addTrip();
 });
@@ -253,10 +324,10 @@ $("#defaultShapesApplyButton").on("click", function () {
 function CopyArrivaltoDeparture() {
 	// Select all rows
 	var rows = stoptimesTable.getRows();
-	rows.forEach(function(row){		
+	rows.forEach(function (row) {
 		// Copy all the arrival_times to the departure times.
-		stoptimesTable.updateRow(row, {departure_time: row.getData().arrival_time});		
-	});	
+		stoptimesTable.updateRow(row, { departure_time: row.getData().arrival_time });
+	});
 	setSaveTimings(true);
 }
 
@@ -275,7 +346,7 @@ function getPythonTrips(route_id) {
 		content: 'Loading trips for route ' + route_id,
 		type: 'info',
 		delay: 1000
-	});	
+	});
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
 	xhr.open('GET', `${APIpath}trips?route=${route_id}`);
@@ -291,10 +362,9 @@ function getPythonTrips(route_id) {
 				type: 'success',
 				delay: 5000
 			});
-			
+
 			// resetting save to DB button if a new set of trips has been loaded from DB, clearing status text.
 			setSaveTrips(false);
-			$('#addTripStatus').html('');
 
 			// SEQUENCE:
 			sequenceHolder = data.sequence;
@@ -325,7 +395,7 @@ function getPythonTrips(route_id) {
 				content: 'Could not load trips data from server. Message: ' + xhr.responseText,
 				type: 'error',
 				delay: 5000
-			});			
+			});
 		}
 	};
 	xhr.send();
@@ -449,7 +519,7 @@ function saveTimings() {
 		content: 'Sending modified timings data to server, please wait..',
 		type: 'info',
 		delay: 3000
-	});	
+	});
 
 	var timingsData = stoptimesTable.getData();
 	var xhr = new XMLHttpRequest();
@@ -464,8 +534,8 @@ function saveTimings() {
 				content: xhr.responseText,
 				type: 'success',
 				delay: 3000
-			});	
-			console.log('Successfully sent data via POST to server API/tableReadSave table=stop_times, resonse received: ' + xhr.responseText);			
+			});
+			console.log('Successfully sent data via POST to server API/tableReadSave table=stop_times, resonse received: ' + xhr.responseText);
 			setSaveTimings(false);
 
 		} else {
@@ -475,8 +545,8 @@ function saveTimings() {
 				content: xhr.responseText,
 				type: 'error',
 				delay: 3000
-			});	
-			console.log('Server POST request to API/tableReadSave table=stop_times failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);			
+			});
+			console.log('Server POST request to API/tableReadSave table=stop_times failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
 		}
 	}
 	console.log('Sending POST request, please wait for callback.');
@@ -513,7 +583,7 @@ function saveTrips() {
 				content: xhr.responseText,
 				type: 'success',
 				delay: 4000
-			});			
+			});
 			setSaveTrips(false);
 			TripsTableEdited = false;
 		} else {
@@ -523,8 +593,8 @@ function saveTrips() {
 				content: xhr.responseText,
 				type: 'error',
 				delay: 4000
-			});	
-			console.log('Server POST request to API/tableReadSave failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);			
+			});
+			console.log('Server POST request to API/tableReadSave failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
 		}
 	}
 	console.log('Sending POST request, please wait for callback.');
@@ -534,7 +604,7 @@ function saveTrips() {
 
 
 function setSaveTrips(lock = true) {
-	// to do: enable or diable the save changes button
+	// to do: enable or disable the save changes button
 	if (lock) {
 		tripsLock = true;
 		document.getElementById("saveTrips").disabled = false;
@@ -559,16 +629,6 @@ function setSaveTimings(lock = true) {
 		document.getElementById("saveTimings").className = "btn btn-outline-primary";
 	}
 }
-
-// function loadTimings() {
-// 	if( chosenTrip != '') {
-// 		stoptimesTable.clearData();
-// 		getPythonStopTimes(chosenTrip);
-// 		$('#loadTimingsStatus').html('<div class="alert alert-info">Loading timings..</div>');
-// 	}
-// 	else 
-// 		$('#loadTimingsStatus').html('<div class="alert alert-warning">Choose the trip first from the table in Trips tab.</div>');
-// }
 
 function addTrip() {
 	route_id = $("#routeSelect").val();
@@ -608,10 +668,9 @@ function addTrip() {
 		// to do: change this, adopt naming conventions.
 		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
 
-
 		let sequence = sequenceHolder[dirIndex];
 		var last_stop_id = sequence[sequence.length - 1];
-		var trip_headsign = allStopsKeyed[last_stop_id]['stop_name'];
+		var trip_headsign = allStopsKeyed.find(x => x.stop_id === last_stop_id).stop_name;
 		var trip_short_name = chosenRouteShortName + ' ' + trip_time + ' to ' + trip_headsign;
 		var shape_id = '';
 		if (sequenceHolder['shape' + dirIndex]) shape_id = sequenceHolder['shape' + dirIndex];
@@ -623,25 +682,18 @@ function addTrip() {
 		}], true);
 
 	}
-
-	$('#addTripStatus').html('<span class="alert alert-success">Trip(s) added with id ' + trip_id + '. Fill its info in the table and then save changes.</span>');
+	$.toast({
+		title: 'Add Trip',
+		subtitle: 'Success',
+		content: 'Trip(s) added with id ' + trip_id + '. Fill its info in the table and then save changes.',
+		type: 'info',
+		delay: 5000
+	});
 
 	tripsTable.redraw(true);
 
 }
-/*
-function getPythonTripIDs() {
-	// shorter GET request. from https://api.jquery.com/jQuery.get/
-	var jqxhr = $.get( `${APIpath}tripIdList`, function( data ) {
-		trip_id_list =  JSON.parse(data) ;
-		console.log('All trip ids list loaded after GET request to API/tripIdList.');
-	})
-	.fail( function() {
-		console.log('GET request to API/tripIdList failed.')
-	});
 
-}
-*/
 function getPythonIDs() {
 	// replacement for getPythonTripIDs(). Apart from tripIDs, fetch all serviceIDs, blockIDs, shapeIDs and bring with relevant adjoining info if any.
 	// since we are mandating that the route have  sequence saved, and 
@@ -655,7 +707,6 @@ function getPythonIDs() {
 		});
 
 }
-
 
 function populateStopTimesFromSequence(trip_id, direction_id) {
 	if (!sequenceHolder) {
@@ -733,7 +784,7 @@ function getPythonAllShapesList() {
 		console.log('GET request to API/allShapesList succesful.');
 		list.forEach(function (row) {
 			var newOption = new Option(row, row, false, false);
-			Shapeselect.append(newOption);			
+			Shapeselect.append(newOption);
 		});
 	})
 		.fail(function () {
@@ -743,13 +794,13 @@ function getPythonAllShapesList() {
 }
 
 function resetTimings() {
-	stoptimesTable.clearData();		
+	stoptimesTable.clearData();
 }
 
 function getPythonStopsKeyed() {
 	// loading KEYED JSON of the stops.txt data, keyed by stop_id.
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `API/allStopsKeyed`);
+	xhr.open('GET', `API/tableReadSave?table=stops`);
 	xhr.onload = function () {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/allStopsKeyed .`);
@@ -757,12 +808,59 @@ function getPythonStopsKeyed() {
 			allStopsKeyed = data;
 		}
 		else {
-			console.log('Server request to API/allStopsKeyed failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
+			console.log('Server request to API/tableReadSave failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText);
 		}
 	};
 	xhr.send();
 }
 
+
+// function CopyShapeToAllTrips() {
+// 	var selected_shape_id = "";
+// 	if (tripsTable.getDataCount() == 0) {
+// 		$.toast({
+// 			title: 'Copy shape',
+// 			subtitle: 'No data',
+// 			content: 'Please select a route first and create a trip.',
+// 			type: 'error',
+// 			delay: 5000
+// 		});
+// 		return
+// 	} 
+// 	// if not selected the popup
+// 	var selectedData = tripsTable.getSelectedData();
+// 	if (selectedData.length > 0) {
+// 		// there is a row selected
+// 		// Get the value.
+// 		var selected_shape_id = selectedData[0].shape_id;		
+// 	}
+// 	$('.nonstandardbutton').hide();	
+// 	$("#ApplyTimeZoneButton").show();		
+// 	$("#DeleteColumnModalTitle").html("Select a shape to use");
+// 	$("#DeleteColumnModalBody").html(`The copying of the shape will only be on the same direction of the trip.
+// 	<div class="form-group row">
+// 	<label for="DynamicTimzeZone" class="col-sm-2 col-form-label">Shape</label>
+// 	<div class="col-sm-10">
+// 		<select id="DynamicShape" class="form-control"></select>
+// 	</div>
+// 	</div>`);
+// 	if (selected_shape_id) {
+// 		var newOption = new Option("Currenty Selected "+ selected_shape_id, selected_shape_id, false, false);
+// 		$('#DynamicShape').append(newOption);
+// 	}
+
+// 	if (sequenceHolder.shape0) {
+// 		var newOption = new Option("Default Shape direction 0 " + sequenceHolder.shape0, sequenceHolder.shape0, false, false);
+// 		$('#DynamicShape').append(newOption);
+// 	}
+// 	if (sequenceHolder.shape1) {
+// 		var newOption = new Option("Default Shape direction 1 " + sequenceHolder.shape1, sequenceHolder.shape1, false, false);
+// 		$('#DynamicShape').append(newOption);
+// 	}	
+// 	// Show the Modal
+// 	$('#DeleteColumnModal').modal('show');		
+
+// }
 
 function defaultShapesApply() {
 	var tripsData = tripsTable.getData();

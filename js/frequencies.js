@@ -6,11 +6,6 @@ var GTFSDefinedColumns = ["trip_id","start_time","end_time","headway_secs","exac
 
 // #########################################
 // Function-variables to be used in tabulator
-var freqTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' frequencies total';
-}
-
 var trashIcon = function (cell, formatterParams, onRendered) { //plain text value
 	return "<i class='fas fa-trash-alt'></i>";
 };
@@ -32,13 +27,14 @@ var table = new Tabulator("#frequencies-table", {
 	movableRows: true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout:"fitDataFill",
+	placeholder: "No Data Available",
+	layout: "fitColumns",
 	ajaxURL: `${APIpath}tableReadSave?table=frequencies`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", bottomCalc:freqTotal, width:200, editable: false},
+		{title:"trip_id", field:"trip_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", width:200, editable: false},
 		{title:"start_time", field:"start_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS", validator:"required"},
 		{title:"end_time", field:"end_time", editor:"input", headerFilter:"input", headerFilterPlaceholder:"HH:MM:SS", validator:"required"},
 		{title:"headway_secs", field:"headway_secs", editor:"input", headerFilter:"input", headerTooltip:"time between departures", validator:"required"},
@@ -70,6 +66,8 @@ var table = new Tabulator("#frequencies-table", {
 		else {
 			console.log("No data so no columns");
 		}
+		var NumberofRows = data.length + ' row(s)';
+		$("#NumberofRows").html(NumberofRows);
 	}
 });
 

@@ -26,13 +26,14 @@ var translations = new Tabulator("#translations-table", {
 	history:true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout:"fitDataFill",
+	placeholder: "No Data Available",
+	layout: "fitColumns",
 	ajaxURL: `${APIpath}tableReadSave?table=translations`, //ajax URL
 	ajaxLoaderLoading: loaderHTML,
 	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120, bottomCalc:translationsTotal },
+		{title:"trans_id", field:"trans_id", editor:"input", headerFilter:"input", headerSort:false, width:120},
 		{title:"lang", field:"lang", editor:select2LanguageEditor, headerFilter:"input", headerSort:false },
 		{title:"translation", field:"translation", editor:"input", headerFilter:"input", headerSort:false, width:150, formatter:function(cell, formatterParams){
 			return "<big>" + cell.getValue() + '</big>'; //return the contents of the cell;
@@ -55,6 +56,10 @@ var translations = new Tabulator("#translations-table", {
 		$('#saveTranslationButton').removeClass().addClass('btn btn-primary');
 		$('#saveTranslationButton').prop('disabled', false);
 	},
+	dataLoaded:function(data){
+		var NumberofRows = data.length + ' rows';
+		$("#NumberofRows").html(NumberofRows);
+	}
 });
 
 // ###################
