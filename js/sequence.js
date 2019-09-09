@@ -1205,7 +1205,7 @@ function mapboxrouting(data) {
 			var from = depart.stop_lon + "," + depart.stop_lat;
 			var to = arrival.stop_lon + "," + arrival.stop_lat;
 			var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
-			var MapboxApiKey = "";
+			var MapboxApiKey = "pk.eyJ1IjoibXZhbmxhYXIiLCJhIjoiSC0xME1hayJ9.FvJSsWGJEgUa0iwJW5ZsPg";
 			GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
 			GenerateUrl = GenerateUrl.replace(";;", ";");
 			$.get( GenerateUrl, function( data ) {				

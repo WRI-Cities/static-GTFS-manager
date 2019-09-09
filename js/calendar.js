@@ -84,6 +84,20 @@ var service = new Tabulator("#calendar-table", {
 	dataEdited:function(data){
 		$('#saveCalendarButton').removeClass().addClass('btn btn-primary');
 		$('#saveCalendarButton').prop('disabled', false);
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
+		$('#saveCalendarButton').removeClass().addClass('btn btn-primary');
+		$('#saveCalendarButton').prop('disabled', false);	
+	},	
+	dataLoaded:function(data){
+		// parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]), GTFSDefinedColumnsCalendar, service);
+		}
+		else {
+			console.log("No data so no columns");
+		}
 	}
 });
 
@@ -110,6 +124,20 @@ var calendarDates = new Tabulator("#calendar-dates-table", {
 	dataEdited:function(data){
 		$('#saveCalendarDatesButton').removeClass().addClass('btn btn-primary');
 		$('#saveCalendarDatesButton').prop('disabled', false);
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
+		$('#saveCalendarDatesButton').removeClass().addClass('btn btn-primary');
+		$('#saveCalendarDatesButton').prop('disabled', false);
+	},	
+	dataLoaded:function(data){
+		// parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]), GTFSDefinedColumnsDates, calendarDates);
+		}
+		else {
+			console.log("No data so no columns");
+		}
 	}
 });
 
@@ -159,11 +187,6 @@ $(document).on("click", "#LinkDeleteColumn", function () {
 $(document).on("click", "#LinkShowHideColumn", function () {
 	ShowHideColumn(calendarDates,'calendar_dates');
 });
-
-// $(document).on("click", "#DeleteColumnButton", function () {
-// 	DeleteExtraColumns(calendarDates);
-// });
-
 
 $('body').on('change', 'input[id^="check"]', function() {
 	var column = this.id.replace('check','');
@@ -461,166 +484,3 @@ $("#saveCalendarDatesButton").on("click", function(){
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
 	
 });
-
-
-function addColumntoTable(tablename) {
-	var CurrentColumns = [];
-	var ColumntoAdd = prompt("Please enter a title for the column you want to add", "");
-	if (!ColumntoAdd) { return;}
-	// replace special chars and spaces.
-	ColumntoAdd = ColumntoAdd.replace(/[^A-Z0-9]+/ig, "_");
-	// Current Columns
-	tablename.getColumnLayout().forEach(function (selectcolumn) {
-		// get the column selectbox value
-		if (selectcolumn.field) {
-			CurrentColumns.push(selectcolumn.field);
-		}
-	});
-	// Check 
-	if (CurrentColumns.indexOf(ColumntoAdd) == -1) {
-		tablename.addColumn({ title: ColumntoAdd, field: ColumntoAdd, editor: true });
-		$.toast({
-			title: 'Add Column',
-			subtitle: 'Columns Added',
-			content: "Please add values to the newly added column. Without it it won't save it to the database.",
-			type: 'success',
-			delay: 5000
-		});
-		$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
-		$('#saveAgencyButton').prop('disabled', false);
-	}
-	else {
-		$.toast({
-			title: 'Add Column',
-			subtitle: 'Failed to Add',
-			content: ColumntoAdd + ' is already there.',
-			type: 'error',
-			delay: 5000
-		});
-	}
-}
-
-function ShowHideColumn(tablename, table) {
-	var ColumnSelectionContent = "";
-	tablename.getColumnLayout().forEach(function (selectcolumn) {
-		// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			var checked = '';
-			if (selectcolumn.visible == true) {
-				checked = 'checked';
-			}
-			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="'+table+'" id="check' + columnname + '" ' + checked + '><label class="form-check-label" for="check' + columnname + '">' + columnname + '</label></div>';
-		}
-	});
-	$("#DeleteColumnButton").hide();
-	$("#DeleteColumnModalTitle").html("Show / Hide columns");
-	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
-	// Show the Modal
-	$('#DeleteColumnModal').modal('show');
-}
-
-function RemoveExtraColumns(tablename, GTFSDefinedColumns, table) {
-	// first load all the columns currenty active in the tabel.
-	var CurrentColumns = [];
-	tablename.getColumnLayout().forEach(function (selectcolumn) {
-		// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			CurrentColumns.push(columnname);
-		}
-	});
-	// Remove gtfs columns:
-	GTFSDefinedColumns.forEach(function (element) {
-		for (var i = 0; i < CurrentColumns.length; i++) {
-			if (CurrentColumns[i] === element) {
-				// Remove the predefined columns.
-				CurrentColumns.splice(i, 1);
-				i--;
-			}
-		}
-	});
-	// Currentcolumns now holds all defined columns.
-	var ColumnSelectionContent = "";
-	CurrentColumns.forEach(function (selectcolumn) {
-		// get the column selectbox value
-		if (selectcolumn) {
-			var columnname = selectcolumn;
-			ColumnSelectionContent += '<div class="form-check"><input class="form-check-input" type="checkbox" value="' + columnname + '" name="DeleteColumns" id="DeleteColumns' + columnname + '"data-tablename='+table+'><label class="form-check-label" for="DeleteColumns' + columnname + '">' + columnname + '</label></div>';
-		}
-	});
-	$("#DeleteColumnButton").show();
-	$("#DeleteColumnModalTitle").html("Delete Non standard columns");
-	$("#DeleteColumnModalBody").html(ColumnSelectionContent);
-	// Show the Modal
-	$('#DeleteColumnModal').modal('show');
-
-}
-
-function SelectTableForDeleteExtraColumns() {
-	var tablenameselected
-
-	$("input[name=DeleteColumns]:checked").each(function () {
-		tablenameselected = $(this).data("tablename");
-	});
-
-	DeleteExtraColumns(eval(tablenameselected));
-
-}
-
-function DeleteExtraColumns(tablename) {
-	// The getdata funtion will not delete the column from the data but only hides it. 
-	var data = tablename.getData();	
-	var filteredData = [];
-	var columns = tablename.getColumns();
-	data.forEach(function (row) {
-		var outputRow = {};
-		columns.forEach(function (col) {
-			var field = col.getField();
-			if (field) {
-				$("input[name=DeleteColumns]:checked").each(function () {
-					if (field != $(this).val()) {
-						outputRow[field] = row[field];
-					}
-				});
-			}
-		});
-		// Now we have the row without the delete columns.
-		filteredData.push(outputRow);
-	});
-	$("input[name=DeleteColumns]:checked").each(function () {
-		// Efectifly delete the columns from the table. But this will not delete the columns from the data!
-		tablename.deleteColumn($(this).val());
-	});
-	// Replace all of the table data with the new json array. This will not contain the deleted columns!
-	tablename.replaceData(filteredData);
-	tablename.redraw();	
-	$('#saveAgencyButton').removeClass().addClass('btn btn-primary');
-	$('#saveAgencyButton').prop('disabled', false);
-	$('#DeleteColumnModal').modal('hide');
-	$.toast({
-		title: 'Delete Column',
-		subtitle: 'Columns Deleted',
-		content: 'Save the table save the changes to the database.',
-		type: 'success',
-		delay: 5000
-	});
-}
-
-function AddExtraColumns(loadeddata) {
-	var filtered = loadeddata;
-	GTFSDefinedColumns.forEach(function (element) {
-		for (var i = 0; i < filtered.length; i++) {
-			if (filtered[i] === element) {
-				// Remove the predefined columns.
-				filtered.splice(i, 1);
-				i--;
-			}
-		}
-	});
-	// Filtered contains now the columns that aren't in the gtfs specs.	
-	filtered.forEach(function (addcolumn) {
-		//add the column to the table.
-		tablename.addColumn({ title: addcolumn, field: addcolumn, editor: true });
-	});
-}

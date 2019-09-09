@@ -47,8 +47,7 @@
 						<!-- menu will be inserted from menu.js.-->
 					</div>
 					<div class="form-inline my-2 my-md-0">
-						<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits"
-							style="width:200px;" id="password">
+						<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
 					</div>
 				</div>
 			</div>
@@ -64,20 +63,15 @@
 								<div class="card">
 									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
-											<button class="btn btn-link" type="button" data-toggle="collapse"
-												data-target="#collapseOne" aria-expanded="false"
-												aria-controls="collapseOne">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 												<i class="fas fa-angle-right"></i> Instructions
 											</button>
 										</h2>
 									</div>
-									<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-										data-parent="#accordionExample">
+									<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
 										<div class="card-body">
 											<p>Frequencies table serves as an alternative to the default route > trip >
-												stop_timings system in GTFS. <a
-													href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#frequenciestxt"
-													target="_blank">Read the specs here.</a></p>
+												stop_timings system in GTFS. <a href="https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md#frequenciestxt" target="_blank">Read the specs here.</a></p>
 											<ul>
 												<li>Normally, we have to lay out each trip in the day that a route takes
 													in trips table, and then expand each trip in stop_times table with
@@ -109,21 +103,22 @@
 									<div id="frequencies-table" class="table table-striped"></div>
 								</div>
 								<div class="card-footer">
-										<div class="row">
-												<div class="col">
-														<label for="routeSelect">Select Route:</label>
-														<select id="routeSelect" class="form-control col-sm-10"></select>
-												</div>
-												<div class="col">
-														<label for="tripSelect">Select Trip:</label>
-														<select id="tripSelect" class="form-control col-sm-10"
-															aria-placeholder="First select a route"><option></option></select>
-												</div>
-												<div class="col">
-														<button class="btn btn-primary" id="addFreqButton" type="button">Add
-																frequency</button>
-												</div>
-											  </div>							
+									<div class="row">
+										<div class="col">
+											<label for="routeSelect">Select Route:</label>
+											<select id="routeSelect" class="form-control col-sm-10"></select>
+										</div>
+										<div class="col">
+											<label for="tripSelect">Select Trip:</label>
+											<select id="tripSelect" class="form-control col-sm-10" aria-placeholder="First select a route">
+												<option></option>
+											</select>
+										</div>
+										<div class="col">
+											<button class="btn btn-primary" id="addFreqButton" type="button">Add
+												frequency</button>
+										</div>
+									</div>
 									<p>Note: A frequency-based trip_id defined here needs to have an entry in trips
 										table too, and the sequence of stops in this trip needs to be defined in
 										stop_times table.</p>
@@ -140,6 +135,24 @@
 		<!-- END PAGE CONTAINER-->
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="DeleteColumnModal" tabindex="-1" role="dialog" aria-labelledby="DeleteColumnModalTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="DeleteColumnModalTitle">Delete Non standard columns</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="DeleteColumnModalBody">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary nonstandardbutton" id="DeleteColumnButton">Remove columns</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Jquery JS-->
@@ -156,7 +169,7 @@
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
 	<script src="vendor/select2/js/select2.min.js"></script>
 	<script src="vendor/toast-0.7.1/toast.min.js"></script>
-
+	<script src="js/tabulator-footer.js"></script>
 	<!-- Main JS-->
 	<script src="js/main.js"></script>
 	<script src="js/menu.js"></script>

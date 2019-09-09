@@ -9,6 +9,8 @@ var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
     return "<i class='fas fa-trash-alt'></i>";
 };
 
+var GTFSDefinedColumns = ["trans_id","lang","translation"];
+
 
 var footerHTML = DefaultTableFooter;
 const saveButton = '<button id="saveTranslationButton" class="btn btn-outline-primary">Save Translation Changes</button>';
@@ -47,7 +49,12 @@ var translations = new Tabulator("#translations-table", {
 	dataEdited:function(data){
 		$('#saveTranslationButton').removeClass().addClass('btn btn-primary');
 		$('#saveTranslationButton').prop('disabled', false);
-	}
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
+		$('#saveTranslationButton').removeClass().addClass('btn btn-primary');
+		$('#saveTranslationButton').prop('disabled', false);
+	},
 });
 
 // ###################
@@ -59,21 +66,7 @@ $(document).ready(function() {
 		placeholder: 'Select language',
 		theme: 'bootstrap4',
 		data: LanguageList
-	});
-	var ColumnSelectionContent = "";
-	translations.getColumnLayout().forEach(function(selectcolumn) {            
-	// get the column selectbox value
-		if (selectcolumn.field) {
-			var columnname = selectcolumn.field;
-			console.log(columnname);
-			var checked = '';
-			if (selectcolumn.visible == true) {
-				checked = 'checked';
-			}
-			ColumnSelectionContent += '<div class="dropdown-item"><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="check'+columnname+'" '+checked+'><label class="form-check-label" for="check'+columnname+'">'+columnname+'</label></div></div>';		                
-		}
-	});
-	$("#SelectColumnsMenu").html(ColumnSelectionContent);	
+	});	
 	var DownloadContent = "";
 	DownloadLinks.forEach(function(downloadtype) {
 		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
@@ -86,7 +79,7 @@ $(document).ready(function() {
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function() {
+$('body').on('change', 'input[id^="check"]', function () {
 	var column = this.id.replace('check','');
 	if(this.checked) {		
 		translations.showColumn(column);
@@ -105,6 +98,22 @@ $(document).on("click","#LinkDownloadCSV", function () {
 $(document).on("click","#LinkDownloadJSON", function () {
 	translations.download("json", "translations.json");
 });
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable(translations);
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns(translations, GTFSDefinedColumns, 'translations');
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	DeleteExtraColumns(translations);
+});
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn(translations);
+});
+
 
 $('#addTranslationButton').on('click', function(){
 	addTranslation();

@@ -2,6 +2,7 @@
 // global variables
 const exact_timesChoices = {0:"0 - Not exactly scheduled", 1:"1 - Exactly scheduled", '':"blank - not exactly scheduled (default)"};
 
+var GTFSDefinedColumns = ["trip_id","start_time","end_time","headway_secs","exact_times"];
 
 // #########################################
 // Function-variables to be used in tabulator
@@ -55,12 +56,26 @@ var table = new Tabulator("#frequencies-table", {
 	dataEdited:function(data){
 		$('#saveFreqButton').removeClass().addClass('btn btn-primary');
 		$('#saveFreqButton').prop('disabled', false);
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
+		$('#saveFreqButton').removeClass().addClass('btn btn-primary');
+		$('#saveFreqButton').prop('disabled', false);
+	},	
+	dataLoaded:function(data){
+		// parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]), GTFSDefinedColumns, table);
+		}
+		else {
+			console.log("No data so no columns");
+		}
 	}
 });
 
 // Toggles for show hide columns in stop table.
 
-$('body').on('change', 'input[type="checkbox"]', function() {
+$('body').on('change', 'input[id^="check"]', function() {
 	var column = this.id.replace('check','');
 	if(this.checked) {		
 		table.showColumn(column);
@@ -68,7 +83,7 @@ $('body').on('change', 'input[type="checkbox"]', function() {
     }
     else {		
 		table.hideColumn(column);
-        table.redraw();       
+        table.redraw();
     }
 });
 
@@ -82,6 +97,21 @@ $(document).on("click","#LinkDownloadJSON", function () {
 	table.download("json", "frequencies.json");
 });
 
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable(table);
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns(table, GTFSDefinedColumns, 'table');
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	DeleteExtraColumns(table);
+});
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn(table);
+});
 
 // ###################
 // commands to run on page load

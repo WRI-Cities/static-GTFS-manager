@@ -231,6 +231,25 @@
 
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="DeleteColumnModal" tabindex="-1" role="dialog" aria-labelledby="DeleteColumnModalTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="DeleteColumnModalTitle">Delete Non standard columns</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="DeleteColumnModalBody">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary nonstandardbutton" id="DeleteColumnButton">Remove columns</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Jquery JS-->
 	<script src="vendor/jquery-3.2.1.min.js"></script>
 	<!-- Bootstrap JS-->
@@ -246,6 +265,7 @@
 	<script src="vendor/select2/js/select2.min.js"></script>
 	<script src="js/Select2EditorCurrency.js"></script>
 	<script src="vendor/toast-0.7.1/toast.min.js"></script>
+	<script src="js/tabulator-footer.js"></script>
 	<!-- Form validator-->
 	<script src="vendor/parsley-2.9.1/parsley.min.js"></script>
 
