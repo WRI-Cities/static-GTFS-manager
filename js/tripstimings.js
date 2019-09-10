@@ -1,8 +1,10 @@
 // schedules
 var editIcon = function (cell, formatterParams, onRendered) { //plain text value
-	return '<i class="fas fa-edit"></i>';
+	return '<i class="fas fa-copy"></i>';
 };
 // global variables
+var CopyTripOldstoptimes = {};
+var Copyrow = {};
 var tripsLock = false;
 var timingsLock = false;
 var chosenTrip = '';
@@ -101,11 +103,8 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "route_id", field: "route_id", headerSort: false, visible: true, frozen: true },
 		{ title: "trip_id", field: "trip_id", headerFilter: "input", headerSort: false, frozen: true },
 		{
-			formatter: editIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
-				//map[0].closePopup();
-				console.log(cell.getRow());
-				CopySelectedRowToNewStopTime(cell.getRow());
-				//mapsUpdate();
+			formatter: editIcon, align: "center", title: "Copy", headerSort: false, width: 50, minWidth: 50, cellClick: function (e, cell) {				
+				CopySelectedRowToNewStopTime(cell.getRow());				
 			}
 		},
 		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: { values: serviceLister }, headerFilter: "input", validator: "required", headerSort: false },
@@ -895,12 +894,11 @@ function defaultShapesApply() {
 }
 
 function CopySelectedRowToNewStopTime(row) {
-	// This function will load the selected stoptimes and calculate based on added time from the modal window the new times and save it to the database. 
-	console.log(row);
-
-	var direction = row.direction_id;
-	var route_id = row.route_id;
-	var trip_id = row.trip_id;
+	// This function will load the selected stoptimes and calculate based on added time from the modal window the new times and save it to the database. 	
+	Copyrow = Object.create(row.getData());
+	var direction = Copyrow.direction_id;
+	var route_id = Copyrow.route_id;
+	var trip_id = Copyrow.trip_id;
 
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
@@ -919,20 +917,23 @@ function CopySelectedRowToNewStopTime(row) {
 				});
 			}
 			else {
-				var oldstoptime = returndata.data;
+				CopyTripOldstoptimes = {};
+				console.log(returndata.data);
+				CopyTripOldstoptimes = Object.create(returndata.data);
+				console.log(CopyTripOldstoptimes);
 				$('.nonstandardbutton').hide();	
 				$("#CopySelectedRowButton").show();		
 				$("#DeleteColumnModalTitle").html("Add Time or Enter new starttime");
 				$("#DeleteColumnModalBody").html(`<small>You can enter a amount of minutes to add OR you can define a new starttime. It will be used to calculate the new times.</small>
 				<div class="form-group row">
-				<label for="AddMinutes" class="col-sm-2 col-form-label">Add Minutes</label>
-				<div class="col-sm-10">
+				<label for="AddMinutes" class="col-sm-6 col-form-label">Add Minutes</label>
+				<div class="col-sm-6">
 					<input type="text" id="AddMinutes" class="form-control">
 				</div>
 				</div>
 				<div class="form-group row">
-				<label for="NewTime" class="col-sm-2 col-form-label">OR New starttime</label>
-				<div class="col-sm-10">
+				<label for="NewTime" class="col-sm-6 col-form-label"><b>OR</b> New starttime</label>
+				<div class="col-sm-6">
 					<input type="text" id="NewTime" class="form-control" placeholder="HH:MM:SS">
 				</div>
 				</div>`);				
@@ -957,5 +958,119 @@ function CopySelectedRowToNewStopTime(row) {
 }
 
 function CopySelectedRowToNew () {
-	// This function will copy the row 
+	// This function will copy the row 	
+	var AddMinutes = $("#AddMinutes").val();
+	var NewStartTime = $("#NewTime").val();
+	if (AddMinutes.length > 0 &&  NewStartTime.length > 0){
+		$.toast({
+			title: 'Copy trip with times',
+			subtitle: 'Minutes and time defined',
+			content: 'You cannot use and minutes to add and a new starttime together.',
+			type: 'error',
+			delay: 5000
+		});
+		return;
+	}
+	// Needed for calculation of new times
+	var route_id = Copyrow.route_id;
+	var tripsTableList = tripsTable.getData().map(a => a.trip_id);
+	var allTrips = trip_id_list.concat(tripsTableList);
+	var route_id = Copyrow.route_id;
+	var counter = 1;
+	// loop till you find an available id:
+	while (allTrips.indexOf(route_id + pad(counter)) > -1)
+		counter++;
+	
+	var trip_id = route_id + pad(counter);
+	Copyrow.trip_id = trip_id;
+	// TODO: Better check.
+	if (AddMinutes.length > 0) {
+		// use today date for date calculation
+		// loop through json
+		var TripNewstoptimes = [];
+		CopyTripOldstoptimes.forEach(row => {
+			var tempjson = row;
+			var arrivaltime = row.arrival_time
+			var departuretime = row.departure_time
+			var new_arrivaltime = newtime(arrivaltime, AddMinutes);
+			var new_departuretime = newtime(departuretime, AddMinutes);
+			tempjson.arrival_time = new_arrivaltime;
+			tempjson.departure_time = new_departuretime;
+			// use newley generated trip_id
+			tempjson.trip_id = trip_id;
+			TripNewstoptimes.push(row);
+		  });		
+		console.log(TripNewstoptimes);
+		// OK Create The trip
+		Copyrow.trip_id = trip_id;
+		tripsTable.addRow([Copyrow], true);
+		saveTrips();
+		saveTimingsData(TripNewstoptimes, trip_id)
+
+	}
+}
+
+function newtime(oldtime, addminutes) {
+	if (oldtime.length == 0) {return "";}
+	console.log(oldtime);
+	var newtime = moment();
+	var oldmatches = oldtime.match(/^(\d+):(\d+):(\d+)$/i);
+	var oldhours = oldmatches[1];
+	var oldminutes = oldmatches[2];
+	var oldseconds = oldmatches[3];
+	if (oldhours > 24) {
+		// Ok this will be not a valid moment.js datetime so remove the 24.
+		oldhours = oldhours - 24;
+	}
+	// convert to date / time object:
+	var old = moment({hour: oldhours, minute: oldminutes, seconds: oldseconds});  
+	newtime = old.add(addminutes, 'm');
+	return newtime.format("HH:mm:ss");	
+}
+
+function saveTimingsData(tabledata, trip_id) {
+	
+	var pw = $("#password").val();
+	if (!pw.length) {
+		$('#timingsSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		shakeIt('password'); return;
+	}
+	$.toast({
+		title: 'Saving stop times',
+		subtitle: 'Sending data',
+		content: 'Sending modified timings data to server, please wait..',
+		type: 'info',
+		delay: 3000
+	});
+
+	var timingsData = tabledata;
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=stop_times&key=trip_id&value=${trip_id}`);
+	xhr.withCredentials = true;
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	xhr.onload = function () {
+		if (xhr.status === 200) {
+			$.toast({
+				title: 'Saved stop times',
+				subtitle: 'Sucess',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 3000
+			});
+			console.log('Successfully sent data via POST to server API/tableReadSave table=stop_times, resonse received: ' + xhr.responseText);
+			setSaveTimings(false);
+
+		} else {
+			$.toast({
+				title: 'Saving stop times',
+				subtitle: 'Error',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 3000
+			});
+			console.log('Server POST request to API/tableReadSave table=stop_times failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
+		}
+	}
+	console.log('Sending POST request, please wait for callback.');
+	xhr.send(JSON.stringify(timingsData));
 }
