@@ -988,12 +988,13 @@ function CopySelectedRowToNew () {
 		// use today date for date calculation
 		// loop through json
 		var TripNewstoptimes = [];
+		var departtime = CopyTripOldstoptimes[0].departure_time;
 		CopyTripOldstoptimes.forEach(row => {
 			var tempjson = row;
 			var arrivaltime = row.arrival_time
 			var departuretime = row.departure_time
-			var new_arrivaltime = newtime(arrivaltime, AddMinutes);
-			var new_departuretime = newtime(departuretime, AddMinutes);
+			var new_arrivaltime = newtime(arrivaltime, AddMinutes,departtime);
+			var new_departuretime = newtime(departuretime, AddMinutes.departtime);
 			tempjson.arrival_time = new_arrivaltime;
 			tempjson.departure_time = new_departuretime;
 			// use newley generated trip_id
@@ -1010,22 +1011,33 @@ function CopySelectedRowToNew () {
 	}
 }
 
-function newtime(oldtime, addminutes) {
+function newtime(oldtime, addminutes, departtime) {
 	if (oldtime.length == 0) {return "";}
 	console.log(oldtime);
 	var newtime = moment();
 	var oldmatches = oldtime.match(/^(\d+):(\d+):(\d+)$/i);
+	var depmatches = departtime.match(/^(\d+):(\d+):(\d+)$/i);
 	var oldhours = oldmatches[1];
 	var oldminutes = oldmatches[2];
 	var oldseconds = oldmatches[3];
-	if (oldhours > 24) {
+	var largerthen24 = false;
+	var returnstring = "";
+	if (oldhours > 23) {
 		// Ok this will be not a valid moment.js datetime so remove the 24.
 		oldhours = oldhours - 24;
+		console.log(oldhours)
+		largerthen24 = true;
 	}
 	// convert to date / time object:
 	var old = moment({hour: oldhours, minute: oldminutes, seconds: oldseconds});  
 	newtime = old.add(addminutes, 'm');
-	return newtime.format("HH:mm:ss");	
+	if (largerthen24) {
+		returnstring = (Number(newtime.format("HH")) + Number(24)) + ":" + newtime.format("mm:ss");
+	}
+	else {
+		returnstring = newtime.format("HH:mm:ss");
+	}
+	return returnstring;
 }
 
 function saveTimingsData(tabledata, trip_id) {
