@@ -52,13 +52,14 @@ var sequence0table = new Tabulator("#sequence-0-table", {
 	index: 'stop_id',
 	movableRows: true,
 	history: true,
-	movableColumns: true,
+	movableColumns: false,
 	layout: "fitColumns",
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", headerFilterPlaceholder: "filter by id", headerSort: false },
 		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false },
+		{ title: "timepoint", field: "timepoint", editor:"input", editor:true,validator:["numeric"], headerSort: false },
 		{
 			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
 				map[0].closePopup();
@@ -87,13 +88,14 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 	index: 'stop_id',
 	movableRows: true,
 	history: true,
-	movableColumns: true,
+	movableColumns: false,
 	layout: "fitColumns",
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", headerFilterPlaceholder: "filter by id", headerSort: false },
 		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false },
+		{ title: "timepoint", field: "timepoint", editor:"input", editor:true, validator:["numeric"],headerSort: false },
 		{
 			formatter: trashIcon, width: 40, align: "center", headerSort: false, cellClick: function (e, cell) {
 				map[1].closePopup();
@@ -360,29 +362,42 @@ function initiateSequence(sequenceData) {
 	var sequence1 = [];
 
 	for (stop in sequenceData[0]) {
-		let stop_id = sequenceData[0][stop];
+		let stop_id = sequenceData[0][stop].stop_id;
 		// check if stop_id is present in the sequence or not, and console log but errorlessly skip to next stop in loop if not present.
 		var searchstop = allStops.find(x => x.stop_id === stop_id);
 		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
 		}
-		else {			
+		else {
+			if (sequenceData[0][stop].timepoint) {
+				searchstop.timepoint = sequenceData[0][stop].timepoint
+			}
+			else {
+				searchstop.timepoint = ""
+			}
 			sequence0.push(searchstop);
 		}
 	}
 	for (stop in sequenceData[1]) {
-		let stop_id = sequenceData[1][stop];
+		let stop_id = sequenceData[1][stop].stop_id;
 		var searchstop = allStops.find(x => x.stop_id === stop_id);
 		if (!searchstop) {
 			console.log(stop_id + ' found in sequence DB but not present in the stops DB. So, skipping it.');
 			continue;
 		}
 		else {			
+			if (sequenceData[0][stop].timepoint) {
+				searchstop.timepoint = sequenceData[1][stop].timepoint
+			}
+			else {
+				searchstop.timepoint = ""
+			}
 			sequence1.push(searchstop);
 		}
 		
 	}
+	console.log(sequence0);
 	sequence0table.setData(sequence0);
 	sequence1table.setData(sequence1);
 	mapsUpdate('firsttime'); //this would be an all-round full refresh of the maps based on the data in the global varibles.
@@ -527,8 +542,8 @@ function saveSequence() {
 		});			
 		return;
 	}
-	var sequence0_list = sequence0.map(a => a.stop_id);
-	var sequence1_list = sequence1.map(a => a.stop_id);
+	var sequence0_list = sequence0.map(a => {return {stop_id: a.stop_id, timepoint: a.timepoint}});
+	var sequence1_list = sequence1.map(a => {return {stop_id: a.stop_id, timepoint: a.timepoint}});
 
 	var data = [sequence0_list, sequence1_list];
 

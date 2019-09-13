@@ -17,9 +17,9 @@ var sequenceHolder = '';
 var allStopsKeyed = '';
 var TripsTableEdited = false;
 
-const pickup_type = {0:"0 or (empty): Regularly scheduled pickup", 1:"1 - No pickup available", 2: "Must phone agency to arrange pickup", 3: "Must coordinate with driver to arrange pickup"};
+const pickup_type = { 0: "0 or (empty): Regularly scheduled pickup", 1: "1 - No pickup available", 2: "Must phone agency to arrange pickup", 3: "Must coordinate with driver to arrange pickup" };
 
-const drop_off_type = {0:"0 or (empty): Regularly scheduled drop off", 1:"1 - No dropoff available", 2: "Must phone agency to arrange dropoff", 3: "Must coordinate with driver to arrange dropoff"};
+const drop_off_type = { 0: "0 or (empty): Regularly scheduled drop off", 1: "1 - No dropoff available", 2: "Must phone agency to arrange dropoff", 3: "Must coordinate with driver to arrange dropoff" };
 
 // #########################################
 // Function-variables to be used in tabulator
@@ -102,11 +102,11 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false, frozen: true }, // row numbering
 		{ title: "route_id", field: "route_id", headerSort: false, visible: true, frozen: true },
 		{ title: "trip_id", field: "trip_id", headerFilter: "input", headerSort: false, frozen: true },
-		{
-			formatter: editIcon, align: "center", title: "Copy", headerSort: false, width: 50, minWidth: 50, cellClick: function (e, cell) {				
-				CopySelectedRowToNewStopTime(cell.getRow());				
-			}
-		},
+		// {
+		// 	formatter: editIcon, align: "center", title: "Copy", headerSort: false, width: 50, minWidth: 50, cellClick: function (e, cell) {				
+		// 		CopySelectedRowToNewStopTime(cell.getRow());				
+		// 	}
+		// },
 		{ title: "Calendar service", field: "service_id", editor: "select", editorParams: { values: serviceLister }, headerFilter: "input", validator: "required", headerSort: false },
 		{ title: "direction_id", field: "direction_id", editor: "select", editorParams: { values: { 0: "Onward (0)", 1: "Return (1)", '': "None(blank)" } }, headerFilter: "input", headerSort: false, formatter: "lookup", formatterParams: { 0: 'Onward', 1: 'Return', '': '' } },
 		{ title: "trip_headsign", field: "trip_headsign", editor: "input", headerFilter: "input", headerSort: false },
@@ -115,11 +115,11 @@ var tripsTable = new Tabulator("#trips-table", {
 		{ title: "shape_id", field: "shape_id", editor: ShapeselectEditor, headerFilter: "input", headerSort: false },
 		{
 			title: "wheelchair_accessible", field: "wheelchair_accessible", headerSort: false,
-			editor: "select", editorParams: { values:{"":"blank-No info", 1:"1-Yes", 2:"2-No"}}
+			editor: "select", editorParams: { values: { "": "blank-No info", 1: "1-Yes", 2: "2-No" } }
 		},
 		{
 			title: "bikes_allowed", field: "bikes_allowed", headerSort: false,
-			editor: "select", editorParams: {  values:{"":"blank-No info", 1:"1-Yes", 2:"2-No"}}
+			editor: "select", editorParams: { values: { "": "blank-No info", 1: "1-Yes", 2: "2-No" } }
 		}
 	],
 	rowSelected: function (row) {
@@ -224,8 +224,8 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 		{ title: "departure_time", field: "departure_time", editor: "input", headerFilter: "input", validator: "regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort: false },
 		{ title: "timepoint", field: "timepoint", headerFilter: "input", editor: "select", editorParams: { values: { 0: "0 - Estimated", 1: "1 - Accurate", "": "blank - Accurate" } }, headerSort: false },
 		{ title: "shape_dist_traveled", field: "shape_dist_traveled", editor: "input", headerFilter: "input", validator: ["numeric", "min:0"], headerSort: false },
-		{ title: "pickup_type", field: "pickup_type", editor:"select", editorParams:{values: pickup_type} },
-		{ title: "drop_off_type", field: "drop_off_type", editor:"select", editorParams:{values:drop_off_type} }
+		{ title: "pickup_type", field: "pickup_type", editor: "select", editorParams: { values: pickup_type } },
+		{ title: "drop_off_type", field: "drop_off_type", editor: "select", editorParams: { values: drop_off_type } }
 	],
 	initialSort: [
 		{ column: "stop_sequence", dir: "asc" }
@@ -678,7 +678,7 @@ function addTrip() {
 		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
 
 		let sequence = sequenceHolder[dirIndex];
-		var last_stop_id = sequence[sequence.length - 1];
+		var last_stop_id = sequence[sequence.length - 1].stop_id;
 		var trip_headsign = allStopsKeyed.find(x => x.stop_id === last_stop_id).stop_name;
 		var trip_short_name = chosenRouteShortName + ' ' + trip_time + ' to ' + trip_headsign;
 		var shape_id = '';
@@ -725,19 +725,61 @@ function populateStopTimesFromSequence(trip_id, direction_id) {
 	var timesArray = [];
 
 	var list = sequenceHolder[parseInt(direction_id)];
+	// Generated: E1 05:10 to 1360 Universidad Cooperativa
+	var selectedRows = tripsTable.getSelectedRows(); //get array of currently selected row components.
+	var row = selectedRows[0].getData();
+	var trip_short_name = row.trip_short_name;
+	console.log(trip_short_name);
+	var oldmatches = trip_short_name.match(/(\d+):(\d+)/);
+	if (oldmatches) {
+		var oldhours = oldmatches[1];
+		var oldminutes = oldmatches[2];
+	}
 	for (i in list) {
 		let row = {};
 		row['trip_id'] = trip_id;
 		row['stop_sequence'] = parseInt(i) + 1;
-		row['stop_id'] = list[i];
+		row['stop_id'] = list[i].stop_id;
 		row['timepoint'] = 0;
-		row['arrival_time'] = '';
-		row['departure_time'] = '';
-		//row['shape_dist_traveled'] = '';
+		// row['arrival_time'] = '';
+		// row['departure_time'] = '';
+		row['shape_dist_traveled'] = '';
+		if (oldmatches) {
+			if (list[i].timepoint) {
+				// Calculate the starttime based on the startime with extra minutes.
+				var old = moment({ hour: oldhours, minute: oldminutes, seconds: '00' });
+				var newtime = moment({ hour: oldhours, minute: oldminutes, seconds: '00' }).add(list[i].timepoint, 'm');
+				var largerthen24 = false;
+				//var diff = newtime.diff(old);
+				var diffInDays = newtime.get('date') - old.get('date');
+				console.log(diffInDays);
+				if (diffInDays > 0 && position != 0) {
+					// If this is the start row then the calculation is nog necessary
+					days = diffInDays;
+					largerthen24 = true;
+				}
+				if (largerthen24) {
+					returnstring = (Number(newtime.format("HH")) + (24 * days)) + ":" + newtime.format("mm:ss");
+				}
+				else {
+					returnstring = newtime.format("HH:mm:ss");
+				}
+				row['arrival_time'] = returnstring;
+				row['departure_time'] = returnstring;
+
+			}
+			else {
+				row['arrival_time'] = '';
+				row['departure_time'] = '';
+			}
+
+		}
 		timesArray.push(row);
 	}
-	timesArray[0]['arrival_time'] = timesArray[0]['departure_time'] = '00:00:00';
-	timesArray[list.length - 1]['arrival_time'] = timesArray[list.length - 1]['departure_time'] = '01:00:00';
+	if (!oldhours && !oldminutes) {
+		timesArray[0]['arrival_time'] = timesArray[0]['departure_time'] = '00:00:00';
+		timesArray[list.length - 1]['arrival_time'] = timesArray[list.length - 1]['departure_time'] = '01:00:00';
+	}
 	stoptimesTable.setData(timesArray);
 }
 
@@ -823,54 +865,6 @@ function getPythonStopsKeyed() {
 	xhr.send();
 }
 
-
-// function CopyShapeToAllTrips() {
-// 	var selected_shape_id = "";
-// 	if (tripsTable.getDataCount() == 0) {
-// 		$.toast({
-// 			title: 'Copy shape',
-// 			subtitle: 'No data',
-// 			content: 'Please select a route first and create a trip.',
-// 			type: 'error',
-// 			delay: 5000
-// 		});
-// 		return
-// 	} 
-// 	// if not selected the popup
-// 	var selectedData = tripsTable.getSelectedData();
-// 	if (selectedData.length > 0) {
-// 		// there is a row selected
-// 		// Get the value.
-// 		var selected_shape_id = selectedData[0].shape_id;		
-// 	}
-// 	$('.nonstandardbutton').hide();	
-// 	$("#ApplyTimeZoneButton").show();		
-// 	$("#DeleteColumnModalTitle").html("Select a shape to use");
-// 	$("#DeleteColumnModalBody").html(`The copying of the shape will only be on the same direction of the trip.
-// 	<div class="form-group row">
-// 	<label for="DynamicTimzeZone" class="col-sm-2 col-form-label">Shape</label>
-// 	<div class="col-sm-10">
-// 		<select id="DynamicShape" class="form-control"></select>
-// 	</div>
-// 	</div>`);
-// 	if (selected_shape_id) {
-// 		var newOption = new Option("Currenty Selected "+ selected_shape_id, selected_shape_id, false, false);
-// 		$('#DynamicShape').append(newOption);
-// 	}
-
-// 	if (sequenceHolder.shape0) {
-// 		var newOption = new Option("Default Shape direction 0 " + sequenceHolder.shape0, sequenceHolder.shape0, false, false);
-// 		$('#DynamicShape').append(newOption);
-// 	}
-// 	if (sequenceHolder.shape1) {
-// 		var newOption = new Option("Default Shape direction 1 " + sequenceHolder.shape1, sequenceHolder.shape1, false, false);
-// 		$('#DynamicShape').append(newOption);
-// 	}	
-// 	// Show the Modal
-// 	$('#DeleteColumnModal').modal('show');		
-
-// }
-
 function defaultShapesApply() {
 	var tripsData = tripsTable.getData();
 
@@ -891,198 +885,4 @@ function defaultShapesApply() {
 
 	$("#defaultShapesApplyStatus").html('<font color="green"><b><font size="5">&#10004;</font></b> Done!</font> Save Changes to save to DB.');
 	setSaveTrips(true);
-}
-
-function CopySelectedRowToNewStopTime(row) {
-	// This function will load the selected stoptimes and calculate based on added time from the modal window the new times and save it to the database. 	
-	Copyrow = Object.create(row.getData());
-	var direction = Copyrow.direction_id;
-	var route_id = Copyrow.route_id;
-	var trip_id = Copyrow.trip_id;
-
-	let xhr = new XMLHttpRequest();
-	//make API call from with this as get parameter name
-	xhr.open('GET', `${APIpath}stopTimes?trip=${trip_id}&route=${route_id}&direction=${direction}`);
-	xhr.onload = function () {
-		if (xhr.status === 200) { //we have got a Response
-			console.log(`Loaded timings data for the chosen trip from Server API/stopTimes .`);
-			var returndata = JSON.parse(xhr.responseText);
-			if (returndata.newFlag) {
-				$.toast({
-					title: 'Loading stoptimes',
-					subtitle: 'This is a new trip!',
-					content: 'You have to select a trip that has at least defined times!',
-					type: 'error',
-					delay: 5000
-				});
-			}
-			else {
-				CopyTripOldstoptimes = {};
-				console.log(returndata.data);
-				CopyTripOldstoptimes = Object.create(returndata.data);
-				console.log(CopyTripOldstoptimes);
-				$('.nonstandardbutton').hide();	
-				$("#CopySelectedRowButton").show();		
-				$("#DeleteColumnModalTitle").html("Add Time or Enter new starttime");
-				$("#DeleteColumnModalBody").html(`<small>You can enter a amount of minutes to add OR you can define a new starttime. It will be used to calculate the new times.</small>
-				<div class="form-group row">
-				<label for="AddMinutes" class="col-sm-6 col-form-label">Add Minutes</label>
-				<div class="col-sm-6">
-					<input type="text" id="AddMinutes" class="form-control">
-				</div>
-				</div>
-				<div class="form-group row">
-				<label for="NewTime" class="col-sm-6 col-form-label"><b>OR</b> New starttime</label>
-				<div class="col-sm-6">
-					<input type="text" id="NewTime" class="form-control" placeholder="HH:MM:SS">
-				</div>
-				</div>`);				
-				// Show the Modal
-				$('#DeleteColumnModal').modal('show');	
-			}
-		}
-		else {
-			console.log('Server request to API/stopTimes failed.  Returned status of ' + xhr.status + ', message: ' + xhr.responseText + '\nLoading backup.');
-			$.toast({
-				title: 'Loading stoptimes',
-				subtitle: 'There is no data!',
-				content: xhr.responseText,
-				type: 'error',
-				delay: 5000
-			});
-			setSaveTimings(false);
-		}
-	};
-	xhr.send();
-
-}
-
-function CopySelectedRowToNew () {
-	// This function will copy the row 	
-	var AddMinutes = $("#AddMinutes").val();
-	var NewStartTime = $("#NewTime").val();
-	if (AddMinutes.length > 0 &&  NewStartTime.length > 0){
-		$.toast({
-			title: 'Copy trip with times',
-			subtitle: 'Minutes and time defined',
-			content: 'You cannot use and minutes to add and a new starttime together.',
-			type: 'error',
-			delay: 5000
-		});
-		return;
-	}
-	// Needed for calculation of new times
-	var route_id = Copyrow.route_id;
-	var tripsTableList = tripsTable.getData().map(a => a.trip_id);
-	var allTrips = trip_id_list.concat(tripsTableList);
-	var route_id = Copyrow.route_id;
-	var counter = 1;
-	// loop till you find an available id:
-	while (allTrips.indexOf(route_id + pad(counter)) > -1)
-		counter++;
-	
-	var trip_id = route_id + pad(counter);
-	Copyrow.trip_id = trip_id;
-	// TODO: Better check.
-	if (AddMinutes.length > 0) {
-		// use today date for date calculation
-		// loop through json
-		var TripNewstoptimes = [];
-		var departtime = CopyTripOldstoptimes[0].departure_time;
-		CopyTripOldstoptimes.forEach(row => {
-			var tempjson = row;
-			var arrivaltime = row.arrival_time
-			var departuretime = row.departure_time
-			var new_arrivaltime = newtime(arrivaltime, AddMinutes,departtime);
-			var new_departuretime = newtime(departuretime, AddMinutes.departtime);
-			tempjson.arrival_time = new_arrivaltime;
-			tempjson.departure_time = new_departuretime;
-			// use newley generated trip_id
-			tempjson.trip_id = trip_id;
-			TripNewstoptimes.push(row);
-		  });		
-		console.log(TripNewstoptimes);
-		// OK Create The trip
-		Copyrow.trip_id = trip_id;
-		tripsTable.addRow([Copyrow], true);
-		saveTrips();
-		saveTimingsData(TripNewstoptimes, trip_id)
-
-	}
-}
-
-function newtime(oldtime, addminutes, departtime) {
-	if (oldtime.length == 0) {return "";}
-	console.log(oldtime);
-	var newtime = moment();
-	var oldmatches = oldtime.match(/^(\d+):(\d+):(\d+)$/i);
-	var depmatches = departtime.match(/^(\d+):(\d+):(\d+)$/i);
-	var oldhours = oldmatches[1];
-	var oldminutes = oldmatches[2];
-	var oldseconds = oldmatches[3];
-	var largerthen24 = false;
-	var returnstring = "";
-	if (oldhours > 23) {
-		// Ok this will be not a valid moment.js datetime so remove the 24.
-		oldhours = oldhours - 24;
-		console.log(oldhours)
-		largerthen24 = true;
-	}
-	// convert to date / time object:
-	var old = moment({hour: oldhours, minute: oldminutes, seconds: oldseconds});  
-	newtime = old.add(addminutes, 'm');
-	if (largerthen24) {
-		returnstring = (Number(newtime.format("HH")) + Number(24)) + ":" + newtime.format("mm:ss");
-	}
-	else {
-		returnstring = newtime.format("HH:mm:ss");
-	}
-	return returnstring;
-}
-
-function saveTimingsData(tabledata, trip_id) {
-	
-	var pw = $("#password").val();
-	if (!pw.length) {
-		$('#timingsSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
-		shakeIt('password'); return;
-	}
-	$.toast({
-		title: 'Saving stop times',
-		subtitle: 'Sending data',
-		content: 'Sending modified timings data to server, please wait..',
-		type: 'info',
-		delay: 3000
-	});
-
-	var timingsData = tabledata;
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', `${APIpath}tableReadSave?pw=${pw}&table=stop_times&key=trip_id&value=${trip_id}`);
-	xhr.withCredentials = true;
-	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-	xhr.onload = function () {
-		if (xhr.status === 200) {
-			$.toast({
-				title: 'Saved stop times',
-				subtitle: 'Sucess',
-				content: xhr.responseText,
-				type: 'success',
-				delay: 3000
-			});
-			console.log('Successfully sent data via POST to server API/tableReadSave table=stop_times, resonse received: ' + xhr.responseText);
-			setSaveTimings(false);
-
-		} else {
-			$.toast({
-				title: 'Saving stop times',
-				subtitle: 'Error',
-				content: xhr.responseText,
-				type: 'error',
-				delay: 3000
-			});
-			console.log('Server POST request to API/tableReadSave table=stop_times failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
-		}
-	}
-	console.log('Sending POST request, please wait for callback.');
-	xhr.send(JSON.stringify(timingsData));
 }
