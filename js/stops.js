@@ -184,10 +184,13 @@ $(document).on("click", "#LinkCopyTimeZones", function () {
 /* 3. Initiate map */
 // find default map layer
 var defaultlayer = cfg.MapProviders.find(x => x.default === true);
+var Extralayers = cfg.MapProviders.filter(x => x.default === false);
+console.log(Extralayers);
 // Set openstreetmap as the defaultlayer if nothing is defined as default.
 var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
 
 var LayerOSM = L.tileLayer.provider(defaultlayer);
+
 
 const startLocation = [10.030259357021862, 76.31446838378908];
 
@@ -214,6 +217,33 @@ var stopsLayer = L.markerClusterGroup()
 var baseLayers = {
 	"OpenStreetMap": LayerOSM
 };
+
+Extralayers.forEach(function(layers, index) {
+	// Add the extra layers in a loop
+	// Filter out the paid 
+	switch(layers.id) {
+		case "HERE.terrainDay":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				app_id: layers.apikey,
+				app_code: layers.variant
+			});
+		  break;
+		case "MapBox":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				id: layers.variant,
+				accessToken: layers.apikey
+			});
+		  break;
+		  case "TomTom":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				apikey: layers.apikey
+			});
+		  break;
+		default:
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id);
+	  }
+	
+});
 
 var overlays = {
 	'stops': stopsLayer,

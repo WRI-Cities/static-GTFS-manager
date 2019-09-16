@@ -393,8 +393,7 @@ function initiateSequence(sequenceData) {
 			sequence1.push(searchstop);
 		}
 		
-	}
-	console.log(sequence0);
+	}	
 	sequence0table.setData(sequence0);
 	sequence1table.setData(sequence1);
 	mapsUpdate('firsttime'); //this would be an all-round full refresh of the maps based on the data in the global varibles.

@@ -78,11 +78,9 @@ $("#Mapprovider").select2({
     switch(provider_id) {
         case "MapBox":
           $("#label-variant").text("id");
-          $("#label-apikey").text("accessToken");
-          alert('Mapbox Selected')
+          $("#label-apikey").text("accessToken");         
           break;
         case "HERE.terrainDay":
-          alert('Here Selected')
           $("#label-variant").text("app_id");
           $("#label-apikey").text("app_code");
           // code block
@@ -133,6 +131,7 @@ $("#SaveApiKeys").click(function () {
 	});
 
 });
+
 $("#AddMapProvider").click(function () {
 	var MapproviderSelected = $("#Mapprovider").val();
 	var Variant = $("#Variant").val();
@@ -141,3 +140,8 @@ $("#AddMapProvider").click(function () {
 	ConfigMapProvider.addRow([{id: MapproviderSelected, name: MapproviderSelected, variant: Variant, apikey: Apikey, default: false}]);
 });
 
+
+$('#accordionMapSettings').on('show.bs.collapse', function () {
+	console.log('config map resize');
+	ConfigMapProvider.redraw(true);
+  })
