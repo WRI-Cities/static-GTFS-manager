@@ -13,6 +13,9 @@ footerHTML = footerHTML.replace('{FastAdd}', '');
 var table = new Tabulator("#agency-table", {
 	selectable: 0,
 	index: 'agency_id',
+	persistenceID:"GTFS_agency", //id string, can only be numbers, letters, hyphens and underscores.
+	persistentLayout:true,
+	persistenceMode:true,
 	movableRows: true,
 	history: true,
 	addRowPos: "top",
@@ -28,7 +31,7 @@ var table = new Tabulator("#agency-table", {
 		{ title: "agency_name", field: "agency_name", editor: "input", headerSort: false, download: true },
 		{ title: "agency_url", field: "agency_url", editor: "input", headerSort: false, download: true },
 		{ title: "agency_timezone", field: "agency_timezone", editor: select2TZEditor, width: 300, headerSort: false, download: true },
-		{ title: "agency_lang", field: "agency_lang", editor: "input", headerSort: false, download: true, visible: false },
+		{ title: "agency_lang", field: "agency_lang", editor: select2LanguageEditor, headerSort: false, download: true, visible: false },
 		{ title: "agency_phone", field: "agency_phone", editor: "input", headerSort: false, download: true, visible: false },
 		{ title: "agency_fare_url", field: "agency_fare_url", editor: "input", headerSort: false, download: true, visible: false },
 		{ title: "agency_email", field: "agency_email", editor: "input", headerSort: false, download: true, visible: false }
@@ -108,6 +111,15 @@ $(document).ready(function () {
 	});
 	// Set the default timezone from the settings.js file.
 	$("#agency_timezone").val(cfg.GTFS.Timezone).trigger("change");
+
+	$("#agency_lang").select2({
+		placeholder: "Select a language",
+		allowClear: true,
+		theme: 'bootstrap4',
+		data: LanguageList
+	});
+	// Set the default timezone from the settings.js file.
+	$("#agency_lang").val(cfg.GTFS.Language).trigger("change");
 
 	var DownloadContent = "";
 	DownloadLinks.forEach(function (downloadtype) {
@@ -215,6 +227,11 @@ function addAgency() {
 	var agency_name = $('#agency_name').val();
 	var agency_url = $('#agency_url').val();
 	var agency_timezone = $('#agency_timezone').select2().val();
+	var agency_lang = $('#agency_url').val();
+	var agency_phone = $('#agency_phone').val();
+	var agency_fare_url = $('#agency_fare_url').val();
+	var agency_email = $('#agency_email').val();
+
 	$('#agency_id').val(agency_id);
 	if (!agency_id.length) {
 		$.toast({
@@ -241,7 +258,7 @@ function addAgency() {
 			delay: 5000
 		});
 	} else {
-		table.addData([{ 'agency_id': agency_id, 'agency_name': agency_name, 'agency_url': agency_url, 'agency_timezone': agency_timezone }]);
+		table.addData([{ 'agency_id': agency_id, 'agency_name': agency_name, 'agency_url': agency_url, 'agency_timezone': agency_timezone, 'agency_lang': agency_lang, 'agency_phone': agency_phone, 'agency_fare_url':agency_fare_url, 'agency_email': agency_email }]);
 		//$('#agencyAddStatus').html('<span class="alert alert-success">Added agency_id ' + agency_id + '</span>');
 		$.toast({
 			title: 'Add Agency',

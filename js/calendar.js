@@ -8,6 +8,8 @@ var service_id_list = [];
 var GTFSDefinedColumnsCalendar = ["service_id","monday","tuesday","wednesday","thursday","friday","saturday","sunday","start_date","end_date"];
 var GTFSDefinedColumnsDates = ["service_id","date","exception_type"];
 
+const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
+
 var FastAddCalendar = `
 <div class="btn-group dropup mr-2" role="group" id="FastAddGroup">
     <button id="btnGroupFastAdd" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Fast add a calendar service">

@@ -105,18 +105,25 @@
 								<div class="card-footer">
 									<div class="row">
 										<div class="col">
-											<label for="routeSelect">Select Route:</label>
-											<select id="routeSelect" class="form-control col-sm-10"></select>
+											<div class="form-group row">
+												<label for="v" class="col-sm-4 col-form-label">Select Route:</label>
+												<div class="col-sm-8">
+													<select id="routeSelect" class="form-control col-sm-8"></select>
+												</div>
+											</div>
 										</div>
 										<div class="col">
-											<label for="tripSelect">Select Trip:</label>
-											<select id="tripSelect" class="form-control col-sm-10" aria-placeholder="First select a route">
-												<option></option>
-											</select>
+											<div class="form-group row">
+												<label for="v" class="col-sm-4 col-form-label">Select Trip:</label>
+												<div class="col-sm-8">
+													<select id="tripSelect" class="form-control col-sm-8" aria-placeholder="First select a route">
+														<option></option>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="col">
-											<button class="btn btn-primary" id="addFreqButton" type="button">Add
-												frequency</button>
+											<button class="btn btn-primary" id="addFreqButton" type="button">Add frequency</button>
 										</div>
 									</div>
 									<p>Note: A frequency-based trip_id defined here needs to have an entry in trips

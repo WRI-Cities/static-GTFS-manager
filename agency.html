@@ -96,7 +96,7 @@
                                             <small id="agency_nameHelp" class="form-text text-muted">Contains the full name of the transit agency.</small>
                                         </div>
                                         <div class="form-group parsley-input">
-                                            <label for="agency_url" aria-required="true">agency_name</label>
+                                            <label for="agency_url" aria-required="true">agency_url</label>
                                             <input placeholder="agency_url" id="agency_url" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a agency_url, without it it won't work!">
                                             <small id="agency_urlHelp" class="form-text text-muted">Contains the URL of the transit agency.</small>
                                         </div>
@@ -104,6 +104,26 @@
                                             <label for="agency_timezone" aria-required="true">agency_timezone</label>
                                             <select id="agency_timezone" class="form-control" data-parsley-required-message="You have to add a agency_url, without it it won't work!"></select>
                                             <small id="agency_timezoneHelp" class="form-text text-muted">Contains the timezone where the transit agency is located. If multiple agencies are specified in the feed, each must have the same agency_timezone.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_lang" aria-required="true">agency_lang</label>
+                                            <select id="agency_lang" class="form-control"></select>
+                                            <small id="agency_langHelp" class="form-text text-muted">Specifies the primary language used by this transit agency..</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_phone" aria-required="true">agency_phone</label>
+                                            <input placeholder="agency_phone" id="agency_phone" class="form-control" autocomplete="off">
+                                            <small id="agency_phoneHelp" class="form-text text-muted">Provides a voice telephone number for the specified agency.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_fare_url" aria-required="true">agency_fare_url</label>
+                                            <input placeholder="agency_fare_url" id="agency_url" class="form-control">
+                                            <small id="agency_fare_urlHelp" class="form-text text-muted">Specifies the URL of a web page where a rider can purchase tickets or other fare instruments for the agency online.</small>
+                                        </div>
+                                        <div class="form-group parsley-input">
+                                            <label for="agency_email" aria-required="true">agency_email</label>
+                                            <input placeholder="agency_email" id="agency_email" class="form-control">
+                                            <small id="agency_emailHelp" class="form-text text-muted">Contains a valid email address that's actively monitored by the agency's customer service department.</small>
                                         </div>
                                     </div>
                                     <div class="alert alert-info" role="alert">
@@ -137,6 +157,7 @@
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
     <script src="vendor/select2/js/select2.min.js"></script>
     <script src="js/Select2EditorTimezone.js"></script>
+    <script src="js/Select2EditorLanguage.js"></script>
     <script src="vendor/toast-0.7.1/toast.min.js"></script>
     <script src="js/tabulator-footer.js"></script>
     <!-- Form validator-->

@@ -1,7 +1,6 @@
 //homepage.js
 $( function() {
-	getPythonGTFSstats();
-	getPythonPastCommits();
+	
 });
 
 // Buttons:
@@ -20,14 +19,8 @@ $("#gtfsBlankSlateButton").on("click", function(){
 // #########################################
 // Initiate bootstrap / jquery components like tabs, accordions
 $(document).ready(function(){
-	/*
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	}); 
-	// popover
-	$('[data-toggle="popover"]').popover();
-	*/
+	getPythonGTFSstats();
+	getPythonPastCommits();
 
 });
 // ##############################
@@ -66,17 +59,23 @@ function getPythonPastCommits() {
 			console.log(`Loaded data from Server ${APIpath}pastCommits .`);
 			
 			var data = JSON.parse(xhr.responseText);
-			var content = '<ol>';
+			var content = '<ol class="list-inline">';
 			for (i in data.commits) {
-				content += '<li>' + data.commits[i] + ' : <a href="GTFS/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
+				content += '<li>' + data.commits[i] + ' : <a href="export/' + data.commits[i] + '/gtfs.zip">Download gtfs.zip</a></li>';
 			}
 			content += '</ol>';
 			
 			$('#pastCommits').html(content);
 		}
-		else {
+		else {			
 			console.log(`Server request to ${APIpath}pastCommits failed.  Returned status of ` + xhr.status + ', message: ' + xhr.responseText);			
-			$('#pastCommits').html('<div class="alert alert-danger" role="alert">' + xhr.responseText + '</div>');
+			$.toast({
+				title: 'Past Commits',
+				subtitle: 'Error Loading',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			  });				
 		}
 	};
 	xhr.send();
@@ -96,8 +95,7 @@ function exportGTFS() {
 			content: 'Please give a valid name for the commit',
 			type: 'error',
 			delay: 5000
-		  });
-		//$('#exportGTFSlog').html('<div class="alert alert-danger">Please give a valid name for the commit.</div>');
+		  });		
 		shakeIt('commitName'); return;
 	}
 	/*
@@ -114,8 +112,7 @@ function exportGTFS() {
 		type: 'info',
 		delay: 5000
 	  });
-	//$("#exportGTFSlog").html('Initated commit.. please wait..<br>If it\'s a large feed then expect it to take around 5 mins.');
-	
+		
 	let xhr = new XMLHttpRequest();
 	//make API call from with this as get parameter name
 	xhr.open('GET', `${APIpath}commitExport?commit=${commit}`);
@@ -157,7 +154,6 @@ function gtfsImportZip() {
 			type: 'warning',
 			delay: 5000
 		  });
-		//$('#importGTFSStatus').html('<div class="alert alert-warning">Please select a file first! ;)</div>');
 		shakeIt('gtfsZipFile'); return;
 	}
 
@@ -173,10 +169,8 @@ function gtfsImportZip() {
 		type: 'info',
 		delay: 5000
 	  });
-	  //$("#importGTFSStatus").html('Importing GTFS file, please wait..');
 
 	var formData = new FormData();
-	//formData.append('gtfsZipFile', $('#gtfsZipFile')[0].files[0]);
 	formData.append('gtfsZipFile', $('#gtfsZipFile')[0].files[0] );
 
 	$.ajax({
@@ -195,11 +189,9 @@ function gtfsImportZip() {
 				type: 'success',
 				delay: 5000
 			  });
-			//$("#importGTFSStatus").html('<div class="alert alert-success">Successfully imported GTFS feed. See the other pages to explore the data.<br>A backup has been taken of the earlier data just in case.</div>');
-				// housekeeping: run stats and past commits scan again and clear out blank slate status
-			getPythonGTFSstats(); getPythonPastCommits();
-			$("#gtfsBlankSlateStatus").html('');
-
+			// housekeeping: run stats and past commits scan again and clear out blank slate status
+			getPythonGTFSstats(); 
+			getPythonPastCommits();
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/gtfsImportZip POST request failed.');
@@ -209,10 +201,8 @@ function gtfsImportZip() {
 				content: 'GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText,
 				type: 'error',
 				delay: 5000
-			  });
-			//$("#importGTFSStatus").html('<div class="alert alert-warning">GTFS Import function failed for some reason.<br>Please try again or <a href="https://github.com/WRI-Cities/static-GTFS-manager/issues">file a bug on github.</a><br>Message from server: ' + jqXHR.responseText + '</div>');
+			  });			
 		}
-
 	});
 }
 
@@ -249,7 +239,13 @@ function gtfsBlankSlate() {
 		},
 		error: function(jqXHR, exception) {
 			console.log('API/gtfsBlankSlate GET request failed.');
-			$("#gtfsBlankSlateStatus").html('<span class="alert alert-danger">' + jqXHR.responseText + '</span>');
+			$.toast({
+				title: 'GTFS Blank Slate',
+				subtitle: 'Error',
+				content: jqXHR.responseText,
+				type: 'error',
+				delay: 5000
+			  });			
 		}
 	});
 }

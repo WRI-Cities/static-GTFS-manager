@@ -58,7 +58,7 @@ var sequence0table = new Tabulator("#sequence-0-table", {
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", headerFilterPlaceholder: "filter by id", headerSort: false },
-		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false },
+		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false, tooltip:true },
 		{ title: "timepoint", field: "timepoint", editor:"input", editor:true,validator:["numeric"], headerSort: false },
 		{
 			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
@@ -94,7 +94,7 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "Num", width: 40, formatter: "rownum", headerSort: false }, // row numbering
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", headerFilterPlaceholder: "filter by id", headerSort: false },
-		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false },
+		{ title: "stop_name", field: "stop_name", headerFilter: "input", headerFilterPlaceholder: "filter by name", headerSort: false, tooltip:true },
 		{ title: "timepoint", field: "timepoint", editor:"input", editor:true, validator:["numeric"],headerSort: false },
 		{
 			formatter: trashIcon, width: 40, align: "center", headerSort: false, cellClick: function (e, cell) {
@@ -103,7 +103,6 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 				mapsUpdate();
 			}
 		}
-
 	],
 	rowSelected: function (row) {
 		var stop_id = row.getIndex();
@@ -255,21 +254,19 @@ $('#routeSelect').on('select2:select', function (e) {
 	// Do something
 	//var data = e.params.data;
 
-	var valueSelected = e.params.data.id;
-	console.log(valueSelected)
-	if (valueSelected == '') {
+	var route_id = e.params.data.id;
+	console.log(route_id)
+	if (route_id == '') {
 		return;
 	}
 	$('#openShapeModal').prop('disabled', false);
 	$('#openKMLModal').prop('disabled', false);
-	$('#openUseRoutingModal').prop('disabled', false);
-	let route_id = valueSelected;
+	$('#openUseRoutingModal').prop('disabled', false);	
 	// clear present sequence tables.. passing to a function to handle "save changes" action later.
 	clearSequences();
 	// execute function to load corresponding route's sequence(s)
 	getPythonSequence(route_id);
 	selected_route_id = route_id; // global variable
-
 	// shapes related:
 	uploadedShapePrefix = ''; // reset global shape uploaded variable.
 	getPythonShapesList(route_id);	

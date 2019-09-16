@@ -907,8 +907,7 @@ function CopyTimeZone() {
 		data: TimeZoneList
 	  });
 	  	// Show the Modal
-		$('#DeleteColumnModal').modal('show');
-		
+		$('#DeleteColumnModal').modal('show');		
 	}
 }
 

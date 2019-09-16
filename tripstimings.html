@@ -116,49 +116,49 @@
 									<div class="tab-content pl-3 p-1" id="myTabContent">
 										<div class="tab-pane fade show active" id="trips" role="tabpanel" aria-labelledby="trips-tab">
 											<div class="form-group row">
-												<label for="inputEmail3" class="col-sm-2 col-form-label">Pick a route</label>
+												<label for="routeSelect" class="col-sm-2 col-form-label"><b>Pick a route</b></label>
 												<div class="col-sm-10">
 													<select id="routeSelect" class="form-control">
 														<option></option>
 													</select>
 												</div>
 											</div>
-
 											<h5>Trips</h5>
 											<div id="trips-table"></div>
-
 											<div id="newTripHTML">
 												<div class="row">
 													<div class="col">
-														<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
-														<div class="form-group row">
-															<label for="inputEmail3" class="col-sm-2 col-form-label">Calendar service</label>
-															<div class="col-sm-10">
-																<select id="trip_calendar" class="form-control"></select>
+														<div id="Form-AddCalander" data-parsley-validate>
+															<p>This route's <a href="sequence.html">default sequence</a> has been set, so you can <b>Create a new trip:</b></p>
+															<div class="form-group row">
+																<label for="trip_calendar" class="col-sm-2 col-form-label">Calendar service</label>
+																<div class="col-sm-10">
+																	<select id="trip_calendar" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select a service, without it it won't work!"></select>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label for="trip_time" class="col-sm-2 col-form-label">Start time</label>
+																<div class="col-sm-10">
+																	<input id="trip_time" type="time" name="time" class="form-control" required autocomplete="off" data-parsley-required-message="The program will calculate time and duration based on this.">
+																</div>
+															</div>
+															<div class="form-group row">
+																<label for="trip_direction" class="col-sm-2 col-form-label">Direction</label>
+																<div class="col-sm-10">
+																	<select id="trip_direction" class="form-control" required autocomplete="off" data-parsley-required-message="You have to select a direction.">
+																		<option value="0" selected="selected">Onward</option>
+																		<option value="1">Return</option>
+																		<option value="none">None</option>
+																		<option value="both">Both</option>
+																	</select>
+																</div>
+															</div>
+															<div class="form-group row">
+																<div class="col-sm-10">
+																	<button class="btn btn-primary" id="addTripButton" type="button">Add a Trip</button></p>
+																</div>
 															</div>
 														</div>
-														<div class="form-group row">
-															<label for="inputEmail3" class="col-sm-2 col-form-label">Start time</label>
-															<div class="col-sm-10">
-																<input id="trip_time" type="time" name="time" class="form-control">
-															</div>
-														</div>
-														<div class="form-group row">
-															<label for="inputEmail3" class="col-sm-2 col-form-label">Direction</label>
-															<div class="col-sm-10">
-																<select id="trip_direction" class="form-control">
-																	<option value="0" selected="selected">Onward</option>
-																	<option value="1">Return</option>
-																	<option value="none">None</option>
-																	<option value="both">Both</option>
-																</select>
-															</div>
-														</div>
-														<div class="form-group row">
-															<div class="col-sm-10">
-																<button class="btn btn-primary" id="addTripButton" type="button">Add a Trip</button></p>
-															</div>
-														</div>														
 													</div>
 													<div class="col">
 														<div id="shapeApplyHTML" style="display:none" class="alert alert-warning">
@@ -223,8 +223,6 @@
 											<div id="stop-times-table"></div>
 											<br>
 											<!-- <p>If you edit any of the timings, make sure to <button id="saveTimings" class="btn btn-normal" disabled>Save Timings to DB</button> before changing to another trip above.</p>-->
-											<p><small id="timingsSaveStatus"></small></p>
-											<br>
 											<p class="alert alert-warning col-md-6">Note: To change the default stops sequence for new trips, please go to <a href="sequence.html">Default Route Sequence</a> page and change the sequence from there.</p>
 
 
@@ -279,6 +277,8 @@
 	<script src="vendor/toast-0.7.1/toast.min.js"></script>
 	<script src="vendor/moment-2.24.0/moment.js"></script>
 	<script src="js/tabulator-footer.js"></script>
+	 <!-- Form validator-->
+	 <script src="vendor/parsley-2.9.1/parsley.min.js"></script>
 	<!-- Main JS-->
 	<script src="js/main.js"></script>
 	<script src="js/menu.js"></script>
