@@ -5,7 +5,7 @@ var trashIcon = function(cell, formatterParams, onRendered){ //plain text value
 var ConfigMapProvider = new Tabulator("#SettingsMaps", {
 	selectable:1, // make max 1 row click-select-able. http://tabulator.info/docs/3.4?#selectable
 	movableRows: true, //enable user movable rows
-	layout:"fitColumns", //fit columns to width of table (optional)
+	layout: "fitColumns", //fit columns to width of table (optional)
 	index: "id",	
     addRowPos: "top",
     data:cfg.MapProviders,	
@@ -140,8 +140,18 @@ $("#AddMapProvider").click(function () {
 	ConfigMapProvider.addRow([{id: MapproviderSelected, name: MapproviderSelected, variant: Variant, apikey: Apikey, default: false}]);
 });
 
+$(".collapse").on('show.bs.collapse', function (e) {
+	if($(this).is(e.target)){
+		if (this.id == 'collapseOne') {
+			console.log('config map resize');
+			ConfigMapProvider.redraw(true);
+		}
+		console.log(this.id)
+	}
+})
 
-$('#accordionMapSettings').on('show.bs.collapse', function () {
-	console.log('config map resize');
-	ConfigMapProvider.redraw(true);
-  })
+
+// $('#collapseOne').on('show.bs.collapse', function () {
+// 	console.log('config map resize');
+	
+//   })

@@ -185,34 +185,10 @@ $(document).on("click", "#LinkCopyTimeZones", function () {
 // find default map layer
 var defaultlayer = cfg.MapProviders.find(x => x.default === true);
 var Extralayers = cfg.MapProviders.filter(x => x.default === false);
-console.log(Extralayers);
 // Set openstreetmap as the defaultlayer if nothing is defined as default.
 var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
 
 var LayerOSM = L.tileLayer.provider(defaultlayer);
-
-
-const startLocation = [10.030259357021862, 76.31446838378908];
-
-var map = new L.Map('map', {
-	center: [0, 0],
-	zoom: 2,
-	layers: [LayerOSM],
-	scrollWheelZoom: true
-});
-
-$('.leaflet-container').css('cursor', 'crosshair'); // from https://stackoverflow.com/a/28724847/4355695 Changing mouse cursor to crosshairs
-
-L.control.scale({ metric: true, imperial: false }).addTo(map);
-
-var stopsLayer = L.markerClusterGroup()
-	// .bindTooltip(function (layer) {
-	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-	// }, { sticky: false })
-	// .bindPopup(function (layer) {
-	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-	// })
-	.on('click', markerOnClick);
 
 var baseLayers = {
 	"OpenStreetMap": LayerOSM
@@ -244,6 +220,30 @@ Extralayers.forEach(function(layers, index) {
 	  }
 	
 });
+
+const startLocation = [10.030259357021862, 76.31446838378908];
+
+var map = new L.Map('map', {
+	center: [0, 0],
+	zoom: 2,
+	layers: [LayerOSM],
+	scrollWheelZoom: true
+});
+
+$('.leaflet-container').css('cursor', 'crosshair'); // from https://stackoverflow.com/a/28724847/4355695 Changing mouse cursor to crosshairs
+
+L.control.scale({ metric: true, imperial: false }).addTo(map);
+
+var stopsLayer = L.markerClusterGroup()
+	// .bindTooltip(function (layer) {
+	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+	// }, { sticky: false })
+	// .bindPopup(function (layer) {
+	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
+	// })
+	.on('click', markerOnClick);
+
+
 
 var overlays = {
 	'stops': stopsLayer,
