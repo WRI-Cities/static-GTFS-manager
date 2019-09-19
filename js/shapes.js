@@ -6,10 +6,13 @@ var shapeTotal = function (values, data, calcParams) {
 	return calc + ' agencies total';
 }
 
-var shapeLine;
-
 var trip_id_list = {};
+
+// Holder of all stops from stops table.
 var allStops = [];
+// holder for the stop_times loaded for the route, trip, direction.
+var stop_times = []; 
+
 //####################
 // Tabulator tables
 
@@ -46,7 +49,10 @@ var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
 
 var LayerOSM = L.tileLayer.provider(defaultlayer);
 
-var stopsLayer = L.markerClusterGroup()
+var stopsLayer = L.markerClusterGroup();
+var OnlineRouteLayer = L.geoJSON();
+var LoadedShape = L.polyline([]);
+
 // .bindTooltip(function (layer) {
 // 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
 // }, { sticky: false })
@@ -59,7 +65,9 @@ var baseLayers = {
 	"OpenStreetMap": LayerOSM
 };
 var overlays = {
-	'stops': stopsLayer
+	'Stops': stopsLayer,
+	'Routing': OnlineRouteLayer,
+	'Loaded Shape': LoadedShape
 }
 
 
@@ -126,6 +134,7 @@ $("#shape_trip").select2({
 	theme: 'bootstrap4'
 });
 
+
 // #########################
 // Buttons
 
@@ -136,6 +145,11 @@ $('#shape_shape').on('select2:select', function (e) {
 		return;
 	}
 	loadShape(valueSelected, 0);
+});
+
+
+$(document).on('click', '#OnlineRoute', function () {
+	OnlineRoute();
 });
 
 
@@ -180,8 +194,8 @@ function loadShape(shape_id) {
 
 function drawShape(shapeArray) {
 	//shapeLine.clearLayers(); // clearing the layer
-	if (map.hasLayer(shapeLine)) {
-		map.removeLayer(shapeLine);
+	if (map.hasLayer(LoadedShape)) {
+		map.removeLayer(LoadedShape);
 	}
 
 	//var lineColor = ( whichMap==0? '#990000': '#006600');
@@ -190,11 +204,11 @@ function drawShape(shapeArray) {
 	shapeArray.forEach(function (row) {
 		latlngs.push([row['shape_pt_lat'], row['shape_pt_lon']]);
 	});
-	shapeLine = L.polyline(latlngs, { color: lineColor, weight: 5 }).addTo(map);
+	LoadedShape = L.polyline(latlngs, { color: lineColor, weight: 5 }).addTo(map);
 	//const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
 
-	shapeLine.pm.enable();
-	map.fitBounds(shapeLine.getBounds(), { padding: [40, 20], maxZoom: 14 });
+	LoadedShape.pm.enable();
+	map.fitBounds(LoadedShape.getBounds(), { padding: [40, 20], maxZoom: 14 });
 }
 
 function getPythonRoutes() {
@@ -306,7 +320,8 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 				});
 			}
 			else {
-				stopsLayer.clearLayers;
+				stopsLayer.clearLayers();
+				stop_times = returndata.data;
 				returndata.data.forEach(function (stop, index) {
 					// Cross referencinge stops/					
 					var searchstop = allStops.find(x => x.stop_id === stop.stop_id);
@@ -314,12 +329,34 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 						let lat = parseFloat(searchstop.stop_lat);
 						let lon = parseFloat(searchstop.stop_lon);						
 						//let stopmarker = L.circleMarker([lat,lon], sequenceStyle);
-						var marker = L.marker([lat, lon]).addTo(map);												
+						let stopmarker = L.marker([lat, lon], {
+							icon: L.divIcon({
+								className: `stop-divicon`,
+								iconSize: [20, 20],
+								html: (parseInt(index) + 1)
+							})
+						})
+							.bindTooltip(searchstop.stop_id + ':' + searchstop.stop_name)
+							.on('click', function (e) {
+								markerOnClick(e);
+							});
+						//var marker = L.marker([lat, lon]).addTo(map);												
 						//stopmarker.properties = data[j][i]; // transfer all properties of stop row to marker
 						//stopmarker.properties['sequence'] = j; // store which sequence table/map the marker belongs to, within the marker itself via an additional property. So that the value can be passed on in the .on('click') function.
 
-						//stopmarker.addTo(stopsLayer);
+						stopmarker.addTo(stopsLayer);
+						
+						
 					}
+					
+				});
+				map.addLayer(stopsLayer);
+				$.toast({
+					title: 'Added Stops to Map',
+					subtitle: 'Stops Loaded',
+					content: 'This trips stops has been added to the map.',
+					type: 'error',
+					delay: 5000
 				});
 			}
 		}
@@ -354,4 +391,117 @@ function getPythonStops() {
 		}
 	};
 	xhr.send();
+}
+
+// ##################
+// ## Online Routing
+// ##################
+
+
+function OnlineRoute() {
+	if ($("#RoutingUseService").val() == 'Mapbox') {
+		if (!cfg.MAPBOXAPI) {
+			$.toast({
+				title: 'Online Routing',
+				subtitle: 'Mapbox',
+				content: 'No API Key configured in the config page!',
+				type: 'error',
+				delay: 1000
+			});	
+		return;
+		}
+		mapboxrouting(stop_times);
+	}	
+	// first check the onward journey
+	//var Direction0 = sequence0table.getData();
+	// if (sequence0table.getDataCount() > 0) {
+	// 	var allstops = sequence0table.getData()
+	// 	var depart = allstops[0];
+	// 	var arrival = allstops[allstops.length-1];
+	// 	var between = allstops;
+	// 	between.shift(); // remove first entry
+	// 	between.pop(); // remove last entry
+	// 	console.log(depart);
+	// 	console.log(arrival);
+	// 	console.log(between);
+	// }
+	// else {
+	// 	console.log('direction 0 no data')
+	// }
+	// var Direction1 = sequence1table.getData();
+	// if (sequence1table.getDataCount() > 0) {
+	// 	// got data
+	// }
+	// else {
+	// 	console.log('direction 1 no data')
+	// }
+	
+	// second check the reverse journey
+
+}
+
+function mapboxrouting(stop_times) {
+	console.log(stop_times);
+	alert('Mapbox');
+	// get array data
+	if (stop_times.length > 0) {		
+		var depart = stop_times[0];
+		var arrival = stop_times[stop_times.length-1];
+		var between = stop_times;
+		between.shift(); // remove first entry
+		between.pop(); // remove last entry		
+		// if (between.length > 23) {
+		// 	$.toast({
+		// 		title: 'Online Routing',
+		// 		subtitle: 'Mapbox',
+		// 		content: 'More than 25 stops is not allowed...',
+		// 		type: 'error',
+		// 		delay: 5000
+		// 	});
+		// }
+		// else {
+			var from;
+			var to;
+			var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
+			if (searchstopfrom) { 
+				from = searchstopfrom.stop_lon + "," + searchstopfrom.stop_lat;
+			}
+			var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
+			if (searchstopto) { 
+				to = searchstopto.stop_lon + "," + searchstopto.stop_lat;
+			}
+
+			// var from = depart.stop_lon + "," + depart.stop_lat;
+			// var to = arrival.stop_lon + "," + arrival.stop_lat;
+			var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
+			var MapboxApiKey = cfg.MAPBOXAPI;
+			GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
+			GenerateUrl = GenerateUrl.replace(";;", ";");
+			$.get( GenerateUrl, function( data ) {				
+				//console.log(data);
+				if (data.code == 'Ok') {
+					var Polyline  = data.routes[0].geometry;
+					console.log(Polyline);
+					polyline.decode(Polyline);
+					// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
+					//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
+					// returns a GeoJSON LineString feature
+					//polyline.toGeoJSON(Polyline);
+					var myLayer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 }).addTo(map);
+					//var myLayer = L.geoJSON().addTo(map);
+					//myLayer.addData(polyline.toGeoJSON(Polyline));
+					myLayer.pm.enable();
+				}
+				else {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Mapbox',
+						content: 'There was not a correct result!',
+						type: 'error',
+						delay: 5000
+					});
+				}
+			  });
+		// }
+	}
 }

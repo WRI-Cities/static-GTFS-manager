@@ -38,6 +38,17 @@
 		#map {
 			height: 500px;
 		}
+		.stop-divicon {
+			border-radius: 50%;
+			color: white;
+			padding-top: 2px;
+			position: absolute;
+			text-align: center;
+			overflow: hidden;
+			box-shadow: 0px 0px 10px black;
+			/*looks 3D! no need of a border*/
+			background-color: rgba(0, 0, 255, 0.7);
+		}
 	</style>
 	<script src="config/settings.js" type="text/javascript"></script>
 </head>
@@ -114,6 +125,15 @@
 										</div>
 									</div>
 									<div id="map"></div>
+									<div class="btn-group dropup" role="group" id="ToolsButtons">
+										<button id="btnGroupDropTools" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Tools">
+											<i class="fas fa-tools"></i>
+										</button>
+										<div class="dropdown-menu" aria-labelledby="btnGroupDropTools" id="SelectToolsMenu">
+											<a class="dropdown-item" href="#" id="openUseRoutingModal" data-toggle="modal" data-target="#OnlineRoutingModal">Use online routing</a>
+											
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -136,6 +156,41 @@
 			<!-- END PAGE CONTAINER-->
 		</div>
 	</div>
+
+	<div class="modal" tabindex="-1" role="dialog" id="OnlineRoutingModal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Create shape based on stops in journey.</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label for="UseService" class="col-sm-6 col-form-label">Use Online routing Service:</label>
+						<div class="col-sm-6">
+							<select id="RoutingUseService" class="form-control">
+								<option value="Mapbox">Mapbox</option>
+								<option value="Google">Google</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="UseService" class="col-sm-6 col-form-label">shape_id prefix:</label>
+						<div class="col-sm-6">
+							<input size=4 id="Routingshape_id" placeholder="Routingshape_id" class="form-control">
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="OnlineRoute">Try to route!</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Jquery JS-->
 	<script src="vendor/jquery-3.2.1.min.js"></script>
 	<!-- Bootstrap JS-->
@@ -155,6 +210,7 @@
 	<script src="vendor/leaflet-providers-1.8.0/leaflet-providers.js" type="text/javascript"></script>
 	<script src="vendor/Leaflet.markercluster-1.4.1/leaflet.markercluster.js" type="text/javascript"></script>
 	<script src="vendor/leaflet-pm-2.2.0/leaflet.pm.min.js" type="text/javascript"></script>
+	<script src="vendor/polyline-1.1.0/polyline.js"></script>
 	<!-- Form validator-->
 	<script src="vendor/parsley-2.9.1/parsley.min.js"></script>
 
