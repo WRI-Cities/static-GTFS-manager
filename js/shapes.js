@@ -50,8 +50,8 @@ var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
 var LayerOSM = L.tileLayer.provider(defaultlayer);
 
 var stopsLayer = L.markerClusterGroup();
-var OnlineRouteLayer = L.geoJSON();
-var LoadedShape = L.polyline([]);
+var OnlineRouteLayer = L.layerGroup();
+var LoadedShape = L.layerGroup();
 
 // .bindTooltip(function (layer) {
 // 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
@@ -197,18 +197,19 @@ function drawShape(shapeArray) {
 	if (map.hasLayer(LoadedShape)) {
 		map.removeLayer(LoadedShape);
 	}
-
 	//var lineColor = ( whichMap==0? '#990000': '#006600');
 	var lineColor = 'purple'; //switching the markers' colors
 	var latlngs = [];
 	shapeArray.forEach(function (row) {
 		latlngs.push([row['shape_pt_lat'], row['shape_pt_lon']]);
 	});
-	LoadedShape = L.polyline(latlngs, { color: lineColor, weight: 5 }).addTo(map);
+	var Layer = L.polyline(latlngs, { color: lineColor, weight: 3 })
 	//const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
-
+	Layer.addTo(LoadedShape);
+	//LoadedShape.addTo(Layer);
+	map.addLayer(LoadedShape);
 	LoadedShape.pm.enable();
-	map.fitBounds(LoadedShape.getBounds(), { padding: [40, 20], maxZoom: 14 });
+	map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
 }
 
 function getPythonRoutes() {
@@ -276,13 +277,16 @@ $('#shape_route').on('select2:select', function (e) {
 		$('#shape_trip').prop('disabled', false);
 		$("#shape_trip").select2('data', null);
 		$("#shape_trip").empty().trigger("change");
+		select2Tripsitems.push({ id: '', text: '' })
 		trip_id_list.forEach(function (item, index) {
 			select2Tripsitems.push({ id: item.trip_id, text: item.trip_short_name })
 		});
 		$("#shape_trip").select2({
 			placeholder: "Choose a trip",
+			allowClear: true,
 			theme: 'bootstrap4',
 			data: select2Tripsitems
+
 		});
 	})
 		.fail(function () {
@@ -345,12 +349,11 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 						//stopmarker.properties['sequence'] = j; // store which sequence table/map the marker belongs to, within the marker itself via an additional property. So that the value can be passed on in the .on('click') function.
 
 						stopmarker.addTo(stopsLayer);
-						
-						
 					}
 					
 				});
 				map.addLayer(stopsLayer);
+				map.fitBounds(stopsLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
 				$.toast({
 					title: 'Added Stops to Map',
 					subtitle: 'Stops Loaded',
@@ -441,8 +444,6 @@ function OnlineRoute() {
 }
 
 function mapboxrouting(stop_times) {
-	console.log(stop_times);
-	alert('Mapbox');
 	// get array data
 	if (stop_times.length > 0) {		
 		var depart = stop_times[0];
@@ -487,10 +488,13 @@ function mapboxrouting(stop_times) {
 					//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
 					// returns a GeoJSON LineString feature
 					//polyline.toGeoJSON(Polyline);
-					var myLayer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 }).addTo(map);
+					var Layer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 });
 					//var myLayer = L.geoJSON().addTo(map);
 					//myLayer.addData(polyline.toGeoJSON(Polyline));
-					myLayer.pm.enable();
+					Layer.addTo(OnlineRouteLayer);					
+					map.addLayer(OnlineRouteLayer);
+					map.fitBounds(OnlineRouteLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
+					OnlineRouteLayer.pm.enable();
 				}
 				else {
 					$.toast({
