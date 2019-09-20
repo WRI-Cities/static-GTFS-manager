@@ -108,7 +108,7 @@
 											<div class="form-group row">
 												<label for="shape_direction" class="col-sm-4 col-form-label">Direction</label>
 												<div class="col-sm-8">
-													<select id="shape_direction" class="form-control" disabled aria-placeholder="Select a Route and Trip"><option value="0">Onward</option><option value="1">Return</option></select>
+													<select id="shape_direction" class="form-control" disabled aria-placeholder="Select a Route and Trip"><option value="">Select a direction</option><option value="0">Onward</option><option value="1">Return</option></select>
 												</div>
 											</div>
 										</div>
@@ -125,6 +125,7 @@
 										</div>
 									</div>
 									<div id="map"></div>
+									<div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
 									<div class="btn-group dropup" role="group" id="ToolsButtons">
 										<button id="btnGroupDropTools" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Tools">
 											<i class="fas fa-tools"></i>
@@ -134,6 +135,19 @@
 											
 										</div>
 									</div>
+									<div class="input-group">
+										<div class="input-group-prepend">
+										  <div class="input-group-text" id="btnGroupAddon">Save layer</div>
+										</div>
+										<select id="shape_route" class="form-control"><option value="Drawn">Drawn Shape</option><option value="File">Uploaded File</option><option value="Loaded">Loaded Shape</option><option value="Routing">Online Routing</option></select>
+									  </div>
+									<div class="input-group">
+										<div class="input-group-prepend">
+										  <div class="input-group-text" id="btnGroupAddon">Shape_ID:</div>
+										</div>
+										<input type="text" class="form-control" id="shape_id" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
+									  </div>
+								</div>
 								</div>
 							</div>
 						</div>

@@ -299,11 +299,12 @@ $('#shape_trip').on('select2:select', function (e) {
 });
 
 $('#shape_direction').on('change', function (e) {
-	console.log('select direction');
-	var direction = $('#shape_direction').val();
-	var trip_id = $('#shape_trip').val();
-	var route_id = $('#shape_route').val();
-	getPythonStopTimes(trip_id, route_id, direction);
+	if ($('#shape_direction').val() != '') {
+		var direction = $('#shape_direction').val();
+		var trip_id = $('#shape_trip').val();
+		var route_id = $('#shape_route').val();
+		getPythonStopTimes(trip_id, route_id, direction);
+	}
 });
 
 function getPythonStopTimes(trip_id, route_id, direction) {
@@ -358,8 +359,8 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 					title: 'Added Stops to Map',
 					subtitle: 'Stops Loaded',
 					content: 'This trips stops has been added to the map.',
-					type: 'error',
-					delay: 5000
+					type: 'success',
+					delay: 3000
 				});
 			}
 		}
@@ -493,7 +494,7 @@ function mapboxrouting(stop_times) {
 					//myLayer.addData(polyline.toGeoJSON(Polyline));
 					Layer.addTo(OnlineRouteLayer);					
 					map.addLayer(OnlineRouteLayer);
-					map.fitBounds(OnlineRouteLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
+					map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
 					OnlineRouteLayer.pm.enable();
 				}
 				else {
@@ -505,7 +506,21 @@ function mapboxrouting(stop_times) {
 						delay: 5000
 					});
 				}
-			  });
+			  })
+			  .fail(function( jqXHR, textStatus, errorThrown ) {
+				  if (jqXHR.status == '401') {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Mapbox',
+						content: jqXHR.status + ' - The provided API key is not "Unauthorized"',
+						type: 'error',
+						delay: 5000
+					});
+				  }
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown );
+			});
 		// }
 	}
 }
