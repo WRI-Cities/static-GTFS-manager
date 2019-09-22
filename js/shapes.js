@@ -11,7 +11,7 @@ var trip_id_list = {};
 // Holder of all stops from stops table.
 var allStops = [];
 // holder for the stop_times loaded for the route, trip, direction.
-var stop_times = []; 
+var stop_times = [];
 
 //####################
 // Tabulator tables
@@ -150,6 +150,10 @@ $('#shape_shape').on('select2:select', function (e) {
 
 $(document).on('click', '#OnlineRoute', function () {
 	OnlineRoute();
+});
+
+$(document).on('click', '#uploadShapeButton', function () {
+	uploadShape();
 });
 
 
@@ -330,9 +334,9 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 				returndata.data.forEach(function (stop, index) {
 					// Cross referencinge stops/					
 					var searchstop = allStops.find(x => x.stop_id === stop.stop_id);
-					if (searchstop) {						
+					if (searchstop) {
 						let lat = parseFloat(searchstop.stop_lat);
-						let lon = parseFloat(searchstop.stop_lon);						
+						let lon = parseFloat(searchstop.stop_lon);
 						//let stopmarker = L.circleMarker([lat,lon], sequenceStyle);
 						let stopmarker = L.marker([lat, lon], {
 							icon: L.divIcon({
@@ -351,7 +355,7 @@ function getPythonStopTimes(trip_id, route_id, direction) {
 
 						stopmarker.addTo(stopsLayer);
 					}
-					
+
 				});
 				map.addLayer(stopsLayer);
 				map.fitBounds(stopsLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
@@ -411,11 +415,11 @@ function OnlineRoute() {
 				content: 'No API Key configured in the config page!',
 				type: 'error',
 				delay: 1000
-			});	
-		return;
+			});
+			return;
 		}
 		mapboxrouting(stop_times);
-	}	
+	}
 	// first check the onward journey
 	//var Direction0 = sequence0table.getData();
 	// if (sequence0table.getDataCount() > 0) {
@@ -439,16 +443,16 @@ function OnlineRoute() {
 	// else {
 	// 	console.log('direction 1 no data')
 	// }
-	
+
 	// second check the reverse journey
 
 }
 
 function mapboxrouting(stop_times) {
 	// get array data
-	if (stop_times.length > 0) {		
+	if (stop_times.length > 0) {
 		var depart = stop_times[0];
-		var arrival = stop_times[stop_times.length-1];
+		var arrival = stop_times[stop_times.length - 1];
 		var between = stop_times;
 		between.shift(); // remove first entry
 		between.pop(); // remove last entry		
@@ -462,53 +466,53 @@ function mapboxrouting(stop_times) {
 		// 	});
 		// }
 		// else {
-			var from;
-			var to;
-			var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
-			if (searchstopfrom) { 
-				from = searchstopfrom.stop_lon + "," + searchstopfrom.stop_lat;
-			}
-			var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
-			if (searchstopto) { 
-				to = searchstopto.stop_lon + "," + searchstopto.stop_lat;
-			}
+		var from;
+		var to;
+		var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
+		if (searchstopfrom) {
+			from = searchstopfrom.stop_lon + "," + searchstopfrom.stop_lat;
+		}
+		var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
+		if (searchstopto) {
+			to = searchstopto.stop_lon + "," + searchstopto.stop_lat;
+		}
 
-			// var from = depart.stop_lon + "," + depart.stop_lat;
-			// var to = arrival.stop_lon + "," + arrival.stop_lat;
-			var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
-			var MapboxApiKey = cfg.MAPBOXAPI;
-			GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
-			GenerateUrl = GenerateUrl.replace(";;", ";");
-			$.get( GenerateUrl, function( data ) {				
-				//console.log(data);
-				if (data.code == 'Ok') {
-					var Polyline  = data.routes[0].geometry;
-					console.log(Polyline);
-					polyline.decode(Polyline);
-					// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
-					//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
-					// returns a GeoJSON LineString feature
-					//polyline.toGeoJSON(Polyline);
-					var Layer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 });
-					//var myLayer = L.geoJSON().addTo(map);
-					//myLayer.addData(polyline.toGeoJSON(Polyline));
-					Layer.addTo(OnlineRouteLayer);					
-					map.addLayer(OnlineRouteLayer);
-					map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
-					OnlineRouteLayer.pm.enable();
-				}
-				else {
-					$.toast({
-						title: 'Online Routing',
-						subtitle: 'Mapbox',
-						content: 'There was not a correct result!',
-						type: 'error',
-						delay: 5000
-					});
-				}
-			  })
-			  .fail(function( jqXHR, textStatus, errorThrown ) {
-				  if (jqXHR.status == '401') {
+		// var from = depart.stop_lon + "," + depart.stop_lat;
+		// var to = arrival.stop_lon + "," + arrival.stop_lat;
+		var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
+		var MapboxApiKey = cfg.MAPBOXAPI;
+		GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
+		GenerateUrl = GenerateUrl.replace(";;", ";");
+		$.get(GenerateUrl, function (data) {
+			//console.log(data);
+			if (data.code == 'Ok') {
+				var Polyline = data.routes[0].geometry;
+				console.log(Polyline);
+				polyline.decode(Polyline);
+				// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
+				//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
+				// returns a GeoJSON LineString feature
+				//polyline.toGeoJSON(Polyline);
+				var Layer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 });
+				//var myLayer = L.geoJSON().addTo(map);
+				//myLayer.addData(polyline.toGeoJSON(Polyline));
+				Layer.addTo(OnlineRouteLayer);
+				map.addLayer(OnlineRouteLayer);
+				map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
+				OnlineRouteLayer.pm.enable();
+			}
+			else {
+				$.toast({
+					title: 'Online Routing',
+					subtitle: 'Mapbox',
+					content: 'There was not a correct result!',
+					type: 'error',
+					delay: 5000
+				});
+			}
+		})
+			.fail(function (jqXHR, textStatus, errorThrown) {
+				if (jqXHR.status == '401') {
 					$.toast({
 						title: 'Online Routing',
 						subtitle: 'Mapbox',
@@ -516,11 +520,124 @@ function mapboxrouting(stop_times) {
 						type: 'error',
 						delay: 5000
 					});
-				  }
+				}
 				console.log(jqXHR);
 				console.log(textStatus);
-				console.log(errorThrown );
+				console.log(errorThrown);
 			});
 		// }
 	}
+}
+
+// ###########################
+// #### Shape uploading
+// ###########################
+
+function uploadShape() {
+	// make POST request to API/XMLUpload
+
+	// idiot-proofing: check if the files have been uploaded or not.
+	// alert( ""==f.value ? "nothing selected" : "file selected");
+	// from https://stackoverflow.com/a/1417489/4355695
+	if ($('#uploadShape').val() == '') {
+		$.toast({
+			title: 'Uplading shape',
+			subtitle: 'Error',
+			content: 'Please select a file to upload!',
+			type: 'error',
+			delay: 4000
+		});
+		shakeIt('uploadShape');
+		return;
+	}
+
+	// var shape_id_prefix = $("#uploadShapeId").val().replace(/[^A-Za-z0-9-_]/g, "");
+	// $("#uploadShapeId").val(shape_id_prefix);
+
+	// if (!shape_id_prefix.length) {
+	// 	$.toast({
+	// 		title: 'Uplading shape',
+	// 		subtitle: 'Error',
+	// 		content: 'Please enter a proper shape id.',
+	// 		type: 'error',
+	// 		delay: 4000
+	// 	});		
+	// 	shakeIt('uploadShapeId');
+	// 	return;
+	// }
+
+	// if (globalShapesList['all'].indexOf(shape_id_prefix + '_0') > -1 || globalShapesList['all'].indexOf(shape_id_prefix + '_1') > -1) {
+	// 	//$('#uploadShapeStatus').html('Please choose some other id, this one\'s taken.');
+	// 	if (!confirm('The shape_id\'s:\n' + shape_id_prefix + '_0 and/or ' + shape_id_prefix + '_1\n..already exist in the shapes DB.\nAre you SURE you want to replace an existing shape?')) {
+	// 		$("#uploadShapeId").val('');
+	// 		return;
+	// 	}
+	// }
+
+	$.toast({
+		title: 'Uplading shape',
+		subtitle: 'Upload',
+		content: 'Uploading file(s), please wait...',
+		type: 'info',
+		delay: 4000
+	});
+
+
+
+	var filename = $('#uploadShape')[0].files[0].name;
+	var extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+
+	// HTML File reading
+	const reader = new FileReader();
+	reader.readAsText($('#uploadShape')[0].files[0]);
+	reader.onload = () => storeResults(reader.result, filename, extension);
+}
+
+function storeResults(result, filename, extension) {	
+	var GeojsonLayer = convertToGeoJson(result, extension);
+	var geojsonFeature =  JSON.parse(GeojsonLayer[0]);
+	console.log(geojsonFeature);
+
+	geojsonFeature.features.forEach(function(Feature)  {
+        // Only process points
+        if (Feature.geometry.type == "LineString"){            
+			var name = Feature.properties.name;
+			var newOption = new Option(name, name, false, false);
+			$('#FoundLayers').append(newOption).trigger('change');
+        }
+	});
+	
+
+
+
+	//L.geoJSON(geojsonFeature).addTo(map);
+	var myLayer = L.geoJSON().addTo(map);
+	myLayer.addData(geojsonFeature);
+	map.fitBounds(myLayer.getBounds());
+}
+
+
+
+function convertToGeoJson(filecontent, extension) {
+	switch (extension) {
+		case "kml":
+			console.log("converting KML to geoJSON");
+			var dom = (new DOMParser()).parseFromString(filecontent, 'text/xml');
+			console.log("XML:" + dom)
+			var newgeojson = JSON.stringify(toGeoJSON.kml(dom));
+			//console.log("Geojosn:" + newgeojson);
+			parts = [newgeojson];
+			break;
+		case "gpx":
+			console.log("converting GPX to geoJSON");
+			var dom = (new DOMParser()).parseFromString(filecontent, 'text/xml');
+			var newgeojson = JSON.stringify(toGeoJSON.gpx(dom));
+			//console.log("Geojosn:" + newgeojson);
+			parts = [newgeojson];
+			break;
+		default:
+			// geojson
+			parts = [filecontent];
+	}
+	return parts;
 }
