@@ -13,6 +13,8 @@ var allStops = [];
 // holder for the stop_times loaded for the route, trip, direction.
 var stop_times = [];
 
+// Global var for holding multilple layers if in the source file.
+var LineStringlayers;
 //####################
 // Tabulator tables
 
@@ -153,7 +155,22 @@ $(document).on('click', '#OnlineRoute', function () {
 });
 
 $(document).on('click', '#uploadShapeButton', function () {
+	$("#uploadLayerButton").hide();
 	uploadShape();
+});
+
+$(document).on('click', '#uploadLayerButton', function () {
+	uploadLayer();
+});
+
+$(document).on('click', '#SaveShapeButton', function () {
+	SaveShape();
+});
+
+$('#UploadShapeModal').on('show.bs.modal', function (e) {
+	$("#uploadShapeButton").show();
+	$("#uploadLayerButton").hide();
+	$('#FoundLayers').empty();
 });
 
 
@@ -550,30 +567,6 @@ function uploadShape() {
 		shakeIt('uploadShape');
 		return;
 	}
-
-	// var shape_id_prefix = $("#uploadShapeId").val().replace(/[^A-Za-z0-9-_]/g, "");
-	// $("#uploadShapeId").val(shape_id_prefix);
-
-	// if (!shape_id_prefix.length) {
-	// 	$.toast({
-	// 		title: 'Uplading shape',
-	// 		subtitle: 'Error',
-	// 		content: 'Please enter a proper shape id.',
-	// 		type: 'error',
-	// 		delay: 4000
-	// 	});		
-	// 	shakeIt('uploadShapeId');
-	// 	return;
-	// }
-
-	// if (globalShapesList['all'].indexOf(shape_id_prefix + '_0') > -1 || globalShapesList['all'].indexOf(shape_id_prefix + '_1') > -1) {
-	// 	//$('#uploadShapeStatus').html('Please choose some other id, this one\'s taken.');
-	// 	if (!confirm('The shape_id\'s:\n' + shape_id_prefix + '_0 and/or ' + shape_id_prefix + '_1\n..already exist in the shapes DB.\nAre you SURE you want to replace an existing shape?')) {
-	// 		$("#uploadShapeId").val('');
-	// 		return;
-	// 	}
-	// }
-
 	$.toast({
 		title: 'Uplading shape',
 		subtitle: 'Upload',
@@ -581,9 +574,6 @@ function uploadShape() {
 		type: 'info',
 		delay: 4000
 	});
-
-
-
 	var filename = $('#uploadShape')[0].files[0].name;
 	var extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
 
@@ -598,24 +588,81 @@ function storeResults(result, filename, extension) {
 	var geojsonFeature =  JSON.parse(GeojsonLayer[0]);
 	console.log(geojsonFeature);
 
-	geojsonFeature.features.forEach(function(Feature)  {
-        // Only process points
-        if (Feature.geometry.type == "LineString"){            
-			var name = Feature.properties.name;
-			var newOption = new Option(name, name, false, false);
-			$('#FoundLayers').append(newOption).trigger('change');
-        }
-	});
+	LineStringlayers = geojsonFeature.features.filter(x => x.geometry.type == "LineString");
+
+	if (LineStringlayers.length > 1) {
+		// Need to filter the Linestring layers
+		$.toast({
+			title: 'Uplading shape',
+			subtitle: 'Layers',
+			content: 'More then one Layer Found select a layer to import',
+			type: 'info',
+			delay: 4000
+		});		
+		// Hide Upload Button
+		$("#uploadShapeButton").hide();
+		// Add Layers button
+		$("#uploadLayerButton").show();
+		LineStringlayers.forEach(function(feature, index)  {			            
+				var name = feature.properties.name;
+				var CheckboxHTML = `<div class="form-check">
+				<input class="form-check-input" type="checkbox" id="Layer${index}" name="CheckLayer" value="${index}">
+				<label class="form-check-label" for="Layer${index}">
+					${name}
+				</label>
+				</div>`;
+				$('#FoundLayers').append(CheckboxHTML);			
+		});
+		// The ticking of the checklayer is process with the button click
+	}
+	else {
+		// Only 1 layer. Import only the LineStrings
+		var myLayer = L.geoJson(geojsonFeature, {filter: LineStringFilter});
+		LoadedShape.addLayer(myLayer);				
+		map.fitBounds(myLayer.getBounds());
+		$('#UploadShapeModal').modal('hide');
+	}
+
+	console.log(LineStringlayers);
+
+	// geojsonFeature.features.forEach(function(Feature, index)  {
+    //     // Only process points
+    //     if (Feature.geometry.type == "LineString"){            
+	// 		var name = Feature.properties.name;
+	// 		var CheckboxHTML = `<div class="form-check">
+	// 		<input class="form-check-input" type="checkbox" id="Layer${index}" name="CheckLayer" value=${index}>
+	// 		<label class="form-check-label" for="Layer${index}">
+	// 		  ${name}
+	// 		</label>
+	// 	  </div>`;
+	// 		$('#FoundLayers').append(CheckboxHTML);
+    //     }
+	// });
 	
 
 
 
-	//L.geoJSON(geojsonFeature).addTo(map);
-	var myLayer = L.geoJSON().addTo(map);
-	myLayer.addData(geojsonFeature);
-	map.fitBounds(myLayer.getBounds());
+	
+	
 }
 
+function uploadLayer() {
+	var geojson = {};
+	geojson['type'] = 'FeatureCollection';
+	geojson['features'] = [];
+	// Loop thhrough each selected layer
+	$.each($("input[name='CheckLayer']:checked"), function(){
+		geojson['features'].push(LineStringlayers[$(this).val()]);		
+	});
+	var myLayer = L.geoJson(geojson).addTo(map);
+	LoadedShape.addLayer(myLayer);
+	map.fitBounds(myLayer.getBounds());
+	$('#UploadShapeModal').modal('hide');
+}
+
+function LineStringFilter(feature) {
+	if (feature.geometry.type === "LineString") return true;
+  }
 
 
 function convertToGeoJson(filecontent, extension) {
@@ -640,4 +687,9 @@ function convertToGeoJson(filecontent, extension) {
 			parts = [filecontent];
 	}
 	return parts;
+}
+
+// Saving layer to tabulator table
+function SaveShape() {
+	console.log(LoadedShape);
 }

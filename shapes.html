@@ -173,9 +173,12 @@
 												<div class="input-group-text" id="btnGroupAddon">Shape_ID:</div>
 											</div>
 											<input type="text" class="form-control" id="shape_id"
-												placeholder="Input group example" aria-label="Input group example"
+												placeholder="Enter a shape_id" aria-label="Input group example"
 												aria-describedby="btnGroupAddon">
 										</div>
+										<div class="btn-group" role="group" aria-label="Basic example">
+											<button type="button" class="btn btn-secondary" id="SaveShapeButton">Save the shape</button>											
+										  </div>
 									</div>
 								</div>
 							</div>
@@ -278,13 +281,8 @@
 							<div class="col-md-12">
 									<div class="form-group row">
 											<label for="FoundLayers" class="col-sm-2 col-form-label">Found Layers:</label>
-											<div class="col-sm-10" id="LayerCheck">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" id="gridCheck1">
-													<label class="form-check-label" for="gridCheck1">
-													  Example checkbox
-													</label>
-												  </div>
+											<div class="col-sm-10" id="FoundLayers">
+												
 											</div>
 										</div>
 
@@ -295,6 +293,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button id="uploadShapeButton" class="btn btn-primary">Upload</button>
+					<button id="uploadLayerButton" class="btn btn-primary">Use Selected Layers</button>
 				</div>
 			</div>
 		</div>
