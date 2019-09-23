@@ -586,8 +586,7 @@ function uploadShape() {
 function storeResults(result, filename, extension) {	
 	var GeojsonLayer = convertToGeoJson(result, extension);
 	var geojsonFeature =  JSON.parse(GeojsonLayer[0]);
-	console.log(geojsonFeature);
-
+	// Filter out all the linestrings.
 	LineStringlayers = geojsonFeature.features.filter(x => x.geometry.type == "LineString");
 
 	if (LineStringlayers.length > 1) {
@@ -613,7 +612,7 @@ function storeResults(result, filename, extension) {
 				</div>`;
 				$('#FoundLayers').append(CheckboxHTML);			
 		});
-		// The ticking of the checklayer is process with the button click
+		// The ticking of the checklayer is process with the button click so don't clode the modal window
 	}
 	else {
 		// Only 1 layer. Import only the LineStrings
@@ -622,8 +621,6 @@ function storeResults(result, filename, extension) {
 		map.fitBounds(myLayer.getBounds());
 		$('#UploadShapeModal').modal('hide');
 	}
-
-	console.log(LineStringlayers);
 
 	// geojsonFeature.features.forEach(function(Feature, index)  {
     //     // Only process points
@@ -691,5 +688,6 @@ function convertToGeoJson(filecontent, extension) {
 
 // Saving layer to tabulator table
 function SaveShape() {
-	console.log(LoadedShape);
+	var coords = LoadedShape.feature.geometry.coordinates;
+	console.log(coords);
 }
