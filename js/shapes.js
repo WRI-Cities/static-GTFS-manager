@@ -52,8 +52,10 @@ var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
 var LayerOSM = L.tileLayer.provider(defaultlayer);
 
 var stopsLayer = L.markerClusterGroup();
-var OnlineRouteLayer = L.layerGroup();
-var LoadedShape = L.layerGroup();
+var OnlineRouteLayer;
+var LoadedShape;
+var FileShapeLayer;
+
 
 // .bindTooltip(function (layer) {
 // 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
@@ -67,9 +69,7 @@ var baseLayers = {
 	"OpenStreetMap": LayerOSM
 };
 var overlays = {
-	'Stops': stopsLayer,
-	'Routing': OnlineRouteLayer,
-	'Loaded Shape': LoadedShape
+	'Stops': stopsLayer	
 }
 
 
@@ -203,9 +203,8 @@ function loadShape(shape_id) {
 	// shorter GET request. from https://api.jquery.com/jQuery.get/
 	var jqxhr = $.get(`${APIpath}shape?shape=${shape_id}`, function (data) {
 		var shapeArray = JSON.parse(data);
-		console.log('GET request to API/shape succesful.');
-		console.log(shapeArray);
-		shapes_table.setData(shapeArray);
+		console.log('GET request to API/shape succesful.');		
+		//shapes_table.setData(shapeArray);
 		drawShape(shapeArray);
 	})
 		.fail(function () {
@@ -224,13 +223,12 @@ function drawShape(shapeArray) {
 	shapeArray.forEach(function (row) {
 		latlngs.push([row['shape_pt_lat'], row['shape_pt_lon']]);
 	});
-	var Layer = L.polyline(latlngs, { color: lineColor, weight: 3 })
+	LoadedShape = L.polyline(latlngs, { color: lineColor, weight: 3 })
 	//const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
-	Layer.addTo(LoadedShape);
-	//LoadedShape.addTo(Layer);
+	layerControl.addOverlay(LoadedShape, 'Loaded Shape');
 	map.addLayer(LoadedShape);
 	LoadedShape.pm.enable();
-	map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
+	map.fitBounds(LoadedShape.getBounds(), { padding: [40, 20], maxZoom: 20 });
 }
 
 function getPythonRoutes() {
@@ -437,32 +435,6 @@ function OnlineRoute() {
 		}
 		mapboxrouting(stop_times);
 	}
-	// first check the onward journey
-	//var Direction0 = sequence0table.getData();
-	// if (sequence0table.getDataCount() > 0) {
-	// 	var allstops = sequence0table.getData()
-	// 	var depart = allstops[0];
-	// 	var arrival = allstops[allstops.length-1];
-	// 	var between = allstops;
-	// 	between.shift(); // remove first entry
-	// 	between.pop(); // remove last entry
-	// 	console.log(depart);
-	// 	console.log(arrival);
-	// 	console.log(between);
-	// }
-	// else {
-	// 	console.log('direction 0 no data')
-	// }
-	// var Direction1 = sequence1table.getData();
-	// if (sequence1table.getDataCount() > 0) {
-	// 	// got data
-	// }
-	// else {
-	// 	console.log('direction 1 no data')
-	// }
-
-	// second check the reverse journey
-
 }
 
 function mapboxrouting(stop_times) {
@@ -510,12 +482,12 @@ function mapboxrouting(stop_times) {
 				//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
 				// returns a GeoJSON LineString feature
 				//polyline.toGeoJSON(Polyline);
-				var Layer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 5 });
+				OnlineRouteLayer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 3 });
 				//var myLayer = L.geoJSON().addTo(map);
-				//myLayer.addData(polyline.toGeoJSON(Polyline));
-				Layer.addTo(OnlineRouteLayer);
+				//myLayer.addData(polyline.toGeoJSON(Polyline));				
 				map.addLayer(OnlineRouteLayer);
-				map.fitBounds(Layer.getBounds(), { padding: [40, 20], maxZoom: 20 });
+				layerControl.addOverlay(OnlineRouteLayer,'Online Routing');
+				map.fitBounds(OnlineRouteLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
 				OnlineRouteLayer.pm.enable();
 			}
 			else {
@@ -621,26 +593,28 @@ function storeResults(result, filename, extension) {
 		LineStringlayers[0].geometry.coordinates.forEach(function (coord) {
 			coords.push([coord[1], coord[0]]);
 		});
-		var myLayer = new L.Polyline(coords, { color: 'orange', weight: 5 });
-		LoadedShape.addLayer(myLayer);
-		map.addLayer(LoadedShape);
-		map.fitBounds(myLayer.getBounds());
+		FileShapeLayer = new L.Polyline(coords, { color: 'orange', weight: 5 });		
+		map.addLayer(FileShapeLayer);
+		layerControl.addOverlay(FileShapeLayer, 'File Based Shape')
+		map.fitBounds(FileShapeLayer.getBounds());
 		$('#UploadShapeModal').modal('hide');
 	}
 }
 
 function uploadLayer() {
 	// Loop thhrough each selected layer This is called when there are more then 1 linestrings.
+	var multicoords = [];
 	$.each($("input[name='CheckLayer']:checked"), function () {
-		var coords = []
+		var coords = [];
 		LineStringlayers[$(this).val()].geometry.coordinates.forEach(function (coord) {
 			coords.push([coord[1], coord[0]]);
 		});
-		var myLayer = new L.Polyline(coords, { color: 'orange', weight: 3 });
-		LoadedShape.addLayer(myLayer);
+		multicoords.push(coords);
 	});
-	map.addLayer(LoadedShape);
-	//map.fitBounds(LoadedShape.getBounds());
+	FileShapeLayer = L.polyline(multicoords, { color: 'orange', weight: 3 });
+	map.addLayer(FileShapeLayer);
+	layerControl.addOverlay(FileShapeLayer, 'File Based Shape')
+	map.fitBounds(FileShapeLayer.getBounds());
 	$('#UploadShapeModal').modal('hide');
 }
 
@@ -674,9 +648,43 @@ function convertToGeoJson(filecontent, extension) {
 
 // Saving layer to tabulator table
 function SaveShape() {
-	var coords = OnlineRouteLayer.getLatLngs();
-	console.log('Online Router');
-	console.log(OnlineRouteLayer.getLatLngs());
-	console.log('Loaded Shape');
-	console.log(LoadedShape.getLatLngs());
+
+	var selectedforexport = $("#shape_save").val();
+	console.log(selectedforexport);
+	var shape_id = $("#shape_id").val();
+	console.log(shape_id);
+	var shapearray = [];
+	switch(selectedforexport) {
+		case "Drawn":
+		  // code block
+		  break;
+		case "File":
+		  // code block
+		  shapearray = FileShapeLayer.getLatLngs();
+		  break;
+		  case "Loaded":
+			// code block
+			shapearray = LoadedShape.getLatLngs();
+			break;
+			case "Routing":
+				shapearray = OnlineRouteLayer.getLatLngs();
+				break;
+		default:
+		  // code block
+	  }	
+	// Clean the table first.
+	shapes_table.clearData();
+	// add the data to the table
+	shapearray.forEach(function (shaperow, index) {
+		shapes_table.addData([{shape_id:shape_id, shape_pt_lat:shaperow.lat, shape_pt_lon:shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: ''}], false);
+	});
+	// console.log('Online Router');
+	// console.log(OnlineRouteLayer.getLatLngs());
+	// console.log('Loaded Shape');
+	// console.log(LoadedShape.getLatLngs());
+	//console.log('File based Shape');
+	//console.log(FileShapeLayer.getLatLngs());
+	// map.eachLayer(function(layer){
+	// 	console.log(layer)//.bindPopup('Hello');
+	// });
 }
