@@ -69,7 +69,7 @@ var baseLayers = {
 	"OpenStreetMap": LayerOSM
 };
 var overlays = {
-	'Stops': stopsLayer	
+	'Stops': stopsLayer
 }
 
 
@@ -203,7 +203,7 @@ function loadShape(shape_id) {
 	// shorter GET request. from https://api.jquery.com/jQuery.get/
 	var jqxhr = $.get(`${APIpath}shape?shape=${shape_id}`, function (data) {
 		var shapeArray = JSON.parse(data);
-		console.log('GET request to API/shape succesful.');		
+		console.log('GET request to API/shape succesful.');
 		//shapes_table.setData(shapeArray);
 		drawShape(shapeArray);
 	})
@@ -486,7 +486,7 @@ function mapboxrouting(stop_times) {
 				//var myLayer = L.geoJSON().addTo(map);
 				//myLayer.addData(polyline.toGeoJSON(Polyline));				
 				map.addLayer(OnlineRouteLayer);
-				layerControl.addOverlay(OnlineRouteLayer,'Online Routing');
+				layerControl.addOverlay(OnlineRouteLayer, 'Online Routing');
 				map.fitBounds(OnlineRouteLayer.getBounds(), { padding: [40, 20], maxZoom: 20 });
 				OnlineRouteLayer.pm.enable();
 			}
@@ -593,7 +593,7 @@ function storeResults(result, filename, extension) {
 		LineStringlayers[0].geometry.coordinates.forEach(function (coord) {
 			coords.push([coord[1], coord[0]]);
 		});
-		FileShapeLayer = new L.Polyline(coords, { color: 'orange', weight: 5 });		
+		FileShapeLayer = new L.Polyline(coords, { color: 'orange', weight: 5 });
 		map.addLayer(FileShapeLayer);
 		layerControl.addOverlay(FileShapeLayer, 'File Based Shape')
 		map.fitBounds(FileShapeLayer.getBounds());
@@ -654,29 +654,29 @@ function SaveShape() {
 	var shape_id = $("#shape_id").val();
 	console.log(shape_id);
 	var shapearray = [];
-	switch(selectedforexport) {
+	switch (selectedforexport) {
 		case "Drawn":
-		  // code block
-		  break;
+			// code block
+			break;
 		case "File":
-		  // code block
-		  shapearray = FileShapeLayer.getLatLngs();
-		  break;
-		  case "Loaded":
+			// code block
+			shapearray = FileShapeLayer.getLatLngs();
+			break;
+		case "Loaded":
 			// code block
 			shapearray = LoadedShape.getLatLngs();
 			break;
-			case "Routing":
-				shapearray = OnlineRouteLayer.getLatLngs();
-				break;
+		case "Routing":
+			shapearray = OnlineRouteLayer.getLatLngs();
+			break;
 		default:
-		  // code block
-	  }	
+		// code block
+	}
 	// Clean the table first.
 	shapes_table.clearData();
 	// add the data to the table
 	shapearray.forEach(function (shaperow, index) {
-		shapes_table.addData([{shape_id:shape_id, shape_pt_lat:shaperow.lat, shape_pt_lon:shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: ''}], false);
+		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: '' }], false);
 	});
 	// console.log('Online Router');
 	// console.log(OnlineRouteLayer.getLatLngs());
