@@ -13,7 +13,7 @@ var allStops = [];
 // holder for the stop_times loaded for the route, trip, direction.
 var stop_times = [];
 
-// Global var for holding multilple layers if in the source file.
+// Global var for holding multilple layers if in the source file of geojosn after conversion.
 var LineStringlayers;
 //####################
 // Tabulator tables
@@ -583,9 +583,9 @@ function uploadShape() {
 	reader.onload = () => storeResults(reader.result, filename, extension);
 }
 
-function storeResults(result, filename, extension) {	
+function storeResults(result, filename, extension) {
 	var GeojsonLayer = convertToGeoJson(result, extension);
-	var geojsonFeature =  JSON.parse(GeojsonLayer[0]);
+	var geojsonFeature = JSON.parse(GeojsonLayer[0]);
 	// Filter out all the linestrings.
 	LineStringlayers = geojsonFeature.features.filter(x => x.geometry.type == "LineString");
 
@@ -597,70 +597,56 @@ function storeResults(result, filename, extension) {
 			content: 'More then one Layer Found select a layer to import',
 			type: 'info',
 			delay: 4000
-		});		
+		});
 		// Hide Upload Button
 		$("#uploadShapeButton").hide();
 		// Add Layers button
 		$("#uploadLayerButton").show();
-		LineStringlayers.forEach(function(feature, index)  {			            
-				var name = feature.properties.name;
-				var CheckboxHTML = `<div class="form-check">
+		LineStringlayers.forEach(function (feature, index) {
+			var name = feature.properties.name;
+			var CheckboxHTML = `<div class="form-check">
 				<input class="form-check-input" type="checkbox" id="Layer${index}" name="CheckLayer" value="${index}">
 				<label class="form-check-label" for="Layer${index}">
 					${name}
 				</label>
 				</div>`;
-				$('#FoundLayers').append(CheckboxHTML);			
+			$('#FoundLayers').append(CheckboxHTML);
 		});
 		// The ticking of the checklayer is process with the button click so don't clode the modal window
 	}
 	else {
 		// Only 1 layer. Import only the LineStrings
-		var myLayer = L.geoJson(geojsonFeature, {filter: LineStringFilter});
-		LoadedShape.addLayer(myLayer);				
+		// Swap the lat, lon of the geojson.
+		var coords = []
+		LineStringlayers[0].geometry.coordinates.forEach(function (coord) {
+			coords.push([coord[1], coord[0]]);
+		});
+		var myLayer = new L.Polyline(coords, { color: 'orange', weight: 5 });
+		LoadedShape.addLayer(myLayer);
+		map.addLayer(LoadedShape);
 		map.fitBounds(myLayer.getBounds());
 		$('#UploadShapeModal').modal('hide');
 	}
-
-	// geojsonFeature.features.forEach(function(Feature, index)  {
-    //     // Only process points
-    //     if (Feature.geometry.type == "LineString"){            
-	// 		var name = Feature.properties.name;
-	// 		var CheckboxHTML = `<div class="form-check">
-	// 		<input class="form-check-input" type="checkbox" id="Layer${index}" name="CheckLayer" value=${index}>
-	// 		<label class="form-check-label" for="Layer${index}">
-	// 		  ${name}
-	// 		</label>
-	// 	  </div>`;
-	// 		$('#FoundLayers').append(CheckboxHTML);
-    //     }
-	// });
-	
-
-
-
-	
-	
 }
 
 function uploadLayer() {
-	var geojson = {};
-	geojson['type'] = 'FeatureCollection';
-	geojson['features'] = [];
-	// Loop thhrough each selected layer
-	$.each($("input[name='CheckLayer']:checked"), function(){
-		geojson['features'].push(LineStringlayers[$(this).val()]);		
+	// Loop thhrough each selected layer This is called when there are more then 1 linestrings.
+	$.each($("input[name='CheckLayer']:checked"), function () {
+		var coords = []
+		LineStringlayers[$(this).val()].geometry.coordinates.forEach(function (coord) {
+			coords.push([coord[1], coord[0]]);
+		});
+		var myLayer = new L.Polyline(coords, { color: 'orange', weight: 3 });
+		LoadedShape.addLayer(myLayer);
 	});
-	var myLayer = L.geoJson(geojson).addTo(map);
-	LoadedShape.addLayer(myLayer);
-	map.fitBounds(myLayer.getBounds());
+	map.addLayer(LoadedShape);
+	//map.fitBounds(LoadedShape.getBounds());
 	$('#UploadShapeModal').modal('hide');
 }
 
 function LineStringFilter(feature) {
 	if (feature.geometry.type === "LineString") return true;
-  }
-
+}
 
 function convertToGeoJson(filecontent, extension) {
 	switch (extension) {
@@ -688,6 +674,9 @@ function convertToGeoJson(filecontent, extension) {
 
 // Saving layer to tabulator table
 function SaveShape() {
-	var coords = LoadedShape.feature.geometry.coordinates;
-	console.log(coords);
+	var coords = OnlineRouteLayer.getLatLngs();
+	console.log('Online Router');
+	console.log(OnlineRouteLayer.getLatLngs());
+	console.log('Loaded Shape');
+	console.log(LoadedShape.getLatLngs());
 }
