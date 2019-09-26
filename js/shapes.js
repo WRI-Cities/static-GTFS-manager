@@ -55,6 +55,7 @@ var stopsLayer = L.markerClusterGroup();
 var OnlineRouteLayer;
 var LoadedShape;
 var FileShapeLayer;
+var DrawingLayerLatLng = [];
 
 
 // .bindTooltip(function (layer) {
@@ -648,26 +649,84 @@ function convertToGeoJson(filecontent, extension) {
 
 // Saving layer to tabulator table
 function SaveShape() {
-
 	var selectedforexport = $("#shape_save").val();
-	console.log(selectedforexport);
 	var shape_id = $("#shape_id").val();
-	console.log(shape_id);
 	var shapearray = [];
 	switch (selectedforexport) {
 		case "Drawn":
-			// code block
+			// Whe have to loop through the layers because we don't know the layer id.
+			if (DrawingLayerLatLng.length == 0) {
+				$.toast({
+					title: 'Save Shape',
+					subtitle: 'No Layer',
+					content: 'This layer has not been added to the map.',
+					type: 'error',
+					delay: 5000
+				});
+			}
+			else if (DrawingLayerLatLng.length == 1) {
+				// OK we got 1 line.
+				shapearray = DrawingLayerLatLng[0];
+			}
+			else {
+				// hmmm multple polylines.
+				var multiGeometry = turf.multiLineString();
+				var flatten = turf.flatten(multiGeometry);
+			}
+
 			break;
 		case "File":
-			// code block
-			shapearray = FileShapeLayer.getLatLngs();
+			// Check if layer ahs been added to the map. That way we now there is a line
+			if (map.hasLayer(FileShapeLayer)) {
+				var geojson = FileShapeLayer.toGeoJSON();
+				console.log(geojson);
+				//var multiGeometry = turf.multiLineString(geojson);
+				// var flatten = turf.union(geojson);
+				// console.log(flatten);
+				shapearray = FileShapeLayer.getLatLngs();
+			}
+			else {
+				$.toast({
+					title: 'Save Shape',
+					subtitle: 'No Layer',
+					content: 'This layer has not been added to the map.',
+					type: 'error',
+					delay: 5000
+				});
+				return;
+			}
 			break;
 		case "Loaded":
-			// code block
-			shapearray = LoadedShape.getLatLngs();
+			// Check if layer ahs been added to the map. That way we now there is a line
+			if (map.hasLayer(LoadedShape)) {
+				shapearray = LoadedShape.getLatLngs();
+			}
+			else {
+				$.toast({
+					title: 'Save Shape',
+					subtitle: 'No Layer',
+					content: 'This layer has not been added to the map.',
+					type: 'error',
+					delay: 5000
+				});
+				return;
+			}
 			break;
 		case "Routing":
-			shapearray = OnlineRouteLayer.getLatLngs();
+			// Check if layer ahs been added to the map. That way we now there is a line
+			if (map.hasLayer(OnlineRouteLayer)) {
+				shapearray = OnlineRouteLayer.getLatLngs();
+			}
+			else {
+				$.toast({
+					title: 'Save Shape',
+					subtitle: 'No Layer',
+					content: 'This layer has not been added to the map.',
+					type: 'error',
+					delay: 5000
+				});
+				return;
+			}
 			break;
 		default:
 		// code block
@@ -675,16 +734,19 @@ function SaveShape() {
 	// Clean the table first.
 	shapes_table.clearData();
 	// add the data to the table
+	var ruler = cheapRuler(shapearray[0].lat,'meters')
 	shapearray.forEach(function (shaperow, index) {
-		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: '' }], false);
-	});
-	// console.log('Online Router');
-	// console.log(OnlineRouteLayer.getLatLngs());
-	// console.log('Loaded Shape');
-	// console.log(LoadedShape.getLatLngs());
-	//console.log('File based Shape');
-	//console.log(FileShapeLayer.getLatLngs());
-	// map.eachLayer(function(layer){
-	// 	console.log(layer)//.bindPopup('Hello');
-	// });
+		var length = 0;		
+		if (index != 0) {
+			console.log(shapearray.slice(0, index));
+			length = ruler.lineDistance(shapearray.slice(0, index));
+			console.log(length);
+		}		
+		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: length }], false);
+	});	
 }
+
+map.on('pm:create', e => {
+	// We captre the layer creation event and get the latlng after your'e ready with drawing. We save it in a var. 
+	DrawingLayerLatLng.push(e.layer.getLatLngs());
+});
