@@ -260,8 +260,7 @@ $('#routeSelect').on('select2:select', function (e) {
 		return;
 	}
 	$('#openShapeModal').prop('disabled', false);
-	$('#openKMLModal').prop('disabled', false);
-	$('#openUseRoutingModal').prop('disabled', false);	
+	$('#openKMLModal').prop('disabled', false);	
 	// clear present sequence tables.. passing to a function to handle "save changes" action later.
 	clearSequences();
 	// execute function to load corresponding route's sequence(s)
@@ -828,8 +827,7 @@ function populateShapesLists(shapes) {
 //###############
 
 function uploadShape() {
-
-	$('#uploadShapeStatus').html('');
+	
 	// make POST request to API/XMLUpload
 
 	// idiot-proofing: check if the files have been uploaded or not.
@@ -876,7 +874,6 @@ function uploadShape() {
 	}
 
 	if (globalShapesList['all'].indexOf(shape_id_prefix + '_0') > -1 || globalShapesList['all'].indexOf(shape_id_prefix + '_1') > -1) {
-		//$('#uploadShapeStatus').html('Please choose some other id, this one\'s taken.');
 		if (!confirm('The shape_id\'s:\n' + shape_id_prefix + '_0 and/or ' + shape_id_prefix + '_1\n..already exist in the shapes DB.\nAre you SURE you want to replace an existing shape?')) {
 			$("#uploadShapeId").val('');
 			return;
@@ -1161,7 +1158,6 @@ function download_shapefile(direction = 0) {
 	dlink.remove();
 }
 
-
 function getPythonRoutes() {
 	//load from python!
 	let xhr = new XMLHttpRequest();
@@ -1191,99 +1187,4 @@ function getPythonRoutes() {
 		}
 	};
 	xhr.send();
-}
-
-function OnlineRoute() {
-	if ($("#RoutingUseService").val() == 'Mapbox') {
-		if (!cfg.MAPBOXAPI) {
-			$.toast({
-				title: 'Online Routing',
-				subtitle: 'Mapbox',
-				content: 'No API Key configured in the config page!',
-				type: 'error',
-				delay: 1000
-			});	
-		return;
-		}
-		mapboxrouting(sequence0table.getData());
-	}
-	alert('Online Route!')
-	// first check the onward journey
-	//var Direction0 = sequence0table.getData();
-	// if (sequence0table.getDataCount() > 0) {
-	// 	var allstops = sequence0table.getData()
-	// 	var depart = allstops[0];
-	// 	var arrival = allstops[allstops.length-1];
-	// 	var between = allstops;
-	// 	between.shift(); // remove first entry
-	// 	between.pop(); // remove last entry
-	// 	console.log(depart);
-	// 	console.log(arrival);
-	// 	console.log(between);
-	// }
-	// else {
-	// 	console.log('direction 0 no data')
-	// }
-	// var Direction1 = sequence1table.getData();
-	// if (sequence1table.getDataCount() > 0) {
-	// 	// got data
-	// }
-	// else {
-	// 	console.log('direction 1 no data')
-	// }
-	
-	// second check the reverse journey
-
-}
-
-function mapboxrouting(data) {
-	// get array data
-	if (data.length > 0) {
-		var allstops = sequence0table.getData()
-		var depart = allstops[0];
-		var arrival = allstops[allstops.length-1];
-		var between = allstops;
-		between.shift(); // remove first entry
-		between.pop(); // remove last entry		
-		// if (between.length > 23) {
-		// 	$.toast({
-		// 		title: 'Online Routing',
-		// 		subtitle: 'Mapbox',
-		// 		content: 'More than 25 stops is not allowed...',
-		// 		type: 'error',
-		// 		delay: 5000
-		// 	});
-		// }
-		// else {
-			var from = depart.stop_lon + "," + depart.stop_lat;
-			var to = arrival.stop_lon + "," + arrival.stop_lat;
-			var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
-			var MapboxApiKey = "pk.eyJ1IjoibXZhbmxhYXIiLCJhIjoiSC0xME1hayJ9.FvJSsWGJEgUa0iwJW5ZsPg";
-			GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
-			GenerateUrl = GenerateUrl.replace(";;", ";");
-			$.get( GenerateUrl, function( data ) {				
-				//console.log(data);
-				if (data.code == 'Ok') {
-					var Polyline  = data.routes[0].geometry;
-					console.log(Polyline);
-					polyline.decode(Polyline);
-					// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
-					//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
-					// returns a GeoJSON LineString feature
-					polyline.toGeoJSON(Polyline);
-					var myLayer = L.geoJSON().addTo(map[0]);
-					myLayer.addData(polyline.toGeoJSON(Polyline));
-				}
-				else {
-					$.toast({
-						title: 'Online Routing',
-						subtitle: 'Mapbox',
-						content: 'There was not a correct result!',
-						type: 'error',
-						delay: 5000
-					});
-				}
-			  });
-		// }
-	}
 }

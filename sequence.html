@@ -250,8 +250,7 @@
 										</div>
 										<div class="col">
 											<button class="btn btn-primary" id="openShapeModal" data-toggle="modal" data-target="#UploadShapeModal" disabled title="Want to set a new shape for this route?">Upload Shapefile</button>
-											<button class="btn btn-primary" id="openKMLModal" data-toggle="modal" data-target="#ParseKMLModal" disabled title="Use KML for Journey">Parse KML</button>
-											<button class="btn btn-primary" id="openUseRoutingModal" data-toggle="modal" data-target="#OnlineRoutingModal" disabled title="Use online routing services for creating shape file">Online Routing</button>
+											<button class="btn btn-primary" id="openKMLModal" data-toggle="modal" data-target="#ParseKMLModal" disabled title="Use KML for Journey">Parse KML</button>											
 										</div>
 									</div>
 								</div>
@@ -420,8 +419,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<p align="center" id="uploadShapeStatus"></p>
+				<div class="modal-footer">			
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button id="uploadShapeButton" class="btn btn-primary">Upload >></button>
 				</div>
@@ -462,41 +460,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal" tabindex="-1" role="dialog" id="OnlineRoutingModal">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Create shape based on stops in journey.</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group row">
-						<label for="UseService" class="col-sm-6 col-form-label">Use Online routing Service:</label>
-						<div class="col-sm-6">
-							<select id="RoutingUseService" class="form-control">
-								<option value="Mapbox">Mapbox</option>
-								<option value="Google">Google</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="UseService" class="col-sm-6 col-form-label">shape_id prefix:</label>
-						<div class="col-sm-6">
-							<input size=4 id="Routingshape_id" placeholder="Routingshape_id" class="form-control">
-						</div>
-					</div>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="OnlineRoute">Try to route!</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	</div>	
 </body>
 
 </html>
