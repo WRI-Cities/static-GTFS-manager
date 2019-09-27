@@ -40,6 +40,7 @@ const menu = {
 		"Trips, Stop_times": "tripstimings.html",
 		"Frequencies": "frequencies.html",
 		"Fares": "fares.html",
+		"Shapes": "shapes.html",
 		"Translations": "translations.html",
 		"Feed Info": "feedinfo.html"
 	},

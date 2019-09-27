@@ -25,9 +25,7 @@ var shapes_table = new Tabulator("#shapes-table", {
 	history: true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout: "fitDataFill",
-	//ajaxURL: `${APIpath}tableReadSave?table=shapes`, //ajax URL
-	//ajaxLoaderLoading: loaderHTML,
+	layout: "fitDataFill",	
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "shape_id", field: "shape_id", editor: "input", width: 200, bottomCalc: shapeTotal },
@@ -56,15 +54,6 @@ var OnlineRouteLayer;
 var LoadedShape;
 var FileShapeLayer;
 var DrawingLayerLatLng = [];
-
-
-// .bindTooltip(function (layer) {
-// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-// }, { sticky: false })
-// .bindPopup(function (layer) {
-// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
-// })
-//.on('click', markerOnClick);
 
 var baseLayers = {
 	"OpenStreetMap": LayerOSM
@@ -561,7 +550,6 @@ function storeResults(result, filename, extension) {
 	var geojsonFeature = JSON.parse(GeojsonLayer[0]);
 	// Filter out all the linestrings.
 	LineStringlayers = geojsonFeature.features.filter(x => x.geometry.type == "LineString");
-
 	if (LineStringlayers.length > 1) {
 		// Need to filter the Linestring layers
 		$.toast({
@@ -576,9 +564,9 @@ function storeResults(result, filename, extension) {
 		// Add Layers button
 		$("#uploadLayerButton").show();
 		LineStringlayers.forEach(function (feature, index) {
-			var name = feature.properties.name;
+			var name = (feature.properties.name) ? feature.properties.name :"Undefined";
 			var CheckboxHTML = `<div class="form-check">
-				<input class="form-check-input" type="checkbox" id="Layer${index}" name="CheckLayer" value="${index}">
+				<input class="form-check-input" type="radio" id="Layer${index}" name="CheckLayer" value="${index}">
 				<label class="form-check-label" for="Layer${index}">
 					${name}
 				</label>
@@ -590,6 +578,10 @@ function storeResults(result, filename, extension) {
 	else {
 		// Only 1 layer. Import only the LineStrings
 		// Swap the lat, lon of the geojson.
+		if (map.hasLayer(FileShapeLayer)) {
+			map.removeLayer(FileShapeLayer);
+			layerControl.removeLayer(FileShapeLayer);	
+		}
 		var coords = []
 		LineStringlayers[0].geometry.coordinates.forEach(function (coord) {
 			coords.push([coord[1], coord[0]]);
@@ -603,6 +595,10 @@ function storeResults(result, filename, extension) {
 }
 
 function uploadLayer() {
+	if (map.hasLayer(FileShapeLayer)) {
+		map.removeLayer(FileShapeLayer);
+		layerControl.removeLayer(FileShapeLayer);	
+	}	
 	// Loop thhrough each selected layer This is called when there are more then 1 linestrings.
 	var multicoords = [];
 	$.each($("input[name='CheckLayer']:checked"), function () {
@@ -614,7 +610,7 @@ function uploadLayer() {
 	});
 	FileShapeLayer = L.polyline(multicoords, { color: 'orange', weight: 3 });
 	map.addLayer(FileShapeLayer);
-	layerControl.addOverlay(FileShapeLayer, 'File Based Shape')
+	layerControl.addOverlay(FileShapeLayer, 'File Based Shape');
 	map.fitBounds(FileShapeLayer.getBounds());
 	$('#UploadShapeModal').modal('hide');
 }
@@ -649,6 +645,17 @@ function convertToGeoJson(filecontent, extension) {
 
 // Saving layer to tabulator table
 function SaveShape() {
+	var pw = $("#password").val();
+	if (!pw) {
+		$.toast({
+			title: 'Save Route',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
+		shakeIt('password'); return;
+	}
 	var selectedforexport = $("#shape_save").val();
 	var shape_id = $("#shape_id").val();
 	var shapearray = [];
@@ -733,17 +740,44 @@ function SaveShape() {
 	}
 	// Clean the table first.
 	shapes_table.clearData();
-	// add the data to the table
-	var ruler = cheapRuler(shapearray[0].lat,'meters')
-	shapearray.forEach(function (shaperow, index) {
-		var length = 0;		
-		if (index != 0) {
-			console.log(shapearray.slice(0, index));
-			length = ruler.lineDistance(shapearray.slice(0, index));
-			console.log(length);
-		}		
-		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index, shape_dist_traveled: length }], false);
-	});	
+	// add the data to the table	
+	shapearray.forEach(function (shaperow, index) {			
+		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index}], false);
+	});
+	var data = shapes_table.getData();
+	console.log(data);
+	console.log('sending to server via POST');
+	// sending POST request using native JS. From https://blog.garstasio.com/you-dont-need-jquery/ajax/#posting
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', `${APIpath}gtfs/shapes?pw=${pw}&id=${shape_id}`);
+	xhr.withCredentials = true;
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+	xhr.onload = function () {
+		if (xhr.status === 200) {
+			console.log('Successfully sent data via POST to server API/tableReadSave table=agency, response received: ' + xhr.responseText);
+			$.toast({
+				title: 'Save Shape',
+				subtitle: 'Success',
+				content: xhr.responseText,
+				type: 'success',
+				delay: 5000
+			});
+			// $('#saveAgencyButton').removeClass().addClass('btn btn-outline-primary');
+			// $('#saveAgencyButton').prop('disabled', true);
+			//$('#agencySaveStatus').html('<span class="alert alert-success">Success. Message: ' + xhr.responseText + '</span>');
+		} else {
+			console.log('Server POST request to API/tableReadSave table=agency failed. Returned status of ' + xhr.status + ', reponse: ' + xhr.responseText);
+			$.toast({
+				title: 'Save Shape',
+				subtitle: 'Failed to save',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});
+			//$('#agencySaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText+'</span>');
+		}
+	}
+	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
 }
 
 map.on('pm:create', e => {
