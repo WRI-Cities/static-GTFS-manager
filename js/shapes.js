@@ -25,7 +25,7 @@ var shapes_table = new Tabulator("#shapes-table", {
 	history: true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout: "fitDataFill",	
+	layout: "fitDataFill",
 	columns: [
 		{ rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
 		{ title: "shape_id", field: "shape_id", editor: "input", width: 200, bottomCalc: shapeTotal },
@@ -412,67 +412,141 @@ function getPythonStops() {
 
 
 function OnlineRoute() {
-	if ($("#RoutingUseService").val() == 'Mapbox') {
-		if (!cfg.MAPBOXAPI) {
-			$.toast({
-				title: 'Online Routing',
-				subtitle: 'Mapbox',
-				content: 'No API Key configured in the config page!',
-				type: 'error',
-				delay: 1000
-			});
-			return;
-		}
-		mapboxrouting(stop_times);
-	}
-}
 
-function mapboxrouting(stop_times) {
-	// get array data
 	if (stop_times.length > 0) {
-		var depart = stop_times[0];
-		var arrival = stop_times[stop_times.length - 1];
-		var between = stop_times;
-		between.shift(); // remove first entry
-		between.pop(); // remove last entry		
-		// if (between.length > 23) {
-		// 	$.toast({
-		// 		title: 'Online Routing',
-		// 		subtitle: 'Mapbox',
-		// 		content: 'More than 25 stops is not allowed...',
-		// 		type: 'error',
-		// 		delay: 5000
-		// 	});
-		// }
-		// else {
-		var from;
-		var to;
-		var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
-		if (searchstopfrom) {
-			from = searchstopfrom.stop_lon + "," + searchstopfrom.stop_lat;
+		var OnlineRoutePlanner;
+		var RoutingArrayPoint = [];
+		switch ($("#RoutingUseService").val()) {
+			case "Mapbox":
+				// code block
+				if (!cfg.MAPBOXAPI) {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Mapbox',
+						content: 'No API Key configured in the config page!',
+						type: 'error',
+						delay: 1000
+					});
+					return;
+				}
+				else {
+					// Mapbox has a 25 point limit
+					OnlineRoutePlanner = L.Routing.mapbox(cfg.MAPBOXAPI);
+					rWP1 = new L.Routing.Waypoint;
+					rWP2 = new L.Routing.Waypoint;
+					var depart = stop_times[0];
+					var arrival = stop_times[stop_times.length - 1];
+					var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
+					if (searchstopfrom) {
+						rWP1.latLng = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+						//from = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+					}
+					var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
+					if (searchstopto) {
+						rWP2.latLng = L.latLng(searchstopto.stop_lat, searchstopto.stop_lon);
+					}
+					RoutingArrayPoint.push(rWP1);
+					RoutingArrayPoint.push(rWP2); s
+				}
+				break;
+			case "OSRM":
+				// code block
+				OnlineRoutePlanner = L.Routing.osrmv1();
+				break;
+			case "GraphHopper":
+				// code block
+				if (!cfg.GraphHopperApi) {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Graphhopper',
+						content: 'No API Key configured in the config page!',
+						type: 'error',
+						delay: 1000
+					});
+					return;
+				}
+				else {
+					OnlineRoutePlanner = L.Routing.graphHopper(cfg.GraphHopperApi);
+					rWP1 = new L.Routing.Waypoint;
+					rWP2 = new L.Routing.Waypoint;
+					var depart = stop_times[0];
+					var arrival = stop_times[stop_times.length - 1];
+					var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
+					if (searchstopfrom) {
+						rWP1.latLng = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+						//from = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+					}
+					var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
+					if (searchstopto) {
+						rWP2.latLng = L.latLng(searchstopto.stop_lat, searchstopto.stop_lon);
+					}
+					RoutingArrayPoint.push(rWP1);
+					RoutingArrayPoint.push(rWP2);
+				}
+				break;
+			case "TomTom":
+				if (!cfg.TomTomApi) {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'TomTom',
+						content: 'No API Key configured in the config page!',
+						type: 'error',
+						delay: 1000
+					});
+					return;
+				}
+				else {
+					// https://developer.tomtom.com/routing-api/routing-api-documentation-routing/calculate-route
+					// The maximum allowed number of waypoints is 150
+					stop_times.forEach(function (stop) {
+						var searchstop = allStops.find(x => x.stop_id === stop.stop_id);
+						if (searchstop) {
+							stoplocation = new L.Routing.Waypoint;
+							stoplocation.latLng = L.latLng(searchstop.stop_lat, searchstop.stop_lon);
+							RoutingArrayPoint.push(stoplocation);
+						}
+					});
+					OnlineRoutePlanner = L.Routing.tomTom(cfg.TomTomApi);
+				}
+				break;
+			case "Here":
+				if (!cfg.HereAppID && !cfg.HereAppCode) {
+					$.toast({
+						title: 'Online Routing',
+						subtitle: 'Here',
+						content: 'No API Key and Code configured in the config page!',
+						type: 'error',
+						delay: 1000
+					});
+					return;
+				}
+				else {
+					OnlineRoutePlanner = L.Routing.here(cfg.HereAppID, cfg.HereAppCode);
+					rWP1 = new L.Routing.Waypoint;
+					rWP2 = new L.Routing.Waypoint;
+					var depart = stop_times[0];
+					var arrival = stop_times[stop_times.length - 1];
+					var searchstopfrom = allStops.find(x => x.stop_id === depart.stop_id);
+					if (searchstopfrom) {
+						rWP1.latLng = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+						//from = L.latLng(searchstopfrom.stop_lat, searchstopfrom.stop_lon);
+					}
+					var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
+					if (searchstopto) {
+						rWP2.latLng = L.latLng(searchstopto.stop_lat, searchstopto.stop_lon);
+					}
+					RoutingArrayPoint.push(rWP1);
+					RoutingArrayPoint.push(rWP2);
+				}
+				break;
+			default:
+			// code block
 		}
-		var searchstopto = allStops.find(x => x.stop_id === arrival.stop_id);
-		if (searchstopto) {
-			to = searchstopto.stop_lon + "," + searchstopto.stop_lat;
-		}
-
-		// var from = depart.stop_lon + "," + depart.stop_lat;
-		// var to = arrival.stop_lon + "," + arrival.stop_lat;
-		var MapboxDrivingApiUrl = "https://api.mapbox.com/directions/v5/mapbox/driving/";
-		var MapboxApiKey = cfg.MAPBOXAPI;
-		GenerateUrl = MapboxDrivingApiUrl + from + ';' + to + ".json?access_token=" + MapboxApiKey + "&geometries=polyline&overview=full";
-		GenerateUrl = GenerateUrl.replace(";;", ";");
-		$.get(GenerateUrl, function (data) {
-			//console.log(data);
-			if (data.code == 'Ok') {
-				var Polyline = data.routes[0].geometry;
-				console.log(Polyline);
-				polyline.decode(Polyline);
-				// returns an array of lat, lon pairs from polyline6 by passing a precision parameter
-				//polyline.decode('cxl_cBqwvnS|Dy@ogFyxmAf`IsnA|CjFzCsHluD_k@hi@ljL', 6);
-				// returns a GeoJSON LineString feature
-				//polyline.toGeoJSON(Polyline);
-				OnlineRouteLayer = L.polyline(polyline.decode(Polyline), { color: 'red', weight: 3 });
+		// Ok we got now a OnlineRoutePlanner that we can use	
+		OnlineRoutePlanner.route(RoutingArrayPoint, function (err, routes) {
+			if (!err) {
+				RoutePointArray = routes[0].coordinates;
+				OnlineRouteLayer = L.polyline(RoutePointArray, { color: 'red', weight: 3 });
 				//var myLayer = L.geoJSON().addTo(map);
 				//myLayer.addData(polyline.toGeoJSON(Polyline));				
 				map.addLayer(OnlineRouteLayer);
@@ -483,31 +557,28 @@ function mapboxrouting(stop_times) {
 			else {
 				$.toast({
 					title: 'Online Routing',
-					subtitle: 'Mapbox',
-					content: 'There was not a correct result!',
+					subtitle: 'Error',
+					content: 'There is a error in the onlinerouting part',
 					type: 'error',
 					delay: 5000
 				});
+				console.log(err);
 			}
-		})
-			.fail(function (jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == '401') {
-					$.toast({
-						title: 'Online Routing',
-						subtitle: 'Mapbox',
-						content: jqXHR.status + ' - The provided API key is not "Unauthorized"',
-						type: 'error',
-						delay: 5000
-					});
-				}
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
-			});
-		// }
-	}
-}
 
+
+		});
+	}
+	else {
+		$.toast({
+			title: 'Online Routing',
+			subtitle: 'No stops',
+			content: 'There are no stops loaded',
+			type: 'error',
+			delay: 5000
+		});
+	}
+
+}
 // ###########################
 // #### Shape uploading
 // ###########################
@@ -564,7 +635,7 @@ function storeResults(result, filename, extension) {
 		// Add Layers button
 		$("#uploadLayerButton").show();
 		LineStringlayers.forEach(function (feature, index) {
-			var name = (feature.properties.name) ? feature.properties.name :"Undefined";
+			var name = (feature.properties.name) ? feature.properties.name : "Undefined";
 			var CheckboxHTML = `<div class="form-check">
 				<input class="form-check-input" type="radio" id="Layer${index}" name="CheckLayer" value="${index}">
 				<label class="form-check-label" for="Layer${index}">
@@ -580,7 +651,7 @@ function storeResults(result, filename, extension) {
 		// Swap the lat, lon of the geojson.
 		if (map.hasLayer(FileShapeLayer)) {
 			map.removeLayer(FileShapeLayer);
-			layerControl.removeLayer(FileShapeLayer);	
+			layerControl.removeLayer(FileShapeLayer);
 		}
 		var coords = []
 		LineStringlayers[0].geometry.coordinates.forEach(function (coord) {
@@ -597,8 +668,8 @@ function storeResults(result, filename, extension) {
 function uploadLayer() {
 	if (map.hasLayer(FileShapeLayer)) {
 		map.removeLayer(FileShapeLayer);
-		layerControl.removeLayer(FileShapeLayer);	
-	}	
+		layerControl.removeLayer(FileShapeLayer);
+	}
 	// Loop thhrough each selected layer This is called when there are more then 1 linestrings.
 	var multicoords = [];
 	$.each($("input[name='CheckLayer']:checked"), function () {
@@ -741,8 +812,8 @@ function SaveShape() {
 	// Clean the table first.
 	shapes_table.clearData();
 	// add the data to the table	
-	shapearray.forEach(function (shaperow, index) {			
-		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index}], false);
+	shapearray.forEach(function (shaperow, index) {
+		shapes_table.addData([{ shape_id: shape_id, shape_pt_lat: shaperow.lat, shape_pt_lon: shaperow.lng, shape_pt_sequence: index }], false);
 	});
 	var data = shapes_table.getData();
 	console.log(data);

@@ -91,8 +91,12 @@ $("#Mapprovider").select2({
  });
 
  $(document).ready(function() {
-	$("#ApiKeyGoogle").val(cfg.GOOGLEAPI);
+	$("#ApiKeyGraphhopper").val(cfg.GraphHopperApi);
 	$("#ApiKeyMapbox").val(cfg.MAPBOXAPI);
+	$("#ApiKeyTomTom").val(cfg.TomTomApi);
+	$("#HereAppCode").val(cfg.HereAppCode);
+	$("#HereAppId").val(cfg.HereAppID);
+
 	$("#GTFSTimezone").select2({				
 		placeholder: "Select a timezone",
 		allowClear: true,
@@ -115,7 +119,7 @@ $("#SaveApiKeys").click(function () {
 	var GTFS = {Timezone: $("#GTFSTimezone").val(),Currency: $("#GTFSCurrency").val()}
 	var APP = {WideScreen: $("WideScreen").val()}
 
-	var postData = {GOOGLEAPI:$("#ApiKeyGoogle").val(), MAPBOXAPI:$("#ApiKeyMapbox").val(), MapProviders: MapProviders, GTFS: GTFS,APP: APP};
+	var postData = {HereAppID:$("#HereAppId").val(),HereAppCode:$("#HereAppCode").val(),TomTomApi:$("#ApiKeyTomTom").val(),GraphHopperApi:$("#ApiKeyGraphhopper").val(), MAPBOXAPI:$("#ApiKeyMapbox").val(), MapProviders: MapProviders, GTFS: GTFS,APP: APP};
 	// jQuery .post method is used to send post request.
 	// $.post(url, postData, function (data, status) {
 	// 	alert("Ajax post status is " + status);

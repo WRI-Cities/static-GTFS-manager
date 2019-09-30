@@ -105,6 +105,10 @@ function IconPage(pageurl) {
             // code block
             iconText = 'fa-globe';
             break;
+            case "shapes.html":
+                // code block
+                iconText = 'fa-draw-polygon';
+                break;
         default:
             iconText = '';
     }
