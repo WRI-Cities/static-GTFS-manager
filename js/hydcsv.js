@@ -12,16 +12,50 @@ var smallMaps = []; // holder for small maps for sequences
 
 // #######################
 // initiate map
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var MBAttrib = '&copy; ' + osmLink + ' Contributors & <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
-var scenicUrl = 'https://api.mapbox.com/styles/v1/nikhilsheth/cj8rdd7wu45nl2sps9teusbbr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmlraGlsc2hldGgiLCJhIjoiQTREVlJuOCJ9.YpMpVVbkxOFZW-bEq1_LIw';
-var scenic = L.tileLayer(scenicUrl, { attribution: MBAttrib });
+var defaultlayer = cfg.MapProviders.find(x => x.default === true);
+var Extralayers = cfg.MapProviders.filter(x => x.default === false);
+// Set openstreetmap as the defaultlayer if nothing is defined as default.
+var defaultlayer = !defaultlayer ? 'OpenStreetMap.Mapnik' : defaultlayer.id;
+
+var LayerOSM = L.tileLayer.provider(defaultlayer);
+var baseLayers = {
+	"OpenStreetMap": LayerOSM
+};
+
+Extralayers.forEach(function (layers, index) {
+	// Add the extra layers in a loop
+	// Filter out the paid 
+	switch (layers.id) {
+		case "HERE.terrainDay":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				app_id: layers.apikey,
+				app_code: layers.variant
+			});
+			break;
+		case "MapBox":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				id: layers.variant,
+				accessToken: layers.apikey
+			});
+			break;
+		case "TomTom":
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id, {
+				apikey: layers.apikey
+			});
+			break;
+		default:
+			baseLayers[layers.name] = L.tileLayer.provider(layers.id);
+	}
+
+});
 var map = new L.Map('map', {
 	'center': [17.385044, 78.486671], // hyd
 	'zoom': 12,
-	'layers': [scenic],
+	'layers': [LayerOSM],
 	scrollWheelZoom: false
 });
+
+
 $('.leaflet-container').css('cursor', 'crosshair'); // from https://stackoverflow.com/a/28724847/4355695 Changing mouse cursor to crosshairs
 L.control.scale({ metric: true, imperial: false }).addTo(map);
 var myRenderer = L.canvas({ padding: 0.5 });
@@ -41,6 +75,12 @@ stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 		return writeProperties(layer.properties);
 	});
 
+var overlays = {
+	'stops': stopsLayer,
+
+}
+
+var layerControl = L.control.layers(baseLayers, overlays, { collapsed: true, autoZIndex: false }).addTo(map);
 
 // #######################
 // Sequence checking map
@@ -48,9 +88,10 @@ stopsLayer = new L.geoJson(null).bindTooltip(function (layer) {
 smallMap = new L.Map(`smallMap`, {
 	'center': [17.385044, 78.486671], // hyd
 	'zoom': 11,
-	'layers': [L.tileLayer(scenicUrl, { attribution: MBAttrib })],
+	'layers': [LayerOSM],
 	scrollWheelZoom: false
 });
+var layerControl = L.control.layers(baseLayers, null, { collapsed: true, autoZIndex: false }).addTo(smallMap);
 
 lineLayer = new L.geoJson(null).bindTooltip(function (layer) {
 	//return layer.feature.geometry.properties.name;
@@ -299,115 +340,147 @@ function createCSVUploads(n) {
 		let route_text_color = routes[i] ? routes[i].route_text_color : '';
 
 		content += `
-		<div class="col-md-4 routeCard">
+		<div class="col-md-4">
 		<div class="card mb-3 card-body">
+		<h5 class="card-title">Route <b>${i + 1}</b></h5>
 		<!--start of one route block -->
-		<p>Route <big><b>${i + 1}</b></big>. &nbsp;&nbsp;&nbsp; ID <red>*</red> : <input id="route${i}_id" value="${route_id}" size="4" required></p>
-		<p>Weekdays <red>*</red> : <input type="file" id="route${i}WK" name="route${i}WK" accept=".csv" class="btn btn-sm btn-outline-secondary"></p>
-		<p>Sundays <red>*</red>: <input type="file" id="route${i}SU" name="route${i}SU" accept=".csv" class="btn btn-sm btn-outline-secondary"></p>
+		<div class="form-group row">
+			<label for="route${i}_id" class="col-sm-4 col-form-label">ID</label>
+			<div class="col-sm-8">
+			<input id="route${i}_id" value="${route_id}" required class="form-control">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="route${i}_id" class="col-sm-4 col-form-label">Weekdays</label>
+			<div class="col-sm-8">
+			<input type="file" id="route${i}WK" name="route${i}WK" accept=".csv" class="form-control-file">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="route${i}_id" class="col-sm-4 col-form-label">Sundays</label>
+			<div class="col-sm-8">
+			<input type="file" id="route${i}SU" name="route${i}SU" accept=".csv" class="form-control-file">
+			</div>
+		</div>	
 		
 		<!-- Accordion -->
-		<div class="routeOptions" id="routeOptions${i}">
-		<h3>Route ${i + 1} Options</h3>
-		<div>
-		<p>
-		Route short name: <input id="route${i}_short_name" value="${route_short_name}" size=6></p>
-		<p>Route long name: <input id="route${i}_long_name" value="${route_long_name}" size=15></p>
-		<p>Route Color: <input id="route${i}_color" value="${route_color}" size=6> <small>(background)</small></p>
-		<p>Text color: <input id="route${i}_text_color" value="${route_text_color}" size=6></p>
-		<p>Shapefile of the route:<br>
-		<input type="file" id="route${i}_shape" name="route${i}_shape" accept=".geojson" class="btn btn-sm btn-outline-secondary">
-		<br>note: .geojson formats only. Use <a href="http://geoson.io" target="_blank">geojson.io</a> to create one.</p>
-
-		</div></div><!-- Accordion over -->
-		
-
-		<br>
-		<!-- Accordion -->
-		<div class="routeSequence" id="routeSequence${i}">
-		<h3>Route ${i + 1} Sequence</h3>
-		<div>
-		<ol id="sortable${i}" class="sortable">
-		`;
-
-		if (config.routes[i]) {
-			sequence = config.routes[i].route_sequence;
-		} else {
-			sequence = [];
-		}
-		for (x = 0; x < sequence.length; x++) {
-			let stop_id = sequence[x];
-			let stop_name = stops.getRow(stop_id).getData().stop_name;
-			content += `
-			<li class="ui-state-default" id="${stop_id}">
-			${stop_id}: ${stop_name}
-			<span class="right red">
-			<a href="#" class="delSortElement">&nbsp;X&nbsp;</a>
-			</span>
-			</li>
-			`;
-		}
-
-		content += `
-		</ol>
-
-		<p>Add: <br>
-		<select onChange="add2SequenceFunc(this.value,${i})">
-		<option value="0">Select a stop</option>
-		${stopOptions}
-		</select></p>
-
-		<p><button onclick="sequenceTest(${i})" class="btn btn-md btn-warning" id="viewAnchor">Test on map</button></p>
-		</div></div><!-- Accordion over -->
-
-		
-
-		
-		</div></div>
-		<!--end of one route block -->`;
+		<div class="accordion" id="accordion${i}">
+	<div class="card">
+		<div class="card-header" id="routeOptionsHeader${i}">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#routeOptions${i}" aria-expanded="true" aria-controls="collapseOne">
+                Route ${i + 1} Options
+                </button>
+            </h2>
+		</div>
+		<div id="routeOptions${i}" class="collapse show" aria-labelledby="routeOptionsHeader${i}" data-parent="#accordion${i}">
+            <div class="card-body">
+                <p>
+                Route short name: <input id="route${i}_short_name" value="${route_short_name}" size=6></p>
+                <p>Route long name: <input id="route${i}_long_name" value="${route_long_name}" size=15></p>
+                <p>Route Color: <input id="route${i}_color" value="${route_color}" size=6> <small>(background)</small></p>
+                <p>Text color: <input id="route${i}_text_color" value="${route_text_color}" size=6></p>
+                <p>Shapefile of the route:<br>
+                <input type="file" id="route${i}_shape" name="route${i}_shape" accept=".geojson" class="btn btn-sm btn-outline-secondary">
+                <br>note: .geojson formats only. Use <a href="http://geoson.io" target="_blank">geojson.io</a> to create one.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="routeSequenceHeader${i}">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#routeSequence${i}" aria-expanded="false" aria-controls="collapseTwo">
+                    Route ${i + 1} Sequence
+                </button>
+            </h2>
+        </div>
+        <div id="routeSequence${i}" class="collapse" aria-labelledby="routeSequenceHeader${i}" data-parent="#accordion${i}">
+            <div class="card-body">
+	            <ol id="sortable${i}" class="list-group">`;
+                    if (config.routes[i]) {
+                        sequence = config.routes[i].route_sequence;
+                    } else {
+                        sequence = [];
+					}
+					console.log('Sequence:');
+					console.log(sequence);
+                    for (x = 0; x < sequence.length; x++) {
+                        let stop_id = sequence[x];
+                        let stop_name = stops.getRow(stop_id).getData().stop_name;
+                        content += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${stop_id}">
+                        ${stop_id}: ${stop_name}
+                        
+                        <a href="#" class="delSortElement red"><i class="fas fa-trash-alt"></i></a>
+                        
+                        </li>
+                        `;
+                    }
+content += `
+			</ol>
+			<div class="form-group row">
+    <label for="addtosequence${i}" class="col-sm-2 col-form-label">Add</label>
+    <div class="col-sm-10">
+	<select onChange="add2SequenceFunc(this.value,${i})" class="form-control" id="addtosequence${i}">
+	<option value="0">Select a stop</option>
+	${stopOptions}
+	</select>
+    </div>
+  </div>
+            
+	        <p><button onclick="sequenceTest(${i})" class="btn btn-md btn-warning" id="viewAnchor">Test on map</button></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>`;
 	}
 
 
 	$('#routeUploadRepeater').html(content);
 
 	for (i = 0; i < n; i++) {
-		$(`#routeOptions${i}`).accordion({
-			collapsible: true, active: false
-		});
-		$(`#routeSequence${i}`).accordion({
-			collapsible: true, active: false
-		});
+		// $(`#routeOptions${i}`).accordion({
+		// 	collapsible: true, active: false
+		// });
+		// $(`#routeSequence${i}`).accordion({
+		// 	collapsible: true, active: false
+		// });
+		//var sortablelist = $(`#sortable${i}`);
+		var el = document.getElementById(`sortable${i}`);
+		window[`Sortable{i}`] = Sortable.create(el);
+		//new Sortable(sortablelist, {});
+		// $(sortablelist).sortable({
+		// 	placeholder: "ui-state-highlight",
+		// 	axis: "y",
+		// 	sort: function () {
+		// 		// from https://jsfiddle.net/cP4Fx/3, https://forum.jquery.com/topic/sortable-ol-elements-don-t-display-numbers-properly#14737000001561195 for numbered sortable list.
+		// 		var $lis = $(this).children('li');
+		// 		$lis.each(function () {
+		// 			var $li = $(this);
+		// 			var hindex = $lis.filter('.ui-sortable-helper').index();
+		// 			if (!$li.is('.ui-sortable-helper')) {
+		// 				var index = $li.index();
+		// 				index = index < hindex ? index + 1 : index;
 
-		$(`#sortable${i}`).sortable({
-			placeholder: "ui-state-highlight",
-			axis: "y",
-			sort: function () {
-				// from https://jsfiddle.net/cP4Fx/3, https://forum.jquery.com/topic/sortable-ol-elements-don-t-display-numbers-properly#14737000001561195 for numbered sortable list.
-				var $lis = $(this).children('li');
-				$lis.each(function () {
-					var $li = $(this);
-					var hindex = $lis.filter('.ui-sortable-helper').index();
-					if (!$li.is('.ui-sortable-helper')) {
-						var index = $li.index();
-						index = index < hindex ? index + 1 : index;
+		// 				$li.val(index);
 
-						$li.val(index);
-
-						if ($li.is('.ui-sortable-placeholder')) {
-							$lis.filter('.ui-sortable-helper').val(index);
-						}
-					}
-				});
-			}
-		});
-		$(`#sortable${i}`).disableSelection();
+		// 				if ($li.is('.ui-sortable-placeholder')) {
+		// 					$lis.filter('.ui-sortable-helper').val(index);
+		// 				}
+		// 			}
+		// 		});
+		// 	}
+		// });
+		//$(`#sortable${i}`).disableSelection();
 	}
 
 	// sortable: delete element from list
 	$('a.delSortElement').click(function (e) {
 		e.preventDefault();
 		console.log('firing?');
-		$(this).parent().parent().hide('slow', complete = function (e) { this.remove(); });
+		$(this).parent().hide('slow', complete = function (e) { this.remove(); });
 		// from http://jsfiddle.net/K3Kxg/, https://stackoverflow.com/a/19839253/4355695
 	});
 
@@ -639,16 +712,13 @@ function add2SequenceFunc(val, i) {
 	if (val == "0") return;
 	let stop_id = val;
 	let stop_name = stops.getRow(stop_id).getData().stop_name;
-	$(`#sortable${i}`)
-		.append(`
-			<li class="ui-state-default" id="${stop_id}">
-			${stop_id}: ${stop_name}
-			<span class="right red">
-			<a href="#" class="delSortElement">&nbsp;X&nbsp;</a>
-			</span>
-			</li>
-			`)
-		.sortable('refresh');
+	$('#sortable'+ i).append(`
+		<li class="list-group-item d-flex justify-content-between align-items-center" data-id="${stop_id}">
+                        ${stop_id}: ${stop_name}                        
+                        <a href="#" class="delSortElement red"><i class="fas fa-trash-alt"></i></a>                        
+                        </li>			
+			`);
+	//window[`Sortable{i}`].sortable('refresh');
 
 	// may have to issue this again since refreshing sortable
 	// sortable: delete element from list
@@ -660,8 +730,8 @@ function add2SequenceFunc(val, i) {
 }
 
 function sequenceTest(i) {
-	var sortedIDs = $(`#sortable${i}`).sortable("toArray");
-
+	var sortedIDs = window[`Sortable{i}`].toArray(); // $(`#sortable${i}`).sortable("toArray");
+	console.log(sortedIDs);
 	var mapLine = [];
 	sortedIDs.forEach(function (stop_id) {
 		let stop_row = stops.getRow(stop_id).getData();
