@@ -229,8 +229,11 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", headerSort: false,	tooltip:function(cell){
 				// Dynamic tooltip
 				var stop_id = cell.getValue();
+				console.log(stop_id);
 				var stop_name = "";
-				stop_name = allStopsKeyed.find(x => x.stop_id === stop_id).stop_name;
+				if (stop_id) {
+					stop_name = allStopsKeyed.find(x => x.stop_id === stop_id).stop_name;
+				}
 				// return the stop_name				
 				return  stop_name;
 			} 
