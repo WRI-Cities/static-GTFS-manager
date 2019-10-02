@@ -116,7 +116,7 @@ var stops = new Tabulator("#stops-table", {
 });
 
 
-var missing = new Tabulator("#missing-stops-table", {
+var missingstops = new Tabulator("#missing-stops-table", {
 	selectable: 0,
 	index: "stop_id",
 	addRowPos: "top",
@@ -140,7 +140,7 @@ var missing = new Tabulator("#missing-stops-table", {
 	]
 });
 
-var replacestop = new Tabulator("#replace-stops-table", {
+var replacestops = new Tabulator("#replace-stops-table", {
 	selectable: 0,
 	index: "stop_id",
 	addRowPos: "top",
@@ -365,49 +365,72 @@ function createCSVUploads(n) {
 		
 		<!-- Accordion -->
 		<div class="accordion" id="accordion${i}">
-	<div class="card">
-		<div class="card-header" id="routeOptionsHeader${i}">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#routeOptions${i}" aria-expanded="true" aria-controls="collapseOne">
-                Route ${i + 1} Options
-                </button>
-            </h2>
-		</div>
-		<div id="routeOptions${i}" class="collapse show" aria-labelledby="routeOptionsHeader${i}" data-parent="#accordion${i}">
-            <div class="card-body">
-                <p>
-                Route short name: <input id="route${i}_short_name" value="${route_short_name}" size=6></p>
-                <p>Route long name: <input id="route${i}_long_name" value="${route_long_name}" size=15></p>
-                <p>Route Color: <input id="route${i}_color" value="${route_color}" size=6> <small>(background)</small></p>
-                <p>Text color: <input id="route${i}_text_color" value="${route_text_color}" size=6></p>
-                <p>Shapefile of the route:<br>
-                <input type="file" id="route${i}_shape" name="route${i}_shape" accept=".geojson" class="btn btn-sm btn-outline-secondary">
-                <br>note: .geojson formats only. Use <a href="http://geoson.io" target="_blank">geojson.io</a> to create one.</p>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="routeSequenceHeader${i}">
-            <h2 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#routeSequence${i}" aria-expanded="false" aria-controls="collapseTwo">
-                    Route ${i + 1} Sequence
-                </button>
-            </h2>
-        </div>
-        <div id="routeSequence${i}" class="collapse" aria-labelledby="routeSequenceHeader${i}" data-parent="#accordion${i}">
-            <div class="card-body">
-	            <ol id="sortable${i}" class="list-group">`;
-                    if (config.routes[i]) {
-                        sequence = config.routes[i].route_sequence;
-                    } else {
-                        sequence = [];
-					}
-					console.log('Sequence:');
-					console.log(sequence);
-                    for (x = 0; x < sequence.length; x++) {
-                        let stop_id = sequence[x];
-                        let stop_name = stops.getRow(stop_id).getData().stop_name;
-                        content += `
+			<div class="card">
+				<div class="card-header" id="routeOptionsHeader${i}">
+					<h2 class="mb-0">
+						<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#routeOptions${i}" aria-expanded="true" aria-controls="collapseOne">
+						Route ${i + 1} Options
+						</button>
+					</h2>
+				</div>
+				<div id="routeOptions${i}" class="collapse show" aria-labelledby="routeOptionsHeader${i}" data-parent="#accordion${i}">
+					<div class="card-body">				
+						<div class="form-group row">
+							<label for="route${i}_short_name" class="col-sm-4 col-form-label">Route short name</label>
+							<div class="col-sm-8">
+							<input id="route${i}_short_name" value="${route_short_name}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="route${i}_long_name" class="col-sm-4 col-form-label">Route long name</label>
+							<div class="col-sm-8">
+							<input id="route${i}_long_name" value="${route_long_name}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="route${i}_color" class="col-sm-4 col-form-label">Route Color</label>
+							<div class="col-sm-8">
+							<input id="route${i}_color" value="${route_color}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="route${i}_text_color" class="col-sm-4 col-form-label">Text color</label>
+							<div class="col-sm-8">
+							<input id="route${i}_text_color" value="${route_text_color}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="route${i}_text_color" class="col-sm-4 col-form-label">Shapefile of the route</label>
+							<div class="col-sm-8">
+							<input type="file" id="route${i}_shape" name="route${i}_shape" accept=".geojson" class="form-control-file">
+							</div>
+						</div>                
+						<br>note: .geojson formats only. Use <a href="http://geoson.io" target="_blank">geojson.io</a> to create one.
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-header" id="routeSequenceHeader${i}">
+					<h2 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#routeSequence${i}" aria-expanded="false" aria-controls="collapseTwo">
+							Route ${i + 1} Sequence
+						</button>
+					</h2>
+				</div>
+				<div id="routeSequence${i}" class="collapse" aria-labelledby="routeSequenceHeader${i}" data-parent="#accordion${i}">
+					<div class="card-body">
+						<ol id="sortable${i}" class="list-group">`;
+		if (config.routes[i]) {
+			sequence = config.routes[i].route_sequence;
+		} else {
+			sequence = [];
+		}
+		console.log('Sequence:');
+		console.log(sequence);
+		for (x = 0; x < sequence.length; x++) {
+			let stop_id = sequence[x];
+			let stop_name = stops.getRow(stop_id).getData().stop_name;
+			content += `
                         <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${stop_id}">
                         ${stop_id}: ${stop_name}
                         
@@ -415,18 +438,18 @@ function createCSVUploads(n) {
                         
                         </li>
                         `;
-                    }
-content += `
+		}
+		content += `
 			</ol>
-			<div class="form-group row">
-    <label for="addtosequence${i}" class="col-sm-2 col-form-label">Add</label>
-    <div class="col-sm-10">
-	<select onChange="add2SequenceFunc(this.value,${i})" class="form-control" id="addtosequence${i}">
-	<option value="0">Select a stop</option>
-	${stopOptions}
-	</select>
-    </div>
-  </div>
+						<div class="form-group row">
+				<label for="addtosequence${i}" class="col-sm-2 col-form-label">Add</label>
+				<div class="col-sm-10">
+				<select onChange="add2SequenceFunc(this.value,${i})" class="form-control" id="addtosequence${i}">
+				<option value="0">Select a stop</option>
+				${stopOptions}
+				</select>
+				</div>
+			</div>
             
 	        <p><button onclick="sequenceTest(${i})" class="btn btn-md btn-warning" id="viewAnchor">Test on map</button></p>
             </div>
@@ -545,7 +568,7 @@ function loadCSVinTabulator(csvfile, tableID) {
 					break;
 				case 'missing':
 					// code block
-					missing.setData(results.data);
+					missingstops.setData(results.data);
 					break;
 				case 'fareid':
 					// code block
@@ -553,7 +576,7 @@ function loadCSVinTabulator(csvfile, tableID) {
 					break;
 				case 'replacestop':
 					// code block
-					replacestop.setData(results.data);
+					replacestops.setData(results.data);
 					break;
 				default:
 				// code block
@@ -712,7 +735,7 @@ function add2SequenceFunc(val, i) {
 	if (val == "0") return;
 	let stop_id = val;
 	let stop_name = stops.getRow(stop_id).getData().stop_name;
-	$('#sortable'+ i).append(`
+	$('#sortable' + i).append(`
 		<li class="list-group-item d-flex justify-content-between align-items-center" data-id="${stop_id}">
                         ${stop_id}: ${stop_name}                        
                         <a href="#" class="delSortElement red"><i class="fas fa-trash-alt"></i></a>                        
@@ -809,7 +832,7 @@ function diagnoseConvertHYD() {
 		payload['routes'][i]['long_name'] = $(`#route${i}_long_name`).val();
 		payload['routes'][i]['color'] = $(`#route${i}_color`).val();
 		payload['routes'][i]['text_color'] = $(`#route${i}_text_color`).val();
-		payload['routes'][i]['sequence'] = $(`#sortable${i}`).sortable("toArray");
+		payload['routes'][i]['sequence'] = window[`Sortable{i}`].toArray();
 	}
 	console.log('payload:', payload);
 
