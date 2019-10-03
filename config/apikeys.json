@@ -1,1 +1,35 @@
-{"GOOGLEAPI":"TEST-Google346546544343","MAPBOXAPI":"TEST-Mapbox233534345","MapProviders":[{"id":"OpenStreetMap.HOT","name":"OpenStreetMap.HOT","variant":"","apikey":"","default":false},{"id":"MapBox","name":"MapBox","variant":"mapbox.mapbox-streets-v7","apikey":"pk.eyJ1IjoibXZhbmxhYXIiLCJhIjoiSC0xME1hayJ9.FvJSsWGJEgUa0iwJW5ZsPg","default":false},{"id":"OpenStreetMap.DE","name":"OpenStreetMap.DE","variant":"","apikey":"","default":false},{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"},"APP":{}}
+{
+    "HereAppID": "",
+    "HereAppCode": "",
+    "TomTomApi": "",
+    "GraphHopperApi": "",
+    "MAPBOXAPI": "",
+    "MapProviders": [
+        {
+            "id": "OpenStreetMap.HOT",
+            "name": "OpenStreetMap.HOT",
+            "variant": "",
+            "apikey": "",
+            "default": false
+        },
+        {
+            "id": "OpenStreetMap.DE",
+            "name": "OpenStreetMap.DE",
+            "variant": "",
+            "apikey": "",
+            "default": false
+        },
+        {
+            "id": "OpenStreetMap.Mapnik",
+            "name": "OpenStreetMap.Mapnik",
+            "variant": "",
+            "apikey": "",
+            "default": true
+        }
+    ],
+    "GTFS": {
+        "Timezone": "America/Bogota",
+        "Currency": "COP"
+    },
+    "APP": {}
+}
