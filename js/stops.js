@@ -470,7 +470,7 @@ function addTable() {
 	console.log(jsonData);
 	try {
 		table.addData(jsonData);
-		reloadData();
+		reloadData();		
 	}
 	catch (e) {
 		console.log("exception caught in updateOrAddRow function call.", e);
@@ -481,6 +481,7 @@ function addTable() {
 
 	setTimeout(function () {
 		table.selectRow(stop_id);
+		//Clean out new value's
 	}, 1000);
 
 }
@@ -863,28 +864,20 @@ var geocoder = L.Control.geocoder({
 
 
 		// Add stop_id to list
+		$("#new_stop_id").val(stop_id);
+		$("#new_stop_name").val(e.geocode.name);
+		$("#new_wheelchair").val('');
+		$("#new_stop_lat").val(latlng.lat);
+		$("#new_stop_lon").val(latlng.lng);
+		$("#new_zone_id").val('');
 
-		var newOption = new Option(stop_text, stop_id, false, true);
-		$('#targetStopid').append(newOption);
-
-		// Trigger the change
-
-		$('#mySelect2').val(stop_id); // Change the value or make some change to the internal state
-		$('#mySelect2').trigger('change.select2');
-
-		//$("#targetStopid").val(null).trigger('change');
-		$("#stop_name").val(e.geocode.name);
-		$("#wheelchair").val('');
-		$("#newlatlng").val('');
-		$("#zone_id").val('');
-
-		// Show the Edit tab:
-		$('#myTab a[href="#edit"]').tab('show');
+		// Show the new tab:
+		$('#myTab a[href="#new"]').tab('show');
 
 		console.log(latlng);
-		dragmarker.setLatLng(e.geocode.center);
-		updateLatLng(dragmarker.getLatLng());
+		dragmarker.setLatLng(e.geocode.center);		
 		dragmarker.addTo(map);
+		map.panTo(e.geocode.center);
 	})
 	.addTo(map);
 

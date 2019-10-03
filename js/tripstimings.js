@@ -769,7 +769,7 @@ function addTrip() {
 		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
 
 		let sequence = sequenceHolder[dirIndex];
-		var last_stop_id = sequence[sequence.length - 1].stop_id;
+		var last_stop_id = sequence[sequence.length - 1];// .stop_id;
 		var trip_headsign = allStopsKeyed.find(x => x.stop_id === last_stop_id).stop_name;
 		var trip_short_name = chosenRouteShortName + ' ' + trip_time + ' to ' + trip_headsign;
 		var shape_id = '';
@@ -830,7 +830,7 @@ function populateStopTimesFromSequence(trip_id, direction_id) {
 		let row = {};
 		row['trip_id'] = trip_id;
 		row['stop_sequence'] = parseInt(i) + 1;
-		row['stop_id'] = list[i].stop_id;
+		row['stop_id'] = list[i];//.stop_id;
 		row['timepoint'] = 0;
 		// row['arrival_time'] = '';
 		// row['departure_time'] = '';
@@ -845,7 +845,7 @@ function populateStopTimesFromSequence(trip_id, direction_id) {
 				var diffInDays = newtime.get('date') - old.get('date');
 				console.log(diffInDays);
 				if (diffInDays > 0 && position != 0) {
-					// If this is the start row then the calculation is nog necessary
+					// If this is the start row then the calculation is not necessary
 					days = diffInDays;
 					largerthen24 = true;
 				}

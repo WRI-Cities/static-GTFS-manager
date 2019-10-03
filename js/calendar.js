@@ -198,8 +198,7 @@ $('body').on('change', 'input[id^="check"]', function() {
 		}
 		else {		
 			calendarDates.hideColumn(column);
-			calendarDates.redraw();
-		
+			calendarDates.redraw();		
 		}
 	}
 	else {
@@ -233,12 +232,17 @@ $(document).on("click","#LinkDownloadCalendarJSON", function () {
 
 // Quick Adds:
 
-$("#AddServiceFullweek").on("click", function(){
+$("#AddServiceFullweek").on("click", function(){	
 	var filteredEvents = service.getData().filter(function(service){
 		return service.service_id == 'FULLWEEK';
 	});
 	if (filteredEvents.length == 0) {
-		service.addRow([{ 'service_id': 'FULLWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 1, sunday: 1 }]);
+		// Gernerate a start and enddate
+		var rightNow = new Date();
+		ydm = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		rightNowPlus1Year = rightNow.setFullYear(rightNow.getFullYear() + 1);
+		ydmplusone = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		service.addRow([{ 'service_id': 'FULLWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 1, sunday: 1, start_date: ydm, end_date: ydmplusone }]);
 	}
 	else {
 		$.toast({
@@ -256,7 +260,11 @@ $("#AddServiceWorkweek").on("click", function(){
 		return service.service_id == 'WORKWEEK';
 	});
 	if (filteredEvents.length == 0) {
-		service.addRow([{ 'service_id': 'WORKWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0 }]);
+		var rightNow = new Date();
+		ydm = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		rightNowPlus1Year = rightNow.setFullYear(rightNow.getFullYear() + 1);
+		ydmplusone = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		service.addRow([{ 'service_id': 'WORKWEEK', 'monday': 1, tuesday: 1, wednesday: 1, thursday: 1, friday: 1, saturday: 0, sunday: 0, start_date: ydm, end_date: ydmplusone }]);
 	}
 	else {
 		$.toast({
@@ -274,7 +282,11 @@ $("#AddServiceWeekend").on("click", function(){
 		return service.service_id == 'WEEKEND';
 	});
 	if (filteredEvents.length == 0) {
-		service.addRow([{ 'service_id': 'WEEKEND', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 1 }]);
+		var rightNow = new Date();
+		ydm = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		rightNowPlus1Year = rightNow.setFullYear(rightNow.getFullYear() + 1);
+		ydmplusone = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		service.addRow([{ 'service_id': 'WEEKEND', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 1, start_date: ydm, end_date: ydmplusone }]);
 	}
 	else {
 		$.toast({
@@ -292,7 +304,11 @@ $("#AddServiceSaterday").on("click", function(){
 		return service.service_id == 'SATERDAY';
 	});
 	if (filteredEvents.length == 0) {
-		service.addRow([{ 'service_id': 'SATERDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0 }]);
+		var rightNow = new Date();
+		ydm = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		rightNowPlus1Year = rightNow.setFullYear(rightNow.getFullYear() + 1);
+		ydmplusone = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		service.addRow([{ 'service_id': 'SATERDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 1, sunday: 0, start_date: ydm, end_date: ydmplusone }]);
 	}
 	else {
 		$.toast({
@@ -310,7 +326,11 @@ $("#AddServiceSunday").on("click", function(){
 		return service.service_id == 'SUNDAY';
 	});
 	if (filteredEvents.length == 0) {
-		service.addRow([{ 'service_id': 'SUNDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1 }]);
+		var rightNow = new Date();
+		ydm = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		rightNowPlus1Year = rightNow.setFullYear(rightNow.getFullYear() + 1);
+		ydmplusone = rightNow.toISOString().slice(0, 10).replace(/-/g, '');
+		service.addRow([{ 'service_id': 'SUNDAY', 'monday': 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 1, start_date: ydm, end_date: ydmplusone }]);
 	}
 	else {
 		$.toast({
