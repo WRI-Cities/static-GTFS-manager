@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<!-- Required meta tags-->
 	<meta charset="UTF-8">
@@ -44,7 +45,6 @@
 			height: 255px;
 		}
 
-
 		#replace-stops-table {
 			height: 150px;
 		}
@@ -58,12 +58,12 @@
 		}
 
 		/* Leaflet maps: */
-		#map {
+		#map {			
 			height: 400px;
 			width: 100%;
 		}
 
-		#smallMap {
+		#smallMap {			
 			height: 300px;
 			width: 350px;
 			/*
@@ -79,58 +79,7 @@
 		.routeCard {
 			font-size: .9em;
 			padding: 3px;
-		}
-
-		/* accordions.. being in tabs maybe they get v.small height by default. so have to give them heigh. */
-		.routeOptions .ui-accordion-content {
-			background: lavender;
-			font-size: .9em;
-			height: 280px;
-		}
-
-		.routeSequence .ui-accordion-content {
-			height: 500px;
-		}
-
-
-		.smallTables .ui-accordion-content {
-			font-size: .9em;
-			height: 400px;
-		}
-
-		/* For sequence sortable */
-		.sortable {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			width: 250px;
-		}
-
-		.sortable li {
-			margin: 0 0 5px 0;
-			padding: 5px;
-			font-size: 0.9em;
-			height: 2em;
-		}
-
-		/*
-html>body .sortable li { height: 1.5em; line-height: 1.2em; }
-*/
-		.ui-state-highlight {
-			height: 1.5em;
-			line-height: 1.2em;
-		}
-
-		.ui-sort-position {
-			text-align: center;
-			font-size: 3.8em;
-		}
-
-
-		ol.sortable {
-			list-style-position: inside;
-			list-style-type: decimal;
-		}
+		}		
 		
 		/* left and right spans in same line. from https://stackoverflow.com/a/5067308/4355695 */
 		/*.left { float:left }*/
@@ -138,7 +87,7 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 			float: right
 		}
 
-		/* override jquery's */		
+		/* override jquery's */
 
 		.routeSequence>div>ol>li>a:hover {
 			color: red;
@@ -150,8 +99,9 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 			font-weight: bold;
 		}
 	</style>
-		<script src="config/settings.js" type="text/javascript"></script>
+	<script src="config/settings.js" type="text/javascript"></script>
 </head>
+
 <body class="page-content--bgf7">
 	<div class="page-wrapper">
 		<!-- HEADER DESKTOP-->
@@ -271,17 +221,19 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 													<br>
 													<div class="row">
 														<div class="col">
-
-															<p>Add a new station: <input placeholder="stop_id" id="station2add" size="4"><button class="btn-primary" id="addStation" type="button">Add</button>
-																<br><small id="stationAddStatus"></small></p>
-
-
+															<div class="form-group row">
+																<label for="station2add" class="col-sm-5 col-form-label">Add a new station:</label>
+																<div class="col-sm-5">
+																	<input id="station2add" class="form-control" type="text">
+																</div>
+																<div class="col-sm-2">
+																	<button class="btn btn-primary" id="addStation" type="button">Add</button>
+																</div>
+															</div>
+															<small id="stationAddStatus"></small>
 														</div>
 														<div class="col">
-
-															<button id="stopsDownloadButton">Download this data as
-																CSV</button>
-
+															<button id="stopsDownloadButton" class="btn btn-secondary">Download this data as CSV</button>
 														</div>
 													</div>
 													<br><br>
@@ -303,40 +255,56 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 										<div class="tab-pane fade" id="Misc" role="tabpanel" aria-labelledby="Misc-tab">
 											<h3>3. Misc Info</h3>
 											<div class="row">
-
-
 												<div class="col-md-5">
-
 													<h5>Agency Info <span id="agency-check"></span></h5>
-													<p><small>
-															<label title="Short, unique internal code for agency, like KMRL">agency_id
-																<red>*</red> :
-																<input required id="agency_id" size="5"></label><br>
-															<label title="Official name of agency">agency_name <red>*
-																</red> :
-																<input required id="agency_name" size="20"></label><br>
-															<!--
-	<label title="Local language translation of name of agency">agency_name translation: 
-		<input id="agency_name_translation" size="10"></label><br>
-	-->
-															<label title="Official website of agency">agency_url <red>*
-																</red> :
-																<input required id="agency_url" size="25"></label><br>
-															<label>agency_timezone <red>*</red> :
-																<input required id="agency_timezone" size="10"></label>
-														</small></p>
-													<hr>
-
+													<div class="form-group row">
+														<label for="agency_id" class="col-sm-4 col-form-label">agency_id <red>*</red> :</label>
+														<div class="col-sm-8">
+															<input required id="agency_id" class="form-control">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label for="agency_name" class="col-sm-4 col-form-label">agency_name <red>*
+															</red> :</label>
+														<div class="col-sm-8">
+															<input required id="agency_name" class="form-control">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label for="agency_url" class="col-sm-4 col-form-label">agency_url <red>*
+															</red> :</label>
+														<div class="col-sm-8">
+															<input required id="agency_url" class="form-control">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label for="agency_timezone" class="col-sm-4 col-form-label">agency_timezone <red>*
+															</red> :</label>
+														<div class="col-sm-8">
+															<input required id="agency_timezone" class="form-control">
+														</div>
+													</div>
 													<h5>Calendar <span id="calendar-check"></span></h5>
-													<p><small><label title="Date from which the uploaded schedule is in operation, in YYYYMMDD format.">Start
-																date <red>*</red> : <input required id="start_date" size="8" placeholder="YYYYMMDD"></label><br>
-															<label title="Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.">End
-																date <red>*</red> : <input required id="end_date" size="8" placeholder="YYYYMMDD" value="20990101"></label></small></p>
-
+													<div class="form-group row">
+														<label for="start_date" class="col-sm-4 col-form-label">Start date <red>*</red> :</label>
+														<div class="col-sm-8">
+															<input required id="start_date" class="form-control" placeholder="YYYYMMDD">
+															<small id="end_dateHelpBlock" class="form-text text-muted">
+																Date from which the uploaded schedule is in operation, in YYYYMMDD format.
+															</small>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label for="end_date" class="col-sm-4 col-form-label">End date <red>*</red> :</label>
+														<div class="col-sm-8">
+															<input required id="end_date" class="form-control" placeholder="YYYYMMDD" value="20990101">
+															<small id="end_dateHelpBlock" class="form-text text-muted">
+																Needed as a formality. Tentative last date of operation of uploaded schedule, in YYYYMMDD format. Can put any value till 2099. Can change later.
+															</small>
+														</div>
+													</div>
 													<hr>
-													<br>
 													<h5>Stops Replacement</h5>
-
 													<p>This table is for setting the correct stop_id's for platforms.
 														Example: At Ameerpet, Blue Line uses platform 4 and Red Line
 														uses platform 2.</p>
@@ -356,13 +324,15 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 													<h5>Fares <span id="fares-check"></span></h5>
 													<p>Upload Fares Chart CSV : (<a target="_blank" href="hydcsv_related/fares_chart_pivoted.csv">get
 															template</a>)</p>
-
-													<small>
-														<p><input type="file" id="fareChart" name="fareChart" accept=".csv" class="btn btn-sm btn-outline-secondary">
-														</p>
-														<p>Note: This is optional. If no file is chosen, fare_rules file
-															won't be created.</p>
-													</small>
+													<div class="form-group row">
+														<label for="fareChart" class="col-sm-4 col-form-label">Fare chart file</label>
+														<div class="col-sm-8">
+															<input type="file" id="fareChart" class="form-control-file" accept=".csv" name="fareChart">
+															<small id="fareChartHelpBlock" class="form-text text-muted">
+																Note: This is optional. If no file is chosen, fare_rules file won't be created.
+															</small>
+														</div>
+													</div>
 													<br>
 													<p>Assign Fare ID's:</p>
 													<div class="row">
@@ -370,10 +340,17 @@ html>body .sortable li { height: 1.5em; line-height: 1.2em; }
 															<div id="fareIDs-table"></div>
 														</div>
 														<div class="col-md-6" id="fareAddBox">
-															<p>Add a fare</p>
-															<p><input placeholder="ex:50" id="fare2add" size="4"><button class="btn-primary" id="fare2addButton" type="button">Add</button>
-															</p>
-															<br><br>
+															<div class="form-group row">
+																<label for="fare2add" class="col-sm-4 col-form-label">Add a fare</label>
+																<div class="col-sm-6">
+																	<input placeholder="ex:50" id="fare2add" type="text" class="form-control">
+
+																</div>
+																<div class="col-sm-2">
+																	<button class="btn btn-primary" id="fare2addButton" type="button">Add</button>
+																</div>
+															</div>
+
 															<p class="alert alert-warning"><small>Please ensure that all
 																	the fare prices mentioned in the fares chart csv
 																	above have been assigned a fare_id here.</small></p>

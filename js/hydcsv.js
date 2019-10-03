@@ -10,6 +10,10 @@ var globalNumRoutes = 0;
 var globalStopsList = [];
 var smallMaps = []; // holder for small maps for sequences
 
+var trashIcon = function (cell, formatterParams, onRendered) { //plain text value
+	return "<i class='fas fa-trash-alt'></i>";
+};
+
 // #######################
 // initiate map
 var defaultlayer = cfg.MapProviders.find(x => x.default === true);
@@ -106,7 +110,7 @@ var stops = new Tabulator("#stops-table", {
 	index: "stop_id",
 	addRowPos: "top",
 	movableColumns: true,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ title: "stop_id", field: "stop_id", headerFilter: "input", editor: "input", validator: ["required", "string", "minLength:1"], headerSort: false, frozen: true, bottomCalc: true, minWidth: "100" },
 		{ title: "stop_name", field: "stop_name", editor: "input", headerFilter: "input", validator: ["required", "string", "minLength:1"], headerSort: false, minWidth: "170" },
@@ -121,7 +125,7 @@ var missingstops = new Tabulator("#missing-stops-table", {
 	index: "stop_id",
 	addRowPos: "top",
 	movableColumns: false,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ title: "route_id", field: "route_id", editor: "input" },
 		{ title: "stop_id", field: "stop_id", editor: "input" },
@@ -132,11 +136,10 @@ var missingstops = new Tabulator("#missing-stops-table", {
 		{ title: "benchmark_arrival_change", field: "benchmark_arrival_change", editor: "input" },
 		{ title: "benchmark_departure_change", field: "benchmark_departure_change", editor: "input" },
 		{
-			formatter: "buttonCross", align: "center", title: "del", headerSort: false, width: "40", cellClick: function (e, cell) {
-				cell.getRow().delete();
+			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
+				cell.getRow().delete();			
 			}
 		}
-
 	]
 });
 
@@ -145,14 +148,14 @@ var replacestops = new Tabulator("#replace-stops-table", {
 	index: "stop_id",
 	addRowPos: "top",
 	movableColumns: false,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ title: "route_id", field: "route_id", editor: "input" },
 		{ title: "stop_id", field: "stop_id", editor: "input" },
 		{ title: "replace_with", field: "replace_with", editor: "input" },
 		{
-			formatter: "buttonCross", align: "center", title: "del", headerSort: false, width: "40", cellClick: function (e, cell) {
-				cell.getRow().delete();
+			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
+				cell.getRow().delete();			
 			}
 		}
 	]
@@ -167,8 +170,8 @@ var fareid = new Tabulator("#fareIDs-table", {
 		{ title: "price", field: "price", editor: "input" },
 		{ title: "fare_id", field: "fare_id", editor: "input" },
 		{
-			formatter: "buttonCross", align: "center", title: "del", headerSort: false, width: "40", cellClick: function (e, cell) {
-				cell.getRow().delete();
+			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
+				cell.getRow().delete();			
 			}
 		}
 	]
@@ -179,16 +182,16 @@ var translations = new Tabulator("#translations-table", {
 	index: "trans_id",
 	addRowPos: "top",
 	movableColumns: false,
-	layout: "fitDataFill",
+	layout: "fitColumns",
 	columns: [
 		{ title: "Sr", width: 40, formatter: "rownum", headerSort: false }, // row numbering
-		{ title: "English", field: "English", editor: "input", width: "200" },
-		{ title: "Telegu", field: "Telegu", editor: "input", width: "200" },
-		{ title: "Urdu", field: "Urdu", editor: "input", width: "200" },
-		{ title: "Hindi", field: "Hindi", editor: "input", width: "200" },
+		{ title: "English", field: "English", editor: "input" },
+		{ title: "Telegu", field: "Telegu", editor: "input" },
+		{ title: "Urdu", field: "Urdu", editor: "input" },
+		{ title: "Hindi", field: "Hindi", editor: "input" },
 		{
-			formatter: "buttonCross", align: "center", title: "del", headerSort: false, width: "40", cellClick: function (e, cell) {
-				cell.getRow().delete();
+			formatter: trashIcon, align: "center", title: "del", headerSort: false, cellClick: function (e, cell) {
+				cell.getRow().delete();			
 			}
 		}
 	]
@@ -226,18 +229,36 @@ $(document).ready(function () {
 		//loadMissingStopsRules();
 		loadFares(config.fares);
 	});
-
-
-
-	/*
-	$( "#sortable" ).sortable({
-	  placeholder: "ui-state-highlight",
-	  axis: "y"
-	});
-	$( "#sortable" ).disableSelection();
-	*/
-
 });
+
+// Capture document events for the dynamic generated html code
+$(document).on('click', 'a.delSortElement', function (e) {
+	e.preventDefault();
+	console.log('firing?');
+	$(this).parent().hide('slow', complete = function (e) { this.remove(); });
+	// from http://jsfiddle.net/K3Kxg/, https://stackoverflow.com/a/19839253/4355695
+});
+// Because of tabs click we have to redraw tabulator and leafletmaps.
+$('.nav-tabs a[href="#Stations"]').on('shown.bs.tab', function () {
+	stops.redraw();	
+	map.invalidateSize();	
+	map.fitBounds(stopsLayer.getBounds());
+});
+
+$('.nav-tabs a[href="#Misc"]').on('shown.bs.tab', function () {
+	fareid.redraw();	
+});
+// On Collatpse event redraw the tables
+$('#collapseReplaceStopTable').on('shown.bs.collapse', function () {
+	replacestops.redraw();
+});
+$('#collapseMissingStopsTable').on('shown.bs.collapse', function () {
+	missingstops.redraw();
+});
+$('#collapseTranslationsTable').on('shown.bs.collapse', function () {
+	translations.redraw();
+});
+
 
 //###################
 // Buttons
@@ -424,9 +445,7 @@ function createCSVUploads(n) {
 			sequence = config.routes[i].route_sequence;
 		} else {
 			sequence = [];
-		}
-		console.log('Sequence:');
-		console.log(sequence);
+		}		
 		for (x = 0; x < sequence.length; x++) {
 			let stop_id = sequence[x];
 			let stop_name = stops.getRow(stop_id).getData().stop_name;
@@ -498,14 +517,7 @@ function createCSVUploads(n) {
 		// });
 		//$(`#sortable${i}`).disableSelection();
 	}
-
-	// sortable: delete element from list
-	$('a.delSortElement').click(function (e) {
-		e.preventDefault();
-		console.log('firing?');
-		$(this).parent().hide('slow', complete = function (e) { this.remove(); });
-		// from http://jsfiddle.net/K3Kxg/, https://stackoverflow.com/a/19839253/4355695
-	});
+	
 
 	//$("#routeUploadRepeater").show('drop','slow');
 	$("#routeUploadRepeater").slideDown('slow');
@@ -719,13 +731,6 @@ function createSequences(n) {
 	}
 	$("#sequenceHolder").show('drop','slow');
 
-	// sortable: delete element from list
-	$('a.delSortElement').click(function(e){
-		e.preventDefault();
-		console.log('firing?');
-		$(this).parent().parent().hide('slow', complete=function(e){ this.remove(); });
-		// from http://jsfiddle.net/K3Kxg/, https://stackoverflow.com/a/19839253/4355695
-	});
 
 }
 */
@@ -740,16 +745,7 @@ function add2SequenceFunc(val, i) {
                         ${stop_id}: ${stop_name}                        
                         <a href="#" class="delSortElement red"><i class="fas fa-trash-alt"></i></a>                        
                         </li>			
-			`);
-	//window[`Sortable{i}`].sortable('refresh');
-
-	// may have to issue this again since refreshing sortable
-	// sortable: delete element from list
-	$('a.delSortElement').click(function (e) {
-		e.preventDefault();
-		$(this).parent().parent().hide('slow', complete = function (e) { this.remove(); });
-		// from http://jsfiddle.net/K3Kxg/, https://stackoverflow.com/a/19839253/4355695
-	});
+			`);	
 }
 
 function sequenceTest(i) {
