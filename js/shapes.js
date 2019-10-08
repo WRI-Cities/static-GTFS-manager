@@ -3,7 +3,7 @@
 
 var shapeTotal = function (values, data, calcParams) {
 	var calc = values.length;
-	return calc + ' agencies total';
+	return calc + ' shapes rows total';
 }
 
 var trip_id_list = {};
@@ -670,16 +670,15 @@ function uploadLayer() {
 		map.removeLayer(FileShapeLayer);
 		layerControl.removeLayer(FileShapeLayer);
 	}
-	// Loop thhrough each selected layer This is called when there are more then 1 linestrings.
-	var multicoords = [];
-	$.each($("input[name='CheckLayer']:checked"), function () {
-		var coords = [];
+	// Only process the selected layer.
+	var coords = [];
+	$.each($("input[name='CheckLayer']:checked"), function () {		
 		LineStringlayers[$(this).val()].geometry.coordinates.forEach(function (coord) {
 			coords.push([coord[1], coord[0]]);
 		});
-		multicoords.push(coords);
+		//multicoords.push(coords);
 	});
-	FileShapeLayer = L.polyline(multicoords, { color: 'orange', weight: 3 });
+	FileShapeLayer = L.polyline(coords, { color: 'orange', weight: 3 });
 	map.addLayer(FileShapeLayer);
 	layerControl.addOverlay(FileShapeLayer, 'File Based Shape');
 	map.fitBounds(FileShapeLayer.getBounds());
