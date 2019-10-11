@@ -619,7 +619,7 @@ function uploadShape() {
 function storeResults(result, filename, extension) {
 	var GeojsonLayer = convertToGeoJson(result, extension);
 	var geojsonFeature = JSON.parse(GeojsonLayer[0]);
-	// Filter out all the linestrings.
+	// Filter out all the linestrings.	
 	LineStringlayers = geojsonFeature.features.filter(x => x.geometry.type == "LineString");
 	if (LineStringlayers.length > 1) {
 		// Need to filter the Linestring layers
@@ -634,8 +634,9 @@ function storeResults(result, filename, extension) {
 		$("#uploadShapeButton").hide();
 		// Add Layers button
 		$("#uploadLayerButton").show();
-		LineStringlayers.forEach(function (feature, index) {
-			var name = (feature.properties.name) ? feature.properties.name : "Undefined";
+		LineStringlayers.forEach(function (feature, index) {		
+			// If a featue has no name, ten dump al properties, to make it possible to make a selection.	
+			var name = (feature.properties.name) ? feature.properties.name : Object.values(feature.properties)//"Undefined";
 			var CheckboxHTML = `<div class="form-check">
 				<input class="form-check-input" type="radio" id="Layer${index}" name="CheckLayer" value="${index}">
 				<label class="form-check-label" for="Layer${index}">

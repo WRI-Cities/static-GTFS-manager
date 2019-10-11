@@ -212,6 +212,11 @@ $('.nav-tabs a[href="#stoptimes"]').on('shown.bs.tab', function (event) {
 	}
 });
 
+var timeValidator = function(cell, value, parameters){ 
+	var r = /^(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)$/ 
+	return r.test(value)
+};
+
 var stoptimesTable = new Tabulator("#stop-times-table", {
 	selectable: 0,
 	index: 'stop_sequence',
@@ -235,12 +240,12 @@ var stoptimesTable = new Tabulator("#stop-times-table", {
 					stop_name = allStopsKeyed.find(x => x.stop_id === stop_id).stop_name;
 				}
 				// return the stop_name				
-				return  stop_name;
+				return stop_name;
 			} 
 		},
 		// to do: validation for hh:mm:ss and accepting hh>23
-		{ title: "arrival_time", field: "arrival_time", editor: "input", headerFilter: "input", validator: "regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort: false },
-		{ title: "departure_time", field: "departure_time", editor: "input", headerFilter: "input", validator: "regex:\\(?:[012345]\d):(?:[012345]\d):(?:[012345]\d)", headerSort: false },
+		{ title: "arrival_time", field: "arrival_time", editor: "input", headerFilter: "input", validator: timeValidator, headerSort: false },
+		{ title: "departure_time", field: "departure_time", editor: "input", headerFilter: "input", validator: timeValidator, headerSort: false },
 		{ title: "timepoint", field: "timepoint", headerFilter: "input", editor: "select", editorParams: { values: { 0: "0 - Estimated", 1: "1 - Accurate", "": "blank - Accurate" } }, headerSort: false },
 		{ title: "shape_dist_traveled", field: "shape_dist_traveled", editor: "input", headerFilter: "input", validator: ["numeric", "min:0"], headerSort: false },
 		{ title: "pickup_type", field: "pickup_type", editor: "select", editorParams: { values: pickup_type } },
@@ -768,8 +773,8 @@ function addTrip() {
 		// to do: change this, adopt naming conventions.
 		//var trip_id = `${route_id}.${service_id}.${dirIndex}.${}` + '.'pad(counter);
 
-		let sequence = sequenceHolder[dirIndex];
-		var last_stop_id = sequence[sequence.length - 1];// .stop_id;
+		//var sequence = sequenceHolder[dirIndex];
+		var last_stop_id = sequenceHolder[dirIndex][sequenceHolder[dirIndex].length - 1].stop_id;
 		var trip_headsign = allStopsKeyed.find(x => x.stop_id === last_stop_id).stop_name;
 		var trip_short_name = chosenRouteShortName + ' ' + trip_time + ' to ' + trip_headsign;
 		var shape_id = '';
@@ -830,7 +835,7 @@ function populateStopTimesFromSequence(trip_id, direction_id) {
 		let row = {};
 		row['trip_id'] = trip_id;
 		row['stop_sequence'] = parseInt(i) + 1;
-		row['stop_id'] = list[i];//.stop_id;
+		row['stop_id'] = list[i].stop_id;
 		row['timepoint'] = 0;
 		// row['arrival_time'] = '';
 		// row['departure_time'] = '';
