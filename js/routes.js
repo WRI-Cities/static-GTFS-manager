@@ -3,63 +3,111 @@
 var allStops = [], stop_id_list =[], remaining0=[], remaining1=[], route_id_list=[];
 var selected_route_id = '', globalShapesList=[], uploadedShapePrefix = '';
 
+var GTFSDefinedColumns = ["route_id","agency_id","route_short_name","route_long_name","route_type","route_color","route_text_color","agency_id"];
+
 // #########################################
 // Function-variables to be used in tabulator
 
-var agencyListGlobal = {}; // global variable
+var agencyListGlobal ={};
+
 var agencyLister = function(cell) {
 	return agencyListGlobal;
-	// needs to be declared earlier but the variable referenced in it is a global one that will change later
-	// this function will get called every time user clicks the dropdown
-	//	getPythonAgency() function will make API call and load agencies listin into this global variable.
-}
+} 
 
-var routesTotal = function(values, data, calcParams){
-	var calc = values.length;
-	return calc + ' routes total';
-}
+var footerHTML = DefaultTableFooter;
+const saveButton = "<button id='saveRoutes' class='btn btn-outline-primary' disabled>Save Routes Changes</button>";
+footerHTML = footerHTML.replace('{SaveButton}', saveButton);
+footerHTML = footerHTML.replace('{FastAdd}','');
 
 // #########################################
 // Construct tables
-$("#routes-table").tabulator({
+var table = new Tabulator("#routes-table", {
 	selectable:0,
 	index: 'route_id',
 	movableRows: true,
 	//history:true,
 	addRowPos: "top",
 	movableColumns: true,
-	layout:"fitDataFill",
+	layout: "fitColumns", //fit columns to width of table (optional)
 	ajaxURL: APIpath + 'tableReadSave?table=routes', //ajax URL
 	ajaxLoaderLoading: loaderHTML,
+	footerElement: footerHTML,
 	columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30 },
-		{title:"Num", width:40, formatter: "rownum",  frozen:true,}, // row numbering
-		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars },
-		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name" },
-		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name", bottomCalc:routesTotal },
-		{title:"route_type", field:"route_type", editor:"select", editorParams:route_type_options, formatter:"lookup", formatterParams:route_type_lookup, headerSort:false },
-		{title:"route_color", field:"route_color", headerSort:false, editor:"input" },
-		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:"input" },
-		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:agencyLister, tooltip:"Needed to fill when there is more than one agency." }
+		{title:"Num", width:40, formatter: "rownum",  frozen:true,download:true}, // row numbering
+		{title:"route_id", field:"route_id", frozen:true, headerFilter:"input", headerFilterPlaceholder:"filter by id", validator:tabulator_UID_leastchars,download:true },
+		{title:"route_short_name", field:"route_short_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name",download:true },
+		{title:"route_long_name", field:"route_long_name", editor:"input", headerFilter:"input", headerFilterPlaceholder:"filter by name",download:true },
+		{title:"route_type", field:"route_type", editor:select2RouteEditor, headerSort:false,download:true },
+		{title:"route_color", field:"route_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true},
+		{title:"route_text_color", field:"route_text_color", headerSort:false, editor:ColorEditor,formatter:"color",download:true },
+		{title:"agency_id", field:"agency_id", headerSort:false, editor:"select", editorParams:{values:agencyListGlobal}, tooltip:"Needed to fill when there is more than one agency.",download:true }
 	],
 	dataLoaded:function(data) {
 		// this fires after the ajax response and after table has loaded the data. 
 		console.log(`GET request to tableReadSave table=routes successfull.`);
-		
-		var dropdown = '<option value="">Select a route</option>';
-		data.forEach(function(row){
-			dropdown += '<option value="' + row['route_id'] + '">' + row['route_short_name'] + ': ' + row['route_long_name'] + '</option>';
-		});
-
-		$("#routeSelect").html(dropdown);
-		$('#routeSelect').trigger('chosen:updated'); // update if re-populating
-		$('#routeSelect').chosen({disable_search_threshold: 1, search_contains:true, width:300});
-
 	},
 	ajaxError:function(xhr, textStatus, errorThrown){
 		console.log('GET request to tableReadSave table=routes failed.  Returned status of: ' + errorThrown);
+	},
+	dataEdited: function (data) {
+		// The dataEdited callback is triggered whenever the table data is changed by the user. Triggers for this include editing any cell in the table, adding a row and deleting a row.
+		$('#saveRoutes').removeClass().addClass('btn btn-primary');
+		$('#saveRoutes').prop('disabled', false);
+	},
+	rowUpdated:function(row){
+		// The rowUpdated callback is triggered when a row is updated by the updateRow, updateOrAddRow, updateData or updateOrAddData, functions.
+		$('#saveRoutes').removeClass().addClass('btn btn-primary');
+		$('#saveRoutes').prop('disabled', false);
+	},	
+	dataLoaded:function(data){
+		// parse the first row keys if data exists.
+		if (data.length > 0) {
+			AddExtraColumns(Object.keys(data[0]), GTFSDefinedColumns, table);
+		}
+		else {
+			console.log("No data so no columns");
+		}
+		var NumberofRows = data.length + ' row(s)';
+		$("#NumberofRows").html(NumberofRows);
 	}
-	
+});
+
+// Toggles for show hide columns in stop table.
+
+$('body').on('change', 'input[id^="check"]', function() {
+	var column = this.id.replace('check','');
+	if(this.checked) {		
+		table.showColumn(column);
+        table.redraw();
+    }
+    else {		
+		table.hideColumn(column);
+        table.redraw();
+    }
+});
+
+$(document).on("click","#LinkDownloadCSV", function () {
+	table.download("csv", "routes.csv");
+});
+
+$(document).on("click","#LinkDownloadJSON", function () {
+	table.download("json", "routes.json");
+});
+
+$(document).on("click", "#LinkAddColumn", function () {
+	addColumntoTable(table);
+});
+
+$(document).on("click", "#LinkDeleteColumn", function () {
+	RemoveExtraColumns(table, GTFSDefinedColumns, 'table');
+});
+
+$(document).on("click", "#DeleteColumnButton", function () {
+	DeleteExtraColumns(table);
+});
+$(document).on("click", "#LinkShowHideColumn", function () {
+	ShowHideColumn(table);
 });
 
 // #########################################
@@ -70,6 +118,13 @@ $(document).ready(function() {
 	//getPythonRoutes(); // load routes.. for routes management.
 	//getPythonAllShapesList();
 
+	var DownloadContent = "";
+	DownloadLinks.forEach(function(downloadtype) {
+		DownloadContent += '<a class="dropdown-item" href="#" id="LinkDownload'+downloadtype+'">Download '+downloadtype+'</a>';		                
+	});
+	$("#DownloadsMenu").html(DownloadContent);
+
+
 });
 
 // #########################################
@@ -78,9 +133,8 @@ $(document).ready(function() {
 $("#addRoute").on("click", function(){
 	var agency_id = $('#agencySelect').val().replace(/[^A-Za-z0-9-_.]/g, "");
 	if(! agency_id.length) return;
-	let data = $("#routes-table").tabulator("getData");
-	route_id_list = data.map(a => a.route_id); 
-
+	let data = table.getData();
+	route_id_list = data.map(a => a.route_id);
 	var counter = 1;
 	while ( route_id_list.indexOf(agency_id + pad(counter) ) > -1 ) counter++;
 
@@ -88,9 +142,15 @@ $("#addRoute").on("click", function(){
 	
 	console.log(route_id);
 
-	$("#routes-table").tabulator('addRow',{route_id: route_id, agency_id:agency_id, route_short_name:route_id},true);
+	table.addRow([{route_id: route_id, agency_id:agency_id, route_short_name:route_id}],true);
 	$('#route2add').val('');
-	$('#routeAddStatus').html('Route added with id ' + route_id + '. Fill its info in the table and then save changes.');
+	$.toast({
+		title: 'Add Route',
+		subtitle: 'Adding',
+		content: 'Route added with id ' + route_id + '. Fill its info in the table and then save changes.',
+		type: 'success',
+		delay: 3000
+	  });	
 });
 
 $("#saveRoutes").on("click", function(){
@@ -103,13 +163,17 @@ $("#saveRoutes").on("click", function(){
 // Save, send data to python server
 
 function saveRoutes() {
-	$('#routeSaveStatus').html('');
-
-	var data=$('#routes-table').tabulator('getData');
+	var data=table.getData();
 
 	var pw = $("#password").val();
 	if ( ! pw ) { 
-		$('#routeSaveStatus').html('<span class="alert alert-danger">Please enter the password.</span>');
+		$.toast({
+			title: 'Save Route',
+			subtitle: 'No password provided.',
+			content: 'Please enter the password.',
+			type: 'error',
+			delay: 5000
+		});
 		shakeIt('password'); return;
 	}
 
@@ -122,12 +186,27 @@ function saveRoutes() {
 	xhr.onload = function () {
 		if (xhr.status === 200) {
 			console.log('Successfully sent data via POST to server API tableReadSave table=routes, response received: ' + xhr.responseText);
-			$('#routeSaveStatus').html('<span class="alert alert-success">Saved changes to routes DB.</span>');
+			$.toast({
+				title: 'Save Routes',
+				subtitle: 'Saved',
+				content: 'Saved changes to routes DB',
+				type: 'success',
+				delay: 5000
+			});			
 			// reload routes data from DB, and repopulate route selector for sequence
-			$("#routes-table").tabulator("setData");
-		} else {
+			table.setData();
+			$('#saveRoutes').removeClass().addClass('btn btn-outline-primary');
+			$('#saveRoutes').prop('disabled', true);
+		}
+		 else {
 			console.log('Server POST request to tableReadSave table=routes failed. Returned status of ' + xhr.status + ', response: ' + xhr.responseText );
-			$('#routeSaveStatus').html('<span class="alert alert-danger">Failed to save. Message: ' + xhr.responseText + '</span>');
+			$.toast({
+				title: 'Save Routes',
+				subtitle: 'Error saving',
+				content: xhr.responseText,
+				type: 'error',
+				delay: 5000
+			});				
 		}
 	}
 	xhr.send(JSON.stringify(data)); // this is where POST differs from GET : we can send a payload instead of just url arguments.
@@ -144,20 +223,22 @@ function getPythonAgency() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded agency data from Server API/agency .`);
 			var data = JSON.parse(xhr.responseText);
-			var dropdown = '<option value="">Select agency</option>'
-			var selectedFlag = false;
 			data.forEach(function(row){
-				agencyListGlobal[''] = '(None)';
-				agencyListGlobal[row['agency_id']] = row['agency_id'] + ': ' + row['agency_name'];
-				var select = '';
-				if(!selectedFlag) {
-					select = '  selected="selected"'; selectedFlag = true;
-				}
-				dropdown += '<option value="' + row['agency_id'] + '"' + select + '>' + row['agency_id'] + ': ' + row['agency_name'] + '</option>';
+				// Push the list of agencies for use in column agency_id
+				agencyListGlobal[ row.agency_id ] = row.agency_name;				
+			});			
+			var select2items = $.map(data, function (obj) {
+				obj.id = obj.id || obj.agency_id; // replace identifier
+				obj.text = obj.text || obj.agency_id + " - " + obj.agency_name
+				return obj;
 			});
-			$('#agencySelect').html(dropdown);
-			$('#agencySelect').trigger('chosen:updated');
-			$('#agencySelect').chosen({disable_search_threshold: 1, search_contains:true, width:200});
+							
+			$("#agencySelect").select2({
+				tags: false,
+				placeholder: 'Select agency',
+				data: select2items,
+				theme: "bootstrap4"
+			});
 
 		}
 		else {

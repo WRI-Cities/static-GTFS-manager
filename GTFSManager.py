@@ -7,6 +7,10 @@ import tornado.ioloop
 import json
 import os
 import time, datetime
+# import url handlers
+from handlers.config import APIKeys
+# import all utils from the /utils folder.
+import utils
 
 import xmltodict
 import pandas as pd
@@ -1074,7 +1078,67 @@ class shape(tornado.web.RequestHandler):
 		# time check, from https://stackoverflow.com/a/24878413/4355695
 		end = time.time()
 		logmessage("shape GET call took {} seconds.".format(round(end-start,2)))
-	
+
+
+class gtfsshape(tornado.web.RequestHandler):
+        def post(self):
+                # ${APIpath}shape?pw=${pw}&route=${route_id}&id=${shape_id}&reverseFlag=${reverseFlag}
+                start = time.time()
+                logmessage('\nshape POST call')
+                pw = self.get_argument('pw', default='')
+                if not decrypt(pw):
+                        self.set_status(400)
+                        self.write("Error: invalid password.")
+                        return
+                shapePrefix = self.get_argument('id', default='')
+                logmessage(shapePrefix)
+
+                if not (len(shapePrefix)):
+                        self.set_status(400)
+                        self.write("Error: Invalid route or shape id prefix.")
+                        return
+                
+                data = json.loads(self.request.body.decode('UTF-8'))
+                
+                replaceTableDB('shapes', data, key='shape_id', value=shapePrefix)
+                
+                self.write('Saved to shapes table in DB.')
+                
+                end = time.time()
+                logmessage("shape POST call took {} seconds.".format(round(end-start, 2)))
+
+        def get(self):
+                # API/shape?shape=${shape_id}
+                start = time.time()
+                logmessage('\nshape GET call')
+                shape_id = self.get_argument('shape', default='')
+                print(shape_id)
+
+                if not len(shape_id):
+                        self.set_status(400)
+                        self.write("Error: invalid shape.")
+                        return
+
+                shapeDf = readTableDB('shapes', key='shape_id', value=shape_id)
+
+                if not len(shapeDf):
+                        self.set_status(400)
+                        self.write("Error: Given shape_id is not present in shapes table in DB.")
+                        return
+
+                # need to sort this array before returning it. See https://github.com/WRI-Cities/static-GTFS-manager/issues/22
+                shapeDf.shape_pt_sequence = shapeDf.shape_pt_sequence.astype(int)
+                # type-cast the column as int before sorting!
+
+                sortedShapeJson = shapeDf.sort_values(
+                        'shape_pt_sequence').to_json(orient='records', force_ascii=False)
+                # sort ref: http://pandas.pydata.org/pandas-docs/version/0.19/generated/pandas.DataFrame.sort.html
+                self.write(sortedShapeJson)
+
+                # time check, from https://stackoverflow.com/a/24878413/4355695
+                end = time.time()
+                logmessage("shape GET call took {} seconds.".format(round(end-start, 2)))
+
 class allShapesList(tornado.web.RequestHandler):
 	def get(self):
 		start = time.time()
@@ -1416,6 +1480,8 @@ def make_app():
 		(r"/API/frequencies", frequencies),
 		(r"/API/tableReadSave", tableReadSave),
 		(r"/API/tableColumn", tableColumn),
+		(r"/API/Config/ApiKeys", APIKeys),
+		(r"/API/gtfs/shapes", gtfsshape),
 		#(r"/API/idList", idList),
 		# (r"/(.*)", tornado.web.StaticFileHandler, {"path": root, "default_filename": "index.html"})
         (r"/(.*)", MyStaticFileHandler, {"path": root, "default_filename": "index.html"})

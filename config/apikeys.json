@@ -1,0 +1,35 @@
+{
+    "HereAppID": "",
+    "HereAppCode": "",
+    "TomTomApi": "",
+    "GraphHopperApi": "",
+    "MAPBOXAPI": "",
+    "MapProviders": [
+        {
+            "id": "OpenStreetMap.HOT",
+            "name": "OpenStreetMap.HOT",
+            "variant": "",
+            "apikey": "",
+            "default": false
+        },
+        {
+            "id": "OpenStreetMap.DE",
+            "name": "OpenStreetMap.DE",
+            "variant": "",
+            "apikey": "",
+            "default": false
+        },
+        {
+            "id": "OpenStreetMap.Mapnik",
+            "name": "OpenStreetMap.Mapnik",
+            "variant": "",
+            "apikey": "",
+            "default": true
+        }
+    ],
+    "GTFS": {
+        "Timezone": "America/Bogota",
+        "Currency": "COP"
+    },
+    "APP": {}
+}

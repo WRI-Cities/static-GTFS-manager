@@ -10,84 +10,34 @@ $(document).ready(function() {
 	/* Function to build navigation menu */
 	//finding current page, from https://stackoverflow.com/a/21343880/4355695
 	var pageName = location.pathname.split("/").slice(-1).join();
-	if(pageName == '') pageName = 'index.html';
-	console.log(pageName);
 	
-	var navBarContentStart = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top justify-content-between"> \
-	<!-- Brand --> \
-	<div class="navbar-brand"><a class="navbar-brand" href="index.html"><small>static</small> <img src="extra_files/GTFS.png" height="44" width="auto" aria-label="GTFS" alt="GTFS"> Manager</a> <a class="navbar-brand" href="https://github.com/WRI-Cities/static-GTFS-manager" target="_blank"><span class="badge">' + VERSION + '</span></a></div> \
-	<!-- Links --> \
-	<ul class="navbar-nav">';
-	
-	var navBarContentEnd = '</ul> \
-		<input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" aria-label="Search" style="width:200px;"> \
-	</nav>';
-	
-	var navBarContent = navBarContentStart;
-	
-	for(key in menu) {
-		if (typeof menu[key] != "object") {
-			if(menu[key] == pageName)
-				navBarContent+= `<li class="nav-item"><a class="nav-link currentpage" href="${menu[key]}">
-				${key}</a></li>`;
-			else
-				navBarContent+= `<li class="nav-item"><a class="nav-link" href="${menu[key]}">
-				${key}</a></li>`;
-
-		}
-		else { // if its a sub-menu
-			// from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
-			sectionStart = `
-			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-			${key}</a>
-			<div class="dropdown-menu bg-dark">`;
-			sectionEnd = `</div></li>`;
-
-			navBarContent+= sectionStart;
-			for(subItem in menu[key]) {
-				if(menu[key][subItem] == pageName)
-					navBarContent+= `<a class="dropdown-item currentpage" href="${menu[key][subItem]}">
-					${subItem}</a>`;
-				else
-					navBarContent+= `<a class="dropdown-item" href="${menu[key][subItem]}">
-					${subItem}</a>`;
-			}
-			navBarContent += sectionEnd;
-		}
-	}
-
-	navBarContent+=navBarContentEnd;
-	$( "#navBar" ).html(navBarContent);
-	
-	// initiate bootstrap / jquery components like tabs, accordions
-	// tabs
-	$( "#tabs" ).tabs({
-		active:0
-	});
 	// popover
 	$('[data-toggle="popover"]').popover(); 
 
 	$('[data-toggle="tooltip"]').tooltip(); 
 
-	// initiate accordion
-	$( "#accordion" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#instructions" ).accordion({
-		collapsible: true, active: false
-	});
-	$( "#logaccordion" ).accordion({
-		collapsible: true, active: false
-	});
-	
-	// Footer
-	$("body").append(`<div class="footer"><a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a></div>`);
-	
 	// Usage tracker
-	$("body").append(`<!-- Matomo Image Tracker-->
+	var tracker = `<!-- Matomo Image Tracker-->
 	<img src="http://nikhilvj.co.in/tracking/piwik.php?idsite=2&amp;rec=1&amp;action_name=${pageName}" style="border:0" alt="" />
-	<!-- End Matomo -->`);
+	<!-- End Matomo -->`;
+
+
+	// Footer
+	var footer = `<section class="p-t-20 p-b-20">
+	<div class="container">
+	<div class="row">
+	<div class="col-md-12">
+	<div class="copyright">
+	<a href="https://github.com/WRI-Cities/static-GTFS-manager/" target="_blank">static GTFS Manager ${VERSION}</a> ${tracker}
+	</div>
+	</div>
+	</div>
+	</div>
+	</section>`; 	
+	
+	$("div.page-content--bgf7").append(footer);
+	
+	
 
 	document.getElementById("password").value = "program";
 });

@@ -1,177 +1,496 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Stops Management</title>
-<link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet">
-<link href="lib/jquery-ui.min.css" rel="stylesheet">
-<link href="lib/tabulator.min.css" rel="stylesheet">
-<link href="lib/bootstrap.v4.0.0.min.css" crossorigin="anonymous" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-<link rel="stylesheet" href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-<link href="lib/L.Control.ZoomBox.css" rel="stylesheet">
-<link href="js/commonstyle.css" rel="stylesheet">
-<!-- Put the CSSs first and JSs next -->
 
-<script src="lib/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="lib/jquery-ui.min.js" type="text/javascript"></script>
-<script src="lib/leaflet.js"></script>
-<script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-<script src="lib/tabulator.js" type="text/javascript"></script>
-<script src="lib/popper.v1.12.9.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" alt="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="lib/bootstrap.v4.0.0.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" alt="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="lib/papaparse.min.js" type="text/javascript"></script>
-<script src="lib/L.Control.ZoomBox.min.js" type="text/javascript"></script>
-<script src="lib/leaflet-providers.js"></script>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GTFS Manager : Stops</title>
 
-<style>
-#allcontainer {
-width: 100%;
-}
-#leftcontainer {
-float:left; width:55%;
-}
 
-#rightcontainer {
-float:right; width: 45%;
-}
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/all.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <!-- Leaflet Maps -->
+    <link href="lib/leaflet.css" orig="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" rel="stylesheet" />
+    <link href="lib/easy-button.css" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css" rel="stylesheet" />
+    <link href="lib/L.Control.ZoomBox.css" rel="stylesheet" />
+    <link href="vendor/leaflet-control-geocoder-1.8.2/Control.Geocoder.css" rel="stylesheet" />
+    <link href="vendor/Leaflet.markercluster-1.4.1/MarkerCluster.css" rel="stylesheet" />
+    <link href="vendor/Leaflet.markercluster-1.4.1/MarkerCluster.default.css" rel="stylesheet" />
+    <!-- Vendor CSS-->
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/css/select2-bootstrap4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/toast-0.7.1/toast.min.css" rel="stylesheet" media="all">
+    <link href="vendor/tabulator-4.4.3/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" media="all">
+    <script src="vendor/tabulator-4.4.3/js/tabulator.min.js"></script>
 
-#map, #stops-table {
-width: 99%;
-}
-#map {
-height: 500px;
-}
-#stops-table {
-height: 400px;
-}
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Put the CSSs first and JSs next -->
+    <style>
+        #map,
+        #stops-table {
+            width: 100%;
+        }
 
-/* leaflet stop markers */
-.stop-divicon {
-	border-radius: 50%;
-	color: white;
-	padding-top: 1px;
-	position: absolute;
-	text-align: center;
-	overflow: hidden;
-	box-shadow:0px 0px 5px black; /*looks 3D! no need of a border*/
-	background-color: rgba(0, 0, 150, 0.7);
-	font-size: 10px;
-	font-weight: 600;
-}
 
-</style>
+        #map {
+            height: 500px;
+        }
 
+        #stops-table {
+            height: 450px;
+        }
+
+        /* leaflet stop markers */
+
+        .stop-divicon {
+            border-radius: 50%;
+            color: white;
+            padding-top: 1px;
+            position: absolute;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 0px 0px 5px black;
+            /*looks 3D! no need of a border*/
+            background-color: rgba(0, 0, 150, 0.7);
+            font-size: 10px;
+            font-weight: 600;
+        }        
+       
+    </style>
+    <script src="config/settings.js" type="text/javascript"></script>
 </head>
-<body>
-<div id="navBar"></div>
-<div class="container-fluid"><h2>Stops</h2>
 
-<div id="instructions" class="container">
-<h3>Instructions</h3>
-<div>
-<b>List tab:</b>
-<ul>
-<li>Click on a stop id or name for a quick edit.</li>
-<li>To select a stop in the table, click on the left side handlebar. The stop will get highlighted on the map as well.</li>
-<li>You can also click on a stop on the map to higlight its row in the table.</li>
-<li>Looking for a particular stop? You can filter the stops table by typing into the filter inputs on the column headers and pressing [Enter] key.</li>
-<li>Apply the table's filters on the map view also, by clicking the filter button on map (funnel icon).</li>
-<li>Revert the map to showing all stops by clicking the Home icon.</li>
-</ul>
+<body class="page-content--bgf7">
+    <div class="page-wrapper">
+        <!-- HEADER DESKTOP-->
+        <!-- HEADER DESKTOP-->
+        <header class="header-desktop3 d-none d-lg-block">
+            <div class="section__content section__content--p35">
+                <div class="header3-wrap">
+                    <div class="header__logo">
+                        <a href="#">
+                            <img src="extra_files/GTFS.png" width="52" height="170" alt="GTFS Manager" />
+                        </a>
+                    </div>
+                    <div class="header__navbar" id="navmenuinsert">
+                        <!-- menu will be inserted from menu.js.-->
+                    </div>
+                    <div class="form-inline my-2 my-md-0">
+                        <input id="password" class="form-control mr-sm-2" type="text" placeholder="pw for edits" style="width:200px;" id="password">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER DESKTOP-->
+        <!-- MAIN CONTENT-->
+        <div class="page-content--bgf7">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                <i class="fas fa-angle-right"></i> Instructions
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <b>List tab:</b>
+                                            <ul>
+                                                <li>Click on a stop id or name for a quick edit.</li>
+                                                <li>To select a stop in the table, click on the left side handlebar. The stop
+                                                    will get highlighted on the map as well.</li>
+                                                <li>You can also click on a stop on the map to higlight its row in the table.</li>
+                                                <li>Looking for a particular stop? You can filter the stops table by typing into
+                                                    the filter inputs on the column headers and pressing [Enter] key.</li>
+                                                <li>Apply the table's filters on the map view also, by clicking the filter button
+                                                    on map (funnel icon).</li>
+                                                <li>Revert the map to showing all stops by clicking the Home icon.</li>
+                                            </ul>
 
-<b>Add/Edit tab:</b>
-<ul>
-<li>Go to the Add/Edit tab to edit the stops data.</li>
-<li>Click a stop on the map, and then the fields should auto-populate with the existing values.</li>
-<li>To change the stop's location, you can click at the new location on the map. You should see a red dot, and the lat-long values will change by themselves.</li>
-<li>Press "Click to Add/Update" to update the stops table with updated data.</li>
-<li>Similarly you can add a new stop by typing in a unique stop_id that has not already been used and following the same process.</li>
+                                            <b>Add/Edit tab:</b>
+                                            <ul>
+                                                <li>Go to the Add/Edit tab to edit the stops data.</li>
+                                                <li>Click a stop on the map, and then the fields should auto-populate with the
+                                                    existing values.</li>
+                                                <li>To change the stop's location, you can click at the new location on the map.
+                                                    You should see a red dot, and the lat-long values will change by themselves.</li>
+                                                <li>Press "Click to Add/Update" to update the stops table with updated data.</li>
+                                                <li>Similarly you can add a new stop by typing in a unique stop_id that has not
+                                                    already been used and following the same process.</li>
 
-<li><b>zone_id</b> field is used in <a href="fares.html">Fares Section</a>. In the station pairs model, this is typically same as stop_id.</li>
-</ul>
+                                                <li>
+                                                    <b>zone_id</b> field is used in
+                                                    <a href="fares.html">Fares Section</a>. In the station pairs model, this is typically same
+                                                    as stop_id.</li>
+                                            </ul>
 
-<p>More info: <a href="https://developers.google.com/transit/gtfs/reference/#stopstxt" target="_blank">GTFS stops specs</a></p>
-</div></div><!-- Accordion over -->
-<br>
-</div>
+                                            <p>More info:
+                                                <a href="https://developers.google.com/transit/gtfs/reference/#stopstxt" target="_blank">GTFS stops specs</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title mb-3">Stops</strong>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">List</a>
+                                        </li>                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="false">Add stop</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content pl-3 p-1" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <div id="stops-table" class="table table-striped"></div>                                            
+                                            <br>
+                                            <p>
+                                                <small>Note: Auto-zooming-in or out is disabled because it was disorienting users
+                                                    while mapping. You can use +/- keys after clicking once on the map to
+                                                    quckly zoom.</small>
+                                                    <small>Note 2: To update a location of a stop please select the row first and then click on the new location in te map.</small>
+                                            </p>
+                                        </div>                                        
+                                        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="new-tab">
+                                            <h3>Add a new stop</h3>
+                                            <div id="Form-AddAgency" data-parsley-validate>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_id" class="form-control-label">stop_id</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_id' placeholder="Give a stop_id" type="text" class="form-control" required autocomplete="off" data-parsley-required-message="You have to add a stop_id, without it it won't work!">
+                                                        <small id="new_stop_idHelp" class="form-text text-muted">Identifies a stop, station, or station entrance</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_code" class="form-control-label">stop_code</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_code' placeholder="Give a stop_code" type="text" class="form-control">
+                                                        <small id="new_stop_codeHelp" class="form-text text-muted">Contains some short text or a number that uniquely identifies the stop for riders. Stop codes are often used in phone-based transit information systems or printed on stop signage to make it easier for riders to get information for a particular stop.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_name" class="form-control-label">stop_name</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_name' placeholder="full name" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_nameHelp" class="form-text text-muted">Contains the name of a location. Use a name that people understand in the local and tourist vernacular.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_desc" class="form-control-label">stop_desc</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_desc' type="text" class="form-control">
+                                                        <small id="new_stop_descHelp" class="form-text text-muted">Describes a location. Provide useful, quality information. Don't simply duplicate the name of the location.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_lat" class="form-control-label">stop_lat</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_lat' placeholder="Latitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_latHelp" class="form-text text-muted">Contains the latitude of a stop, station, or station entrance.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_lon" class="form-control-label">stop_lon</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_lon' placeholder="Longitude" type="text" class="form-control" data-parsley-required="true" data-parsley-required-message="Because of the location_type field selection this is required!">
+                                                        <small id="new_stop_lonHelp" class="form-text text-muted">Contains the longitude of a stop, station, or station entrance.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_zone_id" class="form-control-label">zone_id</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_zone_id' placeholder="usually same as stop_id" title="used for fare rules; usually same as stop_id" type="text" class="form-control">
+                                                        <small id="new_zone_idHelp" class="form-text text-muted">Defines the fare zone for a stop. This field is required if you want to provide fare information with <a href="/fares.html">fares</a>.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_url" class="form-control-label">stop_url</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id='new_stop_url' placeholder="Valid url" type="text" class="form-control">
+                                                        <small id="new_stop_urlHelp" class="form-text text-muted">Contains the URL of a web page about a particular stop.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_location_type" class="form-control-label">location_type</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <select id="new_location_type" class="form-control">
+                                                            <option selected value="0">Stop (or "Platform")</option>
+                                                            <option value="1">Station</option>
+                                                            <option value="2">Station entrance or exit</option>
+                                                            <option value="3">Generic node</option>
+                                                            <option value="4">Boarding area</option>
+                                                        </select>
+                                                        <small id="new_location_typeHelp" class="form-text text-muted">Defines the type of the location.</small>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <li><b>Stop (or "Platform"):</b> <small class="form-text text-muted">A location where passengers board or disembark from a transit vehicle. Stops are called a "platform" when they're defined within a parent_station.</small></li>
+                                                            <li><b>Station:</b> <small class="form-text text-muted">A physical structure or area that contains one or more platforms.</small></li>
+                                                            <li><b>Station entrance or exit:</b> <small class="form-text text-muted">A location where passengers can enter or exit a station from the street. The stop entry must also specify a parent_station value that references the stop_id of the parent station for the entrance. If an entrance/exit belongs to multiple stations, it's linked by pathways to both, and the data provider can either pick one station as parent, or put no parent station at all.</small></li>
+                                                            <li><b>Generic node:</b> <small class="form-text text-muted">A location within a station that doesn't match any other location_type. Generic nodes are used to link together the pathways defined in pathways.txt.</small></li>
+                                                            <li><b>Boarding area:</b> <small class="form-text text-muted">A specific location on a platform where passengers can board or exit vehicles.</small></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_parent_station" class="form-control-label">parent_station</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_parent_station" class="form-control">
+                                                            <option selected value="0">No</option>
+                                                        </select>
+                                                        <small id="new_parent_stationHelp" class="form-text text-muted">For stops that are physically located inside stations, the parent_station field identifies the station associated with the stop.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_stop_timezone" class="form-control-label">stop_timezone</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_stop_timezone" class="form-control">
+                                                            <option></option>
+                                                        </select>
+                                                        <small id="new_stop_timezoneHelp" class="form-text text-muted">Contains the timezone of this location. If omitted, it's assumed that the stop is located in the timezone specified by the <a href="/agency.html">agency_timezone</a>.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_wheelchair_boarding" class="form-control-label">Wheelchair boarding</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select id="new_wheelchair_boarding" name="wheelchair" class="form-control">
+                                                            <option selected value="0">No</option>
+                                                            <option value="1">Yes</option>
+                                                        </select>
+                                                        <small id="new_wheelchair_boardingHelp" class="form-text text-muted">Identifies whether wheelchair boardings are possible from the specified stop, station, or station entrance</small>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="new_platform_code" class="form-control-label">platform_code</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id="new_platform_code" size="10" type="text" class="form-control">
+                                                        <small id="new_platform_code" class="form-text text-muted">Provides the platform identifier for a platform stop, which is a stop that belongs to a station. Just include the platform identifier, such as G or 3. Don't include words like "platform" or "track" or the feed's language-specific equivalent.</small>
+                                                    </div>
+                                                </div>
 
-<div id="allcontainer">
-<div class="container" id="leftcontainer">
+                                                <p>
+                                                    <button class="btn btn-primary" id="AddStopButton" type="button">Add Stop to List</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title mb-3">Stops on a Map</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="map-wrap m-b-20">
+                                        <div id="map"></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <p>Got another data source of point locations?
+                                        <br>
+                                        <input type="file" id="databank" name="databank" class="btn btn-sm btn-outline-secondary" accept=".csv">
+                                        <button class="btn btn-secondary" onclick="databank()">Load databank</button>
+                                    </p>
+                                    <small>Will appear as small brown points. The CSV databank file needs to have at least a stop_name,
+                                        stop_lat and stop_lon column.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
 
-<!-- Tabs Menu -->
-<div id="tabs">
-<ul>
-<li><a href="#home">List</a></li>
-<li><a href="#addeditstop">Add / Edit</a></li>
-</ul>
+    <!-- Modal No tabindex for select2 -->
+    <div class="modal fade" id="DeleteColumnModal" role="dialog" aria-labelledby="DeleteColumnModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DeleteColumnModalTitle">Delete Non standard columns</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="DeleteColumnModalBody">          
+            </div>
+            <div class="modal-footer" id="DeleteColumnModalFooter">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary nonstandardbutton" id="DeleteColumnButton">Remove columns</button>
+              <button type="button" class="btn btn-primary nonstandardbutton" id="ApplyTimeZoneButton">Apply the selected timezone</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- The Modals -->
+    <div class="modal" tabindex="-1" role="dialog" id="SplitModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Split Column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="SplitSourceColumn" class="col-sm-6 col-form-label">Source Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SplitSourceColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitFirst" class="col-sm-6 col-form-label">SplitFirst ... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SplitFirst" placeholder="4">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitPostition" class="col-sm-6 col-form-label">... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SplitPostition" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitDestinationColumn" class="col-sm-6 col-form-label">Destination Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SplitDestinationColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SplitButton" class="btn btn-primary">Split</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- The Modals -->
+     <div class="modal" tabindex="-1" role="dialog" id="SpliceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remove Chars from Column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                     <p>This method extracts parts of a string and returns the extracted parts in a new string.</p>
+                    <div class="form-group row">
+                        <label for="SplitSourceColumn" class="col-sm-6 col-form-label">Source Column:</label>
+                        <div class="col-sm-6">
+                            <select id="SpliceSourceColumn" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitFirst" class="col-sm-6 col-form-label">Start position</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SliceStart">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitPostition" class="col-sm-6 col-form-label">... Chars:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="SliceEnd">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="SplitDestinationColumn" class="col-sm-6 col-form-label">End of string:</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="SliceTillEndofString">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SpliceButton" class="btn btn-primary">Remove Chars</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End The Modal -->
 
 
-<!-- MAIN LIST -->
-<div id="home">
-
-<div id="stops-table"></div>
-<br>
-<p><small>Note: Auto-zooming-in or out is disabled because it was disorienting users while mapping. You can use +/- keys after clicking once on the map to quckly zoom.</small></p>
-	<!--<button id="copytable">Copy Table</button></p>
-<p align="center" id="undoredo" style="display:none"><br>
-
-Changes: <button class="btn-warning btn-sm" id="history-undo" type="button">Undo</button> | 
-<button class="btn-info btn-sm" id="history-redo" type="button">Redo</button></p>
--->
-
-</div>
-
-
-<!-- ADD/EDIT -->
-<div id="addeditstop">
-<!-- stop_id,stop_name,stop_lat,stop_lon,zone_id,wheelchair_boarding -->
-<h3>Add a new stop, or edit an existing one</h3>
-<p>Pick a stop_id: <input autocapitalize="characters" class="autocomplete" id='targetStopid' placeholder='stop id'></p>
-<p><small>You can click a stop on the map to select it. Or you can type in the stop_id.<br>The existing stop_id's will appear as you are typing. If you are adding a new stop, make sure you type an id that is not already existing. Also, see your agency's standardization for stops. Typical is all-caps, 4~6 letters.</small></p>
-<p>Stop name: <input id='stop_name' placeholder="full name" type="text"></p>
-
-<p><label for="wheelchair">Wheelchair boarding:</label> <select id="wheelchair" name="wheelchair">
-<option selected value="0">No</option>
-<option selected value="1">Yes</option>
-</select></p>
-<p>Location: <input id="newlatlng" placeholder="Lat,Long" size="10" type="text"> <small>click on the map to set a new location (you'll see a red dot)</small></p>
-<p>Zone_id: <input id='zone_id' placeholder="usually same as stop_id" title="used for fare rules; usually same as stop_id" type="text"> <small>used for fare rules; usually same as stop_id</small></p>
-<p><button class="btn-primary btn-lg" onclick="updateTable()" type="button">Click to add/update</button></p>
-</div>
-
-</div>
-
-<br>
-<p>Once all edits are done, <button class="btn btn-success" id="savetable" name="savetable">Save Stops to DB</button></p>
-<p><small id="stopSaveStatus"></small></p>
-
-</div><!-- end of left container-->
-
-<div id="rightcontainer">
-<div id="map"></div>
-
-<br><p>Got another data source of point locations?<br>
-<input type="file" id="databank" name="databank" class="btn btn-sm btn-outline-secondary" accept=".csv">
-<button onclick="databank()">Load databank</button></p>
-<small>Will appear as small brown points. The CSV databank file needs to have at least a stop_name, stop_lat and stop_lon column.</small>
-</div>
-
-
-<div style="clear:both"></div>
-<div id="logaccordion" class="container" style="visibility: hidden;">
-<h3>Changes Log</h3>
-<div>
-<p><textarea id="trackChanges" rows=10></textarea>
-</p>
-
-</div></div><!-- Accordion over -->
-
-<br><br>
-</div>
-
-<script src="config/settings.js" type="text/javascript"></script>
-<script src="js/commonfuncs.js" type="text/javascript"></script>
-<script src="js/stops.js" type="text/javascript"></script>
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Leaflet Maps -->
+    <script src="lib/leaflet.js"></script>
+    <script src="lib/easy-button.js" alt="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="vendor/papaparse-5.0/papaparse.js" type="text/javascript"></script>
+    <script src="vendor/leaflet-providers-1.8.0/leaflet-providers.js" type="text/javascript"></script>
+    <script src="vendor/Leaflet.markercluster-1.4.1/leaflet.markercluster.js" type="text/javascript"></script>
+    <script src="lib/L.Control.ZoomBox.min.js" type="text/javascript"></script>
+    <script src="vendor/leaflet-control-geocoder-1.8.2/Control.Geocoder.js"></script>
+    <!-- Vendor JS       -->       
+    <script src="vendor/select2/js/select2.min.js"></script>
+    <script src="js/Select2EditorTimezone.js"></script>
+    <script src="vendor/toast-0.7.1/toast.min.js"></script>
+    <script src="js/tabulator-footer.js"></script>
+    <!-- Form validator-->
+    <script src="vendor/parsley-2.9.1/parsley.min.js"></script>
+        <!-- Main JS-->
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>    
+    <script src="js/commonfuncs.js" type="text/javascript"></script>
+    <script src="js/stops.js"></script>
 
 </body>
 </html>
+

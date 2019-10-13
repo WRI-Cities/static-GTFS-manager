@@ -2,3 +2,5 @@ db
 export
 logs
 uploads
+*.pyc
+

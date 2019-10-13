@@ -1,0 +1,7 @@
+end_date,friday,monday,saturday,service_id,start_date,sunday,thursday,tuesday,wednesday
+20221231,0,0,1,SATERDAY,20170101,0,0,0,0
+20221231,0,0,0,SUNDAY,20170101,1,0,0,0
+20221231,1,1,1,MonSat,20170101,0,1,1,1
+20221231,1,1,0,MF,20170101,0,1,1,1
+20221231,1,1,1,FULLW,20170101,1,1,1,1
+20221231,0,0,1,WE,20170101,1,0,0,0

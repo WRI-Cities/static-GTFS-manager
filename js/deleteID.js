@@ -113,12 +113,12 @@ $("#translations-table").tabulator({
 // commands to run on page load
 $(document).ready(function() {
 	// executes when HTML-Document is loaded and DOM is ready
-	$( "#tabs2" ).tabs({
-		active:0,
-		activate: function(event ,ui){
-			resetGlobals();
-		}
-	});
+	// $( "#tabs2" ).tabs({
+	// 	active:0,
+	// 	activate: function(event ,ui){
+	// 		resetGlobals();
+	// 	}
+	// });
 	//getPythonAgency();
 	//getPythonCalendar();
 	//getPythonTranslations();
@@ -407,20 +407,24 @@ function populateLists() {
 	//globalIDs
 	//var renameContent = '<option>No Selection</option>';
 	// stop2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		
+	select2items.push({id : '', text: ''});	
 	globalIDs['stop_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
-		//renameContent+= `<option value='{"stop_id":"${row}"}'>stop: ${row}</option>`;
+		select2items.push({id : row, text: 'stop: ' + row});
 	});
 
-	// stop2Delete
-	$('#stop2Delete').html(content);
-	$('#stop2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Stop'});
-	$('#stop2Delete').trigger('chosen:updated'); // if the function is called again, then update it
-	$("#stop2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#stop2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let stop_id = params.selected;
+	$("#stop2Delete").select2({				
+		placeholder: "Pick a stop",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#stop2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		let stop_id = valueSelected;
+
 		console.log(stop_id);
 		globalKey = 'stop_id';
 		globalValue = stop_id;
@@ -428,157 +432,176 @@ function populateLists() {
 	});
 
 	// route2Delete
-	var content = '<option>No Selection</option>';
-	globalIDs['route_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
-		//renameContent+= `<option value='{"route_id":"${row}"}'>route: ${row}</option>`;
+	var select2items = [];		
+	select2items.push({id : '', text: ''});	
+	globalIDs['route_id_list'].forEach(function(row){		
+		select2items.push({id : row, text: 'route: ' + row});
 	});
 
-	$('#route2Delete').html(content);
-	$('#route2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Route' });
-	$('#route2Delete').trigger('chosen:updated');
-	$("#route2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#route2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let route = params.selected;
-		console.log(route);
+	$("#route2Delete").select2({				
+		placeholder: "Pick a route",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#route2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
 		globalKey = 'route_id';
-		globalValue = route;
+		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
 	});
-
+	
 	// trip2Delete
-	var content = '<option>No Selection</option>';
-	globalIDs['trip_id_list'].forEach(function(row){
-		content += `<option value="${row}">${row}</option>`;
-		//renameContent+= `<option value='{"trip_id":"${row}"}'>trip: ${row}</option>`;
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
+	globalIDs['trip_id_list'].forEach(function(row){		
+		select2items.push({id : row, text: 'trip: ' + row});
 	});
 
-	$('#trip2Delete').html(content);
-	$('#trip2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Trip'});
-	$('#trip2Delete').trigger('chosen:updated');
-	$("#trip2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#trip2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let trip = params.selected;
-		console.log(trip);
+	$("#trip2Delete").select2({				
+		placeholder: "Pick a Trip",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#trip2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
 		globalKey = 'trip_id';
-		globalValue = trip;
+		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
 	});
-
+	
 	// shape2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
 	globalIDs['shapeIDsJson']['all'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
-			//renameContent+= `<option value='{"shape_id":"${row}"}'>shape: ${row}</option>`;
+		select2items.push({id : row, text: 'shape: ' + row});
+			
 	});
-	$('#shape2Delete').html(content);
-	$('#shape2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Shape'});
-	$('#shape2Delete').trigger('chosen:updated');
-	$("#shape2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#shape2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let shape = params.selected;
-		console.log(shape);
+
+	$("#shape2Delete").select2({				
+		placeholder: "Pick a Shape",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#shape2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
 		globalKey = 'shape_id';
-		globalValue = shape;
+		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
 	});
-
+	
 	// service2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
 	globalIDs['service_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
-			//renameContent+= `<option value='{"service_id":"${row}"}'>calendar service: ${row}</option>`;
-	});
-	$('#service2Delete').html(content);
-	$('#service2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Calendar Service'});
-	$('#service2Delete').trigger('chosen:updated');
-	$("#service2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#service2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let service = params.selected;
-		console.log(service);
-		globalKey = 'service_id';
-		globalValue = service;
-		diagnoseID(globalKey,globalValue);
+		select2items.push({id : row, text: 'service: ' + row});
+			
 	});
 
+	$("#service2Delete").select2({				
+		placeholder: "Pick a Calendar Service",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#service2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
+		globalKey = 'service_id';
+		globalValue = valueSelected;
+		diagnoseID(globalKey,globalValue);
+	});
+	
 
 	// zone2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
 	globalIDs['zone_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
-			//renameContent+= `<option value='{"zone_id":"${row}"}'>fare zone: ${row}</option>`;
+		select2items.push({id : row, text: 'zone: ' + row});
 	});
-	$('#zone2Delete').html(content);
-	$('#zone2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare Zone'});
-	$('#zone2Delete').trigger('chosen:updated');
-	$("#zone2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#zone2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let zone = params.selected;
-		console.log(zone);
-		globalKey = 'zone_id';
-		globalValue = zone;
-		diagnoseID(globalKey,globalValue);
 
+	$("#zone2Delete").select2({				
+		placeholder: "Pick a Fare Zone",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#zone2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
+		globalKey = 'zone_id';
+		globalValue = valueSelected;
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// fareID2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
 	globalIDs['fare_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
-			//renameContent+= `<option value='{"fare_id":"${row}"}'>fare id: ${row}</option>`;
+		select2items.push({id : row, text: 'fareID: ' + row});
 	});
-	$('#fareID2Delete').html(content);
-	$('#fareID2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick a Fare ID'});
-	$('#fareID2Delete').trigger('chosen:updated');
-	$("#fareID2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#fareID2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let fare = params.selected;
-		console.log(fare);
-		globalKey = 'fare_id';
-		globalValue = fare;
-		diagnoseID(globalKey,globalValue);
 
+	$("#fareID2Delete").select2({				
+		placeholder: "Pick a Fare ID",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#fareID2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
+		globalKey = 'fare_id';
+		globalValue = valueSelected;
+		diagnoseID(globalKey,globalValue);
 	});
 
 	// agency2Delete
-	var content = '<option>No Selection</option>';
+	var select2items = [];		 	
+	select2items.push({id : '', text: ''});	
 	globalIDs['agency_id_list'].forEach(function(row){
-			content += `<option value="${row}">${row}</option>`;
-			//renameContent+= `<option value='{"agency_id":"${row}"}'>agency id: ${row}</option>`;
+		select2items.push({id : row, text: 'agency: ' + row});
 	});
-	$('#agency2Delete').html(content);
-	$('#agency2Delete').chosen({search_contains:true, allow_single_deselect:true, width:300, placeholder_text_single:'Pick an Agency ID'});
-	$('#agency2Delete').trigger('chosen:updated');
-	$("#agency2Delete").off("change"); // 10.5.19 fix for multiple triggers
-	$('#agency2Delete').on('change', function(evt,params) {
-		if(!params) return;
-		let agency = params.selected;
-		console.log(agency);
+
+	$("#agency2Delete").select2({				
+		placeholder: "Pick an Agency ID",
+		theme: 'bootstrap4',
+		data: select2items
+	  });
+	$('#agency2Delete').on('select2:select', function (e) {
+		var valueSelected = e.params.data.id;
+		if( valueSelected == '') { 			
+			return;
+		}
+		console.log(valueSelected);
+
 		globalKey = 'agency_id';
-		globalValue = agency;
+		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
-
 	});
-
-	/*
-	$('#renameSource').html(renameContent);
-	$('#renameSource').chosen({search_contains:true, allow_single_deselect:true, width:200, placeholder_text_single:'Pick a UID'});
-	$('#renameSource').trigger('chosen:updated');
-	$('#renameSource').on('change', function(evt,params) {
-		if(!params) return;
-		let uid = params.selected;
-		if(uid == 'No Selection') return;
-		console.log(JSON.parse(uid));
-		// reset the rename button when selection has changed.
-		resetGlobals();
-	});
-	*/
+	
 }
 
 // #################################

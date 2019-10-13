@@ -1,14 +1,35 @@
+const APIpath = 'API/';
+const VERSION = 'v3.4.3';
+
+var cfg = {};
+// Pure javascript because jquery is not loaded yet.
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open('GET', APIpath + 'Config/ApiKeys', true);
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {
+        if(xmlhttp.status == 200) {
+            cfg = JSON.parse(xmlhttp.responseText);            
+		 }
+		 else {
+			 console.log('Error Loading settings...');
+			 alert('Error Loading settings, loaded fallback settings!');
+			 cfg = {"GOOGLEAPI":"","MAPBOXAPI":"","MapProviders":[{"id":"OpenStreetMap.Mapnik","name":"OpenStreetMap.Mapnik","variant":"","apikey":"","default":true}],"GTFS":{"Timezone":"America/Bogota","Currency":"COP"}, "APP":{WideScreen:false}}
+		 }	 
+		 
+    }
+};
+xmlhttp.send(null);
+
 // from commonfuncs.js
 
-const VERSION = 'v3.4.4';
-const APIpath = 'API/';
-const CURRENCY = 'INR';
+
 // this flag tells whether it is mandatory for all UIDs to be in capitals or not.
 const CAPSLOCK = false;
 
-const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service", 800:"Trolleybus Service", 717:"Share Taxi Service" };
-//const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
-const route_type_lookup = route_type_options;
+// const route_type_options = {0:"0-Tram, Streetcar, Light rail", 1:"1-Subway, Metro", 2:"2-Rail", 3:"3-Bus",4:"4-Ferry", 1100:"1100-Air Service",  };
+// //const route_type_lookup = {0:"Tram, Streetcar, Light rail", 1:"Subway, Metro", 2:"Rail", 3:"Bus",4:"Ferry" };
+// const route_type_lookup = route_type_options;
+
 
 // this json holds the different pages. If you want to add/remove/rename a page, do so here.
 const menu = {
@@ -21,25 +42,57 @@ const menu = {
 		"Trips, Stop_times": "tripstimings.html",
 		"Frequencies": "frequencies.html",
 		"Fares": "fares.html",
-		"Translations": "translations.html"
+		"Shapes": "shapes.html",
+		"Translations": "translations.html",
+		"Feed Info": "feedinfo.html"
 	},
 	"Tools": {
 		// to do: bulk action pages, diagnostic pages etc
 		"Default Route Sequence": "sequence.html",
 		"Rename ID": "renameID.html",
-		"Delete ID": "deleteID.html"
+		"Delete ID": "deleteID.html"		
 	},
 	"Data": {
 		//"Import / Export GTFS": "gtfs.html",
 		"Import KMRL format": "kmrl.html",
-		"Import HMRL format": "hmrl.html"
-	}
+		"Import HMRL format": "hmrl.html",
+		"Import Stops CSV": "import-stops.html",
+		"Import Stops KML/GeoJson": "import-stops-kml.html",
+		"Import Stops Openstreetmap": "import-stops-osm.html"
+	},
+	"Config": "config.html"
 }
+// Default timezone used in the application.
+
+// default table footer
+var DownloadLinks = ["CSV","JSON"];
+const DefaultTableFooter = `<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+<div class="btn-toolbar">
+<div class="btn-group dropup" role="group" id="SelectionButtons">
+		<button id="btnGroupDrop3" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Config columns">
+			<i class="fas fa-cogs"></i>	
+		</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop3" id="SelectConfigMenu">
+			<a class="dropdown-item" href="#" id="LinkAddColumn">Add Column</a>
+			<a class="dropdown-item" href="#" id="LinkDeleteColumn">Delete Column</a>
+			<a class="dropdown-item" href="#" id="LinkShowHideColumn">Show / Hide Column</a>
+		</div>
+	</div>	
+	<div class="btn-group dropup mr-2" role="group" id="DownloadButtons">
+		<button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Download the content of the table">
+			Download
+		</button>
+		<div class="dropdown-menu" aria-labelledby="btnGroupDrop2" id="DownloadsMenu"></div>
+	</div>
+	{FastAdd}
+</div>
+<div class="btn-group"><div id="NumberofRows"></div></div>
+<div class="btn-group" role="group" aria-label="Save Button" id="SaveButtonPosition">{SaveButton}</div>
+</div>`;
 
 
 // loader:
-const loaderHTML = '<div class="loader loader--style1"> <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve"> <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/> <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z"> <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="1.0s" repeatCount="indefinite"/> </path> </svg></div><br>Loading data.. please wait..';
-
+const loaderHTML = '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>';
 
 // from stops.js
 const UID_leastchars = 2;
@@ -47,20 +100,15 @@ const tabulator_UID_leastchars = "minLength:2";
 const UID_maxchars = 20;
 const MARKERSLIMIT = 100;
 
-// from routes.js
-const shapeAutocompleteOptions = {disable_search_threshold: 1, search_contains:true, width:100};
-
-const stopAutocompleteOptions = {disable_search_threshold: 4, search_contains:true, width:225, placeholder_text_single:'Pick a stop'};
-
 // from tripstimings.js , formerly schedules.js
-const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
-const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
-const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
-const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+// const wheelchairOptions = {"":"blank-No info", 1:"1-Yes", 2:"2-No"};
+// const wheelchairOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
+// const bikesAllowedOptions = {'':"blank-No info", 1:"1-Yes", 2:"2-No"};
+// const bikesAllowedOptionsFormat = {"":"", 1:"1 (Yes)", 2:"2 (No)"};
 
 // from calendar.js:
-const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
-const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};
+// const calendar_operationalChoices = {1:"1 - Operating on this day", 0:"0 - Not operating"};
+// const calendar_exception_type_choices = {1:"1 - service is LIVE on this date", 2:"2 - Service is DISABLED on this date"};
 
 
 // Leaflet Map related
