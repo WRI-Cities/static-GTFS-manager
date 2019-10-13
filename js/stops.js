@@ -182,6 +182,7 @@ $(document).on("click", "#LinkCopyTimeZones", function () {
 
 // #################################
 /* 3. Initiate map */
+
 // find default map layer
 var defaultlayer = cfg.MapProviders.find(x => x.default === true);
 var Extralayers = cfg.MapProviders.filter(x => x.default === false);
@@ -218,15 +219,25 @@ Extralayers.forEach(function(layers, index) {
 		default:
 			baseLayers[layers.name] = L.tileLayer.provider(layers.id);
 	  }
+
 	
 });
 
-const startLocation = [10.030259357021862, 76.31446838378908];
+var baseLayers = {
+	"CartoDB Positron" : cartoLight,
+	"CartoDB DarkMatter" : cartoDark,
+	"ESRI Sat" : esriSat,
+	"OpenStreetMap" : OSM,
+	"gStreets": gStreets,
+	"gHybrid": gHybrid
+};
 
 var map = new L.Map('map', {
 	center: [0, 0],
 	zoom: 2,
+
 	layers: [LayerOSM],
+
 	scrollWheelZoom: true
 });
 
@@ -242,7 +253,6 @@ var stopsLayer = L.markerClusterGroup()
 	// 	return layer.properties.stop_id + ': ' + layer.properties.stop_name;
 	// })
 	.on('click', markerOnClick);
-
 
 
 var overlays = {
@@ -274,7 +284,7 @@ var dragmarkerOptions = {
 };
 var clickedflag = 0;
 
-var dragmarker = L.circleMarker(startLocation, dragmarkerOptions);
+var dragmarker = L.circleMarker(null, dragmarkerOptions);
 /* we're not dragging anymore!
 dragmarker.on('dragend', function(e) {
 	updateLatLng();
@@ -642,6 +652,7 @@ function updateLatLng(latlong, revflag) {
 		dragmarker.setLatLng([lat, lng]);
 		map.panTo([lat, lng]);
 	} else {
+
 		// Check if row is selected in table.
 		var selectedRows = table.getSelectedData();
 		if (selectedRows.length > 0) {
@@ -657,6 +668,7 @@ function updateLatLng(latlong, revflag) {
 		// document.getElementById('newlatlng').value = lat + ',' + lng;
 		$("#new_stop_lon").val(lng);
 		$("#new_stop_lat").val(lat);
+
 		//document.getElementById('longitude').value = marker.getLatLng().lng;
 		//map.panTo(dragmarker.getLatLng());
 	}
@@ -833,9 +845,11 @@ function databank() {
 			console.log(databankCounter, 'locations found in databank.');
 
 			// removing all and adding consecutively so stops are always on top
+
 			map.removeLayer(stopsLayer);
 			if (!map.hasLayer(databankLayer)) databankLayer.addTo(map);
 			map.addLayer(stopsLayer);
+
 
 			map.flyToBounds(databankLayer.getBounds(), { padding: [10, 10], maxZoom: 14 });
 		}
@@ -1027,3 +1041,4 @@ $(document).on('click', '#SpliceButton', function () {
 		   table.updateRow(row, jsonData);
 	   });
 });
+

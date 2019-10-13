@@ -412,6 +412,7 @@ function populateLists() {
 	globalIDs['stop_id_list'].forEach(function(row){
 		select2items.push({id : row, text: 'stop: ' + row});
 	});
+
 	$("#stop2Delete").select2({				
 		placeholder: "Pick a stop",
 		theme: 'bootstrap4',
@@ -423,6 +424,7 @@ function populateLists() {
 			return;
 		}
 		let stop_id = valueSelected;
+
 		console.log(stop_id);
 		globalKey = 'stop_id';
 		globalValue = stop_id;
@@ -435,6 +437,7 @@ function populateLists() {
 	globalIDs['route_id_list'].forEach(function(row){		
 		select2items.push({id : row, text: 'route: ' + row});
 	});
+
 	$("#route2Delete").select2({				
 		placeholder: "Pick a route",
 		theme: 'bootstrap4',
@@ -446,6 +449,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'route_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -457,6 +461,7 @@ function populateLists() {
 	globalIDs['trip_id_list'].forEach(function(row){		
 		select2items.push({id : row, text: 'trip: ' + row});
 	});
+
 	$("#trip2Delete").select2({				
 		placeholder: "Pick a Trip",
 		theme: 'bootstrap4',
@@ -468,6 +473,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'trip_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -480,6 +486,7 @@ function populateLists() {
 		select2items.push({id : row, text: 'shape: ' + row});
 			
 	});
+
 	$("#shape2Delete").select2({				
 		placeholder: "Pick a Shape",
 		theme: 'bootstrap4',
@@ -491,6 +498,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'shape_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -503,6 +511,7 @@ function populateLists() {
 		select2items.push({id : row, text: 'service: ' + row});
 			
 	});
+
 	$("#service2Delete").select2({				
 		placeholder: "Pick a Calendar Service",
 		theme: 'bootstrap4',
@@ -514,6 +523,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'service_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -526,6 +536,7 @@ function populateLists() {
 	globalIDs['zone_id_list'].forEach(function(row){
 		select2items.push({id : row, text: 'zone: ' + row});
 	});
+
 	$("#zone2Delete").select2({				
 		placeholder: "Pick a Fare Zone",
 		theme: 'bootstrap4',
@@ -537,6 +548,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'zone_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -548,6 +560,7 @@ function populateLists() {
 	globalIDs['fare_id_list'].forEach(function(row){
 		select2items.push({id : row, text: 'fareID: ' + row});
 	});
+
 	$("#fareID2Delete").select2({				
 		placeholder: "Pick a Fare ID",
 		theme: 'bootstrap4',
@@ -559,6 +572,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'fare_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -570,6 +584,7 @@ function populateLists() {
 	globalIDs['agency_id_list'].forEach(function(row){
 		select2items.push({id : row, text: 'agency: ' + row});
 	});
+
 	$("#agency2Delete").select2({				
 		placeholder: "Pick an Agency ID",
 		theme: 'bootstrap4',
@@ -581,6 +596,7 @@ function populateLists() {
 			return;
 		}
 		console.log(valueSelected);
+
 		globalKey = 'agency_id';
 		globalValue = valueSelected;
 		diagnoseID(globalKey,globalValue);
@@ -637,7 +653,7 @@ function deleteByKey() {
 	console.log(key,value);
 
 	if( ! (key.length && value.length ) ) {
-		$('#deepActionsStatus').html('All values have not been properly set. Please check and try again.');
+		$('#deepActionsStatus').html('<div class="alert alert-danger">All values have not been properly set. Please check and try again.</div>');
 		shakeIt('deepActionsButton'); return;
 	}
 	var jqxhr = $.get( `${APIpath}deleteByKey?pw=${pw}&key=${key}&value=${value}`, function( returndata ) {

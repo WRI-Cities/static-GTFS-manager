@@ -122,11 +122,13 @@ var sequence1table = new Tabulator("#sequence-1-table", {
 
 // #################################
 /* Initiate map */
+
 var LayerOSM0 = L.tileLayer.provider('OpenStreetMap.Mapnik');
 var LayerOSM1 = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
 var mapOptions0 = { 'center': [0, 0], 'zoom': 2, 'layers': LayerOSM0, scrollWheelZoom: false };
 var mapOptions1 = { 'center': [0, 0], 'zoom': 2, 'layers': LayerOSM1, scrollWheelZoom: false };
+
 //var mapOptionsClone = jQuery.extend(true, {}, mapOptions);
 
 var map = [];
@@ -1188,3 +1190,4 @@ function getPythonRoutes() {
 	};
 	xhr.send();
 }
+

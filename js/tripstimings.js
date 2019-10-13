@@ -888,7 +888,6 @@ function getPythonCalendar() {
 		if (xhr.status === 200) { //we have got a Response
 			console.log(`Loaded data from Server API/calendar .`);
 			var data = JSON.parse(xhr.responseText);
-
 			var dropdown = ''; var selectedFlag = false;
 			data.forEach(function (row) {
 				var start = row['start_date'];
@@ -896,6 +895,7 @@ function getPythonCalendar() {
 				//if(!start || !end) continue; // didn't work
 
 				days = '';
+
 				days += ((row['monday'] == 1) ? 'M' : '_')
 				days += ((row['tuesday'] == 1) ? 'T' : '_')
 				days += ((row['wednesday'] == 1) ? 'W' : '_')
@@ -905,6 +905,7 @@ function getPythonCalendar() {
 				days += ((row['saturday'] == 1) ? 'S' : '_')
 				days += ((row['sunday'] == 1) ? 'S' : '_')
 
+
 				serviceListGlobal[row['service_id']] = row['service_id'] + ': ' + days + ', ' + start + '-' + end;
 
 				// populate dropdown for new trip creation
@@ -912,7 +913,7 @@ function getPythonCalendar() {
 				if (!selectedFlag) {
 					select = '  selected="selected"'; selectedFlag = true;
 				}
-				dropdown += '<option value="' + row['service_id'] + '"' + select + '>' + row['service_id'] + ': ' + days + ', ' + start + '-' + end + '</option>';
+				dropdown += `<option value="${row['service_id']}"${select}>${row['service_id']}:${days}, exp.${end}</option>"`;
 			});
 			$('#trip_calendar').html(dropdown);
 
