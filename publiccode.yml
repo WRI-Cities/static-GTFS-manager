@@ -1,0 +1,82 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - data-analytics
+  - data-collection
+  - data-visualization
+description:
+  en:
+    documentation: 'https://github.com/WRI-Cities/static-GTFS-manager/wiki'
+    features:
+      - GTFS Creator - Editor - Manager
+    genericName: GTFS Editor/Manager
+    longDescription: >
+      This project is the result of a collaboration between WRI ([World
+      Resources Institute](http://wri-india.org/)) and KMRL ([Kochi Metro Rail
+      Limited](http://kochimetro.org/)).
+
+      Initially developed for use by KMRL, the source code has been 
+      open-sourced so it can grow and get better with community inputs and  help
+      for creating GTFS feeds for other transit agencies too.
+
+      This program adheres strictly to the static GTFS (General Transit  Feed
+      Specification Reference) open transit data specs as published by  Google
+      Transit here:
+      [https://developers.google.com/transit/gtfs/reference/](https://developers.google.com/transit/gtfs/reference/)
+
+      Note: We have created a second complimentary application
+      [**Payanam**](https://github.com/WRI-Cities/payanam)  to address needs
+      where a) the system is simple and routes don't have  variations; b)
+      properly mapped stops data is not available to begin  with.
+       [**Payanam**](https://github.com/WRI-Cities/payanam) can take you from nothing up to a basic GTFS, and after that you can use this application to edit it. So check it out!
+
+      Lead programmer as of July 2019: [Nikhil VJ](https://nikhilvj.co.in/) from
+      Pune, India.
+
+      See this and many more GTFS related resources listed on [**Awesome
+      Transit**](https://github.com/CUTR-at-USF/awesome-transit#gtfs-tools), a
+      one-stop community listing for all things GTFS.
+    screenshots:
+      - >-
+        https://raw.githubusercontent.com/WRI-Cities/static-GTFS-manager/master/extra_files/gtfs-routes-screenshot.png
+    shortDescription: >-
+      A browser-based user interface for creating, editing, exporting of static
+      GTFS feeds for a public transit authority
+developmentStatus: stable
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+legal:
+  license: GPL-3.0-only
+localisation:
+  availableLanguages:
+    - en
+  localisationReady: false
+logo: >-
+  https://raw.githubusercontent.com/WRI-Cities/static-GTFS-manager/master/extra_files/GTFS.png
+maintenance:
+  contacts:
+    - email: me@nikhilvj.co.in
+      name: Nikhil VJ
+  type: community
+name: static-GTFS-manager
+platforms:
+  - windows
+  - mac
+  - linux
+releaseDate: '2019-10-13'
+softwareType: standalone/desktop
+softwareVersion: 3.4.4
+url: 'https://github.com/WRI-Cities/static-GTFS-manager'
