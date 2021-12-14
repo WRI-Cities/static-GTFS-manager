@@ -1247,7 +1247,7 @@ def purgeDB():
 
 	# also purge sequenceDB
 	db2 = TinyDB(sequenceDBfile, sort_keys=True, indent=2)
-	db2.purge_tables() # wipe out the database, clean slate.
+	db2.drop_tables() # wipe out the database, clean slate.
 	logmessage(sequenceDBfile + ' purged.')
 	db2.close()
 

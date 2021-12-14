@@ -1,6 +1,6 @@
 xmltodict==0.12.0
 numpy==1.16.3
-tinydb==3.12.1
+tinydb==4.5.2
 pandas==0.24.2
 tornado==5.1.1
 pycryptodomex==3.6.6
